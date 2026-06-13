@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en" data-palette="plum">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mathematics Boosters — CoreMark Cambridge Lower Secondary</title>
+<meta name="description" content="Topic-wise Mathematics practice boosters for Cambridge Lower Secondary Stage 7, 8 and 9. Number, Algebra, Geometry and Statistics. Buy single topics or bundles.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root[data-palette="plum"]{
+  --ink:#2A1B3D;--ink-soft:#4A3760;--blue:#6E47C9;--blue-deep:#5234A4;
+  --blue-tint:rgba(110,71,201,0.10);--coral:#F4C73E;--coral-soft:#FAE588;
+  --coral-glow:rgba(244,199,62,0.32);
+}
+:root{
+  --ink-muted:#7A6A94;--cream:#FBF8F2;--paper:#FFFFFF;--mist:#F0EBF8;
+  --border:#DDD5ED;--border-soft:#EAE3F5;
+  --font-sans:'Plus Jakarta Sans',system-ui,sans-serif;
+  --font-serif:'Instrument Serif',Georgia,serif;
+  --radius-sm:8px;--radius-md:14px;--radius-lg:22px;--radius-xl:32px;
+}
+*{box-sizing:border-box;} html,body{margin:0;padding:0;}
+body{font-family:var(--font-sans);color:var(--ink);background:var(--cream);-webkit-font-smoothing:antialiased;}
+a{color:inherit;}
+
+/* NAV */
+.nav-outer{background:var(--cream);border-bottom:1px solid var(--border-soft);position:sticky;top:0;z-index:50;}
+.nav{max-width:1280px;margin:0 auto;padding:18px 40px;display:flex;justify-content:space-between;align-items:center;}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit;}
+.nav-logo .mark-sq{width:38px;height:38px;background:var(--ink);border-radius:9px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;color:white;position:relative;}
+.nav-logo .mark-sq .dot{position:absolute;top:-3px;right:-3px;width:10px;height:10px;background:var(--coral);border-radius:50%;border:2px solid var(--cream);}
+.nav-logo .word{font-weight:800;font-size:21px;letter-spacing:-0.02em;}
+.nav-logo .word .acc{color:var(--blue);}
+.nav-links{display:flex;gap:28px;font-size:15px;font-weight:500;}
+.nav-links a{color:var(--ink-soft);text-decoration:none;}
+.nav-links a:hover{color:var(--ink);}
+.nav-links a.active{color:var(--blue);font-weight:700;}
+.nav-cta{background:var(--ink);color:white;padding:11px 22px;border-radius:999px;font-size:15px;font-weight:700;text-decoration:none;}
+.nav-cta:hover{background:var(--blue);}
+
+/* PAGE HERO */
+.page-hero{background:var(--ink);color:white;padding:64px 40px 72px;}
+.page-hero-inner{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1fr auto;gap:40px;align-items:center;}
+.breadcrumb{font-family:'JetBrains Mono',monospace;font-size:12px;color:rgba(255,255,255,0.4);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:18px;display:flex;align-items:center;gap:8px;}
+.breadcrumb a{color:rgba(255,255,255,0.4);text-decoration:none;}
+.breadcrumb a:hover{color:var(--coral);}
+.breadcrumb span{color:rgba(255,255,255,0.2);}
+.page-hero h1{font-size:60px;font-weight:800;letter-spacing:-0.04em;line-height:1.0;margin:0 0 16px;color:white;}
+.page-hero h1 em{font-family:var(--font-serif);font-style:italic;font-weight:400;color:var(--coral-soft);}
+.page-hero .sub{font-size:18px;color:rgba(255,255,255,0.65);line-height:1.6;max-width:560px;margin:0 0 32px;}
+.hero-stats{display:flex;gap:32px;flex-wrap:wrap;}
+.hero-stat{display:flex;flex-direction:column;gap:4px;}
+.hero-stat .num{font-size:36px;font-weight:800;letter-spacing:-0.03em;color:var(--coral);}
+.hero-stat .lbl{font-size:13px;color:rgba(255,255,255,0.5);font-family:'JetBrains Mono',monospace;letter-spacing:0.08em;text-transform:uppercase;}
+
+/* STAGE TABS */
+.stage-tabs-wrap{background:var(--paper);border-bottom:2px solid var(--border-soft);position:sticky;top:65px;z-index:40;}
+.stage-tabs{max-width:1280px;margin:0 auto;padding:0 40px;display:flex;gap:0;}
+.stage-tab{padding:18px 28px;font-size:16px;font-weight:600;color:var(--ink-muted);border:none;background:none;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;transition:color 0.15s,border-color 0.15s;font-family:var(--font-sans);}
+.stage-tab:hover{color:var(--ink);}
+.stage-tab.active{color:var(--blue);border-bottom-color:var(--blue);}
+.stage-tab .tab-count{font-family:'JetBrains Mono',monospace;font-size:11px;background:var(--mist);color:var(--ink-muted);padding:2px 7px;border-radius:999px;margin-left:8px;font-weight:500;}
+.stage-tab.active .tab-count{background:var(--blue-tint);color:var(--blue);}
+
+/* STAGE PANEL */
+.stage-panel{display:none;} .stage-panel.active{display:block;}
+.stage-section{max-width:1280px;margin:0 auto;padding:56px 40px;}
+
+/* BUNDLE BAR */
+.bundle-bar{background:var(--ink);border-radius:var(--radius-lg);padding:28px 32px;margin-bottom:48px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;}
+.bundle-bar-text{}
+.bundle-bar-text .bb-label{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--coral);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:6px;}
+.bundle-bar-text .bb-title{font-size:22px;font-weight:700;color:white;letter-spacing:-0.02em;}
+.bundle-bar-text .bb-sub{font-size:15px;color:rgba(255,255,255,0.55);margin-top:4px;}
+.bundle-bar-actions{display:flex;gap:10px;flex-wrap:wrap;flex-shrink:0;}
+.bb-btn{padding:13px 22px;border-radius:999px;font-size:14px;font-weight:700;text-decoration:none;cursor:pointer;border:none;font-family:var(--font-sans);white-space:nowrap;}
+.bb-btn.primary{background:var(--coral);color:var(--ink);}
+.bb-btn.primary:hover{background:white;}
+.bb-btn.outline{background:transparent;color:rgba(255,255,255,0.8);border:1.5px solid rgba(255,255,255,0.2);}
+.bb-btn.outline:hover{border-color:var(--coral);color:var(--coral);}
+
+/* CATEGORY HEADER */
+.cat-header{display:flex;align-items:baseline;gap:16px;margin:0 0 20px;padding-bottom:14px;border-bottom:2px solid var(--border-soft);}
+.cat-title{font-size:24px;font-weight:800;letter-spacing:-0.025em;}
+.cat-count{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink-muted);letter-spacing:0.1em;text-transform:uppercase;}
+.cat-block{margin-bottom:48px;}
+
+/* BOOSTER GRID */
+.booster-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+
+/* BOOSTER CARD */
+.booster-card{background:var(--paper);border:1.5px solid var(--border-soft);border-radius:var(--radius-lg);padding:24px;display:flex;flex-direction:column;gap:0;transition:border-color 0.15s,box-shadow 0.15s;}
+.booster-card:hover{border-color:var(--blue);box-shadow:0 8px 32px -16px rgba(110,71,201,0.2);}
+.booster-card .bc-code{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--blue);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:10px;}
+.booster-card .bc-name{font-size:19px;font-weight:700;letter-spacing:-0.02em;line-height:1.2;margin-bottom:10px;}
+.booster-card .bc-subs{font-size:14px;color:var(--ink-muted);line-height:1.55;margin-bottom:20px;flex:1;}
+.booster-card .bc-subs .sub-tag{display:inline;margin-right:4px;}
+.booster-card .bc-subs .sub-tag::after{content:' ·';color:var(--border);}
+.booster-card .bc-subs .sub-tag:last-child::after{content:'';}
+.booster-card .bc-footer{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:16px;border-top:1px solid var(--border-soft);}
+.booster-card .bc-price{font-size:20px;font-weight:800;letter-spacing:-0.02em;color:var(--ink);}
+.booster-card .bc-price span{font-size:13px;font-weight:500;color:var(--ink-muted);margin-left:2px;}
+.buy-btn{background:var(--ink);color:white;padding:11px 20px;border-radius:999px;font-size:14px;font-weight:700;text-decoration:none;border:none;cursor:pointer;font-family:var(--font-sans);flex-shrink:0;}
+.buy-btn:hover{background:var(--blue);}
+
+/* SELECT FOR BUNDLE */
+.booster-card.selected{border-color:var(--coral);background:rgba(244,199,62,0.05);}
+.booster-card.selected .bc-code{color:var(--coral);}
+.select-btn{background:transparent;color:var(--ink-muted);padding:11px 20px;border-radius:999px;font-size:14px;font-weight:600;text-decoration:none;border:1.5px solid var(--border);cursor:pointer;font-family:var(--font-sans);flex-shrink:0;transition:all 0.15s;}
+.select-btn:hover{border-color:var(--blue);color:var(--blue);}
+.booster-card.selected .select-btn{background:var(--coral);color:var(--ink);border-color:var(--coral);}
+
+/* SHAKE */
+@keyframes shake{0%,100%{transform:translateX(-50%);}10%,50%,90%{transform:translateX(calc(-50% - 7px));}30%,70%{transform:translateX(calc(-50% + 7px));}}
+.basket.shake{animation:shake 0.45s ease;}
+
+/* TOAST */
+.toast{position:fixed;bottom:110px;left:50%;transform:translateX(-50%);background:var(--ink);color:white;border-radius:12px;padding:12px 20px;font-size:14px;font-weight:600;box-shadow:0 8px 28px -8px rgba(42,27,61,0.45);z-index:101;pointer-events:none;opacity:0;transition:opacity 0.2s;white-space:nowrap;text-align:center;}
+.toast.show{opacity:1;}
+.toast .t-tip{font-size:12px;color:rgba(255,255,255,0.6);margin-top:3px;font-weight:400;}
+
+/* SAVINGS NUDGE on basket */
+.basket .b-saving{background:rgba(244,199,62,0.15);border:1px solid rgba(244,199,62,0.3);border-radius:999px;padding:4px 12px;font-size:12px;color:var(--coral);font-weight:700;white-space:nowrap;}
+
+/* FLOATING BASKET */
+.basket{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--ink);color:white;border-radius:999px;padding:16px 28px;display:flex;align-items:center;gap:16px;box-shadow:0 16px 48px -12px rgba(42,27,61,0.5);z-index:100;transition:opacity 0.2s;opacity:0;pointer-events:none;font-size:15px;font-weight:600;white-space:nowrap;}
+.basket.visible{opacity:1;pointer-events:all;}
+.basket .b-count{background:var(--coral);color:var(--ink);border-radius:999px;min-width:26px;height:26px;padding:0 7px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;}
+.basket .b-label-wrap{display:flex;flex-direction:column;gap:1px;}
+.basket .b-label-main{font-size:14px;font-weight:700;color:white;}
+.basket .b-label-sub{font-size:12px;color:rgba(255,255,255,0.5);font-weight:400;}
+.basket .b-price{color:var(--coral);font-weight:800;font-size:18px;}
+.basket .b-buy{background:var(--coral);color:var(--ink);border-radius:999px;padding:10px 22px;font-size:14px;font-weight:700;cursor:pointer;border:none;font-family:var(--font-sans);}
+.basket .b-buy:hover{background:white;}
+.basket .b-clear{background:none;border:none;color:rgba(255,255,255,0.35);font-size:18px;cursor:pointer;font-family:var(--font-sans);padding:0 4px;line-height:1;}
+.basket .b-clear:hover{color:white;}
+
+/* PRICING STRIP */
+.pricing-strip{background:var(--mist);border-radius:var(--radius-lg);padding:32px;margin-top:56px;display:grid;grid-template-columns:repeat(4,1fr);gap:2px;align-items:stretch;}
+.ps-item{padding:20px 24px;display:flex;flex-direction:column;gap:6px;position:relative;}
+.ps-item .ps-name{font-size:12px;font-weight:600;color:var(--ink-muted);letter-spacing:0.08em;text-transform:uppercase;font-family:'JetBrains Mono',monospace;}
+.ps-item .ps-price{font-size:32px;font-weight:800;letter-spacing:-0.03em;color:var(--ink);}
+.ps-item .ps-price sup{font-size:16px;font-weight:700;vertical-align:super;}
+.ps-item .ps-was{font-size:13px;color:var(--ink-muted);text-decoration:line-through;margin-top:-4px;}
+.ps-item .ps-save{display:inline-block;background:rgba(110,71,201,0.1);color:var(--blue-deep);border-radius:999px;padding:3px 10px;font-size:12px;font-weight:700;font-family:'JetBrains Mono',monospace;letter-spacing:0.05em;}
+.ps-item .ps-desc{font-size:14px;color:var(--ink-soft);line-height:1.5;margin-top:2px;}
+.ps-item .ps-btn{margin-top:auto;background:var(--ink);color:white;border-radius:999px;padding:11px 20px;font-size:14px;font-weight:700;text-decoration:none;text-align:center;display:block;border:none;cursor:pointer;font-family:var(--font-sans);}
+.ps-item .ps-btn:hover{background:var(--blue);}
+.ps-item.featured{background:var(--ink);border-radius:var(--radius-md);margin:-4px;}
+.ps-item.featured .ps-name{color:var(--coral);}
+.ps-item.featured .ps-price{color:white;}
+.ps-item.featured .ps-was{color:rgba(255,255,255,0.35);}
+.ps-item.featured .ps-save{background:rgba(244,199,62,0.2);color:var(--coral);}
+.ps-item.featured .ps-desc{color:rgba(255,255,255,0.6);}
+.ps-item.featured .ps-btn{background:var(--coral);color:var(--ink);}
+.ps-item.featured .ps-btn:hover{background:white;}
+
+/* OTHER SUBJECTS */
+.other-subjects{display:flex;gap:12px;margin-top:24px;flex-wrap:wrap;}
+.other-subj{background:var(--paper);border:1.5px solid var(--border-soft);border-radius:var(--radius-md);padding:16px 22px;text-decoration:none;display:flex;align-items:center;gap:12px;flex:1;min-width:200px;}
+.other-subj:hover{border-color:var(--blue);}
+.other-subj .os-icon{font-size:22px;}
+.other-subj .os-name{font-size:17px;font-weight:700;}
+.other-subj .os-count{font-size:13px;color:var(--ink-muted);font-family:'JetBrains Mono',monospace;}
+
+/* FOOTER (minimal) */
+.footer-min{background:var(--paper);border-top:1px solid var(--border);padding:28px 40px;max-width:100%;}
+.footer-min-inner{max-width:1280px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;}
+.footer-min .fl{font-size:14px;color:var(--ink-muted);}
+.footer-min .fr{display:flex;gap:20px;font-size:14px;}
+.footer-min .fr a{color:var(--ink-muted);text-decoration:none;}
+.footer-min .fr a:hover{color:var(--ink);}
+
+/* RESPONSIVE */
+@media(max-width:980px){
+  .nav{padding:16px 20px;} .nav-links{display:none;}
+  .page-hero{padding:40px 20px 48px;}
+  .page-hero h1{font-size:40px;}
+  .page-hero-inner{grid-template-columns:1fr;}
+  .stage-tabs-wrap{top:60px;}
+  .stage-tabs{padding:0 20px;}
+  .stage-tab{padding:14px 16px;font-size:14px;}
+  .stage-section{padding:36px 20px;}
+  .booster-grid{grid-template-columns:1fr 1fr;}
+  .bundle-bar{flex-direction:column;align-items:flex-start;}
+  .pricing-strip{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:600px){
+  .booster-grid{grid-template-columns:1fr;}
+  .pricing-strip{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<div class="nav-outer">
+  <nav class="nav">
+    <a class="nav-logo" href="../index.html">
+      <div class="mark-sq">CM<div class="dot"></div></div>
+      <div class="word">Core<span class="acc">Mark</span></div>
+    </a>
+    <div class="nav-links">
+      <a href="math.html" class="active">Mathematics</a>
+      <a href="science.html">Science</a>
+      <a href="computing.html">Computing</a>
+      <a href="../index.html#pricing">Pricing</a>
+    </div>
+    <a href="../index.html#pricing" class="nav-cta">See Pricing</a>
+  </nav>
+</div>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div>
+      <div class="breadcrumb">
+        <a href="../index.html">CoreMark</a>
+        <span>/</span>
+        <span>Mathematics</span>
+      </div>
+      <h1>Mathematics<br><em>Boosters</em></h1>
+      <p class="sub">Topic-by-topic practice packs for Cambridge Lower Secondary Stage 7, 8 and 9. Number, Algebra, Geometry and Statistics.</p>
+      <div class="hero-stats">
+        <div class="hero-stat"><div class="num">25</div><div class="lbl">Boosters</div></div>
+        <div class="hero-stat"><div class="num">3</div><div class="lbl">Stages</div></div>
+        <div class="hero-stat"><div class="num">4</div><div class="lbl">Categories</div></div>
+        <div class="hero-stat"><div class="num">500+</div><div class="lbl">Questions</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- STAGE TABS -->
+<div class="stage-tabs-wrap">
+  <div class="stage-tabs">
+    <button class="stage-tab active" onclick="showStage('s7',this)">Stage 7 <span class="tab-count">8</span></button>
+    <button class="stage-tab" onclick="showStage('s8',this)">Stage 8 <span class="tab-count">16</span></button>
+    <button class="stage-tab" onclick="showStage('s9',this)">Stage 9 <span class="tab-count">15</span></button>
+  </div>
+</div>
+
+<!-- ===================== STAGE 7 ===================== -->
+<div class="stage-panel active" id="panel-s7">
+<div class="stage-section">
+
+  <!-- Bundle bar -->
+  <div class="bundle-bar">
+    <div class="bundle-bar-text">
+      <div class="bb-label">Stage 7 · Mathematics · 8 boosters</div>
+      <div class="bb-title">Best value: get all 8 Stage 7 Maths boosters for ₹1,299</div>
+      <div class="bb-sub">That is ₹162 per booster. Buying individually costs ₹1,992. You save ₹693.</div>
+    </div>
+    <div class="bundle-bar-actions">
+      <button class="bb-btn outline" onclick="document.querySelector('[data-stage=s7]').scrollIntoView({behavior:'smooth'})">Choose 5 topics — ₹799</button>
+      <a href="#" class="bb-btn primary">Get Full Stage 7 Bundle — ₹1,299</a>
+    </div>
+  </div>
+
+  <!-- NUMBER -->
+  <div class="cat-block">
+    <div class="cat-header">
+      <div class="cat-title">📐 Number</div>
+      <div class="cat-count">4 boosters</div>
+    </div>
+    <div class="booster-grid">
+      <div class="booster-card" data-stage="s7" data-code="M·N1">
+        <div class="bc-code">M·N1 · Stage 7</div>
+        <div class="bc-name">Integers</div>
+        <div class="bc-subs">Adding and subtracting integers · Multiplying and dividing · Lowest common multiples · Highest common factors · Tests for divisibility · Square roots and cube roots</div>
+        <div class="bc-footer">
+          <div class="bc-price">₹249 <span>/ booster</span></div>
+          <div style="display:flex;gap:8px;">
+            <button class="select-btn" onclick="toggleSelect(this)">+ Bundle</button>
+            <a href="#" class="buy-btn">Buy</a>
+          </div>
+        </div>
+      </div>
+      <div class="booster-card" data-stage="s7" data-code="M·N2">
+        <div class="bc-code">M·N2 · Stage 7</div>
+        <div class="bc-name">Place Value and Rounding</div>
+        <div class="bc-subs">Multiplying and dividing by powers of 10 · Rounding to decimal places and significant figures</div>
+        <div class="bc-footer">
+          <div class="bc-price">₹249 <span>/ booster</span></div>
+          <div style="display:flex;gap:8px;">
+            <button class="select-btn" onclick="toggleSelect(this)">+ Bundle</button>
+            <a href="#" class="buy-btn">Buy</a>
+          </div>
+        </div>
+      </div>
+      <div class="booster-card" data-stage="s7" data-code="M·N3">
+        <div class="bc-code">M·N3 · Stage 7</div>
+        <div class="bc-name">Decimals</div>
+        <div class="bc-subs">Ordering decimals · Adding and subtracting · Multiplying decimals · Dividing decimals · Making calculations easier</div>
+        <div class="bc-footer">
+          <div class="bc-price">₹249 <span>/ booster</span></div>
+          <div style="display:flex;gap:8px;">
+            <button class="select-btn" onclick="toggleSelect(this)">+ Bundle</button>
+            <a href="#" class="buy-btn">Buy</a>
+          </div>
+        </div>
+      </div>
+      <div class="booster-card" data-stage="s7" data-code="M·N4">
+        <div class="bc-code">M·N4 · Stage 7</div>
+        <div class="bc-name">Fractions</div>
+        <div class="bc-subs">Ordering fractions · Adding mixed numbers · Multiplying fractions · Dividing fractions · Making calculations easier</div>
+        <div class="bc-footer">
+          <div class="bc-price">₹249 <span>/ booster</span></div>
+          <div style="display:flex;gap:8px;">
+            <button class="select-btn" onclick="toggleSelect(this)">+ Bundle</button>
+            <a href="#" class="buy-btn">Buy</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ALGEBRA -->
+  <div class="cat-block">
+    <div class="cat-header">
+      <div class="cat-title">🔣 Algebra</div>
+      <div class="cat-count">1 booster</div>
+    </div>
+    <div class="booster-grid">
+      <div class="booster-card" data-stage="s7" data-code="M·A1">
+        <div class="bc-code">M·A1 · Stage 7</div>
+        <div class="bc-name">Expressions, Formulae and Equations</div>
+        <div class="bc-subs">Constructing expressions · Using formulae · Collecting like terms · Expanding brackets · Solving equations · Inequalities</div>
+        <div class="bc-footer">
+          <div class="bc-price">₹249 <span>/ booster</span></div>
+          <div style="display:flex;gap:8px;">
+            <button class="select-btn" onclick="toggleSelect(this)">+ Bundle</button>
+            <a href="#" class="buy-btn">Buy</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GEOMETRY -->
+  <div class="cat-block">
+    <div class="cat-header">
+      <div class="cat-title">📏 Geometry and Measure</div>
+      <div class="cat-count">2 boosters</div>
+    </div>
+    <div class="booster-grid">
+      <div class="booster-card" data-stage="s7" data-code="M·G1">
+        <div class="bc-code">M·G1 · Stage 7</div>
+        <div class="bc-name">Angles and Constructions</div>
+        <div class="bc-subs">Angles summing to 360° · Intersecting lines · Drawing lines and quadrilaterals</div>
+        <div class="bc-footer">
+          <div class="bc-price">₹249 <span>/ booster</span></div>
+          <div style="display:flex;gap:8px;">
+            <button class="select-btn" onclick="toggleSelect(this)">+ Bundle</button>
+            <a href="#" class="buy-btn">Buy</a>
+          </div>
+        </div>
+      </div>
+      <div class="booster-card" data-stage="s7" data-code="M·G2">
+        <div class="bc-code">M·G2 · Stage 7</div>
+        <div class="bc-name">Shapes and Symmetry</div>
+        <div class="bc-subs">Symmetry of 2D shapes · Circles and polygons · Congruent shapes · 3D shapes</div>
+        <div class="bc-footer">
+          <div class="bc-price">₹249 <span>/ booster</span></div>
+          <div style="display:flex;gap:8px;">
+            <button class="select-btn" onclick="toggleSelect(this)">+ Bundle</button>
+            <a href="#" class="buy-btn">Buy</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATISTICS -->
+  <div class="cat-block">
+    <div class="cat-header">
+      <div class="cat-title">📊 Statistics</div>
+      <div class="cat-count">1 booster</div>
+    </div>
+    <div class="booster-grid">
+      <div class="booster-card" data-stage="s7" data-code="M·S1">
+        <div class="bc-code">M·S1 · Stage 7</div>
+        <div class="bc-name">Collecting Data</div>
+        <div class="bc-subs">Conducting an investigation · Taking a sample</div>
+        <div class="bc-footer">
+          <div class="bc-price">₹249 <span>/ booster</span></div>
+          <div style="display:flex;gap:8px;">
+            <button class="select-btn" onclick="toggleSelect(this)">+ Bundle</button>
+            <a href="#" class="buy-btn">Buy</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRICING STRIP -->
+  <div class="pricing-strip">
+    <div class="ps-item">
+      <div class="ps-name">Single Booster</div>
+      <div class="ps-price"><sup>₹</sup>249</div>
+      <div class="ps-desc">One topic. Good for targeting one weak area.</div>
+      <a href="#" class="ps-btn">Buy a booster</a>
+    </div>
+    <div class="ps-item">
+      <div class="ps-name">Any 5 Topics</div>
+      <div class="ps-price"><sup>₹</sup>799</div>
+      <div class="ps-was">₹1,245 if bought individually</div>
+      <div class="ps-save">Save ₹446</div>
+      <div class="ps-desc">Pick any 5 boosters. Use the + Bundle buttons above.</div>
+      <a href="#" class="ps-btn">Choose 5 topics</a>
+    </div>
+    <div class="ps-item featured">
+      <div class="ps-name">Stage 7 Full Bundle</div>
+      <div class="ps-price"><sup>₹</sup>1,299</div>
+      <div class="ps-was">₹1,992 if bought individually</div>
+      <div class="ps-save">Save ₹693 · ₹162 per topic</div>
+      <div class="ps-desc">All 8 Stage 7 Maths boosters. Complete topic coverage for the year.</div>
+      <a href="#" class="ps-btn">Get Stage Bundle</a>
+    </div>
+    <div class="ps-item">
+      <div class="ps-name">All Subjects · Stage 7</div>
+      <div class="ps-price"><sup>₹</sup>2,499</div>
+      <div class="ps-was">₹5,418 if bought individually</div>
+      <div class="ps-save">Save ₹2,919</div>
+      <div class="ps-desc">Maths, Science and Computing. Everything for Stage 7.</div>
+      <a href="#" class="ps-btn">Get All Subjects</a>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- ===================== STAGE 8 ===================== -->
+<div class="stage-panel" id="panel-s8">
+<div class="stage-section">
+
+  <div class="bundle-bar">
+    <div class="bundle-bar-text">
+      <div class="bb-label">Stage 8 · Mathematics · 16 boosters</div>
+      <div class="bb-title">Best value: get all 16 Stage 8 Maths boosters for ₹1,299</div>
+      <div class="bb-sub">That is ₹86 per booster. Buying individually costs ₹3,735. You save ₹2,436.</div>
+    </div>
+    <div class="bundle-bar-actions">
+      <button class="bb-btn outline" onclick="document.querySelector('[data-stage=s8]').scrollIntoView({behavior:'smooth'})">Choose 5 topics — ₹799</button>
+      <a href="#" class="bb-btn primary">Get Full Stage 8 Bundle — ₹1,299</a>
+    </div>
+  </div>
+
+  <!-- NUMBER -->
+  <div class="cat-block">
+    <div class="cat-header"><div class="cat-title">📐 Number</div><div class="cat-count">6 boosters</div></div>
+    <div class="booster-grid">
+      <div class="booster-card" data-stage="s8" data-code="M·N1">
+        <div class="bc-code">M·N1 · Stage 8</div>
+        <div class="bc-name">Integers</div>
+        <div class="bc-subs">Factors, multiples and primes · Multiplying and dividing · Square roots and cube roots · Indices</div>
+        <div class="bc-footer"><div class="bc-price">₹249 <span>/ booster</span></div><div style="display:flex;gap:8px;"><button class="select-btn" onclick="toggleSelect(this)">+ Bundle</button><a href="#" class="buy-btn">Buy</a></div></div>
+      </div>
+      <div class="booster-card" data-stage="s8" data-code="M·N2">
+        <div class="bc-code">M·N2 · Stage 8</div>
+        <div class="bc-name">Place Value and Rounding</div>
+        <div class="bc-subs">Multiplying and dividing by 0.1 and 0.01 · Rounding to decimal places and significant figures</div>
+        <div class="bc-footer"><div class="bc-price">₹249 <span>/ booster</span></div><div style="display:flex;gap:8px;"><button class="select-btn" onclick="toggleSelect(this)">+ Bundle</button><a href="#" class="buy-btn">Buy</a></div></div>
+      </div>
+      <div class="booster-card" data-stage="s8" data-code="M·N3">
+        <div class="bc-code">M·N3 · Stage 8</div>
+        <div class="bc-name">Decimals</div>
+        <div class="bc-subs">Ordering decimals · Multiplying decimals · Dividing by decimals · Making calculations easier</div>
+        <div class="bc-footer"><div class="bc-price">₹249 <span>/ booster</span></div><div style="display:flex;gap:8px;"><button class="select-btn" onclick="toggleSelect(this)">+ Bundle</button><a href="#" class="buy-btn">Buy</a></div></div>
+      </div>
+      <div class="booster-card" data-stage="s8" data-code="M·N4">
+        <div class="bc-code">M·N4 · Stage 8</div>
+        <div class="bc-name">Fractions</div>
+        <div class="bc-subs">Fractions and recurring decimals · Ordering fractions · Subtracting mixed numbers · Multiplying and dividing fractions</div>
+        <div class="bc-footer"><div class="bc-price">₹249 <span>/ booster</span></div><div style="display:flex;gap:8px;"><button class="select-btn" onclick="toggleSelect(this)">+ Bundle</button><a href="#" class="buy-btn">Buy</a></div></div>
+      </div>
+      <div class="booster-card" data-stage="s8" data-code="M·N5">
+        <div class="bc-code">M·N5 · Stage 8</div>
+        <div class="bc-name">Percentages</div>
+        <div class="bc-subs">Percentage increases and decreases · Using a multiplier</div>
+        <div class="bc-footer"><div class="bc-price">₹249 <span>/ booster</span></div><div style="display:flex;gap:8px;"><button class="select-btn" onclick="toggleSelect(this)">+ Bundle</button><a href="#" class="buy-btn">Buy</a></div></div>
+      </div>
+      <div class="booster-card" data-stage="s8" data-code="M·N6">
+        <div class="bc-code">M·N6 · Stage 8</div>
+        <div class="bc-name">Ratio and Proportion</div>
+        <div class="bc-subs">Simplifying ratios · Sharing in a ratio · Ratio and direct proportion</div>
+        <div class="bc-footer"><div class="bc-price">₹249 <span>/ booster</span></div><div style="display:flex;gap:8px;"><button class="select-btn" onclick="toggleSelect(this)">+ Bundle</button><a href="#" class="buy-btn">Buy</a></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ALGEBRA -->
+  <div class="cat-block">
+    <div class="cat-header"><div class="cat-title">🔣 Algebra</div><div class="cat-count">3 boosters</div></div>
+    <div class="booster-grid">
+      <div class="booster-card" data-stage="s8" data-code="M·A1">
+        <div class="bc-code">M·A1 · Stage 8</div>
+        <div class="bc-name">Expressions, Formulae and Equations</div>
+        <div class="bc-subs">Constructing expressions · Expanding brackets · Factorising · Solving equations · Inequalities</div>
+        <div class="bc-footer"><div class="bc-price">₹249 <span>/ booster</span></div><div style="display:flex;gap:8px;"><button class="select-btn" onclick="toggleSelect(this)">+ Bundle</button><a href="#" class="buy-btn">Buy</a></div></div>
+      </div>
+      <div class="booster-card" data-stage="s8" data-code="M·A2">
+        <div class="bc-code">M·A2 · Stage 8</div>
+        <div class="bc-name">Sequences and Functions</div>
+        <div class="bc-subs">Generating sequences · Finding rules · Using the nth term · Representing functions</div>
+        <div class="bc-footer"><div class="bc-price">₹249 <span>/ booster</span></div><div style="display:flex;gap:8px;"><button class="select-btn" onclick="toggleSelect(this)">+ Bundle</button><a href="#" class="buy-btn">Buy</a></div></div>
+      </div>
+      <div class="booster-card" data-stage="s8" data-code="M·A3">
+        <div class="bc-code">M·A3 · Stage 8</div>
+        <div class="bc-name">Graphs</div>
+        <div class="bc-subs">Functions · Plotting graphs · Gradient and intercept · Interpreting graphs</div>
+        <div class="bc-footer"><div class="bc-price">₹249 <span>/ booster</span></div><div style="display:flex;gap:8px;"><button class="select-btn" onclick="toggleSelect(this)">+ Bundle</button><a href="#" class="buy-btn">Buy</a></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GEOMETRY -->
+  <div class="cat-block">
+    <div class="cat-header"><div class="cat-title">📏 Geometry and Measure</div><div class="cat-count">4 boosters</div></div>
+    <div class="booster-grid">
+      <div class="booster-card" data-stage="s8" data-code="M·G1">
+        <div class="bc-code">M·G1 · Stage 8</div>
+        <div class="bc-name">Angles and Constructions</div>
+        <div class="bc-subs">Parallel lines · Exterior angle of a triangle · Constructions</div>
+        <div class="bc-footer"><div class="bc-price">₹249 <span>/ booster</span></div><div style="display:flex;gap:8px;"><button class="select-btn" onclick="toggleSelect(this)">+ Bundle</button><a href="#" class="buy-btn">Buy</a></div></div>
+      </div>
+      <div class="booster-card" data-stage="s8" data-code="M·G2">
+        <div class="bc-code">M·G2 · Stage 8</div>
+        <div class="bc-name">Shapes and Symmetry</div>
+        <div class="bc-subs">Quadrilaterals and polygons · Circumference of a circle · 3D shapes</div>
+        <div class="bc-footer"><div class="bc-price">₹249 <span>/ booster</span></div><div style="display:flex;gap:8px;"><button class="select-btn" onclick="toggleSelect(this)">+ Bundle</button><a href="#" class="buy-btn">Buy</a></div></div>
+      </div>
+      <div class="booster-card" data-stage="s8" data-code="M·G3">
+        <div class="bc-code">M·G3 · Stage 8</div>
+        <div class="bc-name">Position and Transformation</div>
+        <div class="bc-subs">Bearings · Midpoint of a line segment · Translating, reflecting, rotating and enlarging 2D shapes</div>
+        <div class="bc-footer"><div class="bc-price">₹249 <span>/ booster</span></div><div style="display:flex;gap:8px;"><button class="select-btn" onclick="toggleSelect(this)">+ Bundle</button><a href="#" class="buy-btn">Buy</a></div></div>
+      </div>
+      <div class="booster-card" data-stage="s8" data-code="M·G4">
+        <div class="bc-code">M·G4 · Stage 8</div>
+        <div class="bc-name">Distance, Area and Volume</div>
+        <div class="bc-subs">Converting miles and kilometres · Area of parallelogram and trapezium · Volume and surface area of triangular prisms and pyramids</div>
+        <div class="bc-footer"><div class="bc-price">₹249 <span>/ booster</span></div><div style="display:flex;gap:8px;"><button class="select-btn" onclick="toggleSelect(this)">+ Bundle</button><a href="#" class="buy-btn">Buy</a></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATISTICS -->
+  <div class="cat-block">
+    <div class="cat-header"><div class="cat-title">📊 Statistics and Probability</div><div class="cat-count">3 boosters</div></div>
+    <div class="booster-grid">
+      <div class="booster-card" data-stage="s8" data-code="M·S1">
+        <div class="bc-code">M·S1 · Stage 8</div>
+        <div class="bc-name">Collecting Data</div>
+        <div class="bc-subs">Data collection · Sampling</div>
+        <div class="bc-footer"><div class="bc-price">₹249 <span>/ booster</span></div><div style="display:flex;gap:8px;"><button class="select-btn" onclick="toggleSelect(this)">+ Bundle</button><a href="#" class="buy-btn">Buy</a></div></div>
+      </div>
+      <div class="booster-card" data-stage="s8" data-code="M·S2">
+        <div class="bc-code">M·S2 · Stage 8</div>
+        <div class="bc-name">Probability</div>
+        <div class="bc-subs">Calculating probabilities · Experimental and theoretical probabilities</div>
+        <div class="bc-footer"><div class="bc-price">₹249 <span>/ booster</span></div><div style="display:flex;gap:8px;"><button class="select-btn" onclick="toggleSelect(this)">+ Bundle</button><a href="#" class="buy-btn">Buy</a></div></div>
+      </div>
+      <div class="booster-card" data-stage="s8" data-code="M·S3">
+        <div class="bc-code">M·S3 · Stage 8</div>
+        <div class="bc-name">Interpreting and Discussing Results</div>
+        <div class="bc-subs">Frequency diagrams · Time series · Stem-and-leaf · Pie charts · Using statistics</div>
+        <div class="bc-footer"><div class="bc-price">₹249 <span>/ booster</span></div><div style="display:flex;gap:8px;"><button class="select-btn" onclick="toggleSelect(this)">+ Bundle</button><a href="#" class="buy-btn">Buy</a></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pricing-strip">
+    <div class="ps-item">
+      <div class="ps-name">Single Booster</div>
+      <div class="ps-price"><sup>₹</sup>249</div>
+      <div class="ps-desc">One topic. Good for targeting one weak area.</div>
+      <a href="#" class="ps-btn">Buy a booster</a>
+    </div>
+    <div class="ps-item">
+      <div class="ps-name">Any 5 Topics</div>
+      <div class="ps-price"><sup>₹</sup>799</div>
+      <div class="ps-was">₹1,245 if bought individually</div>
+      <div class="ps-save">Save ₹446</div>
+      <div class="ps-desc">Pick any 5 boosters. Use the + Bundle buttons above.</div>
+      <a href="#" class="ps-btn">Choose 5 topics</a>
+    </div>
+    <div class="ps-item featured">
+      <div class="ps-name">Stage 8 Full Bundle</div>
+      <div class="ps-price"><sup>₹</sup>1,299</div>
+      <div class="ps-was">₹3,735 if bought individually</div>
+      <div class="ps-save">Save ₹2,436 · ₹86 per topic</div>
+      <div class="ps-desc">All 16 Stage 8 Maths boosters. Complete topic coverage for the year.</div>
+      <a href="#" class="ps-btn">Get Stage Bundle</a>
+    </div>
+    <div class="ps-item">
+      <div class="ps-name">All Subjects · Stage 8</div>
+      <div class="ps-price"><sup>₹</sup>2,499</div>
+      <div class="ps-was">₹10,164 if bought individually</div>
+      <div class="ps-save">Save ₹7,665</div>
+      <div class="ps-desc">Maths, Science and Computing. Everything for Stage 8.</div>
+      <a href="#" class="ps-btn">Get All Subjects</a>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- ===================== STAGE 9 ===================== -->
+<div class="stage-panel" id="panel-s9">
+<div class="stage-section">
+
+  <div class="bundle-bar">
+    <div class="bundle-bar-text">
+      <div class="bb-label">Stage 9 · Mathematics · 15 boosters</div>
+      <div class="bb-title">Best value: get all 15 Stage 9 Maths boosters for ₹1,299</div>
+      <div class="bb-sub">That is ₹86 per booster. Buying individually costs ₹3,735. You save ₹2,436.</div>
+    </div>
+    <div class="bundle-bar-actions">
+      <button class="bb-btn outline" onclick="document.querySelector('[data-stage=s9]').scrollIntoView({behavior:'smooth'})">Choose 5 topics — ₹799</button>
+      <a href="#" class="bb-btn primary">Get Full Stage 9 Bundle — ₹1,299</a>
+    </div>
+  </div>
+
+  <!-- NUMBER -->
+  <div class="cat-block">
+    <div class="cat-header"><div class="cat-title">📐 Number</div><div class="cat-count">4 boosters</div></div>
+    <div class="booster-grid">
+      <div class="booster-card" data-stage="s9" data-code="M·N1">
+        <div class="bc-code">M·N1 · Stage 9</div>
+        <div class="bc-name">Number and Calculation</div>
+        <div class="bc-subs">Irrational numbers · Standard form · Indices</div>
+        <div class="bc-footer"><div class="bc-price">₹249 <span>/ booster</span></div><div style="display:flex;gap:8px;"><button class="select-btn" onclick="toggleSelect(this)">+ Bundle</button><a href="#" class="buy-btn">Buy</a></div></div>
+      </div>
+      <div class="booster-card" data-stage="s9" data-code="M·N2">
+        <div class="bc-code">M·N2 · Stage 9</div>
+        <div class="bc-name">Decimals, Percentages and Rounding</div>
+        <div class="bc-subs">Powers of 10 · Compound percentages · Upper and lower bounds</div>
+        <div class="bc-footer"><div class="bc-price">₹249 <span>/ booster</span></div><div style="display:flex;gap:8px;"><button class="select-btn" onclick="toggleSelect(this)">+ Bundle</button><a href="#" class="buy-btn">Buy</a></div></div>
+      </div>
+      <div class="booster-card" data-stage="s9" data-code="M·N3">
+        <div class="bc-code">M·N3 · Stage 9</div>
+        <div class="bc-name">Fractions</div>
+        <div class="bc-subs">Recurring decimals · Order of operations · Multiplying and dividing fractions</div>
+        <div class="bc-footer"><div class="bc-price">₹249 <span>/ booster</span></div><div style="display:flex;gap:8px;"><button class="select-btn" onclick="toggleSelect(this)">+ Bundle</button><a href="#" class="buy-btn">Buy</a></div></div>
+      </div>
+      <div class="booster-card" data-stage="s9" data-code="M·N4">
+        <div class="bc-code">M·N4 · Stage 9</div>
+        <div class="bc-name">Ratio and Proportion</div>
+        <div class="bc-subs">Using ratios · Direct and inverse proportion</div>
+        <div class="bc-footer"><div class="bc-price">₹249 <span>/ booster</span></div><div style="display:flex;gap:8px;"><button class="select-btn" onclick="toggleSelect(this)">+ Bundle</button><a href="#" class="buy-btn">Buy</a></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ALGEBRA -->
+  <div class="cat-block">
+    <div class="cat-header"><div class="cat-title">🔣 Algebra</div><div class="cat-count">4 boosters</div></div>
+    <div class="booster-grid">
+      <div class="booster-card" data-stage="s9" data-code="M·A1">
+        <div class="bc-code">M·A1 · Stage 9</div>
+        <div class="bc-name">Expressions and Formulae</div>
+        <div class="bc-subs">Substituting · Constructing expressions · Indices · Expanding two linear expressions · Algebraic fractions · Formulae</div>
+        <div class="bc-footer"><div class="bc-price">₹249 <span>/ booster</span></div><div style="display:flex;gap:8px;"><button class="select-btn" onclick="toggleSelect(this)">+ Bundle</button><a href="#" class="buy-btn">Buy</a></div></div>
+      </div>
+      <div class="booster-card" data-stage="s9" data-code="M·A2">
+        <div class="bc-code">M·A2 · Stage 9</div>
+        <div class="bc-name">Equations and Inequalities</div>
+        <div class="bc-subs">Constructing and solving equations · Simultaneous equations · Inequalities</div>
+        <div class="bc-footer"><div class="bc-price">₹249 <span>/ booster</span></div><div style="display:flex;gap:8px;"><button class="select-btn" onclick="toggleSelect(this)">+ Bundle</button><a href="#" class="buy-btn">Buy</a></div></div>
+      </div>
+      <div class="booster-card" data-stage="s9" data-code="M·A3">
+        <div class="bc-code">M·A3 · Stage 9</div>
+        <div class="bc-name">Sequences and Functions</div>
+        <div class="bc-subs">Generating sequences · nth term · Representing functions</div>
+        <div class="bc-footer"><div class="bc-price">₹249 <span>/ booster</span></div><div style="display:flex;gap:8px;"><button class="select-btn" onclick="toggleSelect(this)">+ Bundle</button><a href="#" class="buy-btn">Buy</a></div></div>
+      </div>
+      <div class="booster-card" data-stage="s9" data-code="M·A4">
+        <div class="bc-code">M·A4 · Stage 9</div>
+        <div class="bc-name">Graphs</div>
+        <div class="bc-subs">Functions · Plotting graphs · Gradient and intercept · Interpreting graphs</div>
+        <div class="bc-footer"><div class="bc-price">₹249 <span>/ booster</span></div><div style="display:flex;gap:8px;"><button class="select-btn" onclick="toggleSelect(this)">+ Bundle</button><a href="#" class="buy-btn">Buy</a></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GEOMETRY -->
+  <div class="cat-block">
+    <div class="cat-header"><div class="cat-title">📏 Geometry and Measure</div><div class="cat-count">4 boosters</div></div>
+    <div class="booster-grid">
+      <div class="booster-card" data-stage="s9" data-code="M·G1">
+        <div class="bc-code">M·G1 · Stage 9</div>
+        <div class="bc-name">Angles</div>
+        <div class="bc-subs">Calculating angles · Interior and exterior angles of polygons · Constructions · Pythagoras' theorem</div>
+        <div class="bc-footer"><div class="bc-price">₹249 <span>/ booster</span></div><div style="display:flex;gap:8px;"><button class="select-btn" onclick="toggleSelect(this)">+ Bundle</button><a href="#" class="buy-btn">Buy</a></div></div>
+      </div>
+      <div class="booster-card" data-stage="s9" data-code="M·G2">
+        <div class="bc-code">M·G2 · Stage 9</div>
+        <div class="bc-name">Shapes and Measurements</div>
+        <div class="bc-subs">Circumference and area of a circle · Compound shapes · Large and small units</div>
+        <div class="bc-footer"><div class="bc-price">₹249 <span>/ booster</span></div><div style="display:flex;gap:8px;"><button class="select-btn" onclick="toggleSelect(this)">+ Bundle</button><a href="#" class="buy-btn">Buy</a></div></div>
+      </div>
+      <div class="booster-card" data-stage="s9" data-code="M·G3">
+        <div class="bc-code">M·G3 · Stage 9</div>
+        <div class="bc-name">Position and Transformation</div>
+        <div class="bc-subs">Bearings and scale drawings · Points on a line segment · Transformations · Enlarging shapes</div>
+        <div class="bc-footer"><div class="bc-price">₹249 <span>/ booster</span></div><div style="display:flex;gap:8px;"><button class="select-btn" onclick="toggleSelect(this)">+ Bundle</button><a href="#" class="buy-btn">Buy</a></div></div>
+      </div>
+      <div class="booster-card" data-stage="s9" data-code="M·G4">
+        <div class="bc-code">M·G4 · Stage 9</div>
+        <div class="bc-name">Volume, Surface Area and Symmetry</div>
+        <div class="bc-subs">Volume of prisms · Surface area of triangular prisms, pyramids and cylinders · 3D symmetry</div>
+        <div class="bc-footer"><div class="bc-price">₹249 <span>/ booster</span></div><div style="display:flex;gap:8px;"><button class="select-btn" onclick="toggleSelect(this)">+ Bundle</button><a href="#" class="buy-btn">Buy</a></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATISTICS -->
+  <div class="cat-block">
+    <div class="cat-header"><div class="cat-title">📊 Statistics and Probability</div><div class="cat-count">3 boosters</div></div>
+    <div class="booster-grid">
+      <div class="booster-card" data-stage="s9" data-code="M·S1">
+        <div class="bc-code">M·S1 · Stage 9</div>
+        <div class="bc-name">Statistical Investigations</div>
+        <div class="bc-subs">Data collection and sampling · Bias</div>
+        <div class="bc-footer"><div class="bc-price">₹249 <span>/ booster</span></div><div style="display:flex;gap:8px;"><button class="select-btn" onclick="toggleSelect(this)">+ Bundle</button><a href="#" class="buy-btn">Buy</a></div></div>
+      </div>
+      <div class="booster-card" data-stage="s9" data-code="M·S2">
+        <div class="bc-code">M·S2 · Stage 9</div>
+        <div class="bc-name">Probability</div>
+        <div class="bc-subs">Mutually exclusive events · Independent events · Combined events · Chance experiments</div>
+        <div class="bc-footer"><div class="bc-price">₹249 <span>/ booster</span></div><div style="display:flex;gap:8px;"><button class="select-btn" onclick="toggleSelect(this)">+ Bundle</button><a href="#" class="buy-btn">Buy</a></div></div>
+      </div>
+      <div class="booster-card" data-stage="s9" data-code="M·S3">
+        <div class="bc-code">M·S3 · Stage 9</div>
+        <div class="bc-name">Interpreting and Discussing Results</div>
+        <div class="bc-subs">Frequency polygons · Scatter graphs · Back-to-back stem-and-leaf · Grouped data statistics</div>
+        <div class="bc-footer"><div class="bc-price">₹249 <span>/ booster</span></div><div style="display:flex;gap:8px;"><button class="select-btn" onclick="toggleSelect(this)">+ Bundle</button><a href="#" class="buy-btn">Buy</a></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pricing-strip">
+    <div class="ps-item">
+      <div class="ps-name">Single Booster</div>
+      <div class="ps-price"><sup>₹</sup>249</div>
+      <div class="ps-desc">One topic. Good for targeting one weak area.</div>
+      <a href="#" class="ps-btn">Buy a booster</a>
+    </div>
+    <div class="ps-item">
+      <div class="ps-name">Any 5 Topics</div>
+      <div class="ps-price"><sup>₹</sup>799</div>
+      <div class="ps-was">₹1,245 if bought individually</div>
+      <div class="ps-save">Save ₹446</div>
+      <div class="ps-desc">Pick any 5 boosters. Use the + Bundle buttons above.</div>
+      <a href="#" class="ps-btn">Choose 5 topics</a>
+    </div>
+    <div class="ps-item featured">
+      <div class="ps-name">Stage 9 Full Bundle</div>
+      <div class="ps-price"><sup>₹</sup>1,299</div>
+      <div class="ps-was">₹3,735 if bought individually</div>
+      <div class="ps-save">Save ₹2,436 · ₹86 per topic</div>
+      <div class="ps-desc">All 15 Stage 9 Maths boosters. Complete topic coverage for the year.</div>
+      <a href="#" class="ps-btn">Get Stage Bundle</a>
+    </div>
+    <div class="ps-item">
+      <div class="ps-name">All Subjects · Stage 9</div>
+      <div class="ps-price"><sup>₹</sup>2,499</div>
+      <div class="ps-was">₹10,164 if bought individually</div>
+      <div class="ps-save">Save ₹7,665</div>
+      <div class="ps-desc">Maths, Science and Computing. Everything for Stage 9.</div>
+      <a href="#" class="ps-btn">Get All Subjects</a>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- OTHER SUBJECTS -->
+<div style="max-width:1280px;margin:0 auto;padding:0 40px 64px;">
+  <p style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:16px;">Other subjects</p>
+  <div class="other-subjects">
+    <a href="science.html" class="other-subj">
+      <span class="os-icon">🔬</span>
+      <div><div class="os-name">Science</div><div class="os-count">19 boosters · Biology, Chemistry, Physics</div></div>
+    </a>
+    <a href="computing.html" class="other-subj">
+      <span class="os-icon">💻</span>
+      <div><div class="os-name">Computing</div><div class="os-count">22 boosters · Programming, Data, Networks, Systems</div></div>
+    </a>
+  </div>
+</div>
+
+<!-- FLOATING BASKET -->
+<div class="basket" id="basket">
+  <div class="b-count" id="b-count">0</div>
+  <div class="b-label-wrap">
+    <div class="b-label-main" id="b-label-main">topics in basket</div>
+    <div class="b-label-sub" id="b-label-sub"></div>
+  </div>
+  <div class="b-price" id="b-price"></div>
+  <button class="b-buy" onclick="buyBundle()">Checkout</button>
+  <button class="b-clear" onclick="clearBasket()" title="Clear basket">×</button>
+</div>
+<div class="toast" id="toast">
+  <div id="toast-msg"></div>
+  <div class="t-tip" id="toast-tip"></div>
+</div>
+
+<!-- MINIMAL FOOTER -->
+<div class="footer-min">
+  <div class="footer-min-inner">
+    <span class="fl">© 2025 CoreMark · coremark.study · <a href="mailto:info@coremark.study" style="color:var(--blue);">info@coremark.study</a></span>
+    <div class="fr">
+      <a href="../index.html">Home</a>
+      <a href="../index.html#faq">FAQ</a>
+      <a href="https://instagram.com/coremark.study" target="_blank">Instagram</a>
+      <a href="../index.html#pricing">Pricing</a>
+    </div>
+  </div>
+</div>
+
+<script>
+// Stage tab switching
+function showStage(id, btn) {
+  document.querySelectorAll('.stage-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.stage-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  btn.classList.add('active');
+  clearBasket();
+}
+
+let selected = [];
+let toastTimer = null;
+
+function showToast(msg, tip) {
+  const toast = document.getElementById('toast');
+  document.getElementById('toast-msg').textContent = msg;
+  document.getElementById('toast-tip').textContent = tip || '';
+  toast.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 3000);
+}
+
+function shakeBasket() {
+  const basket = document.getElementById('basket');
+  basket.classList.remove('shake');
+  void basket.offsetWidth; // reflow to restart animation
+  basket.classList.add('shake');
+  setTimeout(() => basket.classList.remove('shake'), 500);
+}
+
+function toggleSelect(btn) {
+  const card = btn.closest('.booster-card');
+  const code = card.dataset.code;
+
+  if (card.classList.contains('selected')) {
+    // deselect
+    card.classList.remove('selected');
+    btn.textContent = '+ Bundle';
+    selected = selected.filter(c => c !== code);
+    updateBasket();
+    return;
+  }
+
+  // at cap — shake and toast instead of alert
+  if (selected.length >= 5) {
+    shakeBasket();
+    showToast(
+      'Basket is full at 5 topics  (₹799)',
+      'For more topics get the full stage bundle at ₹1,299 instead'
+    );
+    return;
+  }
+
+  card.classList.add('selected');
+  btn.textContent = '✓ Added';
+  selected.push(code);
+  updateBasket();
+}
+
+// Pricing tiers
+const TIERS = [
+  { count: 1, unit: 249, total: 249,  label: '1 booster',          sub: '₹249 · single price' },
+  { count: 2, unit: 249, total: 498,  label: '2 boosters',         sub: '₹498 · ₹249 each' },
+  { count: 3, unit: 249, total: 747,  label: '3 boosters',         sub: '₹747 · add 2 more to save ₹196' },
+  { count: 4, unit: 249, total: 996,  label: '4 boosters',         sub: '₹996 · add 1 more to save ₹197' },
+  { count: 5, unit: 160, total: 799,  label: '5-pack bundle',      sub: '₹799 · save ₹446 vs individual' },
+];
+
+function updateBasket() {
+  const basket = document.getElementById('basket');
+  const count = selected.length;
+  document.getElementById('b-count').textContent = count;
+
+  if (count === 0) {
+    basket.classList.remove('visible');
+    return;
+  }
+
+  basket.classList.add('visible');
+  const tier = TIERS[count - 1];
+
+  document.getElementById('b-label-main').textContent = tier.label;
+  document.getElementById('b-price').textContent = '₹' + tier.total.toLocaleString('en-IN');
+
+  // Show sub-label with nudge
+  const sub = document.getElementById('b-label-sub');
+  if (count === 5) {
+    sub.textContent = 'Best bundle price — ₹160 per topic';
+    sub.style.color = 'var(--coral)';
+  } else {
+    sub.textContent = tier.sub;
+    sub.style.color = 'rgba(255,255,255,0.5)';
+  }
+
+  // Toast nudge when approaching 5
+  if (count === 3) {
+    showToast('Add 2 more topics to unlock ₹799 bundle pricing', 'You save ₹196 with 5 topics');
+  } else if (count === 4) {
+    showToast('One more topic unlocks the 5-pack bundle!', 'Pay ₹799 instead of ₹996 — save ₹197');
+  } else if (count === 5) {
+    showToast('5-pack bundle unlocked  🎉', 'All 5 for ₹799 — saving ₹446');
+  }
+}
+
+function clearBasket() {
+  selected = [];
+  document.querySelectorAll('.booster-card').forEach(c => {
+    c.classList.remove('selected');
+    const btn = c.querySelector('.select-btn');
+    if (btn) btn.textContent = '+ Bundle';
+  });
+  document.getElementById('basket').classList.remove('visible');
+}
+
+function buyBundle() {
+  // placeholder — Razorpay integration goes here
+  alert('Checkout coming soon!\nSelected: ' + selected.join(', '));
+}
+</script>
+</body>
+</html>
