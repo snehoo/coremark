@@ -1,0 +1,32 @@
+{
+  "name": "coremark",
+  "pages_build_output_dir": "./",
+  "compatibility_date": "2024-09-23",
+  "compatibility_flags": ["nodejs_compat"],
+
+  "hyperdrive": [
+    {
+      "binding": "HYPERDRIVE",
+      "id": "9b08023"
+    }
+  ],
+
+  "r2_buckets": [
+    {
+      "binding": "R2_BUCKET",
+      "bucket_name": "coremark"
+    }
+  ]
+
+  // Environment variables are set in Cloudflare Pages dashboard
+  // Settings → Environment Variables → Add:
+  //
+  //   RAZORPAY_KEY_ID          rzp_live_xxxx
+  //   RAZORPAY_KEY_SECRET      (secret)
+  //   RAZORPAY_WEBHOOK_SECRET  (from Razorpay dashboard → Webhooks)
+  //   RESEND_API_KEY           re_xxxx
+  //   BEEHIIV_API_KEY          (from Beehiiv → Settings → API)
+  //   BEEHIIV_PUB_ID           pub_xxxx
+  //   METRICS_SECRET           (any random string — protects /api/metrics)
+  //   FEEDBACK_SECRET          (any random string — signs feedback tokens)
+}
