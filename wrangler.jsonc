@@ -4,10 +4,6 @@
   "compatibility_date": "2024-09-23",
   "compatibility_flags": ["nodejs_compat"],
 
-  "triggers": {
-    "crons": ["0 */2 * * *"]
-  },
-
   "hyperdrive": [
     {
       "binding": "HYPERDRIVE",
@@ -21,16 +17,4 @@
       "bucket_name": "coremark"
     }
   ]
-
-  // Environment variables — set in Cloudflare Pages dashboard
-  // Settings → Environment Variables → Production:
-  //
-  //   RAZORPAY_KEY_ID          rzp_live_xxxx
-  //   RAZORPAY_KEY_SECRET      xxxx
-  //   RAZORPAY_WEBHOOK_SECRET  xxxx
-  //   RESEND_API_KEY           re_xxxx
-  //   BEEHIIV_API_KEY          xxxx
-  //   BEEHIIV_PUB_ID           pub_xxxx
-  //   METRICS_SECRET           xxxx
-  //   FEEDBACK_SECRET          xxxx
 }
