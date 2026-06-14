@@ -90,7 +90,7 @@ a{color:inherit;}
 .booster-card.selected .select-btn{background:var(--coral);color:var(--ink);border-color:var(--coral);}
 @keyframes shake{0%,100%{transform:translateX(-50%);}10%,50%,90%{transform:translateX(calc(-50% - 7px));}30%,70%{transform:translateX(calc(-50% + 7px));}}
 .basket.shake{animation:shake 0.45s ease;}
-.toast{position:fixed;bottom:110px;left:50%;transform:translateX(-50%);background:var(--ink);color:white;border-radius:12px;padding:14px 24px;font-size:14px;font-weight:600;box-shadow:0 8px 28px -8px rgba(42,27,61,0.45);z-index:200;pointer-events:none;opacity:0;transition:opacity 0.2s;text-align:center;max-width:90vw;width:max-content;}
+.toast{position:fixed;bottom:110px;left:50%;transform:translateX(-50%);background:var(--ink);color:white;border-radius:12px;padding:12px 20px;font-size:14px;font-weight:600;box-shadow:0 8px 28px -8px rgba(42,27,61,0.45);z-index:101;pointer-events:none;opacity:0;transition:opacity 0.2s;text-align:center;max-width:90vw;width:max-content;}
 .toast.show{opacity:1;}
 .toast .t-tip{font-size:12px;color:rgba(255,255,255,0.6);margin-top:3px;font-weight:400;}
 .basket{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--ink);color:white;border-radius:999px;padding:16px 28px;display:flex;align-items:center;gap:16px;box-shadow:0 16px 48px -12px rgba(42,27,61,0.5);z-index:100;transition:opacity 0.2s;opacity:0;pointer-events:none;font-size:15px;font-weight:600;white-space:nowrap;}
@@ -541,7 +541,7 @@ function showStage(id, btn) {
   clearBasket();
 }
 
-window.selected = [];
+window.window.selected = [];
 let toastTimer = null;
 
 function showToast(msg, tip) {
@@ -564,8 +564,8 @@ function shakeBasket() {
 function toggleSelect(btn) {
   const card = btn.closest('.booster-card');
   const code = card.dataset.code;
-  if (card.classList.contains('window.selected')) {
-    card.classList.remove('window.selected');
+  if (card.classList.contains('selected')) {
+    card.classList.remove('selected');
     btn.textContent = '+ Bundle';
     window.selected = window.selected.filter(c => c !== code);
     updateBasket();
@@ -576,7 +576,7 @@ function toggleSelect(btn) {
     showToast('Basket is full at 5 topics  (₹799)', 'For more topics get the full stage bundle at ₹1,299');
     return;
   }
-  card.classList.add('window.selected');
+  card.classList.add('selected');
   btn.textContent = '✓ Added';
   window.selected.push(code);
   updateBasket();
@@ -602,24 +602,25 @@ function updateBasket() {
   const sub = document.getElementById('b-label-sub');
   sub.textContent = tier.sub;
   sub.style.color = count === 5 ? 'var(--coral)' : 'rgba(255,255,255,0.5)';
-  if (count === 3) showToast('Add 2 more topics to unlock ₹799 bundle pricing', 'You save ₹446 with 5 topics');
+  if (count === 1) showToast('Add 4 more topics to unlock ₹799 bundle pricing', 'You save ₹446 with 5 topics');
+  else if (count === 2) showToast('Add 3 more topics to unlock ₹799 bundle pricing', 'You save ₹446 with 5 topics');
+  else if (count === 3) showToast('Add 2 more topics to unlock ₹799 bundle pricing', 'You save ₹446 with 5 topics');
   else if (count === 4) showToast('One more topic unlocks the 5-pack bundle!', 'Pay ₹799 instead of ₹996 — save ₹197');
   else if (count === 5) showToast('5-pack bundle unlocked  🎉', 'All 5 for ₹799 — saving ₹446');
+  if (typeof window.refreshBtn === 'function') window.refreshBtn(window.selected.length);
 }
 
 function clearBasket() {
   window.selected = [];
   document.querySelectorAll('.booster-card').forEach(c => {
-    c.classList.remove('window.selected');
+    c.classList.remove('selected');
     const btn = c.querySelector('.select-btn');
     if (btn) btn.textContent = '+ Bundle';
   });
   document.getElementById('basket').classList.remove('visible');
 }
 
-function buyBundle() {
-  alert('Checkout coming soon!\nSelected: ' + window.selected.join(', '));
-}
+function buyBundle() { if (typeof window.cmBuyBundle === 'function') window.cmBuyBundle(); }
 </script>
 <script>window.CM_SUBJECT = 'computing';</script>
 <script src="js/products.js"></script>
