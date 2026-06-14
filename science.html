@@ -551,7 +551,8 @@ function showStage(id, btn) {
 let selected = [];
 let toastTimer = null;
 
-function // toast handled by buy-wire.js
+function showToast(msg, tip) {
+  const toast = document.getElementById('toast');
   document.getElementById('toast-msg').textContent = msg;
   document.getElementById('toast-tip').textContent = tip || '';
   toast.classList.add('show');
@@ -579,7 +580,7 @@ function toggleSelect(btn) {
   }
   if (selected.length >= 5) {
     shakeBasket();
-  // toast handled by buy-wire.js
+    // toast handled by topic-wire.js
     return;
   }
   card.classList.add('selected');
@@ -608,7 +609,9 @@ function updateBasket() {
   const sub = document.getElementById('b-label-sub');
   sub.textContent = tier.sub;
   sub.style.color = count === 5 ? 'var(--coral)' : 'rgba(255,255,255,0.5)';
-  // toasts handled by buy-wire.js
+  if (count === 3) showToast('Add 2 more topics to unlock ₹799 bundle pricing', 'You save ₹446 with 5 topics');
+  else if (count === 4) showToast('One more topic unlocks the 5-pack bundle!', 'Pay ₹799 instead of ₹996 — save ₹197');
+  else if (count === 5) showToast('5-pack bundle unlocked  🎉', 'All 5 for ₹799 — saving ₹446');
 }
 
 function clearBasket() {
@@ -622,11 +625,11 @@ function clearBasket() {
 }
 
 function buyBundle() {
-  // wired by buy-wire.js
+  // wired by topic-wire.js
 }
 </script>
 <script>window.CM_SUBJECT = 'science';</script>
 <script src="js/products.js"></script>
-<script src="js/buy-wire.js"></script>
+<script src="js/topic-wire.js"></script>
 </body>
 </html>
