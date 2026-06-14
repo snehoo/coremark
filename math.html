@@ -832,7 +832,7 @@ function showStage(id, btn) {
   clearBasket();
 }
 
-let selected = [];
+window.selected = [];
 let toastTimer = null;
 
 function showToast(msg, tip) {
@@ -856,17 +856,17 @@ function toggleSelect(btn) {
   const card = btn.closest('.booster-card');
   const code = card.dataset.code;
 
-  if (card.classList.contains('selected')) {
+  if (card.classList.contains('window.selected')) {
     // deselect
-    card.classList.remove('selected');
+    card.classList.remove('window.selected');
     btn.textContent = '+ Bundle';
-    selected = selected.filter(c => c !== code);
+    window.selected = window.selected.filter(c => c !== code);
     updateBasket();
     return;
   }
 
   // at cap — shake and toast instead of alert
-  if (selected.length >= 5) {
+  if (window.selected.length >= 5) {
     shakeBasket();
     showToast(
       'Basket is full at 5 topics  (₹799)',
@@ -875,9 +875,9 @@ function toggleSelect(btn) {
     return;
   }
 
-  card.classList.add('selected');
+  card.classList.add('window.selected');
   btn.textContent = '✓ Added';
-  selected.push(code);
+  window.selected.push(code);
   updateBasket();
 }
 
@@ -892,7 +892,7 @@ const TIERS = [
 
 function updateBasket() {
   const basket = document.getElementById('basket');
-  const count = selected.length;
+  const count = window.selected.length;
   document.getElementById('b-count').textContent = count;
 
   if (count === 0) {
@@ -932,9 +932,9 @@ function updateBasket() {
 }
 
 function clearBasket() {
-  selected = [];
+  window.selected = [];
   document.querySelectorAll('.booster-card').forEach(c => {
-    c.classList.remove('selected');
+    c.classList.remove('window.selected');
     const btn = c.querySelector('.select-btn');
     if (btn) btn.textContent = '+ Bundle';
   });

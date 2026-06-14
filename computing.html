@@ -541,7 +541,7 @@ function showStage(id, btn) {
   clearBasket();
 }
 
-let selected = [];
+window.selected = [];
 let toastTimer = null;
 
 function showToast(msg, tip) {
@@ -564,21 +564,21 @@ function shakeBasket() {
 function toggleSelect(btn) {
   const card = btn.closest('.booster-card');
   const code = card.dataset.code;
-  if (card.classList.contains('selected')) {
-    card.classList.remove('selected');
+  if (card.classList.contains('window.selected')) {
+    card.classList.remove('window.selected');
     btn.textContent = '+ Bundle';
-    selected = selected.filter(c => c !== code);
+    window.selected = window.selected.filter(c => c !== code);
     updateBasket();
     return;
   }
-  if (selected.length >= 5) {
+  if (window.selected.length >= 5) {
     shakeBasket();
     showToast('Basket is full at 5 topics  (₹799)', 'For more topics get the full stage bundle at ₹1,299');
     return;
   }
-  card.classList.add('selected');
+  card.classList.add('window.selected');
   btn.textContent = '✓ Added';
-  selected.push(code);
+  window.selected.push(code);
   updateBasket();
 }
 
@@ -592,7 +592,7 @@ const TIERS = [
 
 function updateBasket() {
   const basket = document.getElementById('basket');
-  const count = selected.length;
+  const count = window.selected.length;
   document.getElementById('b-count').textContent = count;
   if (count === 0) { basket.classList.remove('visible'); return; }
   basket.classList.add('visible');
@@ -608,9 +608,9 @@ function updateBasket() {
 }
 
 function clearBasket() {
-  selected = [];
+  window.selected = [];
   document.querySelectorAll('.booster-card').forEach(c => {
-    c.classList.remove('selected');
+    c.classList.remove('window.selected');
     const btn = c.querySelector('.select-btn');
     if (btn) btn.textContent = '+ Bundle';
   });
@@ -618,7 +618,7 @@ function clearBasket() {
 }
 
 function buyBundle() {
-  alert('Checkout coming soon!\nSelected: ' + selected.join(', '));
+  alert('Checkout coming soon!\nSelected: ' + window.selected.join(', '));
 }
 </script>
 <script>window.CM_SUBJECT = 'computing';</script>

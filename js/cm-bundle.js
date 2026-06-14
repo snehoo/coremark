@@ -42,10 +42,8 @@
     var stageNum = activeStage();
     var slugs    = codes.map(function(c){ return CODE_MAP[c+'-'+stageNum]; }).filter(Boolean);
 
-    console.log('[cmBuyBundle] selected:', codes, 'stage:', stageNum, 'slugs:', slugs);
 
     if (!slugs.length) {
-      console.warn('[cmBuyBundle] No slugs resolved — CODE_MAP keys:', Object.keys(CODE_MAP).slice(0,5));
       return;
     }
     if (slugs.length === 1) {
