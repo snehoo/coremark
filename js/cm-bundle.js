@@ -1,15 +1,11 @@
 // js/cm-bundle.js
-// CoreMark — runs AFTER the page's own <script> block.
-// Overrides updateBasket() and buyBundle() in place.
-// The page's showToast, toggleSelect, clearBasket etc are left untouched.
 'use strict';
 (function () {
-
   var P         = window.CM_PRODUCTS;
   var SUBJECT   = window.CM_SUBJECT || 'math';
   var SUBJ_SLUG = { math:'math', science:'sci', computing:'comp' }[SUBJECT] || 'math';
 
-  // ── slug lookup map ───────────────────────────────────────
+  // slug lookup
   var CODE_MAP = {};
   Object.values(P.boosters)
     .filter(function(b){ return b.subject === SUBJECT; })
@@ -22,50 +18,27 @@
     return panel ? parseInt(panel.id.replace('panel-s','')) : 8;
   }
 
-  // ── Button enable/disable ────────────────────────────────
-  function refreshBtn(count) {
+  // ── Called by updateBasket in the HTML via window.refreshBtn(count) ──
+  window.refreshBtn = function(count) {
     var btn = document.getElementById('b-buy-btn');
     if (!btn) return;
     if (count >= 5) {
       btn.removeAttribute('disabled');
-      btn.style.cssText = '';           // restore all original styles
-      btn.textContent   = 'Buy Bundle — ₹799';
+      btn.style.opacity    = '1';
+      btn.style.cursor     = 'pointer';
+      btn.style.background = '';
+      btn.textContent      = 'Buy Bundle — ₹799';
     } else {
-      btn.setAttribute('disabled', '');
+      btn.setAttribute('disabled','');
       btn.style.opacity    = '0.38';
       btn.style.cursor     = 'not-allowed';
+      btn.style.background = 'rgba(244,199,62,0.4)';
       btn.textContent      = count === 0 ? 'Buy Bundle' : 'Add ' + (5-count) + ' more →';
     }
-  }
-
-  // ── Save reference to original updateBasket ───────────────
-  var _origUpdateBasket = window.updateBasket;
-
-  // ── Override updateBasket ─────────────────────────────────
-  // Original already handles: basket visibility, tier labels, price, sub-label, toasts
-  // We just add: button state refresh after it runs
-  window.updateBasket = function() {
-    if (typeof _origUpdateBasket === 'function') _origUpdateBasket();
-    refreshBtn((window.selected || []).length);
   };
 
-  // ── Also hook toggleSelect to catch count=1 and count=2 ──
-  // Original only toasts at 3,4,5. We add toasts at 1 and 2.
-  var _origToggleSelect = window.toggleSelect;
-  window.toggleSelect = function(btn) {
-    if (typeof _origToggleSelect === 'function') _origToggleSelect(btn);
-    var count = (window.selected || []).length;
-    // Fire extra toasts for counts 1 and 2 (original handles 3,4,5)
-    if (count === 1) {
-      window.showToast('Add 4 more topics to unlock ₹799 bundle pricing', 'You save ₹446 with 5 topics');
-    } else if (count === 2) {
-      window.showToast('Add 3 more topics to unlock ₹799 bundle pricing', 'You save ₹446 with 5 topics');
-    }
-    // refreshBtn is already called via updateBasket above
-  };
-
-  // ── Override buyBundle ────────────────────────────────────
-  window.buyBundle = function() {
+  // ── Called by buyBundle() in HTML via window.cmBuyBundle() ──────────
+  window.cmBuyBundle = function() {
     var codes    = window.selected || [];
     var stageNum = activeStage();
     var slugs    = codes.map(function(c){ return CODE_MAP[c+'-'+stageNum]; }).filter(Boolean);
@@ -75,7 +48,8 @@
       return;
     }
     if (slugs.length < 5) {
-      window.showToast('Add ' + (5-slugs.length) + ' more topics to unlock the 5-pack', '5 topics for ₹799');
+      if (typeof window.showToast === 'function')
+        window.showToast('Add ' + (5-slugs.length) + ' more topics to unlock the 5-pack', '5 topics for ₹799 — ₹160 each');
       return;
     }
     location.href = 'checkout.html?type=fivepack'
@@ -133,12 +107,12 @@
     }).catch(function(){});
   }
 
-  // ── Init — runs after page script so all functions exist ──
+  // ── Init ─────────────────────────────────────────────────
   function init() {
     wireBuyBtns();
     wireBundleBar();
     wirePricingStrip();
-    refreshBtn(0);
+    window.refreshBtn(0);
     track();
   }
 
@@ -147,5 +121,4 @@
   } else {
     init();
   }
-
 })();
