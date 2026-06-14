@@ -512,7 +512,7 @@ a{color:inherit;}
     <div class="b-label-sub" id="b-label-sub"></div>
   </div>
   <div class="b-price" id="b-price"></div>
-  <button class="b-buy" onclick="buyBundle()" disabled style="opacity:0.4;cursor:not-allowed;background:rgba(244,199,62,0.4);">Buy Bundle</button>
+  <button class="b-buy" id="b-buy-btn" onclick="buyBundle()">Buy Bundle</button>
   <button class="b-clear" onclick="clearBasket()" title="Clear basket">×</button>
 </div>
 <div class="toast" id="toast">
@@ -573,6 +573,7 @@ function toggleSelect(btn) {
   }
   if (selected.length >= 5) {
     shakeBasket();
+    showToast('Basket is full at 5 topics  (₹799)', 'For more topics get the full stage bundle at ₹1,299');
     return;
   }
   card.classList.add('selected');
@@ -601,6 +602,9 @@ function updateBasket() {
   const sub = document.getElementById('b-label-sub');
   sub.textContent = tier.sub;
   sub.style.color = count === 5 ? 'var(--coral)' : 'rgba(255,255,255,0.5)';
+  if (count === 3) showToast('Add 2 more topics to unlock ₹799 bundle pricing', 'You save ₹446 with 5 topics');
+  else if (count === 4) showToast('One more topic unlocks the 5-pack bundle!', 'Pay ₹799 instead of ₹996 — save ₹197');
+  else if (count === 5) showToast('5-pack bundle unlocked  🎉', 'All 5 for ₹799 — saving ₹446');
 }
 
 function clearBasket() {
@@ -613,7 +617,9 @@ function clearBasket() {
   document.getElementById('basket').classList.remove('visible');
 }
 
-function buyBundle() { /* wired by cm-bundle.js */ }
+function buyBundle() {
+  alert('Checkout coming soon!\nSelected: ' + selected.join(', '));
+}
 </script>
 <script>window.CM_SUBJECT = 'computing';</script>
 <script src="js/products.js"></script>
