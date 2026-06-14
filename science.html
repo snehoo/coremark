@@ -91,7 +91,7 @@ a{color:inherit;}
 .booster-card.selected .select-btn{background:var(--coral);color:var(--ink);border-color:var(--coral);}
 @keyframes shake{0%,100%{transform:translateX(-50%);}10%,50%,90%{transform:translateX(calc(-50% - 7px));}30%,70%{transform:translateX(calc(-50% + 7px));}}
 .basket.shake{animation:shake 0.45s ease;}
-.toast{position:fixed;bottom:110px;left:50%;transform:translateX(-50%);background:var(--ink);color:white;border-radius:12px;padding:12px 20px;font-size:14px;font-weight:600;box-shadow:0 8px 28px -8px rgba(42,27,61,0.45);z-index:101;pointer-events:none;opacity:0;transition:opacity 0.2s;white-space:nowrap;text-align:center;}
+.toast{position:fixed;bottom:110px;left:50%;transform:translateX(-50%);background:var(--ink);color:white;border-radius:12px;padding:14px 24px;font-size:14px;font-weight:600;box-shadow:0 8px 28px -8px rgba(42,27,61,0.45);z-index:200;pointer-events:none;opacity:0;transition:opacity 0.2s;text-align:center;max-width:90vw;width:max-content;}
 .toast.show{opacity:1;}
 .toast .t-tip{font-size:12px;color:rgba(255,255,255,0.6);margin-top:3px;font-weight:400;}
 .basket{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--ink);color:white;border-radius:999px;padding:16px 28px;display:flex;align-items:center;gap:16px;box-shadow:0 16px 48px -12px rgba(42,27,61,0.5);z-index:100;transition:opacity 0.2s;opacity:0;pointer-events:none;font-size:15px;font-weight:600;white-space:nowrap;}
