@@ -1,61 +1,158 @@
 // js/buy-wire.js
-// Wires Buy/Bundle/Pricing buttons on subject pages to checkout.html
-// Also overrides basket behaviour: disabled until exactly 5 for 5-pack,
-// nudge toast from first selection.
-
+// Wires checkout on math/science/computing pages.
+// Controls the #b-buy-btn disabled state + toast from 1st selection.
 'use strict';
 
 (function () {
   const P       = window.CM_PRODUCTS;
   const SUBJECT = window.CM_SUBJECT || 'math';
+  const SUBJ_SLUG = { math:'math', science:'sci', computing:'comp' }[SUBJECT] || 'math';
 
   // ── Code → slug map ──────────────────────────────────────
-  function buildCodeMap(subject) {
-    const map = {};
-    Object.values(P.boosters)
-      .filter(b => b.subject === subject)
-      .forEach(b => { map[b.topicCode + '-' + b.stage] = b.slug; });
-    return map;
-  }
-  const CODE_MAP = buildCodeMap(SUBJECT);
+  const CODE_MAP = {};
+  Object.values(P.boosters)
+    .filter(b => b.subject === SUBJECT)
+    .forEach(b => { CODE_MAP[b.topicCode + '-' + b.stage] = b.slug; });
 
-  function slugFromCard(card) {
-    const code     = card.dataset.code;
-    const stageNum = parseInt((card.dataset.stage || 's8').replace('s', ''));
-    return CODE_MAP[code + '-' + stageNum] || null;
+  // ── Helper: active stage number ───────────────────────────
+  function activeStage() {
+    const card = document.querySelector('.booster-card.selected');
+    if (card) return parseInt((card.dataset.stage || 's8').replace('s', ''));
+    // Fallback: whichever stage panel is active
+    const panel = document.querySelector('.stage-panel.active');
+    if (panel) return parseInt(panel.id.replace('panel-s', ''));
+    return 8;
   }
 
-  // ── 1. Wire individual Buy buttons ────────────────────────
+  // ── Buy button state ──────────────────────────────────────
+  function refreshBuyBtn() {
+    const btn   = document.getElementById('b-buy-btn');
+    const count = (window.selected || []).length;
+    if (!btn) return;
+
+    if (count === 0) {
+      btn.disabled = true;
+      btn.style.opacity  = '0.35';
+      btn.style.cursor   = 'not-allowed';
+      btn.textContent    = 'Buy Bundle';
+      return;
+    }
+
+    if (count < 5) {
+      const need = 5 - count;
+      btn.disabled = true;
+      btn.style.opacity  = '0.45';
+      btn.style.cursor   = 'not-allowed';
+      btn.textContent    = 'Add ' + need + ' more →';
+    } else {
+      // exactly 5
+      btn.disabled = false;
+      btn.style.opacity  = '1';
+      btn.style.cursor   = 'pointer';
+      btn.textContent    = 'Buy Bundle — ₹799';
+    }
+  }
+
+  // ── Toast helper ──────────────────────────────────────────
+  function toast(msg, tip) {
+    if (typeof window.showToast === 'function') {
+      window.showToast(msg, tip || '');
+    }
+  }
+
+  // ── Intercept toggleSelect ────────────────────────────────
+  // Wrap the page's own toggleSelect so we can fire toasts + update btn
+  function wrapToggleSelect() {
+    const orig = window.toggleSelect;
+    if (!orig) return;
+    window.toggleSelect = function (btn) {
+      orig(btn); // run original (updates selected[], card style, updateBasket)
+      const count = (window.selected || []).length;
+      refreshBuyBtn();
+
+      // Toast on every add (not on remove — count won't increase)
+      const card      = btn.closest('.booster-card');
+      const wasAdded  = card && card.classList.contains('selected');
+      if (!wasAdded) return; // it was a deselect
+
+      if (count < 5) {
+        const need = 5 - count;
+        const msgs = [
+          '',
+          'Add 4 more topics to unlock the ₹799 5-pack!',
+          'Add 3 more topics to unlock the ₹799 5-pack!',
+          'Add 2 more topics to unlock the ₹799 5-pack!',
+          'One more topic to unlock the ₹799 5-pack!',
+        ];
+        toast(msgs[count] || '', '5 topics for ₹799 — ₹160 each');
+      } else {
+        toast('5-pack unlocked 🎉 — ₹799 for all 5!', 'Click Buy Bundle to continue');
+      }
+    };
+  }
+
+  // ── buyBundle ─────────────────────────────────────────────
+  window.buyBundle = function () {
+    const codes = window.selected || [];
+    if (codes.length === 0) return;
+
+    const stageNum = activeStage();
+    const slugs = codes
+      .map(code => CODE_MAP[code + '-' + stageNum])
+      .filter(Boolean);
+
+    if (slugs.length === 0) return;
+
+    if (slugs.length === 1) {
+      location.href = `checkout.html?type=single&slug=${slugs[0]}`;
+      return;
+    }
+
+    if (slugs.length < 5) {
+      // Button should be disabled but guard anyway
+      toast('Add ' + (5 - slugs.length) + ' more topics to unlock the 5-pack', '5 topics for ₹799');
+      return;
+    }
+
+    // Exactly 5
+    location.href = `checkout.html?type=fivepack`
+      + `&slug=5pack-${SUBJ_SLUG}-s${stageNum}`
+      + `&items=${slugs.join(',')}`
+      + `&stage=${stageNum}&subject=${SUBJECT}`;
+  };
+
+  // ── Wire Buy (single) buttons ─────────────────────────────
   function wireBuyButtons() {
     document.querySelectorAll('.buy-btn').forEach(btn => {
       const card = btn.closest('.booster-card');
       if (!card) return;
-      const slug = slugFromCard(card);
+      const code  = card.dataset.code;
+      const stage = parseInt((card.dataset.stage || 's8').replace('s', ''));
+      const slug  = CODE_MAP[code + '-' + stage];
       if (!slug) return;
       btn.href = `checkout.html?type=single&slug=${slug}`;
       btn.removeAttribute('onclick');
     });
   }
 
-  // ── 2. Wire Bundle Bar primary buttons ────────────────────
+  // ── Wire Bundle Bar primary buttons ──────────────────────
   function wireBundleBarButtons() {
     document.querySelectorAll('.bb-btn.primary').forEach(btn => {
       const panel = btn.closest('.stage-panel');
       if (!panel) return;
       const stageNum = parseInt(panel.id.replace('panel-s', ''));
-      const subjSlug = { math:'math', science:'sci', computing:'comp' }[SUBJECT];
-      btn.href = `checkout.html?type=subject&slug=all-${subjSlug}-s${stageNum}`;
+      btn.href = `checkout.html?type=subject&slug=all-${SUBJ_SLUG}-s${stageNum}`;
       btn.removeAttribute('onclick');
     });
   }
 
-  // ── 3. Wire Pricing Strip buttons ─────────────────────────
+  // ── Wire Pricing Strip ────────────────────────────────────
   function wirePricingStrip() {
     document.querySelectorAll('.stage-panel').forEach(panel => {
       const stageNum = parseInt(panel.id.replace('panel-s', ''));
-      const subjSlug = { math:'math', science:'sci', computing:'comp' }[SUBJECT];
       panel.querySelectorAll('.pricing-strip').forEach(strip => {
         const items = strip.querySelectorAll('.ps-item');
+
         const singleBtn  = items[0]?.querySelector('.ps-btn');
         const fiveBtn    = items[1]?.querySelector('.ps-btn');
         const subjectBtn = items[2]?.querySelector('.ps-btn');
@@ -76,7 +173,7 @@
           };
         }
         if (subjectBtn) {
-          subjectBtn.href = `checkout.html?type=subject&slug=all-${subjSlug}-s${stageNum}`;
+          subjectBtn.href = `checkout.html?type=subject&slug=all-${SUBJ_SLUG}-s${stageNum}`;
           subjectBtn.removeAttribute('onclick');
         }
         if (stageBtn) {
@@ -87,116 +184,12 @@
     });
   }
 
-  // ── 4. Override basket behaviour ──────────────────────────
-  // The basket Checkout button should be:
-  //   - DISABLED (greyed, no nav) when 1–4 items selected
-  //   - ENABLED when exactly 5 items selected
-  // Toast nudge fires from the FIRST selection.
-
-  function getBuyBtn() {
-    return document.querySelector('.basket .b-buy') || document.querySelector('.b-buy');
-  }
-
-  function updateBuyBtn(count) {
-    const btn = getBuyBtn();
-    if (!btn) return;
-    if (count === 0) {
-      btn.disabled = false;
-      btn.style.opacity = '';
-      btn.style.cursor = '';
-      btn.textContent = 'Checkout';
-      return;
-    }
-    if (count < 5) {
-      const need = 5 - count;
-      btn.disabled = true;
-      btn.style.opacity = '0.4';
-      btn.style.cursor = 'not-allowed';
-      btn.textContent = 'Add ' + need + ' more to checkout';
-    } else {
-      btn.disabled = false;
-      btn.style.opacity = '';
-      btn.style.cursor = '';
-      btn.textContent = 'Checkout — ₹799 🎉';
-    }
-  }
-
-  // Override updateBasket to inject our button state + early toasts
-  const _origUpdateBasket = window.updateBasket;
-  window.updateBasket = function () {
-    // Call the original first
-    if (typeof _origUpdateBasket === 'function') _origUpdateBasket();
-
-    const count = (window.selected || []).length;
-    updateBuyBtn(count);
-
-    // Toast nudge from first selection
-    if (count >= 1 && count < 5) {
-      const need = 5 - count;
-      const msg  = count === 1
-        ? 'Add 4 more topics to unlock the ₹799 5-pack bundle'
-        : count === 2
-        ? 'Add 3 more topics to unlock the ₹799 5-pack bundle'
-        : count === 3
-        ? 'Add 2 more topics to unlock the ₹799 5-pack bundle'
-        : 'Add 1 more topic to unlock the ₹799 5-pack bundle!';
-      const tip = 'You save ₹' + ((count * 249) - 799 + (need * 249)).toLocaleString('en-IN') + ' with the 5-pack';
-
-      // Use the page's existing showToast if available
-      if (typeof window.showToast === 'function') {
-        window.showToast(msg, tip);
-      }
-    }
-  };
-
-  // ── 5. Override buyBundle ─────────────────────────────────
-  window.buyBundle = function () {
-    const codes = window.selected || [];
-    if (codes.length === 0) return;
-
-    // Find active stage
-    const firstCard = document.querySelector('.booster-card.selected');
-    if (!firstCard) return;
-    const stageNum = parseInt((firstCard.dataset.stage || 's8').replace('s', ''));
-
-    // Map codes to slugs
-    const slugs = codes
-      .map(code => CODE_MAP[code + '-' + stageNum])
-      .filter(Boolean);
-
-    if (slugs.length === 0) return;
-
-    if (slugs.length === 1) {
-      location.href = `checkout.html?type=single&slug=${slugs[0]}`;
-      return;
-    }
-
-    if (slugs.length < 5) {
-      // Should not reach here (button is disabled) but guard anyway
-      const need = 5 - slugs.length;
-      if (typeof window.showToast === 'function') {
-        window.showToast(
-          'Add ' + need + ' more topic' + (need > 1 ? 's' : '') + ' to unlock the 5-pack',
-          '5 topics for ₹799 — ₹160 each'
-        );
-      }
-      return;
-    }
-
-    // Exactly 5 — go to checkout
-    const subjSlug = { math:'math', science:'sci', computing:'comp' }[SUBJECT];
-    location.href = `checkout.html?type=fivepack`
-      + `&slug=5pack-${subjSlug}-s${stageNum}`
-      + `&items=${slugs.join(',')}`
-      + `&stage=${stageNum}&subject=${SUBJECT}`;
-  };
-
-  // ── 6. Track pageview ─────────────────────────────────────
+  // ── Track pageview ────────────────────────────────────────
   function trackPageview() {
     fetch('/api/track', {
-      method: 'POST',
+      method:  'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ path: location.pathname + location.search, referrer: document.referrer || null }),
+      body:    JSON.stringify({ path: location.pathname + location.search, referrer: document.referrer || null }),
     }).catch(() => {});
   }
 
@@ -205,8 +198,8 @@
     wireBuyButtons();
     wireBundleBarButtons();
     wirePricingStrip();
-    // Initial button state
-    updateBuyBtn(0);
+    refreshBuyBtn();     // start disabled
+    wrapToggleSelect();  // intercept after page script has defined it
     trackPageview();
   }
 
