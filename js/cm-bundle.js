@@ -5,7 +5,6 @@
   var SUBJECT   = window.CM_SUBJECT || 'math';
   var SUBJ_SLUG = { math:'math', science:'sci', computing:'comp' }[SUBJECT] || 'math';
 
-  // slug lookup
   var CODE_MAP = {};
   Object.values(P.boosters)
     .filter(function(b){ return b.subject === SUBJECT; })
@@ -18,7 +17,7 @@
     return panel ? parseInt(panel.id.replace('panel-s','')) : 8;
   }
 
-  // ── Called by updateBasket in the HTML via window.refreshBtn(count) ──
+  // Exposed to updateBasket in HTML
   window.refreshBtn = function(count) {
     var btn = document.getElementById('b-buy-btn');
     if (!btn) return;
@@ -37,12 +36,18 @@
     }
   };
 
-  // ── Called by buyBundle() in HTML via window.cmBuyBundle() ──────────
+  // Exposed to buyBundle() in HTML
   window.cmBuyBundle = function() {
     var codes    = window.selected || [];
     var stageNum = activeStage();
     var slugs    = codes.map(function(c){ return CODE_MAP[c+'-'+stageNum]; }).filter(Boolean);
-    if (!slugs.length) return;
+
+    console.log('[cmBuyBundle] selected:', codes, 'stage:', stageNum, 'slugs:', slugs);
+
+    if (!slugs.length) {
+      console.warn('[cmBuyBundle] No slugs resolved — CODE_MAP keys:', Object.keys(CODE_MAP).slice(0,5));
+      return;
+    }
     if (slugs.length === 1) {
       location.href = 'checkout.html?type=single&slug=' + slugs[0];
       return;
@@ -59,7 +64,6 @@
       + '&subject='    + SUBJECT;
   };
 
-  // ── Wire individual Buy buttons ───────────────────────────
   function wireBuyBtns() {
     document.querySelectorAll('.buy-btn').forEach(function(btn) {
       var card = btn.closest('.booster-card');
@@ -71,7 +75,6 @@
     });
   }
 
-  // ── Wire Bundle Bar primary buttons ──────────────────────
   function wireBundleBar() {
     document.querySelectorAll('.bb-btn.primary').forEach(function(btn) {
       var panel = btn.closest('.stage-panel');
@@ -82,7 +85,6 @@
     });
   }
 
-  // ── Wire Pricing Strip ────────────────────────────────────
   function wirePricingStrip() {
     document.querySelectorAll('.stage-panel').forEach(function(panel) {
       var s = parseInt(panel.id.replace('panel-s',''));
@@ -95,19 +97,17 @@
         if (b0) { b0.href='#'; b0.onclick=function(e){e.preventDefault();panel.querySelector('.booster-card').scrollIntoView({behavior:'smooth',block:'center'});}; }
         if (b1) { b1.href='#'; b1.onclick=function(e){e.preventDefault();panel.querySelector('.select-btn').scrollIntoView({behavior:'smooth',block:'center'});}; }
         if (b2) { b2.href='checkout.html?type=subject&slug=all-'+SUBJ_SLUG+'-s'+s; b2.removeAttribute('onclick'); }
-        if (b3) { b3.href='checkout.html?type=stage&slug=all-s'+s;                  b3.removeAttribute('onclick'); }
+        if (b3) { b3.href='checkout.html?type=stage&slug=all-s'+s; b3.removeAttribute('onclick'); }
       });
     });
   }
 
-  // ── Track ─────────────────────────────────────────────────
   function track() {
     fetch('/api/track',{method:'POST',headers:{'Content-Type':'application/json'},
       body:JSON.stringify({path:location.pathname+location.search,referrer:document.referrer||null})
     }).catch(function(){});
   }
 
-  // ── Init ─────────────────────────────────────────────────
   function init() {
     wireBuyBtns();
     wireBundleBar();
