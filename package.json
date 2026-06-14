@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "description": "CoreMark — Cambridge Lower Secondary Practice Boosters",
   "private": true,
+  "scripts": {
+    "build": "echo 'No build step'"
+  },
   "dependencies": {
-    "pg": "^8.21.0"
+    "@neondatabase/serverless": "^0.9.0"
   }
 }
