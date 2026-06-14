@@ -1,0 +1,9 @@
+{
+  "name": "coremark",
+  "version": "1.0.0",
+  "description": "CoreMark — Cambridge Lower Secondary Practice Boosters",
+  "private": true,
+  "dependencies": {
+    "pg": "^8.21.0"
+  }
+}
