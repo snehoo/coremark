@@ -835,8 +835,7 @@ function showStage(id, btn) {
 let selected = [];
 let toastTimer = null;
 
-function showToast(msg, tip) {
-  const toast = document.getElementById('toast');
+function // toast handled by buy-wire.js
   document.getElementById('toast-msg').textContent = msg;
   document.getElementById('toast-tip').textContent = tip || '';
   toast.classList.add('show');
@@ -869,9 +868,6 @@ function toggleSelect(btn) {
   if (selected.length >= 5) {
     shakeBasket();
   // toast handled by buy-wire.js
-      'Basket is full at 5 topics  (₹799)',
-      'For more topics get the full stage bundle at ₹1,299 instead'
-    );
     return;
   }
 
