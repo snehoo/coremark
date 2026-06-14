@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CoreMark Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+/* ── TOKENS ─────────────────────────────────────────────── */
+:root{
+  --ink:#2A1B3D; --ink-soft:#4A3760; --ink-muted:#7A6A94;
+  --blue:#6E47C9; --blue-deep:#5234A4; --blue-tint:rgba(110,71,201,0.10);
+  --coral:#F4C73E; --coral-soft:#FAE588;
+  --cream:#FBF8F2; --paper:#FFFFFF; --mist:#F0EBF8;
+  --border:#DDD5ED; --border-soft:#EAE3F5;
+  --green:#059669; --green-bg:rgba(5,150,105,0.08); --green-text:#065f46;
+  --red:#dc2626; --red-bg:rgba(220,38,38,0.08);
+  --font-sans:'Plus Jakarta Sans',system-ui,sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
+  --radius-sm:8px; --radius-md:14px; --radius-lg:20px;
+  --shadow:0 1px 3px rgba(42,27,61,0.06),0 8px 24px rgba(42,27,61,0.08);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;background:var(--cream);color:var(--ink);font-family:var(--font-sans);-webkit-font-smoothing:antialiased;}
+
+/* ── LAYOUT ─────────────────────────────────────────────── */
+.shell{display:grid;grid-template-columns:220px 1fr;min-height:100vh;}
+
+/* ── SIDEBAR ─────────────────────────────────────────────── */
+.sidebar{background:var(--ink);padding:28px 0;display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow-y:auto;}
+.sb-logo{padding:0 20px 28px;border-bottom:1px solid rgba(255,255,255,0.08);margin-bottom:20px;}
+.sb-logo-mark{display:flex;align-items:center;gap:10px;}
+.sb-logo-sq{width:34px;height:34px;background:rgba(255,255,255,0.1);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;color:#fff;position:relative;}
+.sb-logo-dot{position:absolute;top:-3px;right:-3px;width:8px;height:8px;background:var(--coral);border-radius:50%;}
+.sb-logo-word{font-weight:800;font-size:17px;color:#fff;letter-spacing:-0.02em;}
+.sb-logo-word span{color:var(--blue);}
+.sb-label{font-family:var(--font-mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.3);padding:0 20px;margin-bottom:8px;}
+.sb-nav{list-style:none;padding:0 10px;margin-bottom:24px;}
+.sb-nav li a{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--radius-sm);font-size:14px;font-weight:600;color:rgba(255,255,255,0.55);text-decoration:none;transition:all .15s;}
+.sb-nav li a:hover{background:rgba(255,255,255,0.07);color:#fff;}
+.sb-nav li a.active{background:rgba(110,71,201,0.35);color:#fff;}
+.sb-nav li a .icon{font-size:16px;width:20px;text-align:center;}
+.sb-divider{border:none;border-top:1px solid rgba(255,255,255,0.08);margin:4px 20px 16px;}
+.sb-footer{margin-top:auto;padding:20px;border-top:1px solid rgba(255,255,255,0.08);}
+.sb-footer-text{font-size:12px;color:rgba(255,255,255,0.3);}
+.sb-footer-text a{color:rgba(255,255,255,0.45);text-decoration:none;}
+
+/* ── MAIN ─────────────────────────────────────────────────── */
+.main{padding:0;overflow-x:hidden;}
+
+/* topbar */
+.topbar{background:var(--paper);border-bottom:1px solid var(--border-soft);padding:18px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;}
+.topbar-title{font-size:18px;font-weight:800;letter-spacing:-0.02em;}
+.topbar-right{display:flex;align-items:center;gap:12px;}
+.refresh-btn{padding:9px 16px;background:var(--mist);border:1.5px solid var(--border);border-radius:var(--radius-sm);font-family:var(--font-sans);font-size:13px;font-weight:700;color:var(--ink);cursor:pointer;display:flex;align-items:center;gap:7px;}
+.refresh-btn:hover{border-color:var(--blue);color:var(--blue);}
+.refresh-btn.loading .refresh-icon{animation:spin .7s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.status-dot{width:8px;height:8px;border-radius:50%;background:var(--green);}
+.status-dot.loading{background:var(--coral);animation:pulse 1s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+.last-refresh{font-family:var(--font-mono);font-size:11px;color:var(--ink-muted);}
+
+/* auth overlay */
+.auth-overlay{position:fixed;inset:0;background:var(--cream);z-index:100;display:flex;align-items:center;justify-content:center;}
+.auth-card{background:var(--paper);border:1.5px solid var(--border-soft);border-radius:var(--radius-lg);padding:44px;max-width:380px;width:100%;box-shadow:var(--shadow);}
+.auth-logo{display:flex;align-items:center;gap:10px;margin-bottom:28px;}
+.auth-logo-sq{width:38px;height:38px;background:var(--ink);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;color:#fff;}
+.auth-logo-word{font-weight:800;font-size:20px;letter-spacing:-0.02em;}
+.auth-logo-word span{color:var(--blue);}
+.auth-heading{font-size:22px;font-weight:800;letter-spacing:-0.025em;margin-bottom:6px;}
+.auth-sub{font-size:14px;color:var(--ink-muted);margin-bottom:24px;}
+.auth-input{width:100%;padding:13px 15px;background:var(--cream);border:1.5px solid var(--border);border-radius:var(--radius-sm);font-family:var(--font-sans);font-size:15px;color:var(--ink);outline:none;margin-bottom:12px;}
+.auth-input:focus{border-color:var(--blue);box-shadow:0 0 0 3px var(--blue-tint);}
+.auth-btn{width:100%;padding:14px;background:var(--blue);color:#fff;border:none;border-radius:var(--radius-sm);font-family:var(--font-sans);font-size:15px;font-weight:700;cursor:pointer;}
+.auth-btn:hover{background:var(--blue-deep);}
+.auth-error{font-size:13px;color:var(--red);margin-top:8px;display:none;}
+.auth-error.show{display:block;}
+
+/* content */
+.content{padding:28px 32px 60px;}
+
+/* section header */
+.section-head{margin-bottom:20px;}
+.section-eyebrow{font-family:var(--font-mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:6px;}
+.section-title{font-size:20px;font-weight:800;letter-spacing:-0.025em;}
+
+/* ── KPI CARDS ─────────────────────────────────────────── */
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:32px;}
+.kpi-card{background:var(--paper);border:1.5px solid var(--border-soft);border-radius:var(--radius-md);padding:22px 24px;box-shadow:var(--shadow);}
+.kpi-card.highlight{background:var(--ink);border-color:var(--ink);}
+.kpi-label{font-family:var(--font-mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:10px;}
+.kpi-card.highlight .kpi-label{color:rgba(255,255,255,0.45);}
+.kpi-value{font-size:32px;font-weight:800;letter-spacing:-0.04em;line-height:1;margin-bottom:6px;}
+.kpi-card.highlight .kpi-value{color:var(--coral-soft);}
+.kpi-sub{font-size:13px;color:var(--ink-muted);}
+.kpi-card.highlight .kpi-sub{color:rgba(255,255,255,0.4);}
+.kpi-badge{display:inline-flex;align-items:center;gap:4px;font-family:var(--font-mono);font-size:11px;background:var(--green-bg);color:var(--green-text);border-radius:999px;padding:2px 8px;font-weight:600;}
+.kpi-badge.neutral{background:var(--mist);color:var(--ink-muted);}
+
+/* ── CHARTS ROW ─────────────────────────────────────────── */
+.charts-row{display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-bottom:32px;}
+.chart-card{background:var(--paper);border:1.5px solid var(--border-soft);border-radius:var(--radius-md);padding:24px;box-shadow:var(--shadow);}
+.chart-title{font-size:15px;font-weight:700;margin-bottom:4px;letter-spacing:-0.01em;}
+.chart-sub{font-size:13px;color:var(--ink-muted);margin-bottom:20px;}
+.chart-wrap{position:relative;height:200px;}
+
+/* ── TABLES ROW ─────────────────────────────────────────── */
+.tables-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:32px;}
+.table-card{background:var(--paper);border:1.5px solid var(--border-soft);border-radius:var(--radius-md);padding:24px;box-shadow:var(--shadow);}
+.table-title{font-size:15px;font-weight:700;margin-bottom:16px;letter-spacing:-0.01em;}
+table.data-table{width:100%;border-collapse:collapse;}
+table.data-table th{font-family:var(--font-mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-muted);text-align:left;padding:0 0 10px;border-bottom:1px solid var(--border-soft);}
+table.data-table td{font-size:13px;padding:10px 0;border-bottom:1px solid var(--border-soft);color:var(--ink);}
+table.data-table tr:last-child td{border-bottom:none;}
+table.data-table .mono{font-family:var(--font-mono);font-size:12px;color:var(--ink-muted);}
+table.data-table .badge{display:inline-block;padding:2px 8px;border-radius:999px;font-family:var(--font-mono);font-size:10px;font-weight:600;background:var(--mist);color:var(--blue);}
+
+/* bar-in-cell */
+.bar-cell{display:flex;align-items:center;gap:8px;}
+.bar-track{flex:1;height:5px;background:var(--mist);border-radius:999px;overflow:hidden;}
+.bar-fill{height:100%;background:var(--blue);border-radius:999px;transition:width .5s ease;}
+
+/* ── BREAKDOWN CARDS ─────────────────────────────────────── */
+.breakdown-row{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:32px;}
+.breakdown-card{background:var(--paper);border:1.5px solid var(--border-soft);border-radius:var(--radius-md);padding:22px 24px;box-shadow:var(--shadow);}
+.breakdown-title{font-size:14px;font-weight:700;margin-bottom:16px;letter-spacing:-0.01em;}
+.breakdown-item{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border-soft);}
+.breakdown-item:last-child{border-bottom:none;}
+.breakdown-key{font-size:13px;font-weight:600;}
+.breakdown-val{font-family:var(--font-mono);font-size:12px;color:var(--ink-muted);}
+.breakdown-rev{font-family:var(--font-mono);font-size:11px;color:var(--blue);margin-top:2px;}
+
+/* ── EMAIL + FEEDBACK ROW ─────────────────────────────────── */
+.bottom-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:32px;}
+.stat-card{background:var(--paper);border:1.5px solid var(--border-soft);border-radius:var(--radius-md);padding:22px 24px;box-shadow:var(--shadow);}
+.stat-title{font-size:14px;font-weight:700;margin-bottom:16px;}
+.stat-item{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border-soft);}
+.stat-item:last-child{border-bottom:none;}
+.stat-key{font-size:13px;color:var(--ink-muted);}
+.stat-val{font-family:var(--font-mono);font-size:13px;font-weight:600;color:var(--ink);}
+
+/* feedback emojis */
+.feedback-row{display:flex;gap:12px;margin-top:4px;}
+.fb-item{flex:1;background:var(--mist);border-radius:var(--radius-sm);padding:14px 12px;text-align:center;}
+.fb-emoji{font-size:22px;margin-bottom:4px;}
+.fb-count{font-family:var(--font-mono);font-size:16px;font-weight:700;color:var(--ink);}
+.fb-label{font-size:11px;color:var(--ink-muted);margin-top:2px;}
+
+/* ── LINKS ROW ─────────────────────────────────────────────── */
+.links-row{display:flex;gap:12px;flex-wrap:wrap;}
+.quick-link{display:flex;align-items:center;gap:8px;padding:11px 18px;background:var(--paper);border:1.5px solid var(--border-soft);border-radius:var(--radius-sm);font-size:14px;font-weight:600;color:var(--ink);text-decoration:none;box-shadow:var(--shadow);}
+.quick-link:hover{border-color:var(--blue);color:var(--blue);}
+
+/* loading skeleton */
+.skel{background:linear-gradient(90deg,var(--mist) 25%,var(--border-soft) 50%,var(--mist) 75%);background-size:200% 100%;animation:shimmer 1.4s ease infinite;border-radius:6px;}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+/* empty state */
+.empty{text-align:center;padding:32px;color:var(--ink-muted);font-size:14px;}
+
+/* ── RESPONSIVE ─────────────────────────────────────────── */
+@media(max-width:1200px){
+  .kpi-grid{grid-template-columns:repeat(2,1fr);}
+  .breakdown-row{grid-template-columns:1fr 1fr;}
+  .bottom-row{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:900px){
+  .shell{grid-template-columns:1fr;}
+  .sidebar{display:none;}
+  .charts-row,.tables-row,.bottom-row,.breakdown-row{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- AUTH OVERLAY -->
+<div class="auth-overlay" id="auth-overlay">
+  <div class="auth-card">
+    <div class="auth-logo">
+      <div class="auth-logo-sq">CM</div>
+      <div class="auth-logo-word">Core<span>Mark</span></div>
+    </div>
+    <div class="auth-heading">Admin Dashboard</div>
+    <div class="auth-sub">Enter your metrics secret to continue.</div>
+    <input class="auth-input" type="password" id="secret-input"
+           placeholder="Metrics secret" autocomplete="current-password">
+    <button class="auth-btn" onclick="authenticate()">Sign in</button>
+    <div class="auth-error" id="auth-error">Incorrect secret. Try again.</div>
+  </div>
+</div>
+
+<!-- SHELL -->
+<div class="shell" id="shell" style="display:none;">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sb-logo">
+      <div class="sb-logo-mark">
+        <div class="sb-logo-sq">CM<div class="sb-logo-dot"></div></div>
+        <div class="sb-logo-word">Core<span>Mark</span></div>
+      </div>
+    </div>
+    <div class="sb-label">Overview</div>
+    <ul class="sb-nav">
+      <li><a href="#" class="active"><span class="icon">📊</span>Dashboard</a></li>
+    </ul>
+    <hr class="sb-divider">
+    <div class="sb-label">Website</div>
+    <ul class="sb-nav">
+      <li><a href="/math.html"      target="_blank"><span class="icon">📐</span>Mathematics</a></li>
+      <li><a href="/science.html"   target="_blank"><span class="icon">🔬</span>Science</a></li>
+      <li><a href="/computing.html" target="_blank"><span class="icon">💻</span>Computing</a></li>
+      <li><a href="/index.html"     target="_blank"><span class="icon">🏠</span>Home</a></li>
+    </ul>
+    <hr class="sb-divider">
+    <div class="sb-label">External</div>
+    <ul class="sb-nav">
+      <li><a href="https://dashboard.razorpay.com" target="_blank"><span class="icon">💳</span>Razorpay</a></li>
+      <li><a href="https://resend.com/emails"       target="_blank"><span class="icon">📧</span>Resend</a></li>
+      <li><a href="https://console.neon.tech"       target="_blank"><span class="icon">🗄️</span>Neon DB</a></li>
+      <li><a href="https://app.beehiiv.com"         target="_blank"><span class="icon">🐝</span>Beehiiv</a></li>
+      <li><a href="https://dash.cloudflare.com"     target="_blank"><span class="icon">☁️</span>Cloudflare</a></li>
+    </ul>
+    <div class="sb-footer">
+      <div class="sb-footer-text">CoreMark Admin · <a href="/index.html">coremark.study</a></div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <div class="topbar-title">Dashboard</div>
+      <div class="topbar-right">
+        <div class="status-dot" id="status-dot"></div>
+        <div class="last-refresh" id="last-refresh">—</div>
+        <button class="refresh-btn" id="refresh-btn" onclick="loadData()">
+          <span class="refresh-icon">↻</span> Refresh
+        </button>
+      </div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content">
+
+      <!-- KPI CARDS -->
+      <div class="section-head">
+        <div class="section-eyebrow">Revenue</div>
+        <div class="section-title">Overview</div>
+      </div>
+      <div class="kpi-grid" id="kpi-grid">
+        <div class="kpi-card highlight">
+          <div class="kpi-label">Total Revenue</div>
+          <div class="kpi-value" id="kpi-total-rev">—</div>
+          <div class="kpi-sub" id="kpi-total-orders">— orders</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Last 30 Days</div>
+          <div class="kpi-value" id="kpi-30-rev">—</div>
+          <div class="kpi-sub" id="kpi-30-orders">— orders</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Last 7 Days</div>
+          <div class="kpi-value" id="kpi-7-rev">—</div>
+          <div class="kpi-sub" id="kpi-7-orders">— orders</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Today</div>
+          <div class="kpi-value" id="kpi-today-rev">—</div>
+          <div class="kpi-sub" id="kpi-today-sub">— orders · — buyers</div>
+        </div>
+      </div>
+
+      <!-- REVENUE CHART + ORDER TYPE -->
+      <div class="charts-row">
+        <div class="chart-card">
+          <div class="chart-title">Daily Revenue — Last 30 Days</div>
+          <div class="chart-sub">Amount collected per day (₹)</div>
+          <div class="chart-wrap"><canvas id="revenue-chart"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-title">Orders by Type</div>
+          <div class="chart-sub">Single · 5-Pack · Subject · Stage</div>
+          <div class="chart-wrap"><canvas id="type-chart"></canvas></div>
+        </div>
+      </div>
+
+      <!-- TOP BOOSTERS + TOP PAGES -->
+      <div class="tables-row">
+        <div class="table-card">
+          <div class="table-title">Top Boosters by Units Sold</div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Booster</th>
+                <th>Units</th>
+              </tr>
+            </thead>
+            <tbody id="top-boosters-body">
+              <tr><td colspan="3" class="empty">Loading…</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="table-card">
+          <div class="table-title">Top Pages — Last 7 Days</div>
+          <table class="data-table">
+            <thead>
+              <tr><th>Path</th><th>Views</th></tr>
+            </thead>
+            <tbody id="top-pages-body">
+              <tr><td colspan="2" class="empty">Loading…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- SUBJECT · STAGE · ORDER TYPE BREAKDOWN -->
+      <div class="section-head">
+        <div class="section-eyebrow">Breakdown</div>
+        <div class="section-title">By Subject, Stage and Type</div>
+      </div>
+      <div class="breakdown-row">
+        <div class="breakdown-card">
+          <div class="breakdown-title">By Subject</div>
+          <div id="by-subject">—</div>
+        </div>
+        <div class="breakdown-card">
+          <div class="breakdown-title">By Stage</div>
+          <div id="by-stage">—</div>
+        </div>
+        <div class="breakdown-card">
+          <div class="breakdown-title">By Order Type</div>
+          <div id="by-type">—</div>
+        </div>
+      </div>
+
+      <!-- EMAIL SEQUENCE · FEEDBACK · BUYERS -->
+      <div class="section-head">
+        <div class="section-eyebrow">Health</div>
+        <div class="section-title">Email, Feedback and Buyers</div>
+      </div>
+      <div class="bottom-row">
+        <div class="stat-card">
+          <div class="stat-title">Email Sequence</div>
+          <div id="sequence-stats">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-title">Buyer Feedback</div>
+          <div id="feedback-stats">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-title">Buyers</div>
+          <div id="buyers-stats">—</div>
+        </div>
+      </div>
+
+      <!-- QUICK LINKS -->
+      <div class="section-head">
+        <div class="section-eyebrow">Actions</div>
+        <div class="section-title">Quick Links</div>
+      </div>
+      <div class="links-row">
+        <a class="quick-link" href="https://dashboard.razorpay.com/app/payments"   target="_blank">💳 Razorpay Payments</a>
+        <a class="quick-link" href="https://resend.com/emails"                     target="_blank">📧 Resend Emails</a>
+        <a class="quick-link" href="https://console.neon.tech"                     target="_blank">🗄️ Neon DB</a>
+        <a class="quick-link" href="https://app.beehiiv.com"                       target="_blank">🐝 Beehiiv Subscribers</a>
+        <a class="quick-link" href="https://dash.cloudflare.com"                   target="_blank">☁️ Cloudflare</a>
+      </div>
+
+    </div><!-- /content -->
+  </div><!-- /main -->
+</div><!-- /shell -->
+
+<script>
+'use strict';
+
+// ── Auth ─────────────────────────────────────────────────
+let SECRET = localStorage.getItem('cm_admin_secret') || '';
+let revenueChart = null;
+let typeChart    = null;
+
+function authenticate() {
+  const val = document.getElementById('secret-input').value.trim();
+  if (!val) return;
+  SECRET = val;
+  localStorage.setItem('cm_admin_secret', val);
+  loadData();
+}
+
+document.getElementById('secret-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') authenticate();
+});
+
+// ── Helpers ───────────────────────────────────────────────
+function fmt(paise) {
+  const rupees = paise / 100;
+  if (rupees >= 100000) return '₹' + (rupees / 100000).toFixed(1) + 'L';
+  if (rupees >= 1000)   return '₹' + (rupees / 1000).toFixed(1)   + 'K';
+  return '₹' + rupees.toLocaleString('en-IN');
+}
+function fmtFull(paise) {
+  return '₹' + (paise / 100).toLocaleString('en-IN');
+}
+function capitalize(s) {
+  return s ? s.charAt(0).toUpperCase() + s.slice(1) : '—';
+}
+function subjectEmoji(s) {
+  return { math:'📐', science:'🔬', computing:'💻', mixed:'📚' }[s] || '📄';
+}
+
+// ── Load data ─────────────────────────────────────────────
+async function loadData() {
+  const dot = document.getElementById('status-dot');
+  const btn = document.getElementById('refresh-btn');
+  dot.classList.add('loading');
+  btn.classList.add('loading');
+  document.getElementById('auth-error').classList.remove('show');
+
+  try {
+    const res = await fetch('/api/metrics', {
+      headers: { 'x-metrics-secret': SECRET },
+    });
+
+    if (res.status === 401) {
+      document.getElementById('auth-overlay').style.display = 'flex';
+      document.getElementById('shell').style.display = 'none';
+      document.getElementById('auth-error').classList.add('show');
+      SECRET = '';
+      localStorage.removeItem('cm_admin_secret');
+      return;
+    }
+
+    if (!res.ok) throw new Error('API error ' + res.status);
+
+    const data = await res.json();
+
+    // Show shell, hide auth
+    document.getElementById('auth-overlay').style.display = 'none';
+    document.getElementById('shell').style.display = 'grid';
+
+    renderAll(data);
+
+    document.getElementById('last-refresh').textContent =
+      'Updated ' + new Date().toLocaleTimeString('en-IN', { hour:'2-digit', minute:'2-digit' });
+
+  } catch (err) {
+    console.error('[admin]', err);
+    alert('Failed to load metrics: ' + err.message);
+  } finally {
+    dot.classList.remove('loading');
+    btn.classList.remove('loading');
+  }
+}
+
+// ── Render ────────────────────────────────────────────────
+function renderAll(d) {
+  renderKPIs(d);
+  renderRevenueChart(d.daily);
+  renderTypeChart(d.byType);
+  renderTopBoosters(d.topBoosters);
+  renderTopPages(d.topPages);
+  renderBreakdown('by-subject', d.bySubject, r => ({
+    key:  subjectEmoji(r.subject) + ' ' + capitalize(r.subject),
+    val:  r.orders + ' orders',
+    rev:  fmtFull(r.revenuePaise),
+  }));
+  renderBreakdown('by-stage', d.byStage, r => ({
+    key: 'Stage ' + r.stage,
+    val: r.orders + ' orders',
+    rev: fmtFull(r.revenuePaise),
+  }));
+  renderBreakdown('by-type', d.byType, r => ({
+    key: capitalize(r.type),
+    val: r.orders + ' orders',
+    rev: fmtFull(r.revenuePaise),
+  }));
+  renderSequence(d.sequence);
+  renderFeedback(d.feedback);
+  renderBuyers(d.buyers, d.orders);
+}
+
+function renderKPIs(d) {
+  document.getElementById('kpi-total-rev').textContent    = fmtFull(d.revenue.totalPaise);
+  document.getElementById('kpi-total-orders').textContent = d.orders.total + ' orders · ' + d.buyers.total + ' buyers';
+  document.getElementById('kpi-30-rev').textContent       = fmt(d.revenue.last30Paise);
+  document.getElementById('kpi-30-orders').textContent    = d.orders.last30 + ' orders';
+  document.getElementById('kpi-7-rev').textContent        = fmt(d.revenue.last7Paise);
+  document.getElementById('kpi-7-orders').textContent     = d.orders.last7 + ' orders';
+  document.getElementById('kpi-today-rev').textContent    = fmt(d.revenue.todayPaise);
+  document.getElementById('kpi-today-sub').textContent    = d.orders.today + ' orders today';
+}
+
+function renderRevenueChart(daily) {
+  const labels = daily.map(d => {
+    const dt = new Date(d.day);
+    return dt.toLocaleDateString('en-IN', { day:'numeric', month:'short' });
+  });
+  const values = daily.map(d => d.revenuePaise / 100);
+
+  if (revenueChart) revenueChart.destroy();
+  revenueChart = new Chart(
+    document.getElementById('revenue-chart').getContext('2d'), {
+      type: 'bar',
+      data: {
+        labels,
+        datasets: [{
+          label:           'Revenue (₹)',
+          data:            values,
+          backgroundColor: 'rgba(110,71,201,0.75)',
+          borderRadius:    4,
+          borderSkipped:   false,
+        }],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { grid: { display: false }, ticks: { font: { size: 10 }, color: '#7A6A94' } },
+          y: { grid: { color: '#EAE3F5' }, ticks: {
+            font: { size: 10 }, color: '#7A6A94',
+            callback: v => v >= 1000 ? '₹' + (v/1000).toFixed(0) + 'K' : '₹' + v,
+          }},
+        },
+      },
+    }
+  );
+}
+
+function renderTypeChart(byType) {
+  const labelMap = { single:'Single', fivepack:'5-Pack', subject:'Subject', stage:'Stage' };
+  const colors   = ['#6E47C9','#F4C73E','#059669','#7A6A94'];
+  const labels   = byType.map(r => labelMap[r.type] || r.type);
+  const values   = byType.map(r => r.orders);
+
+  if (typeChart) typeChart.destroy();
+  typeChart = new Chart(
+    document.getElementById('type-chart').getContext('2d'), {
+      type: 'doughnut',
+      data: {
+        labels,
+        datasets: [{
+          data: values,
+          backgroundColor: colors,
+          borderWidth: 2,
+          borderColor: '#ffffff',
+        }],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: '68%',
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: { font: { size: 12 }, color: '#4A3760', padding: 12 },
+          },
+        },
+      },
+    }
+  );
+}
+
+function renderTopBoosters(boosters) {
+  const tbody = document.getElementById('top-boosters-body');
+  if (!boosters.length) {
+    tbody.innerHTML = '<tr><td colspan="3" class="empty">No sales yet</td></tr>';
+    return;
+  }
+  const max = boosters[0]?.units || 1;
+  tbody.innerHTML = boosters.map((b, i) => {
+    const pct = Math.round((b.units / max) * 100);
+    // Pretty-print slug: math-n1-integers-s8 → Integers (M·N1 S8)
+    const parts = b.slug.split('-');
+    const stagePart = parts[parts.length - 1].toUpperCase();
+    const name = parts.slice(2, -1).map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' ');
+    return `<tr>
+      <td class="mono">${i + 1}</td>
+      <td>
+        <div style="font-size:13px;font-weight:600;">${name}</div>
+        <div class="mono">${b.slug.split('-').slice(0,2).join('-').toUpperCase()} · ${stagePart}</div>
+      </td>
+      <td>
+        <div class="bar-cell">
+          <div class="bar-track"><div class="bar-fill" style="width:${pct}%"></div></div>
+          <span class="mono">${b.units}</span>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+function renderTopPages(pages) {
+  const tbody = document.getElementById('top-pages-body');
+  if (!pages.length) {
+    tbody.innerHTML = '<tr><td colspan="2" class="empty">No pageviews yet</td></tr>';
+    return;
+  }
+  const max = pages[0]?.views || 1;
+  tbody.innerHTML = pages.map(p => {
+    const pct = Math.round((p.views / max) * 100);
+    return `<tr>
+      <td class="mono" style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${p.path}</td>
+      <td>
+        <div class="bar-cell">
+          <div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:#F4C73E"></div></div>
+          <span class="mono">${p.views}</span>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+function renderBreakdown(id, rows, mapper) {
+  const el = document.getElementById(id);
+  if (!rows.length) { el.innerHTML = '<div class="empty">No data yet</div>'; return; }
+  el.innerHTML = rows.map(r => {
+    const m = mapper(r);
+    return `<div class="breakdown-item">
+      <div>
+        <div class="breakdown-key">${m.key}</div>
+        <div class="breakdown-rev">${m.rev}</div>
+      </div>
+      <div class="breakdown-val">${m.val}</div>
+    </div>`;
+  }).join('');
+}
+
+function renderSequence(seq) {
+  const stepLabel = ['Not sent', 'Day 2 sent', 'Day 7 sent'];
+  const el = document.getElementById('sequence-stats');
+  if (!seq.length) { el.innerHTML = '<div class="empty">No data</div>'; return; }
+  el.innerHTML = seq.map(s => `
+    <div class="stat-item">
+      <span class="stat-key">${stepLabel[s.step] || 'Step ' + s.step}</span>
+      <span class="stat-val">${s.orders}</span>
+    </div>`).join('');
+}
+
+function renderFeedback(fb) {
+  const el = document.getElementById('feedback-stats');
+  if (!fb.total) {
+    el.innerHTML = '<div class="empty">No feedback yet</div>';
+    return;
+  }
+  el.innerHTML = `
+    <div class="stat-item" style="margin-bottom:12px;">
+      <span class="stat-key">Avg rating</span>
+      <span class="stat-val">${fb.avgRating ? fb.avgRating + ' / 5' : '—'}</span>
+    </div>
+    <div class="feedback-row">
+      <div class="fb-item">
+        <div class="fb-emoji">😊</div>
+        <div class="fb-count">${fb.happy}</div>
+        <div class="fb-label">Happy</div>
+      </div>
+      <div class="fb-item">
+        <div class="fb-emoji">😐</div>
+        <div class="fb-count">${fb.neutral}</div>
+        <div class="fb-label">Neutral</div>
+      </div>
+      <div class="fb-item">
+        <div class="fb-emoji">😞</div>
+        <div class="fb-count">${fb.unhappy}</div>
+        <div class="fb-label">Unhappy</div>
+      </div>
+    </div>`;
+}
+
+function renderBuyers(buyers, orders) {
+  document.getElementById('buyers-stats').innerHTML = `
+    <div class="stat-item">
+      <span class="stat-key">Total buyers</span>
+      <span class="stat-val">${buyers.total}</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-key">New last 30d</span>
+      <span class="stat-val">${buyers.last30}</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-key">Pending orders</span>
+      <span class="stat-val">${orders.pending}</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-key">Refunded</span>
+      <span class="stat-val">${orders.refunded}</span>
+    </div>`;
+}
+
+// ── Init ─────────────────────────────────────────────────
+if (SECRET) {
+  loadData();
+} else {
+  document.getElementById('auth-overlay').style.display = 'flex';
+  document.getElementById('shell').style.display = 'none';
+}
+
+// Auto-refresh every 5 minutes
+setInterval(loadData, 5 * 60 * 1000);
+</script>
+</body>
+</html>

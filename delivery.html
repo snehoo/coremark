@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your Booster is Ready — CoreMark</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ── TOKENS ─────────────────────────────────────────────── */
+:root{
+  --ink:#2A1B3D; --ink-soft:#4A3760; --ink-muted:#7A6A94;
+  --blue:#6E47C9; --blue-deep:#5234A4; --blue-tint:rgba(110,71,201,0.10);
+  --coral:#F4C73E; --coral-soft:#FAE588;
+  --cream:#FBF8F2; --paper:#FFFFFF; --mist:#F0EBF8;
+  --border:#DDD5ED; --border-soft:#EAE3F5;
+  --green:#059669; --green-bg:rgba(5,150,105,0.08); --green-text:#065f46; --green-border:rgba(5,150,105,0.2);
+  --red:#dc2626; --red-bg:rgba(220,38,38,0.08);
+  --font-sans:'Plus Jakarta Sans',system-ui,sans-serif;
+  --font-serif:'Instrument Serif',Georgia,serif;
+  --font-mono:'JetBrains Mono',monospace;
+  --radius-sm:8px; --radius-md:14px; --radius-lg:22px;
+  --shadow:0 2px 8px rgba(42,27,61,0.06),0 16px 40px rgba(42,27,61,0.10);
+}
+*{box-sizing:border-box;} html,body{margin:0;padding:0;}
+body{font-family:var(--font-sans);color:var(--ink);background:var(--cream);-webkit-font-smoothing:antialiased;min-height:100vh;}
+a{color:inherit;text-decoration:none;}
+
+/* ── NAV ────────────────────────────────────────────────── */
+.nav-outer{background:var(--cream);border-bottom:1px solid var(--border-soft);}
+.nav{max-width:1280px;margin:0 auto;padding:18px 40px;display:flex;justify-content:space-between;align-items:center;}
+.nav-logo{display:flex;align-items:center;gap:10px;}
+.nav-logo .mark-sq{width:36px;height:36px;background:var(--ink);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;color:white;position:relative;}
+.nav-logo .mark-sq .dot{position:absolute;top:-3px;right:-3px;width:9px;height:9px;background:var(--coral);border-radius:50%;border:2px solid var(--cream);}
+.nav-logo .word{font-weight:800;font-size:20px;letter-spacing:-0.02em;}
+.nav-logo .word .acc{color:var(--blue);}
+
+/* ── PAGE ────────────────────────────────────────────────── */
+.page{max-width:640px;margin:0 auto;padding:56px 24px 100px;}
+
+/* ── LOADING ─────────────────────────────────────────────── */
+.loading-state{text-align:center;padding:80px 0;}
+.spinner{width:44px;height:44px;border:3px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 24px;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-text{color:var(--ink-muted);font-size:15px;}
+.loading-sub{color:var(--ink-muted);font-size:13px;margin-top:6px;font-family:var(--font-mono);}
+
+/* ── ERROR ───────────────────────────────────────────────── */
+.error-state{text-align:center;padding:80px 0;display:none;}
+.error-icon{font-size:52px;margin-bottom:20px;}
+.error-title{font-size:24px;font-weight:800;margin-bottom:8px;letter-spacing:-0.025em;}
+.error-msg{color:var(--ink-muted);font-size:15px;margin-bottom:32px;line-height:1.6;}
+.error-btn{display:inline-block;padding:13px 28px;background:var(--blue);color:#fff;border-radius:var(--radius-md);font-weight:700;font-size:15px;}
+.error-btn:hover{background:var(--blue-deep);}
+
+/* ── SUCCESS ─────────────────────────────────────────────── */
+.success-state{display:none;}
+
+/* hero */
+.hero{text-align:center;margin-bottom:40px;animation:fadeUp .5s ease both;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.check-ring{width:80px;height:80px;border-radius:50%;background:var(--green-bg);border:2px solid var(--green-border);display:flex;align-items:center;justify-content:center;margin:0 auto 24px;animation:popIn .5s cubic-bezier(0.175,0.885,0.32,1.275) both;}
+@keyframes popIn{from{transform:scale(0.5);opacity:0}to{transform:scale(1);opacity:1}}
+.check-mark{font-size:34px;}
+.hero-label{font-family:var(--font-mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--green);font-weight:600;margin-bottom:10px;}
+.hero-title{font-family:var(--font-serif);font-size:34px;font-style:italic;letter-spacing:-0.02em;margin-bottom:8px;color:var(--ink);}
+.hero-sub{font-size:15px;color:var(--ink-muted);line-height:1.6;}
+
+/* email confirm */
+.email-confirm{display:flex;align-items:center;gap:12px;padding:14px 18px;background:var(--green-bg);border:1px solid var(--green-border);border-radius:var(--radius-md);margin-bottom:28px;animation:fadeUp .5s .15s ease both;}
+.email-confirm-icon{font-size:20px;flex-shrink:0;}
+.email-confirm-text{font-size:13px;color:var(--green-text);line-height:1.45;}
+.email-confirm-text strong{font-weight:700;}
+
+/* download card */
+.download-card{background:var(--paper);border:1.5px solid var(--border-soft);border-radius:var(--radius-lg);padding:28px;margin-bottom:28px;box-shadow:var(--shadow);animation:fadeUp .5s .1s ease both;}
+.download-card-top{display:flex;align-items:center;gap:16px;margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid var(--border-soft);}
+.download-icon{width:52px;height:52px;border-radius:var(--radius-sm);background:var(--blue-tint);border:1px solid rgba(110,71,201,0.2);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;}
+.download-info{}
+.download-type{font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:var(--ink-muted);margin-bottom:4px;}
+.download-title{font-size:18px;font-weight:800;letter-spacing:-0.02em;}
+.download-count{font-size:13px;color:var(--ink-muted);margin-top:2px;}
+
+.download-label{font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:var(--ink-muted);margin-bottom:12px;}
+.downloads-list{display:flex;flex-direction:column;gap:8px;}
+
+.download-btn{display:flex;align-items:center;justify-content:space-between;width:100%;padding:14px 18px;background:var(--blue);color:#fff;border:none;border-radius:var(--radius-sm);font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;font-family:var(--font-sans);text-decoration:none;}
+.download-btn:hover{background:var(--blue-deep);transform:translateY(-1px);}
+.download-btn-left{display:flex;align-items:center;gap:10px;}
+.download-btn-name{font-size:14px;}
+.download-btn-arrow{font-size:16px;}
+
+/* how to use */
+.how-to{background:var(--mist);border-radius:var(--radius-lg);padding:28px;margin-bottom:28px;animation:fadeUp .5s .25s ease both;}
+.how-to-title{font-family:var(--font-mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--ink-muted);margin-bottom:20px;}
+.how-to-steps{list-style:none;padding:0;margin:0;}
+.how-to-step{display:flex;gap:16px;padding:12px 0;border-bottom:1px solid var(--border-soft);}
+.how-to-step:last-child{border-bottom:none;padding-bottom:0;}
+.step-num{width:26px;height:26px;border-radius:50%;background:var(--blue-tint);border:1px solid rgba(110,71,201,0.25);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:var(--blue);flex-shrink:0;margin-top:1px;}
+.step-content{}
+.step-title{font-size:15px;font-weight:700;margin-bottom:3px;}
+.step-desc{font-size:13px;color:var(--ink-muted);line-height:1.5;}
+
+/* upsell */
+.upsell-card{background:var(--ink);border-radius:var(--radius-lg);padding:28px;margin-bottom:28px;animation:fadeUp .5s .35s ease both;}
+.upsell-label{font-family:var(--font-mono);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--coral);margin-bottom:8px;}
+.upsell-title{font-size:20px;font-weight:800;color:white;letter-spacing:-0.025em;margin-bottom:6px;}
+.upsell-sub{font-size:14px;color:rgba(255,255,255,0.55);line-height:1.5;margin-bottom:20px;}
+.upsell-btns{display:flex;flex-direction:column;gap:8px;}
+.upsell-btn{display:block;padding:13px 20px;border-radius:var(--radius-sm);font-size:14px;font-weight:700;text-align:center;border:none;cursor:pointer;font-family:var(--font-sans);}
+.upsell-btn.primary{background:var(--coral);color:var(--ink);}
+.upsell-btn.primary:hover{background:var(--coral-soft);}
+.upsell-btn.outline{background:transparent;color:rgba(255,255,255,0.7);border:1.5px solid rgba(255,255,255,0.2);}
+.upsell-btn.outline:hover{border-color:var(--coral);color:var(--coral);}
+
+/* support */
+.support-note{font-size:13px;color:var(--ink-muted);line-height:1.7;text-align:center;animation:fadeUp .5s .4s ease both;}
+.support-note a{color:var(--blue);font-weight:600;}
+.order-id{font-family:var(--font-mono);font-size:11px;background:var(--mist);padding:2px 8px;border-radius:4px;}
+
+/* ── RESPONSIVE ─────────────────────────────────────────── */
+@media(max-width:600px){
+  .nav{padding:16px 20px;}
+  .page{padding:36px 16px 80px;}
+  .hero-title{font-size:28px;}
+  .download-card{padding:20px;}
+  .how-to{padding:20px;}
+  .upsell-card{padding:20px;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<div class="nav-outer">
+  <nav class="nav">
+    <a class="nav-logo" href="index.html">
+      <div class="mark-sq">CM<div class="dot"></div></div>
+      <div class="word">Core<span class="acc">Mark</span></div>
+    </a>
+  </nav>
+</div>
+
+<div class="page">
+
+  <!-- LOADING -->
+  <div class="loading-state" id="loading-state">
+    <div class="spinner"></div>
+    <div class="loading-text">Verifying your payment…</div>
+    <div class="loading-sub">This takes just a moment</div>
+  </div>
+
+  <!-- ERROR -->
+  <div class="error-state" id="error-state">
+    <div class="error-icon">⚠️</div>
+    <div class="error-title">Something went wrong</div>
+    <div class="error-msg" id="error-msg">We could not verify your payment. Please contact us and we'll sort it out immediately.</div>
+    <a class="error-btn" href="mailto:support@coremark.study">Email support</a>
+  </div>
+
+  <!-- SUCCESS -->
+  <div class="success-state" id="success-state">
+
+    <!-- Hero -->
+    <div class="hero">
+      <div class="check-ring"><div class="check-mark">✓</div></div>
+      <div class="hero-label">Payment confirmed</div>
+      <div class="hero-title">Your Booster is Ready</div>
+      <div class="hero-sub" id="hero-sub">Download your PDF below and start practising today.</div>
+    </div>
+
+    <!-- Email confirm -->
+    <div class="email-confirm">
+      <div class="email-confirm-icon">📧</div>
+      <div class="email-confirm-text">
+        A copy has also been sent to <strong id="delivery-email"></strong> — check your inbox (and spam, just in case).
+      </div>
+    </div>
+
+    <!-- Download card -->
+    <div class="download-card">
+      <div class="download-card-top">
+        <div class="download-icon">📄</div>
+        <div class="download-info">
+          <div class="download-type" id="dl-type">Single Booster</div>
+          <div class="download-title" id="dl-title">Integers</div>
+          <div class="download-count" id="dl-count">1 PDF · Cambridge Lower Secondary</div>
+        </div>
+      </div>
+      <div class="download-label">Download your PDF</div>
+      <div class="downloads-list" id="downloads-list">
+        <!-- buttons injected by JS -->
+      </div>
+    </div>
+
+    <!-- How to use -->
+    <div class="how-to">
+      <div class="how-to-title">How to use your booster</div>
+      <ul class="how-to-steps">
+        <li class="how-to-step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <div class="step-title">Read the Cheat Sheet first</div>
+            <div class="step-desc">Page 2 has all the key facts and formulas. Spend 5 minutes here before attempting questions.</div>
+          </div>
+        </li>
+        <li class="how-to-step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <div class="step-title">Attempt all 20 questions</div>
+            <div class="step-desc">Work through Foundation → Standard → Stretch. Don't skip ahead — each band builds on the last.</div>
+          </div>
+        </li>
+        <li class="how-to-step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <div class="step-title">Check with the worked solutions</div>
+            <div class="step-desc">Read the error flags carefully — they show the exact mistakes Cambridge examiners see most often.</div>
+          </div>
+        </li>
+        <li class="how-to-step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <div class="step-title">Use the Parent and Tutor Guide</div>
+            <div class="step-desc">The last pages give score bands, study tips, and guidance on what to focus on next.</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Upsell -->
+    <div class="upsell-card" id="upsell-card" style="display:none;">
+      <div class="upsell-label">Complete the set</div>
+      <div class="upsell-title" id="upsell-title">Get all Stage 8 Maths boosters</div>
+      <div class="upsell-sub" id="upsell-sub">Cover every topic for the year — ₹1,299 for all 16 boosters.</div>
+      <div class="upsell-btns">
+        <a class="upsell-btn primary" id="upsell-btn-subject" href="#">Get Full Subject Bundle — ₹1,299</a>
+        <a class="upsell-btn outline" id="upsell-btn-stage"   href="#">All Subjects Bundle — ₹2,499</a>
+      </div>
+    </div>
+
+    <!-- Support -->
+    <div class="support-note">
+      Questions or need a refund? Email <a href="mailto:support@coremark.study">support@coremark.study</a> — we have a 7-day no-questions-asked refund policy.<br>
+      Order ID: <span class="order-id" id="order-id-display"></span>
+    </div>
+
+  </div>
+</div>
+
+<script src="js/products.js"></script>
+<script>
+'use strict';
+
+const P = window.CM_PRODUCTS;
+
+// ── Read params ───────────────────────────────────────────
+const params    = new URLSearchParams(location.search);
+const paymentId = params.get('payment_id');
+const orderId   = params.get('order_id');
+const signature = params.get('signature');
+const orderType = params.get('type') || 'single';
+const slug      = params.get('slug') || '';
+const itemSlugs = params.get('items')
+  ? params.get('items').split(',').filter(Boolean)
+  : [];
+
+// Also check sessionStorage fallback (in case params stripped by redirect)
+const email = sessionStorage.getItem('cm_email') || '';
+const title = sessionStorage.getItem('cm_title') || 'Your Booster';
+
+function subjectLabel(s) {
+  return {math:'Mathematics',science:'Science',computing:'Computing'}[s] || s;
+}
+
+// ── Show/hide states ──────────────────────────────────────
+function showLoading() {
+  document.getElementById('loading-state').style.display = 'block';
+  document.getElementById('error-state').style.display   = 'none';
+  document.getElementById('success-state').style.display = 'none';
+}
+function showError(msg) {
+  document.getElementById('loading-state').style.display = 'none';
+  document.getElementById('error-state').style.display   = 'block';
+  document.getElementById('success-state').style.display = 'none';
+  document.getElementById('error-msg').textContent = msg
+    + (paymentId ? ' Payment ID: ' + paymentId : '');
+}
+function showSuccess() {
+  document.getElementById('loading-state').style.display = 'none';
+  document.getElementById('error-state').style.display   = 'none';
+  document.getElementById('success-state').style.display = 'block';
+}
+
+// ── Populate download buttons ─────────────────────────────
+function renderDownloads(fileUrls, orderTitle, count) {
+  document.getElementById('dl-title').textContent = orderTitle;
+  document.getElementById('dl-count').textContent = count + ' PDF' + (count > 1 ? 's' : '') + ' · Cambridge Lower Secondary';
+
+  const typeMap = { single:'Single Booster', fivepack:'5-Pack Bundle', subject:'Subject Bundle', stage:'Stage Bundle' };
+  document.getElementById('dl-type').textContent = typeMap[orderType] || 'Booster';
+
+  const list = document.getElementById('downloads-list');
+  list.innerHTML = '';
+
+  fileUrls.forEach((url, i) => {
+    const filename = url.split('/').pop()
+      .replace('cm-', '')
+      .replace(/-[a-f0-9]+\.pdf$/, '.pdf');
+
+    const a = document.createElement('a');
+    a.className   = 'download-btn';
+    a.href        = url;
+    a.target      = '_blank';
+    a.rel         = 'noopener';
+    a.download    = filename;
+    a.innerHTML   = `
+      <div class="download-btn-left">
+        <span>📄</span>
+        <span class="download-btn-name">${filename}</span>
+      </div>
+      <span class="download-btn-arrow">↓</span>`;
+    list.appendChild(a);
+  });
+}
+
+// ── Populate upsell ───────────────────────────────────────
+function renderUpsell(subject, stage) {
+  if (!subject || !stage || orderType !== 'single') return;
+
+  const subjSlug  = P.subjectBundleSlug(subject, stage);
+  const stageSlug = P.stageBundleSlug(stage);
+  const subjBundle = P.bundles[subjSlug];
+
+  if (!subjBundle) return;
+
+  document.getElementById('upsell-title').textContent =
+    'Get all ' + subjBundle.itemSlugs.length + ' Stage ' + stage + ' ' + subjectLabel(subject) + ' boosters';
+  document.getElementById('upsell-sub').textContent =
+    'Cover every topic for the year — ₹1,299 for all ' + subjBundle.itemSlugs.length + ' boosters.';
+  document.getElementById('upsell-btn-subject').href =
+    'checkout.html?type=subject&slug=' + subjSlug;
+  document.getElementById('upsell-btn-stage').href =
+    'checkout.html?type=stage&slug=' + stageSlug;
+  document.getElementById('upsell-card').style.display = 'block';
+}
+
+// ── Main: verify payment ──────────────────────────────────
+async function verifyAndDeliver() {
+  showLoading();
+
+  if (!paymentId || !orderId) {
+    showError('Missing payment information.');
+    return;
+  }
+
+  try {
+    const res = await fetch('/api/verify-payment', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({
+        paymentId,
+        razorpayOrderId: orderId,
+        signature,
+        orderType,
+        primarySlug: slug,
+        itemSlugs,
+        buyerEmail: email,
+      }),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok || !data.ok) {
+      showError(data.error || 'Payment verification failed. Please contact support.');
+      return;
+    }
+
+    // Populate delivery email
+    const buyerEmail = data.email || email;
+    if (buyerEmail) {
+      document.getElementById('delivery-email').textContent = buyerEmail;
+    } else {
+      document.getElementById('email-confirm').style.display = 'none';
+    }
+
+    // Order ID
+    document.getElementById('order-id-display').textContent = data.orderId || orderId;
+    document.title = 'Download Ready — ' + (data.orderTitle || title) + ' · CoreMark';
+    document.getElementById('hero-sub').textContent =
+      'Download your PDF' + (data.fileUrls.length > 1 ? 's' : '') + ' below and start practising today.';
+
+    // Render downloads
+    renderDownloads(data.fileUrls, data.orderTitle || title, data.fileUrls.length);
+
+    // Upsell (single booster only)
+    if (data.subject && data.stage) {
+      renderUpsell(data.subject, data.stage);
+    }
+
+    showSuccess();
+
+    // Fire send-email (fire-and-forget — don't block UI)
+    if (buyerEmail) {
+      fetch('/api/send-email', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({
+          to:         buyerEmail,
+          orderTitle: data.orderTitle || title,
+          orderType,
+          fileUrls:   data.fileUrls,
+          orderId:    data.orderId || orderId,
+        }),
+      }).catch(err => console.warn('[send-email]', err));
+    }
+
+  } catch (err) {
+    console.error('[delivery]', err);
+    showError('Something went wrong verifying your payment. Please email support@coremark.study with your payment ID.');
+  }
+}
+
+// ── Init ──────────────────────────────────────────────────
+verifyAndDeliver();
+</script>
+</body>
+</html>
