@@ -9,7 +9,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-/* ── TOKENS ─────────────────────────────────────────────── */
 :root{
   --ink:#2A1B3D; --ink-soft:#4A3760; --ink-muted:#7A6A94;
   --blue:#6E47C9; --blue-deep:#5234A4; --blue-tint:rgba(110,71,201,0.10);
@@ -21,14 +20,14 @@
   --font-sans:'Plus Jakarta Sans',system-ui,sans-serif;
   --font-serif:'Instrument Serif',Georgia,serif;
   --font-mono:'JetBrains Mono',monospace;
-  --radius-sm:8px; --radius-md:14px; --radius-lg:22px; --radius-xl:32px;
+  --radius-sm:8px; --radius-md:14px; --radius-lg:22px;
   --shadow:0 2px 8px rgba(42,27,61,0.06),0 16px 40px rgba(42,27,61,0.10);
 }
 *{box-sizing:border-box;} html,body{margin:0;padding:0;}
 body{font-family:var(--font-sans);color:var(--ink);background:var(--cream);-webkit-font-smoothing:antialiased;min-height:100vh;}
 a{color:inherit;text-decoration:none;}
 
-/* ── NAV ────────────────────────────────────────────────── */
+/* NAV */
 .nav-outer{background:var(--cream);border-bottom:1px solid var(--border-soft);position:sticky;top:0;z-index:50;}
 .nav{max-width:1280px;margin:0 auto;padding:18px 40px;display:flex;justify-content:space-between;align-items:center;}
 .nav-logo{display:flex;align-items:center;gap:10px;}
@@ -39,46 +38,62 @@ a{color:inherit;text-decoration:none;}
 .nav-back{font-size:14px;font-weight:600;color:var(--ink-muted);display:flex;align-items:center;gap:6px;}
 .nav-back:hover{color:var(--ink);}
 
-/* ── PAGE LAYOUT ─────────────────────────────────────────── */
-.page-wrap{max-width:960px;margin:0 auto;padding:48px 24px 100px;display:grid;grid-template-columns:400px 1fr;gap:40px;align-items:start;}
+/* LAYOUT */
+.page-wrap{max-width:960px;margin:0 auto;padding:48px 24px 100px;display:grid;grid-template-columns:420px 1fr;gap:40px;align-items:start;}
 
-/* ── LEFT: ORDER SUMMARY ─────────────────────────────────── */
+/* LEFT PANEL */
 .order-panel{position:sticky;top:90px;}
 .order-card{background:var(--ink);border-radius:var(--radius-lg);padding:32px;color:white;}
 
 .oc-stage{font-family:var(--font-mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--coral);margin-bottom:10px;}
 .oc-title{font-size:22px;font-weight:800;letter-spacing:-0.025em;line-height:1.2;margin-bottom:6px;}
-.oc-sub{font-size:14px;color:rgba(255,255,255,0.5);margin-bottom:28px;line-height:1.5;}
+.oc-sub{font-size:14px;color:rgba(255,255,255,0.5);margin-bottom:24px;line-height:1.5;}
 
-.oc-price-row{display:flex;align-items:baseline;gap:12px;margin-bottom:8px;padding-bottom:24px;border-bottom:1px solid rgba(255,255,255,0.1);}
-.oc-price{font-family:var(--font-serif);font-size:64px;font-style:italic;line-height:1;color:var(--coral-soft);}
+.oc-price-row{display:flex;align-items:baseline;gap:12px;margin-bottom:8px;padding-bottom:20px;border-bottom:1px solid rgba(255,255,255,0.1);}
+.oc-price{font-family:var(--font-serif);font-size:60px;font-style:italic;line-height:1;color:var(--coral-soft);}
 .oc-price-meta{display:flex;flex-direction:column;gap:3px;}
 .oc-per{font-size:13px;color:rgba(255,255,255,0.45);}
 .oc-was{font-size:13px;color:rgba(255,255,255,0.35);text-decoration:line-through;}
 .oc-save{font-family:var(--font-mono);font-size:11px;background:rgba(244,199,62,0.2);color:var(--coral);border-radius:999px;padding:3px 10px;letter-spacing:0.06em;display:inline-block;}
 
-/* items list for multi-booster orders */
-.oc-items{margin:20px 0 0;display:flex;flex-direction:column;gap:8px;}
+.oc-items{margin:16px 0 0;display:flex;flex-direction:column;gap:7px;}
 .oc-item{display:flex;align-items:center;gap:10px;font-size:13px;color:rgba(255,255,255,0.7);}
 .oc-item-dot{width:6px;height:6px;border-radius:50%;background:var(--coral);flex-shrink:0;}
 .oc-item-more{font-size:12px;color:rgba(255,255,255,0.4);margin-top:4px;padding-left:16px;}
 
-.oc-includes{margin-top:24px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.1);}
-.oc-includes-label{font-family:var(--font-mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:12px;}
-.oc-include{display:flex;align-items:flex-start;gap:10px;font-size:13px;color:rgba(255,255,255,0.65);line-height:1.45;margin-bottom:8px;}
+/* upsell nudge — lives in left panel now */
+.oc-upsell{margin-top:20px;padding:16px 18px;background:var(--coral-glow);border:1.5px solid rgba(244,199,62,0.35);border-radius:var(--radius-md);display:none;}
+.oc-upsell-pill{font-family:var(--font-mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;background:rgba(244,199,62,0.3);color:rgba(255,255,255,0.8);border-radius:999px;padding:3px 9px;display:inline-block;margin-bottom:8px;}
+.oc-upsell-title{font-size:14px;font-weight:700;color:white;margin-bottom:4px;}
+.oc-upsell-sub{font-size:13px;color:rgba(255,255,255,0.6);line-height:1.5;margin-bottom:12px;}
+.oc-upsell-btn{width:100%;padding:10px 16px;background:var(--coral);color:var(--ink);border:none;border-radius:var(--radius-sm);font-family:var(--font-sans);font-size:13px;font-weight:700;cursor:pointer;margin-bottom:7px;}
+.oc-upsell-btn:hover{background:var(--coral-soft);}
+.oc-upsell-skip{text-align:center;font-size:12px;color:rgba(255,255,255,0.45);cursor:pointer;}
+.oc-upsell-skip:hover{color:rgba(255,255,255,0.7);}
+
+/* 5-pack nudge — shown when fivepack type but fewer than 5 selected */
+.oc-fivepack-nudge{margin-top:20px;padding:16px 18px;background:rgba(110,71,201,0.25);border:1.5px solid rgba(110,71,201,0.4);border-radius:var(--radius-md);display:none;}
+.oc-fn-title{font-size:14px;font-weight:700;color:white;margin-bottom:6px;}
+.oc-fn-sub{font-size:13px;color:rgba(255,255,255,0.65);line-height:1.5;margin-bottom:12px;}
+.oc-fn-progress{display:flex;gap:5px;margin-bottom:10px;}
+.oc-fn-dot{flex:1;height:5px;border-radius:999px;background:rgba(255,255,255,0.15);}
+.oc-fn-dot.filled{background:var(--coral);}
+.oc-fn-back{width:100%;padding:10px 16px;background:rgba(255,255,255,0.12);color:white;border:1.5px solid rgba(255,255,255,0.2);border-radius:var(--radius-sm);font-family:var(--font-sans);font-size:13px;font-weight:700;cursor:pointer;}
+.oc-fn-back:hover{background:rgba(255,255,255,0.2);}
+
+.oc-includes{margin-top:20px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.1);}
+.oc-includes-label{font-family:var(--font-mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:10px;}
+.oc-include{display:flex;align-items:flex-start;gap:10px;font-size:13px;color:rgba(255,255,255,0.65);line-height:1.45;margin-bottom:7px;}
 .oc-include-check{color:var(--coral);flex-shrink:0;font-weight:700;}
+.oc-guarantee{display:flex;align-items:center;gap:8px;padding:12px 14px;background:rgba(5,150,105,0.15);border-radius:var(--radius-sm);font-size:13px;color:#6ee7b7;font-weight:500;margin-top:16px;}
 
-.oc-guarantee{display:flex;align-items:center;gap:8px;padding:12px 14px;background:rgba(5,150,105,0.15);border-radius:var(--radius-sm);font-size:13px;color:#6ee7b7;font-weight:500;margin-top:20px;}
-
-/* ── RIGHT: FORM ─────────────────────────────────────────── */
+/* RIGHT: FORM — email only */
 .form-card{background:var(--paper);border:1.5px solid var(--border-soft);border-radius:var(--radius-lg);padding:40px;box-shadow:var(--shadow);}
-
 .form-eyebrow{font-family:var(--font-mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--blue);margin-bottom:10px;}
 .form-heading{font-family:var(--font-serif);font-size:36px;font-style:italic;line-height:1.1;letter-spacing:-0.02em;margin-bottom:6px;}
 .form-heading strong{font-family:var(--font-sans);font-style:normal;font-weight:800;}
 .form-sub{font-size:15px;color:var(--ink-muted);margin-bottom:32px;line-height:1.6;}
 
-/* fields */
 .field-group{margin-bottom:20px;}
 .field-label{display:block;font-size:14px;font-weight:700;color:var(--ink);margin-bottom:8px;}
 .field-label span{font-weight:400;color:var(--ink-muted);}
@@ -86,11 +101,9 @@ a{color:inherit;text-decoration:none;}
 .field-input::placeholder{color:var(--ink-muted);}
 .field-input:focus{border-color:var(--blue);box-shadow:0 0 0 3px var(--blue-tint);}
 .field-input.error{border-color:var(--red);box-shadow:0 0 0 3px var(--red-bg);}
-.field-hint{font-size:13px;color:var(--ink-muted);margin-top:6px;}
 .error-msg{font-size:13px;color:var(--red);margin-top:6px;display:none;}
 .error-msg.show{display:block;}
 
-/* consent */
 .consent-row{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;background:var(--mist);border-radius:var(--radius-sm);margin-bottom:24px;cursor:pointer;user-select:none;}
 .consent-box{width:20px;height:20px;border-radius:5px;border:1.5px solid var(--border);background:var(--paper);flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;transition:all .15s;}
 .consent-box.checked{background:var(--blue);border-color:var(--blue);}
@@ -98,29 +111,27 @@ a{color:inherit;text-decoration:none;}
 .consent-text{font-size:13px;color:var(--ink-muted);line-height:1.55;}
 .consent-text a{color:var(--blue);}
 
-/* upsell nudge — shown when single booster, suggests subject bundle */
-.upsell-nudge{background:var(--coral-glow);border:1.5px solid rgba(244,199,62,0.35);border-radius:var(--radius-md);padding:16px 18px;margin-bottom:24px;display:none;}
-.un-pill{font-family:var(--font-mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;background:rgba(244,199,62,0.3);color:var(--ink-soft);border-radius:999px;padding:3px 9px;display:inline-block;margin-bottom:8px;}
-.un-title{font-size:15px;font-weight:700;color:var(--ink);margin-bottom:4px;}
-.un-sub{font-size:13px;color:var(--ink-muted);line-height:1.5;margin-bottom:12px;}
-.un-btn{width:100%;padding:11px 16px;background:var(--ink);color:white;border:none;border-radius:var(--radius-sm);font-family:var(--font-sans);font-size:14px;font-weight:700;cursor:pointer;margin-bottom:8px;}
-.un-btn:hover{background:var(--blue);}
-.un-skip{text-align:center;font-size:12px;color:var(--ink-muted);cursor:pointer;}
-.un-skip:hover{color:var(--ink);}
+/* 5-pack wall — shown instead of pay button when incomplete */
+.fivepack-wall{background:var(--red-bg);border:1.5px solid rgba(220,38,38,0.2);border-radius:var(--radius-md);padding:18px 20px;margin-bottom:16px;display:none;}
+.fw-title{font-size:15px;font-weight:700;color:var(--red);margin-bottom:6px;}
+.fw-sub{font-size:13px;color:var(--ink-muted);line-height:1.5;margin-bottom:14px;}
+.fw-progress{display:flex;gap:6px;margin-bottom:14px;}
+.fw-dot{flex:1;height:6px;border-radius:999px;background:var(--mist);}
+.fw-dot.filled{background:var(--blue);}
+.fw-back{width:100%;padding:12px 16px;background:var(--ink);color:white;border:none;border-radius:var(--radius-sm);font-family:var(--font-sans);font-size:14px;font-weight:700;cursor:pointer;}
+.fw-back:hover{background:var(--blue);}
 
-/* pay button */
 .pay-btn{width:100%;padding:17px 24px;background:var(--blue);color:#fff;border:none;border-radius:var(--radius-md);font-family:var(--font-sans);font-size:17px;font-weight:800;cursor:pointer;transition:all .18s;display:flex;align-items:center;justify-content:center;gap:10px;letter-spacing:-0.01em;margin-bottom:16px;}
 .pay-btn:hover:not(:disabled){background:var(--blue-deep);transform:translateY(-1px);box-shadow:0 8px 28px -8px rgba(110,71,201,0.45);}
-.pay-btn:active{transform:translateY(0);}
-.pay-btn:disabled{opacity:.45;cursor:not-allowed;transform:none;}
+.pay-btn:disabled{opacity:.45;cursor:not-allowed;}
 .btn-spinner{width:18px;height:18px;border:2.5px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0;display:none;}
 @keyframes spin{to{transform:rotate(360deg)}}
-
-/* footer note */
 .pay-footer{display:flex;align-items:center;justify-content:center;gap:6px;font-size:12px;color:var(--ink-muted);}
 .pay-footer .rzp-badge{font-weight:700;font-size:11px;background:var(--mist);padding:3px 8px;border-radius:5px;font-family:var(--font-mono);}
 
-/* ── SUCCESS OVERLAY ─────────────────────────────────────── */
+.error-banner{background:var(--red-bg);border:1px solid rgba(220,38,38,0.2);border-radius:var(--radius-sm);padding:14px 16px;font-size:14px;color:var(--red);margin-bottom:20px;display:none;}
+.error-banner.show{display:block;}
+
 .success-overlay{display:none;position:fixed;inset:0;background:var(--cream);z-index:999;align-items:center;justify-content:center;flex-direction:column;gap:16px;}
 .success-overlay.show{display:flex;}
 .success-icon{width:72px;height:72px;border-radius:50%;background:var(--blue-tint);display:flex;align-items:center;justify-content:center;font-size:32px;animation:popIn .4s cubic-bezier(0.175,0.885,0.32,1.275);}
@@ -128,23 +139,17 @@ a{color:inherit;text-decoration:none;}
 .success-msg{font-size:18px;font-weight:700;color:var(--ink);}
 .success-sub{font-size:14px;color:var(--ink-muted);}
 
-/* ── ERROR BANNER ────────────────────────────────────────── */
-.error-banner{background:var(--red-bg);border:1px solid rgba(220,38,38,0.2);border-radius:var(--radius-sm);padding:14px 16px;font-size:14px;color:var(--red);margin-bottom:20px;display:none;}
-.error-banner.show{display:block;}
-
-/* ── RESPONSIVE ─────────────────────────────────────────── */
 @media(max-width:780px){
   .nav{padding:16px 20px;}
   .page-wrap{grid-template-columns:1fr;gap:24px;padding:24px 16px 80px;}
   .order-panel{position:static;}
   .form-card{padding:28px 20px;}
-  .oc-price{font-size:52px;}
+  .oc-price{font-size:48px;}
 }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
 <div class="nav-outer">
   <nav class="nav">
     <a class="nav-logo" href="index.html">
@@ -155,34 +160,49 @@ a{color:inherit;text-decoration:none;}
   </nav>
 </div>
 
-<!-- SUCCESS OVERLAY -->
 <div class="success-overlay" id="success-overlay">
   <div class="success-icon">🎓</div>
   <div class="success-msg">Payment confirmed</div>
   <div class="success-sub">Taking you to your download…</div>
 </div>
 
-<!-- PAGE -->
 <div class="page-wrap">
 
-  <!-- LEFT: ORDER SUMMARY -->
+  <!-- LEFT: ORDER SUMMARY + UPSELL -->
   <div class="order-panel">
     <div class="order-card">
       <div class="oc-stage" id="oc-stage">Mathematics · Stage 8</div>
       <div class="oc-title" id="oc-title">Integers</div>
-      <div class="oc-sub" id="oc-sub">Single booster · Instant PDF download</div>
+      <div class="oc-sub"   id="oc-sub">Single booster · Instant PDF download</div>
 
       <div class="oc-price-row">
         <div class="oc-price" id="oc-price">₹249</div>
         <div class="oc-price-meta">
-          <div class="oc-per" id="oc-per">one-time payment</div>
+          <div class="oc-per"                          >one-time payment</div>
           <div class="oc-was" id="oc-was" style="display:none;"></div>
           <div class="oc-save" id="oc-save" style="display:none;"></div>
         </div>
       </div>
 
-      <!-- items list — shown for multi-booster orders -->
+      <!-- multi-booster item list -->
       <div class="oc-items" id="oc-items" style="display:none;"></div>
+
+      <!-- upsell nudge (single → subject bundle) -->
+      <div class="oc-upsell" id="oc-upsell">
+        <div class="oc-upsell-pill">Better value</div>
+        <div class="oc-upsell-title" id="oc-upsell-title"></div>
+        <div class="oc-upsell-sub"   id="oc-upsell-sub"></div>
+        <button class="oc-upsell-btn" onclick="switchToBundle()">Switch to Full Bundle →</button>
+        <div class="oc-upsell-skip"  onclick="dismissUpsell()">No thanks, just the one</div>
+      </div>
+
+      <!-- 5-pack progress nudge (shown from first selection, <5 items) -->
+      <div class="oc-fivepack-nudge" id="oc-fn">
+        <div class="oc-fn-title" id="oc-fn-title">Add more to unlock the 5-pack price</div>
+        <div class="oc-fn-progress" id="oc-fn-progress"></div>
+        <div class="oc-fn-sub" id="oc-fn-sub">Select 5 boosters for ₹799 — ₹160 per topic</div>
+        <button class="oc-fn-back" onclick="goBack()">← Go back and add more</button>
+      </div>
 
       <div class="oc-includes">
         <div class="oc-includes-label">What's included</div>
@@ -200,33 +220,19 @@ a{color:inherit;text-decoration:none;}
     </div>
   </div>
 
-  <!-- RIGHT: FORM -->
+  <!-- RIGHT: EMAIL FORM ONLY -->
   <div class="form-card">
 
     <div class="error-banner" id="error-banner"></div>
 
     <div class="form-eyebrow">Secure checkout</div>
     <div class="form-heading">Almost <strong>there</strong></div>
-    <div class="form-sub">Enter your email and we'll send your PDF booster there instantly after payment.</div>
-
-    <!-- upsell nudge — only for single booster -->
-    <div class="upsell-nudge" id="upsell-nudge">
-      <div class="un-pill">Better value</div>
-      <div class="un-title" id="un-title">Get all 16 Stage 8 Maths boosters</div>
-      <div class="un-sub" id="un-sub">Complete topic coverage for ₹1,299 instead of ₹249 for just one.</div>
-      <button class="un-btn" id="un-btn" onclick="switchToBundle()">Switch to Full Bundle →</button>
-      <div class="un-skip" onclick="dismissNudge()">No thanks, just the one booster</div>
-    </div>
+    <div class="form-sub" id="form-sub">Enter your email and we'll send your PDF booster there instantly after payment.</div>
 
     <div class="field-group">
       <label class="field-label" for="email-input">Email address <span>(PDF sent here)</span></label>
       <input class="field-input" type="email" id="email-input" placeholder="parent@example.com" autocomplete="email">
       <div class="error-msg" id="email-error">Please enter a valid email address.</div>
-    </div>
-
-    <div class="field-group">
-      <label class="field-label" for="name-input">Your name <span>(optional)</span></label>
-      <input class="field-input" type="text" id="name-input" placeholder="e.g. Priya Sharma" autocomplete="name">
     </div>
 
     <div class="consent-row" onclick="toggleConsent()">
@@ -238,6 +244,14 @@ a{color:inherit;text-decoration:none;}
       </div>
     </div>
 
+    <!-- 5-pack wall — shown instead of pay btn when fivepack but < 5 items -->
+    <div class="fivepack-wall" id="fivepack-wall">
+      <div class="fw-title" id="fw-title">You need 5 boosters for the 5-pack</div>
+      <div class="fw-sub"   id="fw-sub">Go back and pick more topics to unlock the ₹799 bundle price.</div>
+      <div class="fw-progress" id="fw-progress"></div>
+      <button class="fw-back" onclick="goBack()">← Go back and add more topics</button>
+    </div>
+
     <button class="pay-btn" id="pay-btn" onclick="handlePay()" disabled>
       <div class="btn-spinner" id="btn-spinner"></div>
       <span id="btn-text">Pay </span><span id="btn-amount">₹249</span>
@@ -246,74 +260,78 @@ a{color:inherit;text-decoration:none;}
     <div class="pay-footer">
       <span>Secured by</span>
       <span class="rzp-badge">Razorpay</span>
-      <span>· All major cards, UPI, netbanking</span>
+      <span>· Cards, UPI, netbanking</span>
     </div>
 
   </div>
 </div>
 
-<!-- Razorpay SDK -->
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-<!-- Products data -->
 <script src="js/products.js"></script>
-
 <script>
 'use strict';
 
-// ── Read URL params ───────────────────────────────────────
-const params     = new URLSearchParams(location.search);
-const orderType  = params.get('type') || 'single';   // single|fivepack|subject|stage
-const slug       = params.get('slug') || '';          // primary slug
-const itemSlugs  = params.get('items')
-  ? params.get('items').split(',').filter(Boolean)
-  : [];
-const stage      = parseInt(params.get('stage')) || null;
-const subject    = params.get('subject') || null;
+const params    = new URLSearchParams(location.search);
+const orderType = params.get('type') || 'single';
+const slug      = params.get('slug') || '';
+const itemSlugs = params.get('items') ? params.get('items').split(',').filter(Boolean) : [];
+const P         = window.CM_PRODUCTS;
 
-const P = window.CM_PRODUCTS;
+// Is this a fivepack with fewer than 5 items?
+const isIncompleteFivepack = orderType === 'fivepack' && itemSlugs.length > 0 && itemSlugs.length < 5;
+const isFivepack           = orderType === 'fivepack' && itemSlugs.length === 5;
 
-// ── Resolve order data ────────────────────────────────────
-let orderData = null; // populated by resolveOrder()
+let orderData = null;
+
+function subjectLabel(s) {
+  return { math:'Mathematics', science:'Science', computing:'Computing', all:'All Subjects' }[s] || s;
+}
+function formatPrice(p) {
+  return '₹' + (p / 100).toLocaleString('en-IN');
+}
 
 function resolveOrder() {
   if (orderType === 'single' && slug) {
     const b = P.getBooster(slug);
     if (!b) return null;
     return {
-      type:       'single',
-      title:      b.name,
-      stage:      b.stage,
-      subject:    b.subject,
+      type:'single', title:b.name, stage:b.stage, subject:b.subject,
       stageLabel: subjectLabel(b.subject) + ' · Stage ' + b.stage,
-      sub:        b.topicCode + ' · Single booster · Instant PDF download',
-      pricePaise: b.pricePaise,
-      wasLabel:   null,
-      saveLabel:  null,
-      items:      [b],
-      primarySlug: slug,
-      itemSlugs:  [slug],
+      sub: b.topicCode + ' · Single booster · Instant PDF download',
+      pricePaise:b.pricePaise, wasLabel:null, saveLabel:null,
+      items:[b], primarySlug:slug, itemSlugs:[slug],
       bundleSlug: P.subjectBundleSlug(b.subject, b.stage),
     };
   }
 
-  if (orderType === 'fivepack' && itemSlugs.length === 5) {
+  if (isFivepack) {
     const boosters = itemSlugs.map(s => P.getBooster(s)).filter(Boolean);
     if (boosters.length !== 5) return null;
     const b0 = boosters[0];
     return {
-      type:       'fivepack',
-      title:      subjectLabel(b0.subject) + ' 5-Pack',
-      stage:      b0.stage,
-      subject:    b0.subject,
+      type:'fivepack', title: subjectLabel(b0.subject) + ' 5-Pack',
+      stage:b0.stage, subject:b0.subject,
       stageLabel: subjectLabel(b0.subject) + ' · Stage ' + b0.stage,
-      sub:        '5 boosters · Your selection · Instant PDF download',
+      sub:'5 boosters · Your selection · Instant PDF download',
+      pricePaise:79900, wasLabel:'₹1,245 if bought individually', saveLabel:'Save ₹446',
+      items:boosters, primarySlug: P.fivepackSlug(b0.subject, b0.stage),
+      itemSlugs, bundleSlug:null,
+    };
+  }
+
+  if (isIncompleteFivepack) {
+    // Resolve partial — for display only, pay button will be hidden
+    const boosters = itemSlugs.map(s => P.getBooster(s)).filter(Boolean);
+    const b0 = boosters[0];
+    return {
+      type:'fivepack_incomplete',
+      title: subjectLabel(b0?.subject) + ' 5-Pack — Incomplete',
+      stage: b0?.stage, subject: b0?.subject,
+      stageLabel: subjectLabel(b0?.subject) + ' · Stage ' + b0?.stage,
+      sub: itemSlugs.length + ' of 5 boosters selected',
       pricePaise: 79900,
-      wasLabel:   '₹1,245 if bought individually',
-      saveLabel:  'Save ₹446',
-      items:      boosters,
-      primarySlug: P.fivepackSlug(b0.subject, b0.stage),
-      itemSlugs:  itemSlugs,
-      bundleSlug: null,
+      wasLabel:null, saveLabel:null,
+      items: boosters, primarySlug: null, itemSlugs, bundleSlug:null,
     };
   }
 
@@ -324,19 +342,14 @@ function resolveOrder() {
     const fullPrice = boosters.length * 24900;
     const save = fullPrice - bundle.pricePaise;
     return {
-      type:       'subject',
-      title:      'Complete ' + subjectLabel(bundle.subject) + ' Stage ' + bundle.stage,
-      stage:      bundle.stage,
-      subject:    bundle.subject,
+      type:'subject', title:'Complete ' + subjectLabel(bundle.subject) + ' Stage ' + bundle.stage,
+      stage:bundle.stage, subject:bundle.subject,
       stageLabel: subjectLabel(bundle.subject) + ' · Stage ' + bundle.stage,
-      sub:        boosters.length + ' boosters · Full subject coverage · Instant PDF download',
-      pricePaise: bundle.pricePaise,
-      wasLabel:   '₹' + (fullPrice/100).toLocaleString('en-IN') + ' individually',
-      saveLabel:  'Save ₹' + (save/100).toLocaleString('en-IN'),
-      items:      boosters,
-      primarySlug: slug,
-      itemSlugs:  bundle.itemSlugs,
-      bundleSlug: null,
+      sub: boosters.length + ' boosters · Full subject coverage · Instant PDF download',
+      pricePaise:bundle.pricePaise,
+      wasLabel: formatPrice(fullPrice) + ' individually',
+      saveLabel: 'Save ' + formatPrice(save),
+      items:boosters, primarySlug:slug, itemSlugs:bundle.itemSlugs, bundleSlug:null,
     };
   }
 
@@ -347,52 +360,51 @@ function resolveOrder() {
     const fullPrice = boosters.length * 24900;
     const save = fullPrice - bundle.pricePaise;
     return {
-      type:       'stage',
-      title:      'Everything · Stage ' + bundle.stage,
-      stage:      bundle.stage,
-      subject:    'all',
-      stageLabel: 'All Subjects · Stage ' + bundle.stage,
-      sub:        boosters.length + ' boosters · Maths, Science and Computing · Instant PDF download',
-      pricePaise: bundle.pricePaise,
-      wasLabel:   '₹' + (fullPrice/100).toLocaleString('en-IN') + ' individually',
-      saveLabel:  'Save ₹' + (save/100).toLocaleString('en-IN'),
-      items:      boosters,
-      primarySlug: slug,
-      itemSlugs:  bundle.itemSlugs,
-      bundleSlug: null,
+      type:'stage', title:'Everything · Stage ' + bundle.stage,
+      stage:bundle.stage, subject:'all',
+      stageLabel:'All Subjects · Stage ' + bundle.stage,
+      sub: boosters.length + ' boosters · Maths, Science and Computing · Instant PDF download',
+      pricePaise:bundle.pricePaise,
+      wasLabel: formatPrice(fullPrice) + ' individually',
+      saveLabel: 'Save ' + formatPrice(save),
+      items:boosters, primarySlug:slug, itemSlugs:bundle.itemSlugs, bundleSlug:null,
     };
   }
 
   return null;
 }
 
-function subjectLabel(subject) {
-  return { math:'Mathematics', science:'Science', computing:'Computing', all:'All Subjects' }[subject] || subject;
+function buildProgressDots(containerId, filled, total) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+  el.innerHTML = '';
+  for (let i = 0; i < total; i++) {
+    const d = document.createElement('div');
+    d.className = el.className.includes('fw-') ? 'fw-dot' : 'oc-fn-dot';
+    if (i < filled) d.classList.add('filled');
+    el.appendChild(d);
+  }
 }
 
-function formatPrice(paise) {
-  return '₹' + (paise / 100).toLocaleString('en-IN');
-}
-
-// ── Populate UI ───────────────────────────────────────────
 function populateUI() {
   orderData = resolveOrder();
 
+  // Back link
+  const backMap = { math:'math.html', science:'science.html', computing:'computing.html', all:'index.html' };
+  const subj = orderData?.subject || (itemSlugs[0] || '').split('-')[0];
+  document.getElementById('back-link').href = backMap[subj] || 'index.html';
+
   if (!orderData) {
-    showError('Could not find the product you were looking for. Please go back and try again.');
-    document.getElementById('pay-btn').disabled = true;
+    showError('Could not find the product. Please go back and try again.');
+    document.getElementById('pay-btn').style.display = 'none';
     return;
   }
 
-  // Back link
-  const backMap = { math:'math.html', science:'science.html', computing:'computing.html', all:'index.html' };
-  document.getElementById('back-link').href = backMap[orderData.subject] || 'index.html';
-
-  // Order card
-  document.getElementById('oc-stage').textContent  = orderData.stageLabel;
-  document.getElementById('oc-title').textContent  = orderData.title;
-  document.getElementById('oc-sub').textContent    = orderData.sub;
-  document.getElementById('oc-price').textContent  = formatPrice(orderData.pricePaise);
+  // Left panel
+  document.getElementById('oc-stage').textContent = orderData.stageLabel;
+  document.getElementById('oc-title').textContent = orderData.title;
+  document.getElementById('oc-sub').textContent   = orderData.sub;
+  document.getElementById('oc-price').textContent = formatPrice(orderData.pricePaise);
   document.getElementById('btn-amount').textContent = formatPrice(orderData.pricePaise);
   document.title = 'Checkout — ' + orderData.title + ' · CoreMark';
 
@@ -405,53 +417,99 @@ function populateUI() {
     document.getElementById('oc-save').style.display = 'inline-block';
   }
 
-  // Items list (multi-booster)
+  // Items list (multi)
   if (orderData.items.length > 1) {
     const container = document.getElementById('oc-items');
     container.style.display = 'flex';
-    const show = orderData.items.slice(0, 5);
-    show.forEach(b => {
+    orderData.items.slice(0, 6).forEach(b => {
       const el = document.createElement('div');
       el.className = 'oc-item';
       el.innerHTML = `<div class="oc-item-dot"></div>${b.topicCode} — ${b.name}`;
       container.appendChild(el);
     });
-    if (orderData.items.length > 5) {
+    if (orderData.items.length > 6) {
       const more = document.createElement('div');
       more.className = 'oc-item-more';
-      more.textContent = '+ ' + (orderData.items.length - 5) + ' more boosters';
+      more.textContent = '+ ' + (orderData.items.length - 6) + ' more boosters';
       container.appendChild(more);
     }
   }
 
-  // Upsell nudge — only for single booster, suggest full subject bundle
+  // ── Upsell nudge (single only) — lives in left panel ──
   if (orderData.type === 'single') {
     const bundle = P.bundles[orderData.bundleSlug];
     if (bundle) {
-      const count = bundle.itemSlugs.length;
-      document.getElementById('un-title').textContent =
-        'Get all ' + count + ' Stage ' + orderData.stage + ' ' + subjectLabel(orderData.subject) + ' boosters';
-      document.getElementById('un-sub').textContent =
+      document.getElementById('oc-upsell-title').textContent =
+        'Get all ' + bundle.itemSlugs.length + ' Stage ' + orderData.stage + ' ' + subjectLabel(orderData.subject) + ' boosters';
+      document.getElementById('oc-upsell-sub').textContent =
         'Complete topic coverage for ₹1,299 instead of ₹249 for just this one.';
-      document.getElementById('upsell-nudge').style.display = 'block';
+      document.getElementById('oc-upsell').style.display = 'block';
     }
+    document.getElementById('form-sub').textContent =
+      'Enter your email and we\'ll send your PDF booster there instantly after payment.';
+  }
+
+  // ── 5-pack incomplete — show progress + wall ──
+  if (orderData.type === 'fivepack_incomplete') {
+    const count = itemSlugs.length;
+    const need  = 5 - count;
+
+    // Left panel nudge
+    document.getElementById('oc-fn-title').textContent =
+      count + ' of 5 boosters selected — add ' + need + ' more';
+    document.getElementById('oc-fn-sub').textContent =
+      'Pick ' + need + ' more to unlock the 5-pack price of ₹799 — just ₹160 per topic.';
+    buildProgressDots('oc-fn-progress', count, 5);
+    document.getElementById('oc-fn').style.display = 'block';
+
+    // Right panel wall (replaces pay button)
+    document.getElementById('fw-title').textContent =
+      'You\'ve selected ' + count + ' of 5 boosters';
+    document.getElementById('fw-sub').textContent =
+      'Go back and pick ' + need + ' more topic' + (need > 1 ? 's' : '') + ' to unlock the ₹799 bundle price.';
+    buildProgressDots('fw-progress', count, 5);
+    document.getElementById('fivepack-wall').style.display = 'block';
+    document.getElementById('pay-btn').style.display = 'none';
+
+    document.getElementById('form-sub').textContent =
+      'You need 5 boosters for the 5-pack. Go back and add ' + need + ' more topic' + (need > 1 ? 's' : '') + '.';
+    return; // don't set up validation — pay btn hidden
+  }
+
+  // ── 5-pack complete — show progress filled ──
+  if (orderData.type === 'fivepack') {
+    document.getElementById('oc-fn-title').textContent = '5-pack unlocked 🎉';
+    document.getElementById('oc-fn-sub').textContent   = 'All 5 boosters selected — ₹160 per topic.';
+    buildProgressDots('oc-fn-progress', 5, 5);
+    document.getElementById('oc-fn').style.display = 'block';
+    document.getElementById('form-sub').textContent =
+      'Enter your email and we\'ll send all 5 PDF boosters there instantly after payment.';
+  }
+
+  // ── Multi-booster form sub ──
+  if (orderData.type === 'subject' || orderData.type === 'stage') {
+    document.getElementById('form-sub').textContent =
+      'Enter your email and we\'ll send all ' + orderData.items.length + ' PDF boosters there instantly after payment.';
   }
 }
 
-// ── Upsell ───────────────────────────────────────────────
+// ── Upsell actions ────────────────────────────────────────
 function switchToBundle() {
-  if (!orderData || !orderData.bundleSlug) return;
+  if (!orderData?.bundleSlug) return;
   location.href = 'checkout.html?type=subject&slug=' + orderData.bundleSlug;
 }
-function dismissNudge() {
-  document.getElementById('upsell-nudge').style.display = 'none';
+function dismissUpsell() {
+  document.getElementById('oc-upsell').style.display = 'none';
+}
+function goBack() {
+  history.back();
 }
 window.switchToBundle = switchToBundle;
-window.dismissNudge   = dismissNudge;
+window.dismissUpsell  = dismissUpsell;
+window.goBack         = goBack;
 
-// ── Consent & validation ──────────────────────────────────
+// ── Consent ───────────────────────────────────────────────
 let consentChecked = false;
-
 function toggleConsent() {
   consentChecked = !consentChecked;
   document.getElementById('consent-box').classList.toggle('checked', consentChecked);
@@ -459,13 +517,11 @@ function toggleConsent() {
 }
 window.toggleConsent = toggleConsent;
 
-function isValidEmail(e) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e.trim());
-}
+function isValidEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e.trim()); }
 
 function validateForm() {
-  const emailOk = isValidEmail(document.getElementById('email-input').value);
-  document.getElementById('pay-btn').disabled = !(emailOk && consentChecked);
+  const ok = isValidEmail(document.getElementById('email-input').value) && consentChecked;
+  document.getElementById('pay-btn').disabled = !ok;
 }
 
 document.getElementById('email-input').addEventListener('input', validateForm);
@@ -473,21 +529,17 @@ document.getElementById('email-input').addEventListener('keydown', e => {
   if (e.key === 'Enter' && !document.getElementById('pay-btn').disabled) handlePay();
 });
 
-// ── Error helpers ─────────────────────────────────────────
+// ── Errors ────────────────────────────────────────────────
 function showError(msg) {
-  const banner = document.getElementById('error-banner');
-  banner.textContent = msg;
-  banner.classList.add('show');
+  const b = document.getElementById('error-banner');
+  b.textContent = msg; b.classList.add('show');
 }
-function hideError() {
-  document.getElementById('error-banner').classList.remove('show');
-}
+function hideError() { document.getElementById('error-banner').classList.remove('show'); }
 
 // ── Pay ───────────────────────────────────────────────────
 async function handlePay() {
   hideError();
   const email = document.getElementById('email-input').value.trim();
-  const name  = document.getElementById('name-input').value.trim();
 
   if (!isValidEmail(email)) {
     document.getElementById('email-input').classList.add('error');
@@ -500,53 +552,42 @@ async function handlePay() {
   const btn = document.getElementById('pay-btn');
   btn.disabled = true;
   document.getElementById('btn-spinner').style.display = 'block';
-  document.getElementById('btn-text').textContent      = 'Opening payment…';
-  document.getElementById('btn-amount').textContent    = '';
+  document.getElementById('btn-text').textContent = 'Opening payment…';
+  document.getElementById('btn-amount').textContent = '';
 
-  // Store in sessionStorage for delivery page
-  sessionStorage.setItem('cm_email',   email);
-  sessionStorage.setItem('cm_name',    name);
-  sessionStorage.setItem('cm_type',    orderData.type);
-  sessionStorage.setItem('cm_slug',    orderData.primarySlug);
-  sessionStorage.setItem('cm_items',   JSON.stringify(orderData.itemSlugs));
-  sessionStorage.setItem('cm_title',   orderData.title);
+  sessionStorage.setItem('cm_email', email);
+  sessionStorage.setItem('cm_type',  orderData.type);
+  sessionStorage.setItem('cm_slug',  orderData.primarySlug);
+  sessionStorage.setItem('cm_items', JSON.stringify(orderData.itemSlugs));
+  sessionStorage.setItem('cm_title', orderData.title);
 
   try {
-    // 1. Create Razorpay order via backend
     const res = await fetch('/api/create-order', {
-      method:  'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body:    JSON.stringify({
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
         orderType:   orderData.type,
         primarySlug: orderData.primarySlug,
         itemSlugs:   orderData.itemSlugs,
         amountPaise: orderData.pricePaise,
         buyerEmail:  email,
-        buyerName:   name,
+        buyerName:   '',
       }),
     });
 
     const data = await res.json();
-    if (!res.ok || !data.razorpayOrderId) {
-      throw new Error(data.error || 'Could not create order. Please try again.');
-    }
+    if (!res.ok || !data.razorpayOrderId) throw new Error(data.error || 'Could not create order.');
 
-    // 2. Open Razorpay checkout
     const rzp = new Razorpay({
-      key:         data.keyId,
-      order_id:    data.razorpayOrderId,
-      amount:      orderData.pricePaise,
-      currency:    'INR',
-      name:        'CoreMark',
+      key:      data.keyId,
+      order_id: data.razorpayOrderId,
+      amount:   orderData.pricePaise,
+      currency: 'INR',
+      name:     'CoreMark',
       description: orderData.title,
-      prefill: {
-        email: email,
-        name:  name,
-      },
-      theme: { color: '#6E47C9' },
+      prefill:  { email },
+      theme:    { color: '#6E47C9' },
       modal: {
         ondismiss() {
-          // Re-enable button if user closes modal
           btn.disabled = false;
           document.getElementById('btn-spinner').style.display = 'none';
           document.getElementById('btn-text').textContent = 'Pay ';
@@ -554,24 +595,21 @@ async function handlePay() {
         }
       },
       handler(response) {
-        // Payment success — store IDs and redirect to delivery
-        sessionStorage.setItem('cm_payment_id',  response.razorpay_payment_id);
-        sessionStorage.setItem('cm_order_id',    response.razorpay_order_id);
-        sessionStorage.setItem('cm_signature',   response.razorpay_signature);
-
+        sessionStorage.setItem('cm_payment_id', response.razorpay_payment_id);
+        sessionStorage.setItem('cm_order_id',   response.razorpay_order_id);
+        sessionStorage.setItem('cm_signature',  response.razorpay_signature);
         document.getElementById('success-overlay').classList.add('show');
         setTimeout(() => {
           location.href = 'delivery.html'
-            + '?payment_id='  + response.razorpay_payment_id
-            + '&order_id='    + response.razorpay_order_id
-            + '&signature='   + response.razorpay_signature
-            + '&type='        + orderData.type
-            + '&slug='        + orderData.primarySlug
-            + '&items='       + orderData.itemSlugs.join(',');
+            + '?payment_id=' + response.razorpay_payment_id
+            + '&order_id='   + response.razorpay_order_id
+            + '&signature='  + response.razorpay_signature
+            + '&type='       + orderData.type
+            + '&slug='       + orderData.primarySlug
+            + '&items='      + orderData.itemSlugs.join(',');
         }, 800);
       },
     });
-
     rzp.open();
 
   } catch (err) {
@@ -585,7 +623,6 @@ async function handlePay() {
 }
 window.handlePay = handlePay;
 
-// ── Init ──────────────────────────────────────────────────
 populateUI();
 </script>
 </body>
