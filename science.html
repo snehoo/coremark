@@ -580,7 +580,7 @@ function toggleSelect(btn) {
   }
   if (selected.length >= 5) {
     shakeBasket();
-    showToast('Basket is full at 5 topics  (₹799)', 'For more topics get the full stage bundle at ₹1,299');
+  // toast handled by buy-wire.js
     return;
   }
   card.classList.add('selected');

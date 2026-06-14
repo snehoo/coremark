@@ -868,7 +868,7 @@ function toggleSelect(btn) {
   // at cap — shake and toast instead of alert
   if (selected.length >= 5) {
     shakeBasket();
-    showToast(
+  // toast handled by buy-wire.js
       'Basket is full at 5 topics  (₹799)',
       'For more topics get the full stage bundle at ₹1,299 instead'
     );
@@ -918,11 +918,11 @@ function updateBasket() {
 
   // Toast nudge when approaching 5
   if (count === 3) {
-    showToast('Add 2 more topics to unlock ₹799 bundle pricing', 'You save ₹196 with 5 topics');
+  // toast handled by buy-wire.js
   } else if (count === 4) {
-    showToast('One more topic unlocks the 5-pack bundle!', 'Pay ₹799 instead of ₹996 — save ₹197');
+  // toast handled by buy-wire.js
   } else if (count === 5) {
-    showToast('5-pack bundle unlocked  🎉', 'All 5 for ₹799 — saving ₹446');
+  // toast handled by buy-wire.js
   }
 }
 
