@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>CoreMark Logo Pack</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: #F4F1ED;
+  color: #2A1B3D;
+  padding: 60px 40px;
+  min-height: 100vh;
+}
+h1 {
+  font-weight: 800;
+  font-size: 28px;
+  letter-spacing: -0.03em;
+  margin-bottom: 8px;
+}
+.sub {
+  font-size: 14px;
+  color: #7A6E84;
+  margin-bottom: 56px;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+}
+.card {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(42,27,61,0.08);
+}
+.card-preview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  min-height: 200px;
+}
+.card-preview.dark  { background: #2A1B3D; }
+.card-preview.black { background: #0C0819; }
+.card-preview.check {
+  background-image: linear-gradient(45deg, #e8e8e8 25%, transparent 25%),
+                    linear-gradient(-45deg, #e8e8e8 25%, transparent 25%),
+                    linear-gradient(45deg, transparent 75%, #e8e8e8 75%),
+                    linear-gradient(-45deg, transparent 75%, #e8e8e8 75%);
+  background-size: 20px 20px;
+  background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+  background-color: #f0f0f0;
+}
+.card-preview img {
+  max-width: 100%;
+  max-height: 160px;
+  object-fit: contain;
+}
+.card-preview img.wide { max-height: 80px; }
+.card-preview img.square { max-height: 160px; max-width: 160px; }
+.card-info {
+  padding: 16px 20px 20px;
+  border-top: 1px solid #F0EDF8;
+}
+.card-info .label {
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: -0.01em;
+  margin-bottom: 4px;
+}
+.card-info .desc {
+  font-size: 12px;
+  color: #7A6E84;
+  line-height: 1.5;
+}
+</style>
+</head>
+<body>
+
+<h1>CoreMark Logo Pack</h1>
+<p class="sub">5 SVG assets · scalable · open in browser for font rendering</p>
+
+<div class="grid">
+
+  <div class="card">
+    <div class="card-preview black">
+      <img src="01-logo-cm-black.svg" class="square" alt="CM Black Logo">
+    </div>
+    <div class="card-info">
+      <div class="label">01 — CM Black</div>
+      <div class="desc">1080×1080 · Full-bleed dark bg · Use for Instagram / social posts</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-preview check">
+      <img src="02-logo-cm-square.svg" class="square" alt="CM Square Logo">
+    </div>
+    <div class="card-info">
+      <div class="label">02 — CM Square (transparent)</div>
+      <div class="desc">1080×1080 · Transparent background · Place on any colour</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-preview" style="background:#fff;">
+      <img src="03-logo-coremark-light.svg" class="wide" alt="CoreMark Light Lockup">
+    </div>
+    <div class="card-info">
+      <div class="label">03 — CoreMark Lockup (Light)</div>
+      <div class="desc">400×100 · White / paper backgrounds · Website header</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-preview dark">
+      <img src="04-logo-coremark-dark.svg" class="wide" alt="CoreMark Dark Lockup">
+    </div>
+    <div class="card-info">
+      <div class="label">04 — CoreMark Lockup (Dark)</div>
+      <div class="desc">400×100 · Plum / dark backgrounds · Slides and dark UIs</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-preview check">
+      <img src="05-favicon.svg" style="max-height:80px;max-width:80px;" alt="Favicon">
+    </div>
+    <div class="card-info">
+      <div class="label">05 — Favicon</div>
+      <div class="desc">Scalable SVG · Use as favicon.svg in &lt;link rel="icon"&gt; · Export to .ico via any converter</div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

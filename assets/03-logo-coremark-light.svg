@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<svg viewBox="0 0 400 100" xmlns="http://www.w3.org/2000/svg">
+  
+  
+  <rect x="0" y="10" width="80" height="80" rx="19" fill="#0C0819"></rect>
+  <text x="39.5" y="51" text-anchor="middle" dominant-baseline="central" font-family="&#39;Plus Jakarta Sans&#39;, &#39;Arial Black&#39;, system-ui, sans-serif" font-weight="800" font-size="30" letter-spacing="-1.7" fill="#FBF8F2">CM</text>
+  
+  <circle cx="77" cy="13" r="8.5" fill="#F4C73E" stroke="white" stroke-width="2"></circle>
+  
+  <text x="98" y="52" dominant-baseline="central" font-family="&#39;Plus Jakarta Sans&#39;, &#39;Arial Black&#39;, system-ui, sans-serif" font-weight="800" font-size="46" letter-spacing="-0.03em" fill="#2A1B3D">Core<tspan fill="#6E47C9">Mark</tspan></text>
+</svg>

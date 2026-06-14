@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  
+  
+  <rect x="4" y="4" width="92" height="92" rx="22" fill="#0C0819"></rect>
+  
+  <text x="50" y="56" text-anchor="middle" dominant-baseline="central" font-family="&#39;Plus Jakarta Sans&#39;, &#39;Arial Black&#39;, system-ui, sans-serif" font-weight="800" font-size="44" letter-spacing="-2.5" fill="#FBF8F2">CM</text>
+  
+  <circle cx="83" cy="17" r="13" fill="#F4C73E"></circle>
+</svg>
