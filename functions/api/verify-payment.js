@@ -1,5 +1,41 @@
 // functions/api/verify-payment.js
-import { query, sha256 } from '../_db.js';
+
+// ── Inline DB helper (no imports needed) ─────────────────
+async function dbQuery(env, sql, params = []) {
+  const connStr = env.DATABASE_URL;
+  if (!connStr) throw new Error('DATABASE_URL not set');
+  const url  = new URL(connStr.replace(/^postgres(ql)?:\/\//, 'https://'));
+  const auth = 'Basic ' + btoa(`${decodeURIComponent(url.username)}:${decodeURIComponent(url.password)}`);
+  const res  = await fetch(`https://${url.hostname}/sql`, {
+    method:  'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': auth },
+    body:    JSON.stringify({ query: sql, params }),
+  });
+  if (!res.ok) throw new Error(`DB ${res.status}: ${await res.text()}`);
+  const data   = await res.json();
+  const fields = data.fields || [];
+  const rows   = (data.rows || []).map(row => {
+    if (!Array.isArray(row)) return row;
+    const obj = {};
+    fields.forEach((f, i) => { obj[f.name] = row[i]; });
+    return obj;
+  });
+  return { rows, rowCount: data.rowCount ?? rows.length };
+}
+
+async function sha256(text) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text.toLowerCase().trim()));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+}
+
+function classifySource(referrer) {
+  if (!referrer) return 'direct';
+  const r = referrer.toLowerCase();
+  if (r.includes('google') || r.includes('bing')) return 'organic';
+  if (r.includes('twitter') || r.includes('instagram') || r.includes('facebook') || r.includes('whatsapp')) return 'social';
+  if (r.includes('mail') || r.includes('beehiiv')) return 'email';
+  return 'referral';
+}
 
 const CORS = { 'Access-Control-Allow-Origin':'*','Access-Control-Allow-Methods':'POST, OPTIONS','Access-Control-Allow-Headers':'Content-Type' };
 export async function onRequestOptions(){ return new Response(null,{status:204,headers:CORS}); }
@@ -47,16 +83,16 @@ export async function onRequestPost({request,env}){
   const rSubj=payment.notes?.subject||null;
   const rStage=payment.notes?.stage?parseInt(payment.notes.stage):null;
 
-  const existing=await query(env,`SELECT id FROM orders WHERE razorpay_order_id=$1 AND status='paid'`,[razorpayOrderId]);
+  const existing=await dbQuery(env,`SELECT id FROM orders WHERE razorpay_order_id=$1 AND status='paid'`,[razorpayOrderId]);
   const isNew=!existing.rows.length;
 
-  await query(env,
+  await dbQuery(env,
     `UPDATE orders SET razorpay_payment_id=$1,buyer_email=$2,buyer_hash=$3,status='paid',paid_at=NOW(),
      item_slugs=COALESCE(NULLIF(item_slugs::text,'[]')::jsonb,$4::jsonb),subject=COALESCE(subject,$5),stage=COALESCE(stage,$6)
      WHERE razorpay_order_id=$7`,
     [paymentId,email,hash,JSON.stringify(items),rSubj,rStage,razorpayOrderId]);
 
-  if(isNew&&hash)await query(env,
+  if(isNew&&hash)await dbQuery(env,
     `INSERT INTO buyers(buyer_hash,country,order_count,total_paise)VALUES($1,$2,1,$3)
      ON CONFLICT(buyer_hash)DO UPDATE SET order_count=buyers.order_count+1,total_paise=buyers.total_paise+$3,updated_at=NOW()`,
     [hash,country,payment.amount]);
@@ -67,11 +103,11 @@ export async function onRequestPost({request,env}){
     }).catch(e=>console.warn('[beehiiv]',e.message));
   }
 
-  const orderRows=await query(env,`SELECT id FROM orders WHERE razorpay_order_id=$1`,[razorpayOrderId]);
+  const orderRows=await dbQuery(env,`SELECT id FROM orders WHERE razorpay_order_id=$1`,[razorpayOrderId]);
   const internalId=orderRows.rows[0]?.id||razorpayOrderId;
 
   let title=rSlug;
-  if(items.length===1){const b=await query(env,`SELECT name FROM boosters WHERE slug=$1`,[items[0]]);if(b.rows.length)title=b.rows[0].name;}
+  if(items.length===1){const b=await dbQuery(env,`SELECT name FROM boosters WHERE slug=$1`,[items[0]]);if(b.rows.length)title=b.rows[0].name;}
   else{const l={fivepack:'5-Pack Bundle',subject:'Subject Bundle',stage:'Stage Bundle'};title=l[rType]||title;}
 
   const fileUrls=await getFileUrls(env,items);

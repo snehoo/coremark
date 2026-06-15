@@ -1,21 +1,57 @@
 // functions/api/metrics.js
-import { query } from '../_db.js';
+
+// ── Inline DB helper (no imports needed) ─────────────────
+async function dbQuery(env, sql, params = []) {
+  const connStr = env.DATABASE_URL;
+  if (!connStr) throw new Error('DATABASE_URL not set');
+  const url  = new URL(connStr.replace(/^postgres(ql)?:\/\//, 'https://'));
+  const auth = 'Basic ' + btoa(`${decodeURIComponent(url.username)}:${decodeURIComponent(url.password)}`);
+  const res  = await fetch(`https://${url.hostname}/sql`, {
+    method:  'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': auth },
+    body:    JSON.stringify({ query: sql, params }),
+  });
+  if (!res.ok) throw new Error(`DB ${res.status}: ${await res.text()}`);
+  const data   = await res.json();
+  const fields = data.fields || [];
+  const rows   = (data.rows || []).map(row => {
+    if (!Array.isArray(row)) return row;
+    const obj = {};
+    fields.forEach((f, i) => { obj[f.name] = row[i]; });
+    return obj;
+  });
+  return { rows, rowCount: data.rowCount ?? rows.length };
+}
+
+async function sha256(text) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text.toLowerCase().trim()));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+}
+
+function classifySource(referrer) {
+  if (!referrer) return 'direct';
+  const r = referrer.toLowerCase();
+  if (r.includes('google') || r.includes('bing')) return 'organic';
+  if (r.includes('twitter') || r.includes('instagram') || r.includes('facebook') || r.includes('whatsapp')) return 'social';
+  if (r.includes('mail') || r.includes('beehiiv')) return 'email';
+  return 'referral';
+}
 const CORS={'Access-Control-Allow-Origin':'*','Access-Control-Allow-Methods':'GET, OPTIONS','Access-Control-Allow-Headers':'Content-Type, x-metrics-secret'};
 export async function onRequestOptions(){return new Response(null,{status:204,headers:CORS});}
 export async function onRequestGet({request,env}){
   if(request.headers.get('x-metrics-secret')!==env.METRICS_SECRET)return new Response('Unauthorized',{status:401,headers:CORS});
   const [rev,ord,buy,top,bySub,byStg,byTyp,daily,seq,fb,pages]=await Promise.all([
-    query(env,`SELECT COALESCE(SUM(amount_paise),0) AS total_paise,COALESCE(SUM(amount_paise)FILTER(WHERE paid_at>=NOW()-INTERVAL '30 days'),0) AS last30_paise,COALESCE(SUM(amount_paise)FILTER(WHERE paid_at>=NOW()-INTERVAL '7 days'),0) AS last7_paise,COALESCE(SUM(amount_paise)FILTER(WHERE paid_at>=CURRENT_DATE),0) AS today_paise FROM orders WHERE status='paid'`,[]),
-    query(env,`SELECT COUNT(*) AS total,COUNT(*)FILTER(WHERE paid_at>=NOW()-INTERVAL '30 days') AS last30,COUNT(*)FILTER(WHERE paid_at>=NOW()-INTERVAL '7 days') AS last7,COUNT(*)FILTER(WHERE paid_at>=CURRENT_DATE) AS today,COUNT(*)FILTER(WHERE status='pending') AS pending,COUNT(*)FILTER(WHERE status='refunded') AS refunded FROM orders WHERE status IN('paid','pending','refunded')`,[]),
-    query(env,`SELECT COUNT(*) AS total,COUNT(*)FILTER(WHERE created_at>=NOW()-INTERVAL '30 days') AS last30 FROM buyers`,[]),
-    query(env,`SELECT slug_item AS slug,COUNT(*) AS units FROM orders,jsonb_array_elements_text(item_slugs) AS slug_item WHERE status='paid' GROUP BY slug_item ORDER BY units DESC LIMIT 10`,[]),
-    query(env,`SELECT subject,COUNT(*) AS orders,COALESCE(SUM(amount_paise),0) AS revenue_paise FROM orders WHERE status='paid' AND subject IS NOT NULL GROUP BY subject ORDER BY revenue_paise DESC`,[]),
-    query(env,`SELECT stage,COUNT(*) AS orders,COALESCE(SUM(amount_paise),0) AS revenue_paise FROM orders WHERE status='paid' AND stage IS NOT NULL GROUP BY stage ORDER BY stage`,[]),
-    query(env,`SELECT order_type,COUNT(*) AS orders,COALESCE(SUM(amount_paise),0) AS revenue_paise FROM orders WHERE status='paid' GROUP BY order_type ORDER BY orders DESC`,[]),
-    query(env,`SELECT DATE(paid_at) AS day,COUNT(*) AS orders,COALESCE(SUM(amount_paise),0) AS revenue_paise FROM orders WHERE status='paid' AND paid_at>=NOW()-INTERVAL '30 days' GROUP BY DATE(paid_at) ORDER BY day ASC`,[]),
-    query(env,`SELECT sequence_step,COUNT(*) AS orders FROM orders WHERE status='paid' GROUP BY sequence_step ORDER BY sequence_step`,[]),
-    query(env,`SELECT COUNT(*) AS total,ROUND(AVG(rating),1) AS avg_rating,COUNT(*)FILTER(WHERE rating>=4) AS happy,COUNT(*)FILTER(WHERE rating=3) AS neutral,COUNT(*)FILTER(WHERE rating<=2) AS unhappy FROM feedback`,[]),
-    query(env,`SELECT path,COUNT(*) AS views FROM pageviews WHERE viewed_at>=NOW()-INTERVAL '7 days' GROUP BY path ORDER BY views DESC LIMIT 10`,[]),
+    dbQuery(env,`SELECT COALESCE(SUM(amount_paise),0) AS total_paise,COALESCE(SUM(amount_paise)FILTER(WHERE paid_at>=NOW()-INTERVAL '30 days'),0) AS last30_paise,COALESCE(SUM(amount_paise)FILTER(WHERE paid_at>=NOW()-INTERVAL '7 days'),0) AS last7_paise,COALESCE(SUM(amount_paise)FILTER(WHERE paid_at>=CURRENT_DATE),0) AS today_paise FROM orders WHERE status='paid'`,[]),
+    dbQuery(env,`SELECT COUNT(*) AS total,COUNT(*)FILTER(WHERE paid_at>=NOW()-INTERVAL '30 days') AS last30,COUNT(*)FILTER(WHERE paid_at>=NOW()-INTERVAL '7 days') AS last7,COUNT(*)FILTER(WHERE paid_at>=CURRENT_DATE) AS today,COUNT(*)FILTER(WHERE status='pending') AS pending,COUNT(*)FILTER(WHERE status='refunded') AS refunded FROM orders WHERE status IN('paid','pending','refunded')`,[]),
+    dbQuery(env,`SELECT COUNT(*) AS total,COUNT(*)FILTER(WHERE created_at>=NOW()-INTERVAL '30 days') AS last30 FROM buyers`,[]),
+    dbQuery(env,`SELECT slug_item AS slug,COUNT(*) AS units FROM orders,jsonb_array_elements_text(item_slugs) AS slug_item WHERE status='paid' GROUP BY slug_item ORDER BY units DESC LIMIT 10`,[]),
+    dbQuery(env,`SELECT subject,COUNT(*) AS orders,COALESCE(SUM(amount_paise),0) AS revenue_paise FROM orders WHERE status='paid' AND subject IS NOT NULL GROUP BY subject ORDER BY revenue_paise DESC`,[]),
+    dbQuery(env,`SELECT stage,COUNT(*) AS orders,COALESCE(SUM(amount_paise),0) AS revenue_paise FROM orders WHERE status='paid' AND stage IS NOT NULL GROUP BY stage ORDER BY stage`,[]),
+    dbQuery(env,`SELECT order_type,COUNT(*) AS orders,COALESCE(SUM(amount_paise),0) AS revenue_paise FROM orders WHERE status='paid' GROUP BY order_type ORDER BY orders DESC`,[]),
+    dbQuery(env,`SELECT DATE(paid_at) AS day,COUNT(*) AS orders,COALESCE(SUM(amount_paise),0) AS revenue_paise FROM orders WHERE status='paid' AND paid_at>=NOW()-INTERVAL '30 days' GROUP BY DATE(paid_at) ORDER BY day ASC`,[]),
+    dbQuery(env,`SELECT sequence_step,COUNT(*) AS orders FROM orders WHERE status='paid' GROUP BY sequence_step ORDER BY sequence_step`,[]),
+    dbQuery(env,`SELECT COUNT(*) AS total,ROUND(AVG(rating),1) AS avg_rating,COUNT(*)FILTER(WHERE rating>=4) AS happy,COUNT(*)FILTER(WHERE rating=3) AS neutral,COUNT(*)FILTER(WHERE rating<=2) AS unhappy FROM feedback`,[]),
+    dbQuery(env,`SELECT path,COUNT(*) AS views FROM pageviews WHERE viewed_at>=NOW()-INTERVAL '7 days' GROUP BY path ORDER BY views DESC LIMIT 10`,[]),
   ]);
   const r=rev.rows[0],o=ord.rows[0],b=buy.rows[0],f=fb.rows[0];
   return new Response(JSON.stringify({ok:true,generatedAt:new Date().toISOString(),
