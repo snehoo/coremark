@@ -210,8 +210,8 @@ function buildEmailHtml({ to, orderTitle, orderType, fileUrls, orderId }) {
               🛡️ 7-day money-back guarantee.
             </span>
             <span style="color:#065f46;font-size:13px;">
-              Not happy? Email <a href="mailto:support@coremark.study"
-              style="color:#065f46;">support@coremark.study</a> and we'll refund you in full.
+              Not happy? Email <a href="mailto:info@coremark.study"
+              style="color:#065f46;">info@coremark.study</a> and we'll refund you in full.
             </span>
           </td>
         </tr>
@@ -232,7 +232,7 @@ function buildEmailHtml({ to, orderTitle, orderType, fileUrls, orderId }) {
       <p style="color:#7A6A94;font-size:12px;margin:0;">
         <a href="https://coremark.study" style="color:#6E47C9;text-decoration:none;">coremark.study</a>
         &nbsp;·&nbsp;
-        <a href="mailto:support@coremark.study" style="color:#6E47C9;text-decoration:none;">support@coremark.study</a>
+        <a href="mailto:info@coremark.study" style="color:#6E47C9;text-decoration:none;">info@coremark.study</a>
         &nbsp;·&nbsp;
         <a href="https://coremark.study/legal/refund.html" style="color:#7A6A94;text-decoration:none;">Refund Policy</a>
       </p>

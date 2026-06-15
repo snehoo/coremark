@@ -225,7 +225,7 @@ function buildDay2Html({ to, buyerName, orderTitle, subject, stage, tip, feedbac
         © 2025 CoreMark ·
         <a href="https://coremark.study" style="color:#6E47C9;text-decoration:none;">coremark.study</a>
         &nbsp;·&nbsp;
-        <a href="mailto:support@coremark.study" style="color:#6E47C9;text-decoration:none;">support@coremark.study</a>
+        <a href="mailto:info@coremark.study" style="color:#6E47C9;text-decoration:none;">info@coremark.study</a>
       </p>
     </td>
   </tr>

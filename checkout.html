@@ -614,7 +614,7 @@ async function handlePay() {
 
   } catch (err) {
     console.error('[checkout]', err);
-    showError(err.message || 'Something went wrong. Please try again or contact support@coremark.study.');
+    showError(err.message || 'Something went wrong. Please try again or contact info@coremark.study.');
     btn.disabled = false;
     document.getElementById('btn-spinner').style.display = 'none';
     document.getElementById('btn-text').textContent = 'Pay ';
