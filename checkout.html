@@ -201,7 +201,7 @@ a{color:inherit;text-decoration:none;}
         <div class="oc-fn-title" id="oc-fn-title">Add more to unlock the 5-pack price</div>
         <div class="oc-fn-progress" id="oc-fn-progress"></div>
         <div class="oc-fn-sub" id="oc-fn-sub">Select 5 boosters for ₹799 — ₹160 per topic</div>
-        <button class="oc-fn-back" onclick="goBack()">← Go back and add more</button>
+        <button class="oc-fn-back" onclick="goBack()">← Go back and change selection</button>
       </div>
 
       <div class="oc-includes">
@@ -231,7 +231,7 @@ a{color:inherit;text-decoration:none;}
 
     <div class="field-group">
       <label class="field-label" for="email-input">Email address <span>(PDF sent here)</span></label>
-      <input class="field-input" type="email" id="email-input" placeholder="parent@example.com" autocomplete="email">
+      <input class="field-input" type="email" id="email-input" placeholder="your@email.com" autocomplete="email">
       <div class="error-msg" id="email-error">Please enter a valid email address.</div>
     </div>
 
@@ -249,7 +249,7 @@ a{color:inherit;text-decoration:none;}
       <div class="fw-title" id="fw-title">You need 5 boosters for the 5-pack</div>
       <div class="fw-sub"   id="fw-sub">Go back and pick more topics to unlock the ₹799 bundle price.</div>
       <div class="fw-progress" id="fw-progress"></div>
-      <button class="fw-back" onclick="goBack()">← Go back and add more topics</button>
+      <button class="fw-back" onclick="goBack()">← Go back and change selection</button>
     </div>
 
     <button class="pay-btn" id="pay-btn" onclick="handlePay()" disabled>
@@ -274,7 +274,7 @@ a{color:inherit;text-decoration:none;}
 const params    = new URLSearchParams(location.search);
 const orderType = params.get('type') || 'single';
 const slug      = params.get('slug') || '';
-const itemSlugs = params.get('items') ? params.get('items').split(',').filter(Boolean) : [];
+const itemSlugs = params.get('items') ? params.get('items').split(',').map(s=>s.trim()).filter(Boolean) : [];
 const P         = window.CM_PRODUCTS;
 
 // Is this a fivepack with fewer than 5 items?
