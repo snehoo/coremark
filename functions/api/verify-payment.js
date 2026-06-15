@@ -74,7 +74,10 @@ export async function onRequestPost({request,env}){
 
   if(payment.status!=='captured')return new Response(JSON.stringify({error:'Not captured',status:payment.status}),{status:402,headers:{'Content-Type':'application/json',...CORS}});
 
-  const email=payment.email||payment.notes?.buyer_email||buyerEmail||'';
+  // ── DB operations wrapped in try/catch ──────────────────
+  let email='', hash=null, internalId=razorpayOrderId, title=rSlug||primarySlug, fileUrls=[], rSubj=null, rStage=null, rType=orderType||'single';
+  try {
+  email=payment.email||payment.notes?.buyer_email||buyerEmail||'';
   const hash=email?await sha256(email):null;
   const country=payment.international?'International':'IN';
   const items=itemSlugs.length>0?itemSlugs:(payment.notes?.item_slugs||'').split(',').filter(Boolean);
@@ -110,6 +113,12 @@ export async function onRequestPost({request,env}){
   if(items.length===1){const b=await dbQuery(env,`SELECT name FROM boosters WHERE slug=$1`,[items[0]]);if(b.rows.length)title=b.rows[0].name;}
   else{const l={fivepack:'5-Pack Bundle',subject:'Subject Bundle',stage:'Stage Bundle'};title=l[rType]||title;}
 
-  const fileUrls=await getFileUrls(env,items);
+  fileUrls=await getFileUrls(env,items);
+  } catch(dbErr) {
+    console.error('[verify-payment] DB error:', dbErr.message);
+    // Continue — still return success with fallback file URLs
+    if(!fileUrls.length) fileUrls = await getFileUrls(env, itemSlugs.length>0?itemSlugs:[primarySlug]);
+  }
+
   return new Response(JSON.stringify({ok:true,email,orderTitle:title,orderId:internalId,paymentId,orderType:rType,subject:rSubj,stage:rStage,fileUrls}),{status:200,headers:{'Content-Type':'application/json',...CORS}});
 }
