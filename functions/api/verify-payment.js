@@ -68,7 +68,7 @@ async function getFileUrls(env, itemSlugs) {
   const urls = [];
   for (const slug of itemSlugs) {
     try {
-      const l = await env.R2_BUCKET.list({ prefix: `booster/cm-${slug}-` });
+      const l = await env.R2_BUCKET.list({ prefix: `booster/cm-${slug}` });
       for (const o of (l.objects || [])) urls.push(`https://assets.coremark.study/${o.key}`);
     } catch (e) { /* R2 not set up yet — use fallback */ }
   }
