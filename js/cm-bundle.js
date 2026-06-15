@@ -112,6 +112,20 @@
     wirePricingStrip();
     window.refreshBtn(0);
     track();
+    // Pre-select stage from URL hash e.g. #stage8
+    var hash = location.hash.replace('#','').toLowerCase();
+    if (hash === 'stage7' || hash === 'stage8' || hash === 'stage9') {
+      var stageId = 's' + hash.replace('stage','');
+      var tabBtn  = document.querySelector('.stage-tab[onclick*="' + stageId + '"]');
+      if (tabBtn && typeof window.showStage === 'function') {
+        window.showStage(stageId, tabBtn);
+        // Smooth scroll to top of stage panel
+        setTimeout(function() {
+          var panel = document.getElementById('panel-' + stageId);
+          if (panel) panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+      }
+    }
   }
 
   if (document.readyState === 'loading') {
