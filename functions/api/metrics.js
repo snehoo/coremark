@@ -62,3 +62,4 @@ export async function onRequestGet({request,env}){
     return new Response(JSON.stringify({ok:false,error:e.message}),{status:422,headers:{'Content-Type':'application/json',...CORS}});
   }
 }
+
