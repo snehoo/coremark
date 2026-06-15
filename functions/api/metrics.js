@@ -39,7 +39,9 @@ function classifySource(referrer) {
 const CORS={'Access-Control-Allow-Origin':'*','Access-Control-Allow-Methods':'GET, OPTIONS','Access-Control-Allow-Headers':'Content-Type, x-metrics-secret'};
 export async function onRequestOptions(){return new Response(null,{status:204,headers:CORS});}
 export async function onRequestGet({request,env}){
+  try {
   if(request.headers.get('x-metrics-secret')!==env.METRICS_SECRET)return new Response('Unauthorized',{status:401,headers:CORS});
+  try {
   const [rev,ord,buy,top,bySub,byStg,byTyp,daily,seq,fb,pages]=await Promise.all([
     dbQuery(env,`SELECT COALESCE(SUM(amount_paise),0) AS total_paise,COALESCE(SUM(amount_paise)FILTER(WHERE paid_at>=NOW()-INTERVAL '30 days'),0) AS last30_paise,COALESCE(SUM(amount_paise)FILTER(WHERE paid_at>=NOW()-INTERVAL '7 days'),0) AS last7_paise,COALESCE(SUM(amount_paise)FILTER(WHERE paid_at>=CURRENT_DATE),0) AS today_paise FROM orders WHERE status='paid'`,[]),
     dbQuery(env,`SELECT COUNT(*) AS total,COUNT(*)FILTER(WHERE paid_at>=NOW()-INTERVAL '30 days') AS last30,COUNT(*)FILTER(WHERE paid_at>=NOW()-INTERVAL '7 days') AS last7,COUNT(*)FILTER(WHERE paid_at>=CURRENT_DATE) AS today,COUNT(*)FILTER(WHERE status='pending') AS pending,COUNT(*)FILTER(WHERE status='refunded') AS refunded FROM orders WHERE status IN('paid','pending','refunded')`,[]),
@@ -67,4 +69,8 @@ export async function onRequestGet({request,env}){
     feedback:{total:Number(f.total),avgRating:f.avg_rating?Number(f.avg_rating):null,happy:Number(f.happy),neutral:Number(f.neutral),unhappy:Number(f.unhappy)},
     topPages:pages.rows.map(x=>({path:x.path,views:Number(x.views)})),
   }),{status:200,headers:{'Content-Type':'application/json',...CORS}});
+  } catch(e) {
+    console.error('[metrics]', e.message);
+    return new Response(JSON.stringify({ok:false,error:e.message}),{status:422,headers:{'Content-Type':'application/json',...CORS}});
+  }
 }
