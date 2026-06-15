@@ -70,7 +70,7 @@ export async function onRequestPost({request,env}){
 
   let payment;
   try{const r=await fetch(`https://api.razorpay.com/v1/payments/${paymentId}`,{headers:{'Authorization':razorpayAuth(env)}});if(!r.ok)throw new Error('Razorpay '+r.status);payment=await r.json();}
-  catch(err){return new Response(JSON.stringify({error:err.message}),{status:502,headers:{'Content-Type':'application/json',...CORS}});}
+  catch(err){return new Response(JSON.stringify({error:err.message}),{status:503,headers:{'Content-Type':'application/json',...CORS}});}
 
   if(payment.status!=='captured')return new Response(JSON.stringify({error:'Not captured',status:payment.status}),{status:402,headers:{'Content-Type':'application/json',...CORS}});
 

@@ -295,7 +295,7 @@ export async function onRequestPost({ request, env }) {
       console.error('[send-email-day2] Resend error:', err);
       return new Response(
         JSON.stringify({ error: 'Email send failed', detail: err }),
-        { status: 502, headers: { 'Content-Type': 'application/json', ...CORS } }
+        { status: 503, headers: { 'Content-Type': 'application/json', ...CORS } }
       );
     }
 

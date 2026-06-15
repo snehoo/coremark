@@ -88,7 +88,7 @@ export async function onRequestPost({ request, env }) {
     if (!rzpRes.ok) throw new Error('Razorpay ' + rzpRes.status + ': ' + await rzpRes.text());
     rzpOrder = await rzpRes.json();
   } catch (err) {
-    return new Response(JSON.stringify({ error: err.message }), { status: 502, headers: { 'Content-Type': 'application/json', ...CORS } });
+    return new Response(JSON.stringify({ error: err.message }), { status: 503, headers: { 'Content-Type': 'application/json', ...CORS } });
   }
 
   // Save to DB — non-blocking
