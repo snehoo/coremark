@@ -283,7 +283,7 @@ export async function onRequestPost({ request, env }) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        from:    'CoreMark <hello@coremark.study>',
+        from:    'CoreMark <info@coremark.study>',
         to:      [to],
         subject: `📝 A quick tip for ${orderTitle} (Stage ${stage || 8} ${subjectLabel(subject)})`,
         html,

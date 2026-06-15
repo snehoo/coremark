@@ -273,7 +273,7 @@ export async function onRequestPost({ request, env }) {
         'Content-Type':  'application/json',
       },
       body: JSON.stringify({
-        from:    'CoreMark <hello@coremark.study>',
+        from:    'CoreMark <info@coremark.study>',
         to:      [to],
         subject: `📄 Your CoreMark Booster is Ready — ${orderTitle}`,
         html,
