@@ -299,7 +299,7 @@ export async function onRequestPost({ request, env }) {
     console.error('[send-email]', err);
     return new Response(
       JSON.stringify({ error: err.message }),
-      { status: 500, headers: { 'Content-Type': 'application/json', ...CORS } }
+      { status: 422, headers: { 'Content-Type': 'application/json', ...CORS } }
     );
   }
 }
