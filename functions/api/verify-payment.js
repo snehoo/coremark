@@ -131,13 +131,25 @@ export async function onRequestPost({ request, env }) {
     let internalId = razorpayOrderId;
     let title      = rSlug;
     try {
-      // Mark paid
+      // Upsert order — works even if create-order DB insert failed
       await dbQuery(env,
-        `UPDATE orders SET razorpay_payment_id=$1, buyer_email=$2, buyer_hash=$3, status='paid', paid_at=NOW(),
-         item_slugs=COALESCE(NULLIF(item_slugs::text,'[]')::jsonb,$4::jsonb),
-         subject=COALESCE(subject,$5), stage=COALESCE(stage,$6)
-         WHERE razorpay_order_id=$7`,
-        [paymentId, email, hash, JSON.stringify(items), rSubj, rStage, razorpayOrderId]
+        `INSERT INTO orders
+           (razorpay_order_id, razorpay_payment_id, buyer_email, buyer_hash,
+            order_type, primary_slug, item_slugs, amount_paise, currency,
+            status, subject, stage, paid_at, source)
+         VALUES ($1,$2,$3,$4,$5,$6,$7::jsonb,$8,'INR','paid',$9,$10,NOW(),'web')
+         ON CONFLICT (razorpay_order_id) DO UPDATE SET
+           razorpay_payment_id = EXCLUDED.razorpay_payment_id,
+           buyer_email         = EXCLUDED.buyer_email,
+           buyer_hash          = EXCLUDED.buyer_hash,
+           status              = 'paid',
+           paid_at             = COALESCE(orders.paid_at, NOW()),
+           item_slugs          = CASE WHEN orders.item_slugs::text = '[]' THEN EXCLUDED.item_slugs ELSE orders.item_slugs END,
+           subject             = COALESCE(orders.subject, EXCLUDED.subject),
+           stage               = COALESCE(orders.stage, EXCLUDED.stage)`,
+        [razorpayOrderId, paymentId, email, hash,
+         rType, rSlug, JSON.stringify(items), payment.amount,
+         rSubj, rStage]
       );
 
       // Upsert buyer
