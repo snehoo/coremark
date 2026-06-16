@@ -45,11 +45,10 @@ async function verifySignature(env, orderId, paymentId, sig) {
 async function dbQuery(env, sql, params = []) {
   const connStr = env.DATABASE_URL;
   if (!connStr) throw new Error('DATABASE_URL not set');
-  const url  = new URL(connStr.replace(/^postgres(ql)?:\/\//, 'https://'));
-  const auth = 'Basic ' + btoa(`${decodeURIComponent(url.username)}:${decodeURIComponent(url.password)}`);
-  const res  = await fetch(`https://${url.hostname}/sql`, {
+  const url = new URL(connStr.replace(/^postgres(ql)?:\/\//, 'https://'));
+  const res = await fetch(`https://${url.hostname}/sql`, {
     method:  'POST',
-    headers: { 'Content-Type': 'application/json', 'Authorization': auth },
+    headers: { 'Content-Type': 'application/json', 'Neon-Connection-String': connStr },
     body:    JSON.stringify({ query: sql, params }),
   });
   if (!res.ok) throw new Error(`DB ${res.status}: ${await res.text()}`);
