@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+
+Disallow: /checkout.html
+Disallow: /checkout
+Disallow: /delivery.html
+Disallow: /delivery
+Disallow: /coremark-admin.html
+Disallow: /api/
+
+Sitemap: https://coremark.study/sitemap.xml
