@@ -189,7 +189,7 @@ a{color:inherit;text-decoration:none;}
           <div class="download-count" id="dl-count">1 PDF · Cambridge Lower Secondary</div>
         </div>
       </div>
-      <div class="download-label">Download your PDF</div>
+      <div class="download-label" id="dl-label">Your download</div>
       <div class="downloads-list" id="downloads-list">
         <!-- buttons injected by JS -->
       </div>
@@ -307,7 +307,11 @@ function renderDownloads(fileUrls, orderTitle, count) {
   const isZipBundle = fileUrls.length === 1 && fileUrls[0].endsWith('.zip');
 
   if (isZipBundle) {
-    document.getElementById('dl-count').textContent = 'All boosters in one ZIP · Cambridge Lower Secondary';
+    const countLabel = orderType === 'stage'
+      ? 'Every subject for this stage, in one ZIP · Cambridge Lower Secondary'
+      : 'Every booster for this subject, in one ZIP · Cambridge Lower Secondary';
+    document.getElementById('dl-count').textContent = countLabel;
+    document.getElementById('dl-label').textContent = 'Your bundle';
 
     const a = document.createElement('a');
     a.className   = 'download-btn';
@@ -324,6 +328,7 @@ function renderDownloads(fileUrls, orderTitle, count) {
     return;
   }
 
+  document.getElementById('dl-label').textContent = count > 1 ? 'Your downloads' : 'Your download';
   document.getElementById('dl-count').textContent = count + ' PDF' + (count > 1 ? 's' : '') + ' · Cambridge Lower Secondary';
 
   fileUrls.forEach((url, i) => {
@@ -410,8 +415,10 @@ async function verifyAndDeliver() {
     // Order ID
     document.getElementById('order-id-display').textContent = data.orderId || orderId;
     document.title = 'Download Ready — ' + (data.orderTitle || title) + ' · CoreMark';
-    document.getElementById('hero-sub').textContent =
-      'Download your PDF' + (data.fileUrls.length > 1 ? 's' : '') + ' below and start practising today.';
+    const isZip = data.fileUrls.length === 1 && data.fileUrls[0].endsWith('.zip');
+    document.getElementById('hero-sub').textContent = isZip
+      ? 'Download your bundle below and start practising today.'
+      : 'Download your PDF' + (data.fileUrls.length > 1 ? 's' : '') + ' below and start practising today.';
 
     // Render downloads
     renderDownloads(data.fileUrls, data.orderTitle || title, data.fileUrls.length);

@@ -178,13 +178,19 @@ export async function onRequestPost({ request, env }) {
       );
       if (orderRows.rows.length) internalId = orderRows.rows[0].id;
 
-      // Get booster name for title
-      if (items.length === 1) {
+      // Build a specific, human-readable order title
+      const subjectNames = { math: 'Mathematics', science: 'Science', computing: 'Computing' };
+      const subjLabel    = rSubj ? (subjectNames[rSubj] || rSubj) : null;
+
+      if (items.length === 1 && rType === 'single') {
         const bRows = await dbQuery(env, `SELECT name FROM boosters WHERE slug=$1`, [items[0]]);
         if (bRows.rows.length) title = bRows.rows[0].name;
-      } else {
-        const labels = { fivepack:'5-Pack Bundle', subject:'Subject Bundle', stage:'Stage Bundle' };
-        title = labels[rType] || rSlug;
+      } else if (rType === 'fivepack') {
+        title = subjLabel ? `${subjLabel} · Stage ${rStage} · 5-Pack Bundle` : '5-Pack Bundle';
+      } else if (rType === 'subject') {
+        title = subjLabel ? `${subjLabel} · Stage ${rStage} · Full Subject Bundle` : 'Subject Bundle';
+      } else if (rType === 'stage') {
+        title = `All Subjects · Stage ${rStage} Bundle`;
       }
     } catch (dbErr) {
       console.error('[verify-payment] DB error:', dbErr.message);
