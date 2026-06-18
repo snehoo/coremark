@@ -63,7 +63,17 @@ async function dbQuery(env, sql, params = []) {
   return { rows, rowCount: data.rowCount ?? rows.length };
 }
 
-async function getFileUrls(env, itemSlugs) {
+async function getFileUrls(env, itemSlugs, orderType, bundleSlug) {
+  // For subject/stage bundles, serve a single pre-built zip instead of
+  // looping through every individual booster PDF.
+  if ((orderType === 'subject' || orderType === 'stage') && bundleSlug) {
+    try {
+      const l = await env.R2_BUCKET.list({ prefix: `bundle/cm-${bundleSlug}` });
+      const zipObj = (l.objects || [])[0];
+      if (zipObj) return [`https://assets.coremark.study/${zipObj.key}`];
+    } catch (e) { /* fall through to per-file links below */ }
+  }
+
   const urls = [];
   for (const slug of itemSlugs) {
     try {
@@ -199,7 +209,7 @@ export async function onRequestPost({ request, env }) {
     }
 
     // 6. Get file URLs from R2
-    const fileUrls = await getFileUrls(env, items);
+    const fileUrls = await getFileUrls(env, items, rType, rSlug);
 
     return json({
       ok: true, email, orderTitle: title, orderId: internalId,

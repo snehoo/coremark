@@ -1,14 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-B8K210VPRV"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-B8K210VPRV');
-</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Your Booster is Ready — CoreMark</title>
@@ -305,13 +297,34 @@ function showSuccess() {
 // ── Populate download buttons ─────────────────────────────
 function renderDownloads(fileUrls, orderTitle, count) {
   document.getElementById('dl-title').textContent = orderTitle;
-  document.getElementById('dl-count').textContent = count + ' PDF' + (count > 1 ? 's' : '') + ' · Cambridge Lower Secondary';
 
   const typeMap = { single:'Single Booster', fivepack:'5-Pack Bundle', subject:'Subject Bundle', stage:'Stage Bundle' };
   document.getElementById('dl-type').textContent = typeMap[orderType] || 'Booster';
 
   const list = document.getElementById('downloads-list');
   list.innerHTML = '';
+
+  const isZipBundle = fileUrls.length === 1 && fileUrls[0].endsWith('.zip');
+
+  if (isZipBundle) {
+    document.getElementById('dl-count').textContent = 'All boosters in one ZIP · Cambridge Lower Secondary';
+
+    const a = document.createElement('a');
+    a.className   = 'download-btn';
+    a.href        = fileUrls[0];
+    a.target      = '_blank';
+    a.rel         = 'noopener';
+    a.innerHTML   = `
+      <div class="download-btn-left">
+        <span>📦</span>
+        <span class="download-btn-name">Download All Boosters (ZIP)</span>
+      </div>
+      <span class="download-btn-arrow">↓</span>`;
+    list.appendChild(a);
+    return;
+  }
+
+  document.getElementById('dl-count').textContent = count + ' PDF' + (count > 1 ? 's' : '') + ' · Cambridge Lower Secondary';
 
   fileUrls.forEach((url, i) => {
     const filename = url.split('/').pop()

@@ -25,9 +25,9 @@ export async function onRequestOptions() {
 function friendlyFilename(url) {
   return url.split('/').pop()
     .replace('cm-', '')
-    .replace(/-[a-f0-9]+\.pdf$/, '.pdf')
+    .replace(/-[a-f0-9]+\.(pdf|zip)$/, '.$1')
     .replace(/-/g, ' ')
-    .replace('.pdf', '')
+    .replace(/\.(pdf|zip)$/, '')
     .replace(/\b\w/g, c => c.toUpperCase());
 }
 
@@ -39,25 +39,46 @@ function buildEmailHtml({ to, orderTitle, orderType, fileUrls, orderId }) {
     stage:   'Stage Bundle',
   }[orderType] || 'Booster';
 
-  const downloadLinks = fileUrls.map((url, i) => {
-    const name = friendlyFilename(url);
-    return `
+  const isZipBundle = fileUrls.length === 1 && fileUrls[0].endsWith('.zip');
+
+  const downloadLinks = isZipBundle
+    ? `
       <tr>
         <td style="padding:8px 0;">
-          <a href="${url}"
+          <a href="${fileUrls[0]}"
              style="display:inline-flex;align-items:center;gap:10px;
                     background:#6E47C9;color:#ffffff;
                     padding:13px 22px;border-radius:10px;
                     font-family:'Plus Jakarta Sans',Arial,sans-serif;
                     font-size:15px;font-weight:700;text-decoration:none;
                     letter-spacing:-0.01em;">
-            📄&nbsp; ${fileUrls.length > 1 ? (i + 1) + '. ' : ''}Download ${name}
+            📦&nbsp; Download All Boosters (ZIP)
           </a>
         </td>
-      </tr>`;
-  }).join('');
+      </tr>`
+    : fileUrls.map((url, i) => {
+        const name = friendlyFilename(url);
+        return `
+          <tr>
+            <td style="padding:8px 0;">
+              <a href="${url}"
+                 style="display:inline-flex;align-items:center;gap:10px;
+                        background:#6E47C9;color:#ffffff;
+                        padding:13px 22px;border-radius:10px;
+                        font-family:'Plus Jakarta Sans',Arial,sans-serif;
+                        font-size:15px;font-weight:700;text-decoration:none;
+                        letter-spacing:-0.01em;">
+                📄&nbsp; ${fileUrls.length > 1 ? (i + 1) + '. ' : ''}Download ${name}
+              </a>
+            </td>
+          </tr>`;
+      }).join('');
 
-  const multiNote = fileUrls.length > 1
+  const multiNote = isZipBundle
+    ? `<p style="color:#7A6A94;font-size:14px;margin:0 0 20px;">
+        Your order is ready as a single ZIP file — extract it to access every PDF.
+       </p>`
+    : fileUrls.length > 1
     ? `<p style="color:#7A6A94;font-size:14px;margin:0 0 20px;">
         Your order includes <strong>${fileUrls.length} PDFs</strong>. Download each one below.
        </p>`
