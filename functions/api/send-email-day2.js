@@ -90,7 +90,7 @@ function subjectLabel(s) {
   return { math:'Mathematics', science:'Science', computing:'Computing' }[s] || 'Subject';
 }
 
-function buildDay2Html({ to, buyerName, orderTitle, subject, stage, tip, feedbackUrl, upsellUrl, upsellLabel }) {
+function buildDay2Html({ to, buyerName, orderTitle, orderType, subject, stage, tip, feedbackUrl, upsellUrl, upsellLabel }) {
   const greeting = buyerName ? `Hi ${buyerName.split(' ')[0]}` : 'Hi there';
 
   return `<!DOCTYPE html>
@@ -110,9 +110,8 @@ function buildDay2Html({ to, buyerName, orderTitle, subject, stage, tip, feedbac
     <td style="background:#2A1B3D;border-radius:16px 16px 0 0;padding:28px 40px;">
       <table width="100%" cellpadding="0" cellspacing="0"><tr>
         <td>
-          <span style="font-weight:800;font-size:20px;color:#ffffff;letter-spacing:-0.02em;">
-            Core<span style="color:#6E47C9;">Mark</span>
-          </span>
+          <img src="https://assets.coremark.study/logo.jpg" alt="CoreMark" height="26"
+               style="display:block;border:0;outline:none;text-decoration:none;">
         </td>
         <td align="right">
           <span style="font-family:monospace;font-size:11px;letter-spacing:0.1em;
@@ -133,7 +132,13 @@ function buildDay2Html({ to, buyerName, orderTitle, subject, stage, tip, feedbac
         ${greeting} —
       </p>
       <p style="color:#2A1B3D;font-size:16px;margin:0 0 28px;line-height:1.6;">
-        Hope your child has had a chance to work through the <strong>${orderTitle}</strong> booster.
+        Hope your child has had a chance to work through ${
+          orderType === 'subject' || orderType === 'stage'
+            ? `the <strong>${orderTitle}</strong> bundle`
+            : orderType === 'fivepack'
+            ? `the <strong>${orderTitle}</strong> 5-pack`
+            : `the <strong>${orderTitle}</strong> booster`
+        }.
         Here's something we see come up time and again for ${subjectLabel(subject)} Stage ${stage}:
       </p>
 
@@ -271,7 +276,7 @@ export async function onRequestPost({ request, env }) {
     : null;
 
   const html = buildDay2Html({
-    to, buyerName, orderTitle, subject, stage: stage || 8,
+    to, buyerName, orderTitle, orderType, subject, stage: stage || 8,
     tip, feedbackUrl, upsellUrl, upsellLabel,
   });
 

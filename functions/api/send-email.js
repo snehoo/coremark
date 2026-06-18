@@ -84,12 +84,22 @@ function buildEmailHtml({ to, orderTitle, orderType, fileUrls, orderId }) {
        </p>`
     : '';
 
+  const heroHeading = isZipBundle
+    ? (orderType === 'stage' ? 'Your Stage Bundle is Ready' : 'Your Subject Bundle is Ready')
+    : (fileUrls.length > 1 ? 'Your Boosters are Ready' : 'Your Booster is Ready');
+
+  const introLine = isZipBundle
+    ? 'Hi there — your bundle is ready to download as a single ZIP file. Click the button below to get started.'
+    : fileUrls.length > 1
+    ? 'Hi there — your boosters are ready to download. Click the buttons below to get started.'
+    : 'Hi there — your PDF booster is ready to download. Click the button below to get started.';
+
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Your CoreMark Booster is Ready</title>
+<title>${heroHeading} — CoreMark</title>
 </head>
 <body style="margin:0;padding:0;background:#FBF8F2;font-family:'Plus Jakarta Sans',Arial,sans-serif;">
 <table width="100%" cellpadding="0" cellspacing="0" style="background:#FBF8F2;padding:40px 20px;">
@@ -102,15 +112,8 @@ function buildEmailHtml({ to, orderTitle, orderType, fileUrls, orderId }) {
       <table width="100%" cellpadding="0" cellspacing="0">
         <tr>
           <td>
-            <div style="display:inline-flex;align-items:center;gap:10px;">
-              <span style="background:#2A1B3D;border:2px solid rgba(255,255,255,0.15);
-                           border-radius:8px;padding:6px 10px;
-                           font-weight:800;font-size:14px;color:#ffffff;
-                           letter-spacing:-0.01em;">CM</span>
-              <span style="font-weight:800;font-size:20px;color:#ffffff;letter-spacing:-0.02em;">
-                Core<span style="color:#6E47C9;">Mark</span>
-              </span>
-            </div>
+            <img src="https://assets.coremark.study/logo.jpg" alt="CoreMark" height="28"
+                 style="display:block;border:0;outline:none;text-decoration:none;">
           </td>
           <td align="right">
             <span style="font-family:monospace;font-size:11px;letter-spacing:0.1em;
@@ -128,7 +131,7 @@ function buildEmailHtml({ to, orderTitle, orderType, fileUrls, orderId }) {
     <td style="background:#2A1B3D;padding:0 40px 36px;">
       <p style="font-family:Georgia,serif;font-size:34px;font-style:italic;
                 color:#FAE588;margin:0 0 10px;line-height:1.2;letter-spacing:-0.02em;">
-        Your Booster is Ready
+        ${heroHeading}
       </p>
       <p style="color:rgba(255,255,255,0.6);font-size:15px;margin:0;line-height:1.6;">
         ${orderTitle} · Cambridge Lower Secondary
@@ -142,7 +145,7 @@ function buildEmailHtml({ to, orderTitle, orderType, fileUrls, orderId }) {
                padding:36px 40px;">
 
       <p style="color:#2A1B3D;font-size:16px;margin:0 0 24px;line-height:1.6;">
-        Hi there — your PDF booster is ready to download. Click the button below to get started.
+        ${introLine}
       </p>
 
       ${multiNote}
@@ -284,6 +287,10 @@ export async function onRequestPost({ request, env }) {
     );
   }
 
+  const emailSubject = (fileUrls.length === 1 && fileUrls[0].endsWith('.zip'))
+    ? `📦 Your CoreMark ${orderType === 'stage' ? 'Stage' : 'Subject'} Bundle is Ready — ${orderTitle}`
+    : `📄 Your CoreMark Booster${fileUrls.length > 1 ? 's are' : ' is'} Ready — ${orderTitle}`;
+
   const html = buildEmailHtml({ to, orderTitle, orderType, fileUrls, orderId });
 
   try {
@@ -296,7 +303,7 @@ export async function onRequestPost({ request, env }) {
       body: JSON.stringify({
         from:    'CoreMark <info@coremark.study>',
         to:      [to],
-        subject: `📄 Your CoreMark Booster is Ready — ${orderTitle}`,
+        subject: emailSubject,
         html,
       }),
     });

@@ -132,9 +132,8 @@ function buildDay7Html({ to, buyerName, orderTitle, orderType, subject, stage, u
     <td style="background:#2A1B3D;border-radius:16px 16px 0 0;padding:28px 40px;">
       <table width="100%" cellpadding="0" cellspacing="0"><tr>
         <td>
-          <span style="font-weight:800;font-size:20px;color:#ffffff;letter-spacing:-0.02em;">
-            Core<span style="color:#6E47C9;">Mark</span>
-          </span>
+          <img src="https://assets.coremark.study/logo.jpg" alt="CoreMark" height="26"
+               style="display:block;border:0;outline:none;text-decoration:none;">
         </td>
         <td align="right">
           <span style="font-family:monospace;font-size:11px;letter-spacing:0.1em;
@@ -155,7 +154,13 @@ function buildDay7Html({ to, buyerName, orderTitle, orderType, subject, stage, u
         ${greeting} —
       </p>
       <p style="color:#2A1B3D;font-size:16px;margin:0 0 16px;line-height:1.6;">
-        It's been a week since you picked up the <strong>${orderTitle}</strong> booster.
+        It's been a week since you picked up ${
+          orderType === 'subject' || orderType === 'stage'
+            ? `the <strong>${orderTitle}</strong> bundle`
+            : orderType === 'fivepack'
+            ? `the <strong>${orderTitle}</strong> 5-pack`
+            : `the <strong>${orderTitle}</strong> booster`
+        }.
         Hopefully your child has worked through it and is feeling more confident about
         ${subject ? subjectLabel(subject) : 'the topic'}.
       </p>
