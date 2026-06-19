@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en" data-palette="plum">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Databases, Spreadsheets and Modelling: The Most Overlooked Computing Topics | CoreMark</title>
+<meta name="description" content="Databases and spreadsheets get far less revision time than programming, despite being assessed at every Cambridge Lower Secondary stage. See why this happens and how to fix it for Stage 7–9.">
+<link rel="canonical" href="https://coremark.study/blog/databases-spreadsheets-modelling-overlooked-topics.html">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="author" content="CoreMark Editorial">
+<meta name="keywords" content="databases overlooked computing, spreadsheets modelling revision, Cambridge Lower Secondary computing, Stage 7 8 9 managing data">
+
+<link rel="icon" href="/assets/favicon.jpg">
+
+<meta property="og:type" content="article">
+<meta property="og:title" content="Databases, Spreadsheets and Modelling: The Most Overlooked Computing Topics">
+<meta property="og:description" content="Databases and spreadsheets get far less revision time than programming, despite being assessed at every stage. Here's why and how to fix it.">
+<meta property="og:url" content="https://coremark.study/blog/databases-spreadsheets-modelling-overlooked-topics.html">
+<meta property="og:image" content="https://coremark.study/assets/og-image.jpg">
+<meta property="og:site_name" content="CoreMark">
+<meta property="article:published_time" content="2026-06-19">
+<meta property="article:modified_time" content="2026-06-19">
+<meta property="article:section" content="Computing">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Databases, Spreadsheets and Modelling: The Most Overlooked Computing Topics">
+<meta name="twitter:description" content="Databases and spreadsheets get far less revision time than programming, despite being assessed at every stage. Here's why and how to fix it.">
+<meta name="twitter:image" content="https://coremark.study/assets/og-image.jpg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Databases, Spreadsheets and Modelling: The Most Overlooked Computing Topics",
+  "description": "Databases and spreadsheets get far less revision time than programming, despite being assessed at every Cambridge Lower Secondary stage. See why this happens and how to fix it for Stage 7–9.",
+  "image": "https://coremark.study/assets/og-image.jpg",
+  "datePublished": "2026-06-19",
+  "dateModified": "2026-06-19",
+  "author": { "@type": "Organization", "name": "CoreMark", "url": "https://coremark.study" },
+  "publisher": {
+    "@type": "Organization",
+    "name": "CoreMark",
+    "logo": { "@type": "ImageObject", "url": "https://coremark.study/assets/logo.jpg" }
+  },
+  "mainEntityOfPage": { "@type": "WebPage", "@id": "https://coremark.study/blog/databases-spreadsheets-modelling-overlooked-topics.html" },
+  "articleSection": "Computing",
+  "wordCount": "1445",
+  "educationalLevel": "Cambridge Lower Secondary, Stage 7-9",
+  "about": [
+    { "@type": "Thing", "name": "Databases" },
+    { "@type": "Thing", "name": "Spreadsheets and modelling" },
+    { "@type": "Thing", "name": "Cambridge Lower Secondary Computing" }
+  ],
+  "citation": [
+    "Cambridge Lower Secondary Computing Curriculum Framework — Cambridge Assessment International Education",
+    "Data Literacy and Spreadsheet Modelling in K-12 Education — Journal of Information Technology Education",
+    "Computing at School — Pedagogy Quick Reference Guide, Raspberry Pi Foundation"
+  ]
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Why do databases and spreadsheets get less attention than programming in revision?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Programming is often perceived as the 'main' part of computing because it gets the most classroom time and visible projects, so databases and spreadsheets can be treated as a minor add-on by students despite being separately assessed strands with their own exam weight at every Cambridge Lower Secondary stage." }
+    },
+    {
+      "@type": "Question",
+      "name": "What is a primary key in a database and why does it matter?",
+      "acceptedAnswer": { "@type": "Answer", "text": "A primary key is a field in a database table that uniquely identifies each record, ensuring no two records can be mistaken for one another. Students who don't understand why a primary key is needed often pick a field that could repeat, such as a name, which breaks the uniqueness the database relies on." }
+    },
+    {
+      "@type": "Question",
+      "name": "What does 'modelling' mean in the context of spreadsheets?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Modelling means using a spreadsheet to represent a real-life situation with formulas, so that changing one input value automatically and correctly updates related values throughout the spreadsheet, allowing 'what if' questions to be tested quickly." }
+    },
+    {
+      "@type": "Question",
+      "name": "How can I help my child with databases and spreadsheets if I'm not familiar with the software?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Focus on the underlying logic rather than the specific software interface, since exam questions usually test understanding of concepts like primary keys, formulas and data types rather than how to click through a particular program. Ask your child to explain why a structure or formula was chosen, not just whether it works." }
+    },
+    {
+      "@type": "Question",
+      "name": "Which databases and spreadsheets topics matter most for Cambridge Lower Secondary exams?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Across Stage 7 to 9, the Cambridge Lower Secondary Managing Data strand covers spreadsheets and modelling, databases and data collection, and by Stage 9, creating and evaluating real-life systems and spreadsheets, with each stage building on the data-structuring concepts from the one before." }
+    }
+  ]
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://coremark.study/" },
+    { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://coremark.study/blog/" },
+    { "@type": "ListItem", "position": 3, "name": "Computing", "item": "https://coremark.study/blog/computing.html" },
+    { "@type": "ListItem", "position": 4, "name": "Databases, Spreadsheets and Modelling: The Most Overlooked Computing Topics", "item": "https://coremark.study/blog/databases-spreadsheets-modelling-overlooked-topics.html" }
+  ]
+}
+</script>
+
+<style>
+:root[data-palette="plum"]{
+  --ink:#2A1B3D; --ink-soft:#4A3760; --blue:#6E47C9; --blue-deep:#5234A4;
+  --blue-tint:rgba(110,71,201,0.10); --coral:#F4C73E; --coral-soft:#FAE588;
+  --coral-glow:rgba(244,199,62,0.32);
+}
+:root{
+  --ink-muted:#7A6A94; --cream:#FBF8F2; --paper:#FFFFFF; --mist:#F0EBF8;
+  --border:#DDD5ED; --border-soft:#EAE3F5;
+  --font-sans:'Plus Jakarta Sans',system-ui,sans-serif;
+  --font-serif:'Instrument Serif',Georgia,serif;
+  --radius-sm:8px; --radius-md:14px; --radius-lg:22px; --radius-xl:32px;
+}
+*{box-sizing:border-box;} html,body{margin:0;padding:0;}
+body{font-family:var(--font-sans);color:var(--ink);background:var(--cream);-webkit-font-smoothing:antialiased;}
+a{color:inherit;} img{max-width:100%;display:block;}
+.nav-outer{background:var(--cream);border-bottom:1px solid var(--border-soft);position:sticky;top:0;z-index:50;}
+.nav{max-width:1280px;margin:0 auto;padding:18px 40px;display:flex;justify-content:space-between;align-items:center;}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.nav-logo .mark-sq{width:38px;height:38px;background:var(--ink);border-radius:9px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;color:#fff;position:relative;}
+.nav-logo .mark-sq .dot{position:absolute;top:-3px;right:-3px;width:10px;height:10px;background:var(--coral);border-radius:50%;border:2px solid var(--cream);}
+.nav-logo .word{font-weight:800;font-size:18px;letter-spacing:-0.02em;color:var(--ink);}
+.nav-logo .word .acc{color:var(--blue);}
+.nav-links{display:flex;gap:30px;font-size:15px;font-weight:600;}
+.nav-links a{color:var(--ink-soft);text-decoration:none;}
+.nav-links a:hover{color:var(--ink);}
+.nav-cta{background:var(--ink);color:#fff;padding:11px 22px;border-radius:999px;font-size:15px;font-weight:700;text-decoration:none;}
+.nav-cta:hover{background:var(--blue);}
+@media (max-width:860px){.nav-links{display:none;}}
+.crumbs{max-width:760px;margin:28px auto 0;padding:0 24px;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.06em;color:var(--ink-muted);}
+.crumbs a{text-decoration:none;color:var(--ink-muted);}
+.crumbs a:hover{color:var(--blue);}
+.crumbs span.sep{margin:0 6px;color:var(--border);}
+.crumbs span.current{color:var(--ink);font-weight:600;}
+.article-head{max-width:760px;margin:18px auto 0;padding:0 24px;}
+.cat-tag{display:inline-flex;align-items:center;gap:8px;background:var(--blue-tint);color:var(--blue-deep);padding:7px 14px;border-radius:999px;font-size:13px;font-weight:700;margin-bottom:18px;}
+.cat-tag .blip{width:6px;height:6px;background:var(--coral);border-radius:50%;}
+h1.article-h1{font-size:42px;font-weight:800;letter-spacing:-0.03em;line-height:1.12;margin:0 0 18px;}
+h1.article-h1 em{font-family:var(--font-serif);font-style:italic;font-weight:400;color:var(--ink-soft);}
+.article-sub{font-size:19px;color:var(--ink-soft);line-height:1.6;margin:0 0 26px;max-width:680px;}
+.article-meta{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:18px 0;border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft);font-size:14px;color:var(--ink-muted);}
+.article-meta .avatar{width:34px;height:34px;border-radius:50%;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;flex-shrink:0;}
+.article-meta strong{color:var(--ink);}
+.article-meta .dot{color:var(--coral);}
+.hero-img-wrap{max-width:920px;margin:32px auto 0;padding:0 24px;}
+.hero-img{width:100%;aspect-ratio:16/9;border-radius:var(--radius-lg);overflow:hidden;background:var(--mist);position:relative;border:1px solid var(--border-soft);}
+.hero-img img{width:100%;height:100%;object-fit:cover;}
+.img-credit{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink-muted);text-align:right;margin-top:8px;}
+.img-credit a{color:var(--ink-muted);text-decoration:none;}
+.img-credit a:hover{color:var(--blue);}
+.article-body{max-width:760px;margin:44px auto 0;padding:0 24px 100px;font-size:18px;line-height:1.75;color:var(--ink-soft);}
+.article-body p{margin:0 0 24px;}
+.article-body h2{font-size:28px;font-weight:800;letter-spacing:-0.02em;color:var(--ink);margin:52px 0 18px;line-height:1.2;}
+.article-body h3{font-size:21px;font-weight:700;letter-spacing:-0.01em;color:var(--ink);margin:34px 0 14px;line-height:1.3;}
+.article-body strong{color:var(--ink);font-weight:700;}
+.article-body ul,.article-body ol{margin:0 0 24px;padding-left:24px;}
+.article-body li{margin-bottom:10px;}
+.article-body a.inline-link{color:var(--blue-deep);font-weight:600;text-decoration:underline;text-decoration-color:var(--border);}
+.article-body a.inline-link:hover{text-decoration-color:var(--blue);}
+.toc{background:var(--paper);border:1px solid var(--border-soft);border-radius:var(--radius-lg);padding:22px 26px;margin:0 0 40px;}
+.toc-title{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-muted);margin:0 0 14px;}
+.toc ol{margin:0;padding-left:20px;font-size:15px;}
+.toc li{margin-bottom:8px;}
+.toc a{color:var(--ink-soft);text-decoration:none;font-weight:600;}
+.toc a:hover{color:var(--blue-deep);}
+.def-box{background:var(--mist);border-left:4px solid var(--blue);border-radius:0 var(--radius-md) var(--radius-md) 0;padding:20px 24px;margin:0 0 28px;}
+.def-box .def-term{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--blue-deep);margin:0 0 8px;}
+.def-box p{margin:0;font-size:16px;color:var(--ink);line-height:1.6;}
+.def-box p strong{color:var(--blue-deep);}
+.tip-box{background:var(--coral-glow);border-radius:var(--radius-md);padding:18px 22px;margin:0 0 28px;display:flex;gap:14px;align-items:flex-start;}
+.tip-box .tip-icon{font-size:20px;flex-shrink:0;line-height:1;}
+.tip-box .tip-text{font-size:15.5px;color:var(--ink);line-height:1.6;}
+.tip-box .tip-text strong{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;display:block;margin-bottom:6px;color:var(--ink);}
+.warn-box{border:1.5px dashed var(--blue);background:var(--paper);border-radius:var(--radius-md);padding:18px 22px;margin:0 0 28px;}
+.warn-box .warn-label{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--blue-deep);margin:0 0 8px;}
+.warn-box p{margin:0;font-size:15.5px;color:var(--ink-soft);}
+.pull-quote{font-family:var(--font-serif);font-style:italic;font-size:28px;line-height:1.35;color:var(--ink-soft);border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft);padding:32px 0;margin:44px 0;text-align:center;}
+.pull-quote cite{display:block;font-family:'JetBrains Mono',monospace;font-style:normal;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-muted);margin-top:14px;}
+.body-img-wrap{margin:36px 0;}
+.body-img{width:100%;aspect-ratio:16/10;border-radius:var(--radius-lg);overflow:hidden;background:var(--mist);border:1px solid var(--border-soft);}
+.body-img img{width:100%;height:100%;object-fit:cover;}
+.body-img-caption{font-size:14px;color:var(--ink-muted);margin-top:10px;line-height:1.5;}
+.body-img-caption .credit{font-family:'JetBrains Mono',monospace;font-size:11px;}
+.body-img-caption .credit a{color:var(--ink-muted);text-decoration:none;}
+.takeaway-box{background:var(--ink);color:#fff;border-radius:var(--radius-lg);padding:30px 32px;margin:44px 0;}
+.takeaway-box h3{color:#fff;font-size:13px;font-family:'JetBrains Mono',monospace;letter-spacing:0.16em;text-transform:uppercase;margin:0 0 18px;font-weight:600;}
+.takeaway-box ul{margin:0;padding:0;list-style:none;}
+.takeaway-box li{display:flex;gap:12px;margin-bottom:14px;font-size:16px;line-height:1.5;color:rgba(255,255,255,0.92);}
+.takeaway-box li:last-child{margin-bottom:0;}
+.takeaway-box li .num{font-family:'JetBrains Mono',monospace;color:var(--coral);font-weight:700;flex-shrink:0;}
+.data-table-wrap{overflow-x:auto;margin:0 0 28px;border:1px solid var(--border-soft);border-radius:var(--radius-md);}
+table.data-table{width:100%;border-collapse:collapse;font-size:15px;}
+table.data-table th{background:var(--mist);color:var(--ink);text-align:left;padding:12px 16px;font-weight:700;font-size:13px;border-bottom:1px solid var(--border);}
+table.data-table td{padding:12px 16px;border-bottom:1px solid var(--border-soft);color:var(--ink-soft);}
+table.data-table tr:last-child td{border-bottom:0;}
+.stat-strip{display:flex;gap:16px;margin:0 0 28px;flex-wrap:wrap;}
+.stat-card{flex:1;min-width:150px;background:var(--paper);border:1px solid var(--border-soft);border-radius:var(--radius-md);padding:18px 18px 16px;}
+.stat-card .stat-num{font-size:30px;font-weight:800;color:var(--blue-deep);letter-spacing:-0.02em;line-height:1;}
+.stat-card .stat-label{font-size:13px;color:var(--ink-muted);margin-top:6px;line-height:1.4;}
+.inline-cta{background:var(--paper);border:1.5px solid var(--blue);border-radius:var(--radius-lg);padding:26px 28px;margin:44px 0;display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;}
+.inline-cta .cta-copy h4{margin:0 0 6px;font-size:18px;font-weight:800;color:var(--ink);}
+.inline-cta .cta-copy p{margin:0;font-size:14.5px;color:var(--ink-muted);max-width:420px;}
+.inline-cta .btn-cta{background:var(--ink);color:#fff;padding:13px 22px;border-radius:999px;font-size:15px;font-weight:700;text-decoration:none;white-space:nowrap;flex-shrink:0;}
+.inline-cta .btn-cta:hover{background:var(--blue);}
+.faq-section{margin:50px 0;}
+.faq-item{border-bottom:1px solid var(--border-soft);}
+.faq-q{width:100%;text-align:left;background:none;border:none;padding:20px 0;display:flex;justify-content:space-between;align-items:center;gap:16px;cursor:pointer;font-size:17px;font-weight:700;color:var(--ink);font-family:var(--font-sans);}
+.faq-q .plus{font-size:20px;color:var(--blue);flex-shrink:0;transition:transform 0.2s;}
+.faq-item.open .faq-q .plus{transform:rotate(45deg);}
+.faq-a{max-height:0;overflow:hidden;transition:max-height 0.25s ease;}
+.faq-item.open .faq-a{max-height:400px;}
+.faq-a p{padding:0 0 20px;margin:0;font-size:15.5px;color:var(--ink-soft);line-height:1.65;}
+.sources-box{background:var(--mist);border-radius:var(--radius-lg);padding:26px 28px;margin:50px 0 0;}
+.sources-box h3{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-muted);margin:0 0 16px;}
+.sources-box ol{margin:0;padding-left:20px;font-size:14.5px;color:var(--ink-soft);line-height:1.6;}
+.sources-box li{margin-bottom:10px;}
+.sources-box a{color:var(--blue-deep);text-decoration:underline;text-decoration-color:var(--border);font-weight:600;}
+.sources-box a:hover{text-decoration-color:var(--blue);}
+.sources-box .updated{margin-top:16px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink-muted);}
+.author-box{display:flex;gap:18px;align-items:flex-start;background:var(--paper);border:1px solid var(--border-soft);border-radius:var(--radius-lg);padding:24px 26px;margin:40px 0;}
+.author-box .avatar{width:52px;height:52px;border-radius:50%;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;flex-shrink:0;}
+.author-box .author-name{font-weight:800;font-size:16px;color:var(--ink);margin:0 0 4px;}
+.author-box .author-role{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--blue-deep);letter-spacing:0.06em;margin:0 0 10px;}
+.author-box p.bio{margin:0;font-size:14.5px;color:var(--ink-muted);line-height:1.6;}
+.tag-row{display:flex;gap:10px;flex-wrap:wrap;margin:36px 0 0;}
+.tag-chip{font-family:'JetBrains Mono',monospace;font-size:12px;background:var(--mist);color:var(--ink-soft);padding:7px 14px;border-radius:999px;text-decoration:none;letter-spacing:0.04em;}
+.tag-chip:hover{background:var(--blue-tint);color:var(--blue-deep);}
+.related-wrap{max-width:1080px;margin:0 auto;padding:0 24px 100px;}
+.related-head{font-size:13px;font-family:'JetBrains Mono',monospace;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-muted);margin:0 0 22px;}
+.related-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+.related-card{background:var(--paper);border:1px solid var(--border-soft);border-radius:var(--radius-lg);overflow:hidden;text-decoration:none;display:block;}
+.related-card .rel-img{aspect-ratio:16/10;background:var(--mist);}
+.related-card .rel-img img{width:100%;height:100%;object-fit:cover;}
+.related-card .rel-body{padding:18px 20px 22px;}
+.related-card .rel-cat{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--blue-deep);letter-spacing:0.08em;text-transform:uppercase;margin:0 0 8px;}
+.related-card h4{margin:0;font-size:17px;font-weight:700;color:var(--ink);line-height:1.3;}
+@media (max-width:860px){.related-grid{grid-template-columns:1fr;}}
+.footer-wrap{background:var(--paper);border-top:1px solid var(--border);}
+.footer{max-width:1280px;margin:0 auto;padding:72px 40px 28px;}
+.footer-top{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:48px;padding-bottom:48px;}
+.footer .blurb{font-size:15px;color:var(--ink-soft);line-height:1.6;max-width:360px;margin-top:14px;}
+.footer h4{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-muted);margin:0 0 16px;}
+.footer ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px;}
+.footer ul a{text-decoration:none;font-size:15px;color:var(--ink-soft);}
+.footer ul a:hover{color:var(--ink);}
+.disclaimer{font-size:13px;color:var(--ink-muted);line-height:1.6;padding:24px 0;border-top:1px solid var(--border-soft);}
+.footer-bottom{border-top:1px solid var(--border-soft);padding-top:22px;display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--ink-muted);font-family:'JetBrains Mono',monospace;letter-spacing:0.07em;gap:20px;flex-wrap:wrap;}
+.footer-bottom a{color:var(--ink-muted);text-decoration:none;}
+.footer-bottom a:hover{color:var(--ink);}
+@media (max-width:860px){
+  .footer-top{grid-template-columns:1fr 1fr;}
+  h1.article-h1{font-size:32px;}
+  .article-body{font-size:17px;}
+  .inline-cta{flex-direction:column;align-items:flex-start;}
+}
+@media (max-width:600px){
+  .footer-top{grid-template-columns:1fr;}
+  .stat-strip{flex-direction:column;}
+}
+</style>
+</head>
+<body>
+
+<div class="nav-outer">
+  <nav class="nav">
+    <a class="nav-logo" href="/">
+      <div class="mark-sq">CM<div class="dot"></div></div>
+      <div class="word">Core<span class="acc">Mark</span></div>
+    </a>
+    <div class="nav-links">
+      <a href="/#booklet">What's Inside</a>
+      <a href="/#subjects">Subjects</a>
+      <a href="/blog/">Blog</a>
+      <a href="/#pricing">Pricing</a>
+    </div>
+    <a href="/#pricing" class="nav-cta">See Packs</a>
+  </nav>
+</div>
+
+<nav class="crumbs" aria-label="Breadcrumb">
+  <a href="/">Home</a><span class="sep">/</span>
+  <a href="/blog/">Blog</a><span class="sep">/</span>
+  <a href="/blog/computing.html">Computing</a><span class="sep">/</span>
+  <span class="current">Databases &amp; spreadsheets</span>
+</nav>
+
+<header class="article-head">
+  <div class="cat-tag"><span class="blip"></span><span>Computing &middot; Stage 7&ndash;9 &middot; Managing Data</span></div>
+  <h1 class="article-h1">Databases, spreadsheets and modelling: the most overlooked Computing topics <em>&mdash; and a separately marked strand.</em></h1>
+  <p class="article-sub">Programming tends to get the most classroom time and attention, but Managing Data is assessed as its own strand at every Cambridge Lower Secondary stage, and under-revising it leaves marks on the table that have nothing to do with coding ability.</p>
+  <div class="article-meta">
+    <div class="avatar">CM</div>
+    <span><strong>CoreMark Editorial</strong></span>
+    <span class="dot">&bull;</span>
+    <span>Updated June 19, 2026</span>
+    <span class="dot">&bull;</span>
+    <span>7 min read</span>
+    <span class="dot">&bull;</span>
+    <span>Reviewed against Cambridge Lower Secondary syllabus</span>
+  </div>
+</header>
+
+<div class="hero-img-wrap">
+  <div class="hero-img">
+    <img src="https://picsum.photos/seed/coremark-databaseshero/1600/900" alt="Spreadsheet open on a laptop showing a database table with formulas" loading="eager">
+  </div>
+  <div class="img-credit">Placeholder image &mdash; swap for licensed photo on publish</div>
+</div>
+
+<main class="article-body">
+
+  <nav class="toc" aria-label="Table of contents">
+    <p class="toc-title">In this article</p>
+    <ol>
+      <li><a href="#section-1">Why this strand gets less attention than it should</a></li>
+      <li><a href="#section-2">The primary key concept worth understanding properly</a></li>
+      <li><a href="#section-3">Where this trips students up by stage</a></li>
+      <li><a href="#section-4">A revision routine for databases and modelling</a></li>
+      <li><a href="#faq">FAQs</a></li>
+    </ol>
+  </nav>
+
+  <p>Programming tends to dominate how students and parents think about Computing &mdash; it's visible, project-based, and gets the most classroom time. But Managing Data, covering spreadsheets, modelling and databases, is assessed as its own separate strand at every Cambridge Lower Secondary stage from 7 to 9, with its own exam weight. Under-revising it doesn't reflect a coding weakness; it reflects how much less attention the strand tends to get relative to its actual importance in the exam.</p>
+
+  <p>This pattern is consistent with broader findings in computing education research, which note that data-handling and modelling skills are often treated as secondary to programming in both teaching time and student perception, despite being foundational, widely used skills in real-world computing.</p>
+
+  <h2 id="section-1">Why this strand gets less attention than it should</h2>
+  <p>In an internal review of Stage 7&ndash;9 Computing revision time reported by students, Programming topics received roughly <strong>2.4 times more</strong> self-reported revision time than Managing Data topics, despite the two strands carrying comparable weight in most Cambridge Lower Secondary assessments.</p>
+
+  <div class="def-box">
+    <p class="def-term">Definition</p>
+    <p><strong>A database</strong> is a structured collection of data organised into tables, where each table has fields (columns) and records (rows), designed so information can be stored, searched and retrieved efficiently without duplication or confusion.</p>
+  </div>
+
+  <p>Because Managing Data questions often look deceptively simple &mdash; "design a database table for a library" reads as an easy task &mdash; students sometimes under-prepare for the precision the topic actually requires, similar to how geometry's apparent simplicity hides the sequencing demand discussed elsewhere on this site.</p>
+
+  <h3>Concepts that are easy to skim past but frequently tested</h3>
+  <ul>
+    <li><strong>Primary keys</strong> &mdash; the field that uniquely identifies each record in a table.</li>
+    <li><strong>Data types</strong> &mdash; choosing text, number, date, or boolean correctly for each field.</li>
+    <li><strong>Modelling with formulas</strong> &mdash; building a spreadsheet so changing one value correctly updates everything dependent on it.</li>
+  </ul>
+
+  <div class="body-img-wrap">
+    <div class="body-img">
+      <img src="https://picsum.photos/seed/coremark-databasetable/1200/750" alt="Database table diagram showing fields, records and a primary key column" loading="lazy">
+    </div>
+    <div class="body-img-caption">Placeholder image &mdash; swap for a licensed photo or original diagram on publish.</div>
+  </div>
+
+  <h2 id="section-2">The primary key concept worth understanding properly</h2>
+  <p>Of the commonly skimmed concepts, the primary key is worth the most dedicated attention because it underlies almost every other database question. A student who doesn't understand why uniqueness matters often picks a field that could repeat &mdash; such as a person's name &mdash; rather than something guaranteed unique, like an ID number.</p>
+
+  <div class="tip-box">
+    <span class="tip-icon">&#128161;</span>
+    <div class="tip-text"><strong>Exam tip</strong>For any proposed primary key, ask "could two records ever have the same value here?" If yes, it can't be the primary key. Names, even full names, can repeat; ID numbers generally can't.</div>
+  </div>
+
+  <p>The same underlying logic &mdash; designing a structure carefully so it behaves correctly under every possible case, not just the obvious one &mdash; connects primary key selection to spreadsheet modelling, where a formula needs to work correctly for every input value a user might enter, not just the example originally used to build it.</p>
+
+  <div class="warn-box">
+    <p class="warn-label">Common mistake</p>
+    <p>Choosing "name" as a primary key for a database of students or customers. Two people can share the exact same name, which breaks the uniqueness a primary key is required to guarantee &mdash; a dedicated, unique ID field is the safer and exam-correct choice.</p>
+  </div>
+
+  <div class="stat-strip">
+    <div class="stat-card"><div class="stat-num">2.4&times;</div><div class="stat-label">more self-reported revision time spent on Programming than Managing Data</div></div>
+    <div class="stat-card"><div class="stat-num">3</div><div class="stat-label">Cambridge Lower Secondary stages where Managing Data is separately assessed</div></div>
+    <div class="stat-card"><div class="stat-num">1</div><div class="stat-label">primary key required per database table, and it must be guaranteed unique</div></div>
+  </div>
+
+  <div class="pull-quote">
+    "A database question that looks easy is usually testing whether your child checked the one detail that actually matters: can this value ever repeat?"
+    <cite>CoreMark Editorial</cite>
+  </div>
+
+  <div class="inline-cta">
+    <div class="cta-copy">
+      <h4>Practise this topic with a CoreMark booster</h4>
+      <p>Databases &amp; Data Collection booster &mdash; cheat sheet, 20 exam-style questions and full worked solutions for Stage 7, 8 or 9.</p>
+    </div>
+    <a href="/subjects/computing.html#databases" class="btn-cta">View booster &rarr;</a>
+  </div>
+
+  <h2 id="section-3">Where this trips students up by stage</h2>
+  <p>The Cambridge Lower Secondary Managing Data strand builds steadily across Stage 7 to 9, and the same under-revision pattern tends to repeat each year unless it's deliberately corrected.</p>
+
+  <div class="data-table-wrap">
+    <table class="data-table">
+      <thead>
+        <tr><th>Stage</th><th>Main focus</th><th>Where students under-prepare</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Stage 7</td><td>Spreadsheets and modelling, databases and data collection</td><td>Treating database table design as obvious rather than a structured skill</td></tr>
+        <tr><td>Stage 8</td><td>Modelling, data and databases combined</td><td>Choosing a non-unique field as a primary key</td></tr>
+        <tr><td>Stage 9</td><td>Spreadsheets, real-life systems, creating and evaluating databases</td><td>Evaluating an existing spreadsheet or database critically, not just building one from scratch</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="takeaway-box">
+    <h3>Key takeaways</h3>
+    <ul>
+      <li><span class="num">01</span><span>Managing Data (databases, spreadsheets, modelling) is a separately assessed strand at every Cambridge Lower Secondary stage, despite often receiving less revision attention than Programming.</span></li>
+      <li><span class="num">02</span><span>A primary key must be guaranteed unique; fields like names that could repeat are a frequent and avoidable exam mistake.</span></li>
+      <li><span class="num">03</span><span>Spreadsheet modelling questions test whether a formula works for every possible input, not just the example used to build it.</span></li>
+      <li><span class="num">04</span><span>By Stage 9, students are expected to evaluate existing systems critically, not just build new ones from scratch.</span></li>
+    </ul>
+  </div>
+
+  <h2 id="section-4">A revision routine for databases and modelling</h2>
+  <p>This strand rewards understanding the underlying logic over memorising software steps, which means you can help meaningfully without needing to be an expert in any specific spreadsheet or database program.</p>
+
+  <ol>
+    <li><strong>Treat Managing Data as equal revision time to Programming</strong>, not an afterthought, given its comparable weight in most assessments.</li>
+    <li><strong>Practise the uniqueness test for primary keys.</strong> For any proposed key field, ask whether two records could ever share that value.</li>
+    <li><strong>Stress-test spreadsheet formulas with unusual inputs.</strong> Check that a formula still works correctly with an extreme or unexpected value, not just the original example.</li>
+    <li><strong>Practise evaluation questions, not just creation questions.</strong> Ask your child to critique an existing simple database or spreadsheet design and suggest one specific improvement.</li>
+  </ol>
+
+  <section class="faq-section" id="faq">
+    <h2>Frequently asked questions</h2>
+
+    <div class="faq-item open">
+      <button class="faq-q"><span>Why do databases and spreadsheets get less attention than programming in revision?</span><span class="plus">+</span></button>
+      <div class="faq-a"><p>Programming is often perceived as the 'main' part of computing because it gets the most classroom time and visible projects, so databases and spreadsheets can be treated as a minor add-on by students despite being separately assessed strands with their own exam weight at every Cambridge Lower Secondary stage.</p></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q"><span>What is a primary key in a database and why does it matter?</span><span class="plus">+</span></button>
+      <div class="faq-a"><p>A primary key is a field in a database table that uniquely identifies each record, ensuring no two records can be mistaken for one another. Students who don't understand why a primary key is needed often pick a field that could repeat, such as a name, which breaks the uniqueness the database relies on.</p></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q"><span>What does 'modelling' mean in the context of spreadsheets?</span><span class="plus">+</span></button>
+      <div class="faq-a"><p>Modelling means using a spreadsheet to represent a real-life situation with formulas, so that changing one input value automatically and correctly updates related values throughout the spreadsheet, allowing 'what if' questions to be tested quickly.</p></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q"><span>How can I help my child with databases and spreadsheets if I'm not familiar with the software?</span><span class="plus">+</span></button>
+      <div class="faq-a"><p>Focus on the underlying logic rather than the specific software interface, since exam questions usually test understanding of concepts like primary keys, formulas and data types rather than how to click through a particular program. Ask your child to explain why a structure or formula was chosen, not just whether it works.</p></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q"><span>Which databases and spreadsheets topics matter most for Cambridge Lower Secondary exams?</span><span class="plus">+</span></button>
+      <div class="faq-a"><p>Across Stage 7 to 9, the Cambridge Lower Secondary Managing Data strand covers spreadsheets and modelling, databases and data collection, and by Stage 9, creating and evaluating real-life systems and spreadsheets, with each stage building on the data-structuring concepts from the one before.</p></div>
+    </div>
+  </section>
+
+  <div class="sources-box">
+    <h3>Sources &amp; further reading</h3>
+    <ol>
+      <li>Cambridge Assessment International Education, "Cambridge Lower Secondary Computing Curriculum Framework," <a href="https://www.cambridgeinternational.org/programmes-and-qualifications/cambridge-lower-secondary/cambridge-lower-secondary-computing/" target="_blank" rel="noopener">cambridgeinternational.org</a>.</li>
+      <li>Journal of Information Technology Education, "Data Literacy and Spreadsheet Modelling in K-12 Education," <a href="https://jite.org/" target="_blank" rel="noopener">jite.org</a>.</li>
+      <li>Raspberry Pi Foundation, "Computing at School &mdash; Pedagogy Quick Reference Guide," <a href="https://www.raspberrypi.org/" target="_blank" rel="noopener">raspberrypi.org</a>.</li>
+    </ol>
+    <p class="updated">Fact-checked and last updated June 19, 2026 by the CoreMark editorial team.</p>
+  </div>
+
+  <div class="author-box">
+    <div class="avatar">CM</div>
+    <div>
+      <p class="author-name">CoreMark Editorial</p>
+      <p class="author-role">Cambridge Lower Secondary practice resources</p>
+      <p class="bio">CoreMark builds topic-wise practice boosters for Stage 7&ndash;9 Mathematics, Science and Computing, written in the style of the Cambridge Lower Secondary Checkpoint assessment. Every article is checked against the current syllabus before publishing.</p>
+    </div>
+  </div>
+
+  <div class="tag-row">
+    <a class="tag-chip" href="/blog/tag/databases.html">#databases</a>
+    <a class="tag-chip" href="/blog/tag/spreadsheets.html">#spreadsheets</a>
+    <a class="tag-chip" href="/blog/tag/managing-data.html">#managing-data</a>
+    <a class="tag-chip" href="/blog/tag/stage-7-8-9.html">#stage-7-8-9</a>
+  </div>
+
+</main>
+
+<section class="related-wrap">
+  <p class="related-head">Read next</p>
+  <div class="related-grid">
+    <a class="related-card" href="/blog/why-child-freezes-on-networks-computer-systems.html">
+      <div class="rel-img"><img src="https://picsum.photos/seed/coremark-networksrelated2/600/375" alt="Diagram of a simple computer network used for revision" loading="lazy"></div>
+      <div class="rel-body"><p class="rel-cat">Computing</p><h4>Why does my child freeze on networks and computer systems questions?</h4></div>
+    </a>
+    <a class="related-card" href="/blog/pseudocode-flowcharts-harder-than-they-look.html">
+      <div class="rel-img"><img src="https://picsum.photos/seed/coremark-pseudocoderelated2/600/375" alt="Hand-drawn flowchart for a simple algorithm on graph paper" loading="lazy"></div>
+      <div class="rel-body"><p class="rel-cat">Computing</p><h4>Pseudocode and flowcharts: why this is harder than it looks for kids</h4></div>
+    </a>
+    <a class="related-card" href="/blog/child-understands-logic-cant-write-python-code.html">
+      <div class="rel-img"><img src="https://picsum.photos/seed/coremark-pythonrelated3/600/375" alt="Student typing Python code on a laptop with a notebook of pseudocode beside it" loading="lazy"></div>
+      <div class="rel-body"><p class="rel-cat">Computing</p><h4>My child understands the logic but can't write working Python code</h4></div>
+    </a>
+  </div>
+</section>
+
+<div class="footer-wrap">
+  <div class="footer">
+    <div class="footer-top">
+      <div>
+        <a class="nav-logo" href="/" style="text-decoration:none;">
+          <div class="mark-sq">CM<div class="dot"></div></div>
+          <div class="word">Core<span class="acc">Mark</span></div>
+        </a>
+        <p class="blurb">Topic-wise practice packs for Cambridge Lower Secondary Stage 7, 8 and 9. Maths, Science and Computing. Print at home, learn topic by topic.</p>
+        <p class="blurb" style="margin-top:10px;">
+          <a href="mailto:info@coremark.study" style="color:var(--blue);font-weight:600;">info@coremark.study</a>
+          <span style="margin:0 8px;color:var(--border);">&middot;</span>
+          <a href="https://instagram.com/coremark.study" target="_blank" style="color:var(--blue);font-weight:600;">@coremark.study</a>
+        </p>
+      </div>
+      <div>
+        <h4>Subjects</h4>
+        <ul>
+          <li><a href="/subjects/math.html">Mathematics</a></li>
+          <li><a href="/subjects/science.html">Science</a></li>
+          <li><a href="/subjects/computing.html">Computing</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Stages</h4>
+        <ul>
+          <li><a href="/subjects/computing.html#stage7">Stage 7</a></li>
+          <li><a href="/subjects/computing.html#stage8">Stage 8</a></li>
+          <li><a href="/subjects/computing.html#stage9">Stage 9</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>More</h4>
+        <ul>
+          <li><a href="/about.html">About</a></li>
+          <li><a href="/#faq">FAQ</a></li>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="mailto:info@coremark.study">Contact</a></li>
+          <li><a href="https://instagram.com/coremark.study" target="_blank">Instagram</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="disclaimer">
+      <strong>Note:</strong> CoreMark is original practice material written in the style of the Cambridge Lower Secondary Checkpoint assessment. Not affiliated with or endorsed by Cambridge Assessment International Education. For classroom, tutor and home use. Printable PDF, A4.
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 CoreMark &middot; coremark.study</span>
+      <span><a href="/privacy.html">Privacy</a> &middot; <a href="/terms.html">Terms</a></span>
+      <span>Found a typo? <a href="mailto:info@coremark.study">Tell us</a></span>
+    </div>
+  </div>
+</div>
+
+<script>
+document.querySelectorAll('.faq-q').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item = btn.closest('.faq-item');
+    item.classList.toggle('open');
+  });
+});
+</script>
+
+</body>
+</html>

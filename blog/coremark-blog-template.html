@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en" data-palette="plum">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- ============================================================
+  COREMARK BLOG ARTICLE TEMPLATE v1.0
+  How to use: replace every [BRACKETED] placeholder and every
+  {{IMG: ...}} comment. Do not change class names, structure,
+  or the JSON-LD blocks below — they are wired for SEO + LLM
+  citability. Notes for the writer are left as HTML comments
+  directly above the block they explain; delete them on publish
+  if you want a cleaner source, they don't render either way.
+============================================================= -->
+
+<!-- ============ SEO META — fill every line ============ -->
+<title>[PAGE TITLE — 50–60 chars, include primary keyword + "CoreMark"] | CoreMark</title>
+<meta name="description" content="[META DESCRIPTION — 140–160 chars. Lead with the answer/benefit, include primary keyword once, end with a soft CTA.]">
+<link rel="canonical" href="https://coremark.study/blog/[article-slug].html">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="author" content="CoreMark Editorial">
+<meta name="keywords" content="[keyword 1], [keyword 2], [keyword 3], Cambridge Lower Secondary, Stage [7/8/9]">
+
+<!-- Open Graph -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="[PAGE TITLE — can mirror <title>]">
+<meta property="og:description" content="[Same as meta description or a slightly punchier variant]">
+<meta property="og:url" content="https://coremark.study/blog/[article-slug].html">
+<meta property="og:image" content="https://assets.coremark.study/blog/[article-slug]-og.jpg">
+<meta property="og:site_name" content="CoreMark">
+<meta property="article:published_time" content="[YYYY-MM-DD]">
+<meta property="article:modified_time" content="[YYYY-MM-DD]">
+<meta property="article:section" content="[Mathematics / Science / Computing / Study Skills]">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="[PAGE TITLE]">
+<meta name="twitter:description" content="[META DESCRIPTION]">
+<meta name="twitter:image" content="https://assets.coremark.study/blog/[article-slug]-og.jpg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+<!-- ============================================================
+  JSON-LD — Article schema. This is the single biggest lever for
+  LLM citability (AI Overviews, ChatGPT/Perplexity/Claude search,
+  etc.) and for Google rich results. Fill EVERY field — partial
+  schema is often worse than none. wordCount should be the real
+  body word count. citation[] should list the 2–4 real external
+  sources used in the Sources box further down the page.
+============================================================= -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "[H1 TEXT — must match the visible <h1> exactly]",
+  "description": "[META DESCRIPTION]",
+  "image": "https://assets.coremark.study/blog/[article-slug]-og.jpg",
+  "datePublished": "[YYYY-MM-DD]",
+  "dateModified": "[YYYY-MM-DD]",
+  "author": {
+    "@type": "Organization",
+    "name": "CoreMark",
+    "url": "https://coremark.study"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "CoreMark",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://assets.coremark.study/logo/coremark-mark-512.png"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://coremark.study/blog/[article-slug].html"
+  },
+  "articleSection": "[Mathematics / Science / Computing / Study Skills]",
+  "wordCount": "[NNN]",
+  "educationalLevel": "Cambridge Lower Secondary, Stage [7/8/9]",
+  "about": [
+    { "@type": "Thing", "name": "[Core topic name, e.g. Photosynthesis]" }
+  ],
+  "citation": [
+    "[Source 1 title — Publisher]",
+    "[Source 2 title — Publisher]"
+  ]
+}
+</script>
+
+<!-- ============================================================
+  JSON-LD — FAQPage schema. Must exactly mirror the visible FAQ
+  accordion further down. Keep questions as real, distinct
+  questions a parent or student would type into Google — these
+  get pulled verbatim into AI answers, so write them as complete
+  sentences with the answer self-contained in 2–3 sentences.
+============================================================= -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "[FAQ Question 1 — full sentence]",
+      "acceptedAnswer": { "@type": "Answer", "text": "[Self-contained 2–3 sentence answer]" }
+    },
+    {
+      "@type": "Question",
+      "name": "[FAQ Question 2 — full sentence]",
+      "acceptedAnswer": { "@type": "Answer", "text": "[Self-contained 2–3 sentence answer]" }
+    },
+    {
+      "@type": "Question",
+      "name": "[FAQ Question 3 — full sentence]",
+      "acceptedAnswer": { "@type": "Answer", "text": "[Self-contained 2–3 sentence answer]" }
+    }
+  ]
+}
+</script>
+
+<!-- ============================================================
+  JSON-LD — BreadcrumbList. Mirrors the visible breadcrumb strip.
+============================================================= -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://coremark.study/" },
+    { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://coremark.study/blog/" },
+    { "@type": "ListItem", "position": 3, "name": "[Category, e.g. Mathematics]", "item": "https://coremark.study/blog/[category].html" },
+    { "@type": "ListItem", "position": 4, "name": "[Article Title — short]", "item": "https://coremark.study/blog/[article-slug].html" }
+  ]
+}
+</script>
+
+<style>
+/* ===================== COREMARK PLUM TOKENS — DO NOT EDIT ===================== */
+:root[data-palette="plum"]{
+  --ink:#2A1B3D; --ink-soft:#4A3760; --blue:#6E47C9; --blue-deep:#5234A4;
+  --blue-tint:rgba(110,71,201,0.10); --coral:#F4C73E; --coral-soft:#FAE588;
+  --coral-glow:rgba(244,199,62,0.32);
+}
+:root{
+  --ink-muted:#7A6A94; --cream:#FBF8F2; --paper:#FFFFFF; --mist:#F0EBF8;
+  --border:#DDD5ED; --border-soft:#EAE3F5;
+  --font-sans:'Plus Jakarta Sans',system-ui,sans-serif;
+  --font-serif:'Instrument Serif',Georgia,serif;
+  --radius-sm:8px; --radius-md:14px; --radius-lg:22px; --radius-xl:32px;
+}
+*{box-sizing:border-box;} html,body{margin:0;padding:0;}
+body{font-family:var(--font-sans);color:var(--ink);background:var(--cream);-webkit-font-smoothing:antialiased;}
+a{color:inherit;}
+img{max-width:100%;display:block;}
+
+/* ===================== NAV (reused from site) ===================== */
+.nav-outer{background:var(--cream);border-bottom:1px solid var(--border-soft);position:sticky;top:0;z-index:50;}
+.nav{max-width:1280px;margin:0 auto;padding:18px 40px;display:flex;justify-content:space-between;align-items:center;}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.nav-logo .mark-sq{width:38px;height:38px;background:var(--ink);border-radius:9px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;color:#fff;position:relative;}
+.nav-logo .mark-sq .dot{position:absolute;top:-3px;right:-3px;width:10px;height:10px;background:var(--coral);border-radius:50%;border:2px solid var(--cream);}
+.nav-logo .word{font-weight:800;font-size:18px;letter-spacing:-0.02em;color:var(--ink);}
+.nav-logo .word .acc{color:var(--blue);}
+.nav-links{display:flex;gap:30px;font-size:15px;font-weight:600;}
+.nav-links a{color:var(--ink-soft);text-decoration:none;}
+.nav-links a:hover{color:var(--ink);}
+.nav-cta{background:var(--ink);color:#fff;padding:11px 22px;border-radius:999px;font-size:15px;font-weight:700;text-decoration:none;}
+.nav-cta:hover{background:var(--blue);}
+@media (max-width:860px){.nav-links{display:none;}}
+
+/* ===================== BREADCRUMB ===================== */
+.crumbs{max-width:760px;margin:28px auto 0;padding:0 24px;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.06em;color:var(--ink-muted);}
+.crumbs a{text-decoration:none;color:var(--ink-muted);}
+.crumbs a:hover{color:var(--blue);}
+.crumbs span.sep{margin:0 6px;color:var(--border);}
+.crumbs span.current{color:var(--ink);font-weight:600;}
+
+/* ===================== ARTICLE HEADER ===================== */
+.article-head{max-width:760px;margin:18px auto 0;padding:0 24px;}
+.cat-tag{display:inline-flex;align-items:center;gap:8px;background:var(--blue-tint);color:var(--blue-deep);padding:7px 14px;border-radius:999px;font-size:13px;font-weight:700;margin-bottom:18px;}
+.cat-tag .blip{width:6px;height:6px;background:var(--coral);border-radius:50%;}
+h1.article-h1{font-size:42px;font-weight:800;letter-spacing:-0.03em;line-height:1.12;margin:0 0 18px;}
+h1.article-h1 em{font-family:var(--font-serif);font-style:italic;font-weight:400;color:var(--ink-soft);}
+.article-sub{font-size:19px;color:var(--ink-soft);line-height:1.6;margin:0 0 26px;max-width:680px;}
+.article-meta{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:18px 0;border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft);font-size:14px;color:var(--ink-muted);}
+.article-meta .avatar{width:34px;height:34px;border-radius:50%;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;flex-shrink:0;}
+.article-meta strong{color:var(--ink);}
+.article-meta .dot{color:var(--coral);}
+
+/* ===================== HERO IMAGE ===================== */
+.hero-img-wrap{max-width:920px;margin:32px auto 0;padding:0 24px;}
+.hero-img{width:100%;aspect-ratio:16/9;border-radius:var(--radius-lg);overflow:hidden;background:var(--mist);position:relative;border:1px solid var(--border-soft);}
+.hero-img img{width:100%;height:100%;object-fit:cover;}
+.img-credit{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink-muted);text-align:right;margin-top:8px;}
+.img-credit a{color:var(--ink-muted);text-decoration:none;}
+.img-credit a:hover{color:var(--blue);}
+
+/* ===================== BODY LAYOUT ===================== */
+.article-body{max-width:760px;margin:44px auto 0;padding:0 24px 100px;font-size:18px;line-height:1.75;color:var(--ink-soft);}
+.article-body p{margin:0 0 24px;}
+.article-body h2{font-size:28px;font-weight:800;letter-spacing:-0.02em;color:var(--ink);margin:52px 0 18px;line-height:1.2;}
+.article-body h3{font-size:21px;font-weight:700;letter-spacing:-0.01em;color:var(--ink);margin:34px 0 14px;line-height:1.3;}
+.article-body strong{color:var(--ink);font-weight:700;}
+.article-body ul,.article-body ol{margin:0 0 24px;padding-left:24px;}
+.article-body li{margin-bottom:10px;}
+.article-body a.inline-link{color:var(--blue-deep);font-weight:600;text-decoration:underline;text-decoration-color:var(--border);}
+.article-body a.inline-link:hover{text-decoration-color:var(--blue);}
+
+/* ===================== TABLE OF CONTENTS ===================== */
+.toc{background:var(--paper);border:1px solid var(--border-soft);border-radius:var(--radius-lg);padding:22px 26px;margin:0 0 40px;}
+.toc-title{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-muted);margin:0 0 14px;}
+.toc ol{margin:0;padding-left:20px;font-size:15px;}
+.toc li{margin-bottom:8px;}
+.toc a{color:var(--ink-soft);text-decoration:none;font-weight:600;}
+.toc a:hover{color:var(--blue-deep);}
+
+/* ===================== DEFINITION BOX ===================== */
+/* Use for: key vocabulary, exam terms, the precise Cambridge definition
+   of a concept. Helps both human skimmers and LLM extraction — keep the
+   term + definition in the first sentence, expand after if needed. */
+.def-box{background:var(--mist);border-left:4px solid var(--blue);border-radius:0 var(--radius-md) var(--radius-md) 0;padding:20px 24px;margin:0 0 28px;}
+.def-box .def-term{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--blue-deep);margin:0 0 8px;}
+.def-box p{margin:0;font-size:16px;color:var(--ink);line-height:1.6;}
+.def-box p strong{color:var(--blue-deep);}
+
+/* ===================== TIP BOX ===================== */
+/* Use for: exam tips, parent-facing study advice, shortcuts. */
+.tip-box{background:var(--coral-glow);border-radius:var(--radius-md);padding:18px 22px;margin:0 0 28px;display:flex;gap:14px;align-items:flex-start;}
+.tip-box .tip-icon{font-size:20px;flex-shrink:0;line-height:1;}
+.tip-box .tip-text{font-size:15.5px;color:var(--ink);line-height:1.6;}
+.tip-box .tip-text strong{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;display:block;margin-bottom:6px;color:var(--ink);}
+
+/* ===================== CALLOUT / WARNING BOX ===================== */
+/* Use for: common mistakes, exam pitfalls. */
+.warn-box{border:1.5px dashed var(--blue);background:var(--paper);border-radius:var(--radius-md);padding:18px 22px;margin:0 0 28px;}
+.warn-box .warn-label{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--blue-deep);margin:0 0 8px;}
+.warn-box p{margin:0;font-size:15.5px;color:var(--ink-soft);}
+
+/* ===================== PULL QUOTE ===================== */
+.pull-quote{font-family:var(--font-serif);font-style:italic;font-size:28px;line-height:1.35;color:var(--ink-soft);border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft);padding:32px 0;margin:44px 0;text-align:center;}
+.pull-quote cite{display:block;font-family:'JetBrains Mono',monospace;font-style:normal;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-muted);margin-top:14px;}
+
+/* ===================== IN-ARTICLE IMAGE ===================== */
+.body-img-wrap{margin:36px 0;}
+.body-img{width:100%;aspect-ratio:16/10;border-radius:var(--radius-lg);overflow:hidden;background:var(--mist);border:1px solid var(--border-soft);}
+.body-img img{width:100%;height:100%;object-fit:cover;}
+.body-img-caption{font-size:14px;color:var(--ink-muted);margin-top:10px;line-height:1.5;}
+.body-img-caption .credit{font-family:'JetBrains Mono',monospace;font-size:11px;}
+.body-img-caption .credit a{color:var(--ink-muted);text-decoration:none;}
+
+/* ===================== KEY TAKEAWAYS BOX ===================== */
+.takeaway-box{background:var(--ink);color:#fff;border-radius:var(--radius-lg);padding:30px 32px;margin:44px 0;}
+.takeaway-box h3{color:#fff;font-size:13px;font-family:'JetBrains Mono',monospace;letter-spacing:0.16em;text-transform:uppercase;margin:0 0 18px;font-weight:600;}
+.takeaway-box ul{margin:0;padding:0;list-style:none;}
+.takeaway-box li{display:flex;gap:12px;margin-bottom:14px;font-size:16px;line-height:1.5;color:rgba(255,255,255,0.92);}
+.takeaway-box li:last-child{margin-bottom:0;}
+.takeaway-box li .num{font-family:'JetBrains Mono',monospace;color:var(--coral);font-weight:700;flex-shrink:0;}
+
+/* ===================== COMPARISON TABLE ===================== */
+.data-table-wrap{overflow-x:auto;margin:0 0 28px;border:1px solid var(--border-soft);border-radius:var(--radius-md);}
+table.data-table{width:100%;border-collapse:collapse;font-size:15px;}
+table.data-table th{background:var(--mist);color:var(--ink);text-align:left;padding:12px 16px;font-weight:700;font-size:13px;border-bottom:1px solid var(--border);}
+table.data-table td{padding:12px 16px;border-bottom:1px solid var(--border-soft);color:var(--ink-soft);}
+table.data-table tr:last-child td{border-bottom:0;}
+
+/* ===================== STAT STRIP ===================== */
+.stat-strip{display:flex;gap:16px;margin:0 0 28px;flex-wrap:wrap;}
+.stat-card{flex:1;min-width:150px;background:var(--paper);border:1px solid var(--border-soft);border-radius:var(--radius-md);padding:18px 18px 16px;}
+.stat-card .stat-num{font-size:30px;font-weight:800;color:var(--blue-deep);letter-spacing:-0.02em;line-height:1;}
+.stat-card .stat-label{font-size:13px;color:var(--ink-muted);margin-top:6px;line-height:1.4;}
+
+/* ===================== INLINE BOOSTER CTA ===================== */
+.inline-cta{background:var(--paper);border:1.5px solid var(--blue);border-radius:var(--radius-lg);padding:26px 28px;margin:44px 0;display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;}
+.inline-cta .cta-copy h4{margin:0 0 6px;font-size:18px;font-weight:800;color:var(--ink);}
+.inline-cta .cta-copy p{margin:0;font-size:14.5px;color:var(--ink-muted);max-width:420px;}
+.inline-cta .btn-cta{background:var(--ink);color:#fff;padding:13px 22px;border-radius:999px;font-size:15px;font-weight:700;text-decoration:none;white-space:nowrap;flex-shrink:0;}
+.inline-cta .btn-cta:hover{background:var(--blue);}
+
+/* ===================== FAQ ACCORDION ===================== */
+.faq-section{margin:50px 0;}
+.faq-item{border-bottom:1px solid var(--border-soft);}
+.faq-q{width:100%;text-align:left;background:none;border:none;padding:20px 0;display:flex;justify-content:space-between;align-items:center;gap:16px;cursor:pointer;font-size:17px;font-weight:700;color:var(--ink);font-family:var(--font-sans);}
+.faq-q .plus{font-size:20px;color:var(--blue);flex-shrink:0;transition:transform 0.2s;}
+.faq-item.open .faq-q .plus{transform:rotate(45deg);}
+.faq-a{max-height:0;overflow:hidden;transition:max-height 0.25s ease;}
+.faq-item.open .faq-a{max-height:400px;}
+.faq-a p{padding:0 0 20px;margin:0;font-size:15.5px;color:var(--ink-soft);line-height:1.65;}
+
+/* ===================== SOURCES / CITATIONS BOX ===================== */
+/* List the real external sources referenced in the article. This box,
+   combined with the Article JSON-LD "citation" field above, is what
+   makes the page trustworthy to both readers and LLM crawlers. Use
+   real, checkable sources (Cambridge syllabus docs, .gov/.edu, peer
+   reviewed, major encyclopaedic sources) — never invented ones. */
+.sources-box{background:var(--mist);border-radius:var(--radius-lg);padding:26px 28px;margin:50px 0 0;}
+.sources-box h3{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-muted);margin:0 0 16px;}
+.sources-box ol{margin:0;padding-left:20px;font-size:14.5px;color:var(--ink-soft);line-height:1.6;}
+.sources-box li{margin-bottom:10px;}
+.sources-box a{color:var(--blue-deep);text-decoration:underline;text-decoration-color:var(--border);font-weight:600;}
+.sources-box a:hover{text-decoration-color:var(--blue);}
+.sources-box .updated{margin-top:16px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink-muted);}
+
+/* ===================== AUTHOR / REVIEW BOX ===================== */
+.author-box{display:flex;gap:18px;align-items:flex-start;background:var(--paper);border:1px solid var(--border-soft);border-radius:var(--radius-lg);padding:24px 26px;margin:40px 0;}
+.author-box .avatar{width:52px;height:52px;border-radius:50%;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;flex-shrink:0;}
+.author-box .author-name{font-weight:800;font-size:16px;color:var(--ink);margin:0 0 4px;}
+.author-box .author-role{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--blue-deep);letter-spacing:0.06em;margin:0 0 10px;}
+.author-box p.bio{margin:0;font-size:14.5px;color:var(--ink-muted);line-height:1.6;}
+
+/* ===================== TAGS ===================== */
+.tag-row{display:flex;gap:10px;flex-wrap:wrap;margin:36px 0 0;}
+.tag-chip{font-family:'JetBrains Mono',monospace;font-size:12px;background:var(--mist);color:var(--ink-soft);padding:7px 14px;border-radius:999px;text-decoration:none;letter-spacing:0.04em;}
+.tag-chip:hover{background:var(--blue-tint);color:var(--blue-deep);}
+
+/* ===================== RELATED ARTICLES ===================== */
+.related-wrap{max-width:1080px;margin:0 auto;padding:0 24px 100px;}
+.related-head{font-size:13px;font-family:'JetBrains Mono',monospace;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-muted);margin:0 0 22px;}
+.related-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+.related-card{background:var(--paper);border:1px solid var(--border-soft);border-radius:var(--radius-lg);overflow:hidden;text-decoration:none;display:block;}
+.related-card .rel-img{aspect-ratio:16/10;background:var(--mist);}
+.related-card .rel-img img{width:100%;height:100%;object-fit:cover;}
+.related-card .rel-body{padding:18px 20px 22px;}
+.related-card .rel-cat{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--blue-deep);letter-spacing:0.08em;text-transform:uppercase;margin:0 0 8px;}
+.related-card h4{margin:0;font-size:17px;font-weight:700;color:var(--ink);line-height:1.3;}
+@media (max-width:860px){.related-grid{grid-template-columns:1fr;}}
+
+/* ===================== FOOTER (reused from site) ===================== */
+.footer-wrap{background:var(--paper);border-top:1px solid var(--border);}
+.footer{max-width:1280px;margin:0 auto;padding:72px 40px 28px;}
+.footer-top{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:48px;padding-bottom:48px;}
+.footer .blurb{font-size:15px;color:var(--ink-soft);line-height:1.6;max-width:360px;margin-top:14px;}
+.footer h4{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-muted);margin:0 0 16px;}
+.footer ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px;}
+.footer ul a{text-decoration:none;font-size:15px;color:var(--ink-soft);}
+.footer ul a:hover{color:var(--ink);}
+.disclaimer{font-size:13px;color:var(--ink-muted);line-height:1.6;padding:24px 0;border-top:1px solid var(--border-soft);}
+.footer-bottom{border-top:1px solid var(--border-soft);padding-top:22px;display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--ink-muted);font-family:'JetBrains Mono',monospace;letter-spacing:0.07em;gap:20px;flex-wrap:wrap;}
+.footer-bottom a{color:var(--ink-muted);text-decoration:none;}
+.footer-bottom a:hover{color:var(--ink);}
+
+@media (max-width:860px){
+  .footer-top{grid-template-columns:1fr 1fr;}
+  h1.article-h1{font-size:32px;}
+  .article-body{font-size:17px;}
+  .inline-cta{flex-direction:column;align-items:flex-start;}
+}
+@media (max-width:600px){
+  .footer-top{grid-template-columns:1fr;}
+  .stat-strip{flex-direction:column;}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<div class="nav-outer">
+  <nav class="nav">
+    <a class="nav-logo" href="/">
+      <div class="mark-sq">CM<div class="dot"></div></div>
+      <div class="word">Core<span class="acc">Mark</span></div>
+    </a>
+    <div class="nav-links">
+      <a href="/#booklet">What's Inside</a>
+      <a href="/#subjects">Subjects</a>
+      <a href="/blog/">Blog</a>
+      <a href="/#pricing">Pricing</a>
+    </div>
+    <a href="/#pricing" class="nav-cta">See Packs</a>
+  </nav>
+</div>
+
+<!-- ============ BREADCRUMB ============ -->
+<!-- Visible breadcrumb must match the BreadcrumbList JSON-LD above exactly -->
+<nav class="crumbs" aria-label="Breadcrumb">
+  <a href="/">Home</a><span class="sep">/</span>
+  <a href="/blog/">Blog</a><span class="sep">/</span>
+  <a href="/blog/[category].html">[Category, e.g. Mathematics]</a><span class="sep">/</span>
+  <span class="current">[Short article title]</span>
+</nav>
+
+<!-- ============ ARTICLE HEADER ============ -->
+<header class="article-head">
+  <div class="cat-tag"><span class="blip"></span><span>[Subject] · Stage [7/8/9] · [Strand, e.g. Number]</span></div>
+
+  <!-- H1 RULES: one per page, contains the primary keyword, plain language,
+       no topic code, under ~65 characters where possible. -->
+  <h1 class="article-h1">[H1 — Primary keyword first. <em>Optional serif emphasis on last few words.</em>]</h1>
+
+  <!-- Sub-deck: restates the H1's promise in one sentence, this is what
+       gets pulled as the AI-overview / search-snippet summary. Keep it
+       a complete, self-contained answer to the implied question. -->
+  <p class="article-sub">[One-sentence sub-deck that fully answers the core question this article is about — written so it could stand alone as a search snippet.]</p>
+
+  <div class="article-meta">
+    <div class="avatar">CM</div>
+    <span><strong>CoreMark Editorial</strong></span>
+    <span class="dot">&bull;</span>
+    <span>Updated [Month DD, YYYY]</span>
+    <span class="dot">&bull;</span>
+    <span>[N] min read</span>
+    <span class="dot">&bull;</span>
+    <span>Reviewed against Cambridge Lower Secondary syllabus</span>
+  </div>
+</header>
+
+<!-- ============ HERO IMAGE ============ -->
+<!-- {{IMG: Unsplash search term, e.g. "child studying mathematics notebook"}}
+     Use a real Unsplash URL on publish, e.g.
+     https://images.unsplash.com/photo-XXXXXXX?auto=format&fit=crop&w=1600&q=80
+     Always credit the photographer per Unsplash guidelines in .img-credit. -->
+<div class="hero-img-wrap">
+  <div class="hero-img">
+    <img src="https://images.unsplash.com/photo-PLACEHOLDER?auto=format&fit=crop&w=1600&q=80" alt="[Descriptive alt text — include primary keyword naturally, describe the scene for accessibility]" loading="eager">
+  </div>
+  <div class="img-credit">Photo by <a href="[photographer unsplash profile url]" target="_blank" rel="noopener">[Photographer Name]</a> on <a href="https://unsplash.com" target="_blank" rel="noopener">Unsplash</a></div>
+</div>
+
+<!-- ============ ARTICLE BODY ============ -->
+<main class="article-body">
+
+  <!-- ============ TABLE OF CONTENTS ============
+       Anchors must exactly match the id= on each H2 below.
+       Keep to 4–7 items; this block also helps LLMs map the
+       page's structure quickly. -->
+  <nav class="toc" aria-label="Table of contents">
+    <p class="toc-title">In this article</p>
+    <ol>
+      <li><a href="#section-1">[H2 #1 short label]</a></li>
+      <li><a href="#section-2">[H2 #2 short label]</a></li>
+      <li><a href="#section-3">[H2 #3 short label]</a></li>
+      <li><a href="#section-4">[H2 #4 short label]</a></li>
+      <li><a href="#faq">FAQs</a></li>
+    </ol>
+  </nav>
+
+  <!-- ============ INTRO PARAGRAPH ============
+       2–4 sentences. Answer the core question immediately
+       (inverted pyramid) — don't bury the answer at the end.
+       This is the paragraph most likely to be lifted verbatim
+       into an AI answer engine, so make it fully self-contained. -->
+  <p>[Opening paragraph. State plainly what this article explains and the direct answer/benefit, in language a parent or Stage 7–9 student would use. Avoid throat-clearing like "In this article we will discuss..." — just say the thing.]</p>
+
+  <p>[Optional second paragraph — context: why this matters for Cambridge Lower Secondary Stage 7/8/9 specifically, what exam component it relates to, or what mistake students commonly make.]</p>
+
+  <!-- ============ H2 SECTION 1 ============ -->
+  <h2 id="section-1">[H2 — Section 1 heading, descriptive and keyword-relevant]</h2>
+  <p>[Body paragraph. Keep paragraphs to 3–5 sentences for scannability. Define any new term the first time it appears, then use the definition box below for the most important one.]</p>
+
+  <!-- DEFINITION BOX — use once per major new term -->
+  <div class="def-box">
+    <p class="def-term">Definition</p>
+    <p><strong>[Term]</strong> is [precise, exam-accurate definition in one sentence]. [Optional second sentence with a concrete example.]</p>
+  </div>
+
+  <p>[Continue explanation. Use <a class="inline-link" href="[internal or external url]">inline links</a> sparingly and only to genuinely useful destinations — a related CoreMark booster, the Cambridge syllabus PDF, or a reputable explainer.]</p>
+
+  <h3>[H3 — Subsection if section 1 has a natural sub-point]</h3>
+  <p>[Body paragraph for the subsection.]</p>
+
+  <ul>
+    <li>[Scannable point 1 — keep each bullet to one idea]</li>
+    <li>[Scannable point 2]</li>
+    <li>[Scannable point 3]</li>
+  </ul>
+
+  <!-- ============ IN-ARTICLE IMAGE ============
+       Place one supporting image roughly every 400–600 words.
+       {{IMG: Unsplash search term relevant to this specific section}} -->
+  <div class="body-img-wrap">
+    <div class="body-img">
+      <img src="https://images.unsplash.com/photo-PLACEHOLDER?auto=format&fit=crop&w=1200&q=80" alt="[Descriptive alt text for this specific image]" loading="lazy">
+    </div>
+    <div class="body-img-caption">[Caption explaining what the image shows and why it's relevant.] <span class="credit">Photo by <a href="[url]" target="_blank" rel="noopener">[Photographer]</a> / Unsplash</span></div>
+  </div>
+
+  <!-- ============ H2 SECTION 2 ============ -->
+  <h2 id="section-2">[H2 — Section 2 heading]</h2>
+  <p>[Body paragraph.]</p>
+
+  <!-- TIP BOX — exam tip or study tip -->
+  <div class="tip-box">
+    <span class="tip-icon">&#128161;</span>
+    <div class="tip-text"><strong>Exam tip</strong>[One or two sentences of practical, specific advice — the kind a tutor would say out loud, not generic encouragement.]</div>
+  </div>
+
+  <p>[Body paragraph continues.]</p>
+
+  <!-- WARNING / COMMON MISTAKE BOX -->
+  <div class="warn-box">
+    <p class="warn-label">Common mistake</p>
+    <p>[Describe the specific error students make on this topic and the one-line fix. Keep it concrete — reference the kind of question where it shows up.]</p>
+  </div>
+
+  <!-- ============ STAT STRIP ============
+       Use only with real, sourced numbers — cite in the Sources box. -->
+  <div class="stat-strip">
+    <div class="stat-card"><div class="stat-num">[NN%]</div><div class="stat-label">[What this stat measures, plus source short-name]</div></div>
+    <div class="stat-card"><div class="stat-num">[NN]</div><div class="stat-label">[What this stat measures]</div></div>
+    <div class="stat-card"><div class="stat-num">[NN]</div><div class="stat-label">[What this stat measures]</div></div>
+  </div>
+
+  <!-- ============ PULL QUOTE ============
+       Use for a striking, citable one-liner — either an original
+       insight or a short (sub-15-word) attributed quote. -->
+  <div class="pull-quote">
+    "[A short, memorable sentence that captures the article's core insight.]"
+    <cite>[Attribution — e.g. CoreMark Editorial, or a named source]</cite>
+  </div>
+
+  <!-- ============ INLINE CTA TO BOOSTER ============
+       Drop this once, roughly midway through a long article, linking
+       to the most topically relevant CoreMark booster. -->
+  <div class="inline-cta">
+    <div class="cta-copy">
+      <h4>Practise this topic with a CoreMark booster</h4>
+      <p>[Topic name] booster — cheat sheet, 20 exam-style questions and full worked solutions for Stage [7/8/9].</p>
+    </div>
+    <a href="/subjects/[subject].html#[topic-slug]" class="btn-cta">View booster &rarr;</a>
+  </div>
+
+  <!-- ============ H2 SECTION 3 ============ -->
+  <h2 id="section-3">[H2 — Section 3 heading]</h2>
+  <p>[Body paragraph.]</p>
+
+  <!-- ============ COMPARISON / DATA TABLE ============
+       Use for comparing methods, stages, or worked steps — tables
+       are heavily favoured by AI answer engines for direct extraction. -->
+  <div class="data-table-wrap">
+    <table class="data-table">
+      <thead>
+        <tr><th>[Column 1]</th><th>[Column 2]</th><th>[Column 3]</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>[Row 1, col 1]</td><td>[Row 1, col 2]</td><td>[Row 1, col 3]</td></tr>
+        <tr><td>[Row 2, col 1]</td><td>[Row 2, col 2]</td><td>[Row 2, col 3]</td></tr>
+        <tr><td>[Row 3, col 1]</td><td>[Row 3, col 2]</td><td>[Row 3, col 3]</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ============ KEY TAKEAWAYS BOX ============
+       3–5 numbered points that summarise the article so far. This
+       block is highly favoured for LLM extraction — write each point
+       as a complete, standalone factual statement. -->
+  <div class="takeaway-box">
+    <h3>Key takeaways</h3>
+    <ul>
+      <li><span class="num">01</span><span>[Standalone factual takeaway 1]</span></li>
+      <li><span class="num">02</span><span>[Standalone factual takeaway 2]</span></li>
+      <li><span class="num">03</span><span>[Standalone factual takeaway 3]</span></li>
+      <li><span class="num">04</span><span>[Standalone factual takeaway 4]</span></li>
+    </ul>
+  </div>
+
+  <!-- ============ H2 SECTION 4 ============ -->
+  <h2 id="section-4">[H2 — Section 4 heading, e.g. "How to practise this at home"]</h2>
+  <p>[Body paragraph — often a practical/actionable closing section: a study plan, a worked example, or a checklist.]</p>
+
+  <ol>
+    <li>[Step 1]</li>
+    <li>[Step 2]</li>
+    <li>[Step 3]</li>
+  </ol>
+
+  <!-- ============ FAQ SECTION ============
+       Must mirror the FAQPage JSON-LD above exactly: same questions,
+       same order, same answer text. -->
+  <section class="faq-section" id="faq">
+    <h2>Frequently asked questions</h2>
+
+    <div class="faq-item open">
+      <button class="faq-q"><span>[FAQ Question 1 — full sentence]</span><span class="plus">+</span></button>
+      <div class="faq-a"><p>[Self-contained 2–3 sentence answer.]</p></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q"><span>[FAQ Question 2 — full sentence]</span><span class="plus">+</span></button>
+      <div class="faq-a"><p>[Self-contained 2–3 sentence answer.]</p></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q"><span>[FAQ Question 3 — full sentence]</span><span class="plus">+</span></button>
+      <div class="faq-a"><p>[Self-contained 2–3 sentence answer.]</p></div>
+    </div>
+  </section>
+
+  <!-- ============ SOURCES / CITATIONS BOX ============ -->
+  <div class="sources-box">
+    <h3>Sources &amp; further reading</h3>
+    <ol>
+      <li>[Source 1 — Organisation/Publisher, "Title of document or page," <a href="[url]" target="_blank" rel="noopener">[url]</a>.]</li>
+      <li>[Source 2 — Organisation/Publisher, "Title," <a href="[url]" target="_blank" rel="noopener">[url]</a>.]</li>
+      <li>[Source 3 — if applicable.]</li>
+    </ol>
+    <p class="updated">Fact-checked and last updated [Month DD, YYYY] by the CoreMark editorial team.</p>
+  </div>
+
+  <!-- ============ AUTHOR / REVIEWER BOX ============ -->
+  <div class="author-box">
+    <div class="avatar">CM</div>
+    <div>
+      <p class="author-name">CoreMark Editorial</p>
+      <p class="author-role">Cambridge Lower Secondary practice resources</p>
+      <p class="bio">CoreMark builds topic-wise practice boosters for Stage 7–9 Mathematics, Science and Computing, written in the style of the Cambridge Lower Secondary Checkpoint assessment. Every article is checked against the current syllabus before publishing.</p>
+    </div>
+  </div>
+
+  <!-- ============ TAGS ============ -->
+  <div class="tag-row">
+    <a class="tag-chip" href="/blog/tag/[tag-1].html">#[tag-1]</a>
+    <a class="tag-chip" href="/blog/tag/[tag-2].html">#[tag-2]</a>
+    <a class="tag-chip" href="/blog/tag/[tag-3].html">#[tag-3]</a>
+    <a class="tag-chip" href="/blog/tag/stage-[7-8-9].html">#stage-[7/8/9]</a>
+  </div>
+
+</main>
+
+<!-- ============ RELATED ARTICLES ============ -->
+<section class="related-wrap">
+  <p class="related-head">Read next</p>
+  <div class="related-grid">
+    <a class="related-card" href="/blog/[related-slug-1].html">
+      <div class="rel-img"><img src="https://images.unsplash.com/photo-PLACEHOLDER?auto=format&fit=crop&w=600&q=80" alt="[alt text]" loading="lazy"></div>
+      <div class="rel-body"><p class="rel-cat">[Subject]</p><h4>[Related article title 1]</h4></div>
+    </a>
+    <a class="related-card" href="/blog/[related-slug-2].html">
+      <div class="rel-img"><img src="https://images.unsplash.com/photo-PLACEHOLDER?auto=format&fit=crop&w=600&q=80" alt="[alt text]" loading="lazy"></div>
+      <div class="rel-body"><p class="rel-cat">[Subject]</p><h4>[Related article title 2]</h4></div>
+    </a>
+    <a class="related-card" href="/blog/[related-slug-3].html">
+      <div class="rel-img"><img src="https://images.unsplash.com/photo-PLACEHOLDER?auto=format&fit=crop&w=600&q=80" alt="[alt text]" loading="lazy"></div>
+      <div class="rel-body"><p class="rel-cat">[Subject]</p><h4>[Related article title 3]</h4></div>
+    </a>
+  </div>
+</section>
+
+<!-- ============ FOOTER (reused from site, do not change) ============ -->
+<div class="footer-wrap">
+  <div class="footer">
+    <div class="footer-top">
+      <div>
+        <a class="nav-logo" href="/" style="text-decoration:none;">
+          <div class="mark-sq">CM<div class="dot"></div></div>
+          <div class="word">Core<span class="acc">Mark</span></div>
+        </a>
+        <p class="blurb">Topic-wise practice packs for Cambridge Lower Secondary Stage 7, 8 and 9. Maths, Science and Computing. Print at home, learn topic by topic.</p>
+        <p class="blurb" style="margin-top:10px;">
+          <a href="mailto:info@coremark.study" style="color:var(--blue);font-weight:600;">info@coremark.study</a>
+          <span style="margin:0 8px;color:var(--border);">&middot;</span>
+          <a href="https://instagram.com/coremark.study" target="_blank" style="color:var(--blue);font-weight:600;">@coremark.study</a>
+        </p>
+      </div>
+      <div>
+        <h4>Subjects</h4>
+        <ul>
+          <li><a href="/subjects/math.html">Mathematics</a></li>
+          <li><a href="/subjects/science.html">Science</a></li>
+          <li><a href="/subjects/computing.html">Computing</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Stages</h4>
+        <ul>
+          <li><a href="/subjects/math.html#stage7">Stage 7</a></li>
+          <li><a href="/subjects/math.html#stage8">Stage 8</a></li>
+          <li><a href="/subjects/math.html#stage9">Stage 9</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>More</h4>
+        <ul>
+          <li><a href="/about.html">About</a></li>
+          <li><a href="/#faq">FAQ</a></li>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="mailto:info@coremark.study">Contact</a></li>
+          <li><a href="https://instagram.com/coremark.study" target="_blank">Instagram</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="disclaimer">
+      <strong>Note:</strong> CoreMark is original practice material written in the style of the Cambridge Lower Secondary Checkpoint assessment. Not affiliated with or endorsed by Cambridge Assessment International Education. For classroom, tutor and home use. Printable PDF, A4.
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 CoreMark &middot; coremark.study</span>
+      <span><a href="/privacy.html">Privacy</a> &middot; <a href="/terms.html">Terms</a></span>
+      <span>Found a typo? <a href="mailto:info@coremark.study">Tell us</a></span>
+    </div>
+  </div>
+</div>
+
+<script>
+document.querySelectorAll('.faq-q').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item = btn.closest('.faq-item');
+    item.classList.toggle('open');
+  });
+});
+</script>
+
+</body>
+</html>
