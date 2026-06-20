@@ -110,7 +110,7 @@ function buildDay2Html({ to, buyerName, orderTitle, orderType, subject, stage, t
     <td style="background:#2A1B3D;border-radius:16px 16px 0 0;padding:28px 40px;">
       <table width="100%" cellpadding="0" cellspacing="0"><tr>
         <td>
-          <img src="https://assets.coremark.study/logo.jpg" alt="CoreMark" height="26"
+          <img src="https://coremark.study/assets/logo.jpg" alt="CoreMark" height="26"
                style="display:block;border:0;outline:none;text-decoration:none;">
         </td>
         <td align="right">
