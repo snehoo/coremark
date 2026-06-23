@@ -23,9 +23,9 @@
 <meta name="twitter:description" content="Topic-wise practice packs for Cambridge Lower Secondary Stage 7–9. Maths, Science and Computing. Cheat sheet, 20 questions, full solutions. Download and print.">
 <meta name="twitter:image" content="https://assets.coremark.study/logo.jpg">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "name": "CoreMark", "url": "https://coremark.study/", "logo": "https://assets.coremark.study/logo.jpg", "email": "info@coremark.study", "sameAs": ["https://instagram.com/coremark.study"], "description": "CoreMark produces original topic-wise practice booklets for the Cambridge Lower Secondary curriculum, Stage 7 to 9, covering Mathematics, Science and Computing. Not affiliated with or endorsed by Cambridge Assessment International Education."}</script>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "CoreMark", "url": "https://coremark.study/"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "CoreMark", "url": "https://coremark.study/", "author": {"@type": "Organization", "name": "CoreMark", "url": "https://coremark.study/", "email": "info@coremark.study"}, "dateModified": "2026-06-24"}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://coremark.study/"}]}</script>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Is this an official Cambridge paper?", "acceptedAnswer": {"@type": "Answer", "text": "No. CoreMark is not affiliated with or endorsed by Cambridge Assessment International Education. These are original practice papers written in the style of Cambridge Lower Secondary Checkpoint. They are not past papers and not official Cambridge material."}}, {"@type": "Question", "name": "Which stage should my child use?", "acceptedAnswer": {"@type": "Answer", "text": "Stage 7 is roughly Year 7 or Class 7, Stage 8 is Year 8 or Class 8, and Stage 9 is Year 9 or Class 9. If your child's school follows the Cambridge Lower Secondary programme, the stage will match their year group."}}, {"@type": "Question", "name": "How do I get the PDF after buying?", "acceptedAnswer": {"@type": "Answer", "text": "As soon as payment is confirmed you will receive an email with a download link. You can download the PDF immediately and print it at home on any A4 printer."}}, {"@type": "Question", "name": "Can I print it more than once?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Once you download the PDF you can print it as many times as you like for your own household."}}, {"@type": "Question", "name": "What is the refund policy?", "acceptedAnswer": {"@type": "Answer", "text": "We offer a 7-day money-back guarantee. If you are not satisfied with any purchase for any reason, email us within 7 days of purchase and we will refund you in full."}}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Is this an official Cambridge paper?", "acceptedAnswer": {"@type": "Answer", "text": "No. CoreMark is not affiliated with or endorsed by Cambridge Assessment International Education. These are original practice papers written in the style of Cambridge Lower Secondary Checkpoint. They are not past papers and not official Cambridge material."}}, {"@type": "Question", "name": "Which stage should my child use?", "acceptedAnswer": {"@type": "Answer", "text": "Stage 7 is roughly Year 7 or Class 7, Stage 8 is Year 8 or Class 8, and Stage 9 is Year 9 or Class 9. If your child's school follows the Cambridge Lower Secondary programme, the stage will match their year group."}}, {"@type": "Question", "name": "How do I get the PDF after buying?", "acceptedAnswer": {"@type": "Answer", "text": "As soon as payment is confirmed you will receive an email with a download link. You can download the PDF immediately and print it at home on any A4 printer."}}, {"@type": "Question", "name": "Can I print it more than once?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Once you download the PDF you can print it as many times as you like for your own household."}}, {"@type": "Question", "name": "What is the refund policy?", "acceptedAnswer": {"@type": "Answer", "text": "We offer a 7-day money-back guarantee. If you are not satisfied with any purchase for any reason, email us within 7 days of purchase and we will refund you in full."}}], "author": {"@type": "Organization", "name": "CoreMark", "url": "https://coremark.study/"}, "dateModified": "2026-06-24"}</script>
 <!-- SEO-BLOCK-END -->
 
 
@@ -141,6 +141,14 @@ a{color:inherit;}
 .anatomy-step .step-num{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--coral);letter-spacing:0.18em;font-weight:600;flex-shrink:0;}
 .anatomy-step h3{font-size:22px;font-weight:700;letter-spacing:-0.02em;margin:0;line-height:1.15;flex-shrink:0;}
 .anatomy-step p{font-size:16px;color:var(--ink-soft);line-height:1.6;margin:0;}
+
+/* HOW TO USE — SUMMARY */
+.howto-summary{margin-top:40px;background:var(--mist);border-radius:var(--radius-lg);padding:32px 36px;}
+.howto-summary h3{font-size:22px;font-weight:700;letter-spacing:-0.02em;margin:0 0 18px;}
+.howto-summary ol{list-style:none;counter-reset:howto;padding:0;margin:0;display:flex;flex-direction:column;gap:14px;}
+.howto-summary ol li{counter-increment:howto;display:flex;gap:14px;font-size:16px;line-height:1.55;color:var(--ink-soft);}
+.howto-summary ol li::before{content:counter(howto);flex:none;width:26px;height:26px;border-radius:50%;background:var(--blue-tint);border:1px solid rgba(110,71,201,0.25);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:var(--blue);margin-top:1px;}
+.howto-summary ol li strong{color:var(--ink);}
 
 /* A4 mocks — fixed height, uniform font, 80% fill */
 --pm-fs: 10px; /* single font-size token for all mock body text */
@@ -373,7 +381,7 @@ a{color:inherit;}
       <span>Cambridge Lower Secondary · Stage 7, 8 and 9</span>
     </div>
     <h1>Practice packs that <em>actually</em> <span class="hl">build marks</span></h1>
-    <p class="sub">Topic-by-topic boosters for Maths, Science and Computing. Cheat sheet, 20 focused questions and full worked solutions. Download, print, start today.</p>
+    <p class="sub"><strong>CoreMark is a topic-focused practice system</strong> that pairs a cheat sheet, 20 leveled questions, and step-by-step solutions for Cambridge Lower Secondary maths, science and computing. Download, print, start today.</p>
     <div class="hero-ctas">
       <a href="#subjects" class="btn-primary">Browse Topics</a>
       <a href="#booklet" class="btn-secondary">See what's inside</a>
@@ -454,7 +462,7 @@ a{color:inherit;}
   <div class="section-head">
     <div class="eyebrow">What's inside every booster</div>
     <h2>Four sections. One topic. <em>No confusion.</em></h2>
-    <p class="lede">Every CoreMark booster follows the same structure every time. Your child knows exactly what to do from the first pack.</p>
+    <p class="lede">Every CoreMark booster follows the same four-part structure. Your child knows exactly what to do from the first pack.</p>
   </div>
   <div class="anatomy">
 
@@ -603,6 +611,17 @@ a{color:inherit;}
     </div>
 
   </div>
+
+  <!-- HOW TO USE -->
+  <div class="howto-summary">
+    <h3>How do I use a CoreMark booster?</h3>
+    <ol>
+      <li><strong>Read the cheat sheet first.</strong> All the key facts and formulas for the topic, in 5 minutes.</li>
+      <li><strong>Attempt all 20 questions.</strong> Work through Foundation → Standard → Stretch in order — each band builds on the last.</li>
+      <li><strong>Check with the worked solutions.</strong> Read the error flags — they show the mistakes Cambridge examiners see most often.</li>
+      <li><strong>Use the parent and tutor guide.</strong> Score bands and study tips tell you what to focus on next.</li>
+    </ol>
+  </div>
 </section>
 
 <!-- SUBJECTS -->
@@ -694,33 +713,45 @@ a{color:inherit;}
 <section class="section" id="why">
   <div class="section-head">
     <div class="eyebrow">Why CoreMark</div>
-    <h2>Not a past paper. Not a <em>textbook.</em></h2>
+    <h2>How does CoreMark compare to typical practice books?</h2>
     <p class="lede">CoreMark is built for one thing: helping your child understand a topic properly and then practice it properly.</p>
   </div>
-  <div class="why-grid">
-    <div class="why-col tutor">
-      <h3>Regular practice books <span class="badge">TYPICAL</span></h3>
-      <p class="sub-note">What most parents buy from a bookshop</p>
-      <ul>
-        <li>Questions mixed across many topics at once</li>
-        <li>Short answer key, no explanation of working</li>
-        <li>No guidance on what Cambridge actually rewards</li>
-        <li>Hard to tell if your child is ready to move on</li>
-        <li>Parent cannot help unless they know the subject</li>
-      </ul>
-    </div>
-    <div class="why-col coremark">
-      <h3>CoreMark Booster <span class="badge">COREMARK</span></h3>
-      <p class="sub-note">One topic at a time, everything in one download</p>
-      <ul>
-        <li>All 20 questions are on one topic only</li>
-        <li>Full step by step solutions with marks at each stage</li>
-        <li>Common mistakes flagged on every question</li>
-        <li>Score bands tell you when to move to the next topic</li>
-        <li>Parent guide for people who are not subject experts</li>
-      </ul>
-    </div>
-  </div>
+  <table style="width:100%;border-collapse:collapse;margin:24px 0;font-size:16px;line-height:1.55;">
+    <thead>
+      <tr style="background:var(--ink);color:white;">
+        <th style="padding:16px 20px;text-align:left;font-weight:700;border:1px solid var(--border);">Feature</th>
+        <th style="padding:16px 20px;text-align:left;font-weight:700;border:1px solid var(--border);">Regular practice books</th>
+        <th style="padding:16px 20px;text-align:left;font-weight:700;border:1px solid var(--border);background:var(--blue);">CoreMark Booster</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="background:var(--paper);border:1px solid var(--border-soft);">
+        <td style="padding:14px 20px;font-weight:600;border:1px solid var(--border-soft);">Topic focus</td>
+        <td style="padding:14px 20px;color:var(--ink-soft);border:1px solid var(--border-soft);">Questions mixed across many topics</td>
+        <td style="padding:14px 20px;border:1px solid var(--border-soft);">All 20 questions on one topic only</td>
+      </tr>
+      <tr style="background:var(--mist);border:1px solid var(--border-soft);">
+        <td style="padding:14px 20px;font-weight:600;border:1px solid var(--border-soft);">Solutions</td>
+        <td style="padding:14px 20px;color:var(--ink-soft);border:1px solid var(--border-soft);">Short answer key, no working shown</td>
+        <td style="padding:14px 20px;border:1px solid var(--border-soft);">Full step-by-step solutions with marks at each stage</td>
+      </tr>
+      <tr style="background:var(--paper);border:1px solid var(--border-soft);">
+        <td style="padding:14px 20px;font-weight:600;border:1px solid var(--border-soft);">Cambridge guidance</td>
+        <td style="padding:14px 20px;color:var(--ink-soft);border:1px solid var(--border-soft);">No guidance on what Cambridge rewards</td>
+        <td style="padding:14px 20px;border:1px solid var(--border-soft);">Explains what Cambridge examiners look for</td>
+      </tr>
+      <tr style="background:var(--mist);border:1px solid var(--border-soft);">
+        <td style="padding:14px 20px;font-weight:600;border:1px solid var(--border-soft);">Progress tracking</td>
+        <td style="padding:14px 20px;color:var(--ink-soft);border:1px solid var(--border-soft);">Hard to tell if child is ready to move on</td>
+        <td style="padding:14px 20px;border:1px solid var(--border-soft);">Score bands show when to move to next topic</td>
+      </tr>
+      <tr style="background:var(--paper);border:1px solid var(--border-soft);">
+        <td style="padding:14px 20px;font-weight:600;border:1px solid var(--border-soft);">Parent support</td>
+        <td style="padding:14px 20px;color:var(--ink-soft);border:1px solid var(--border-soft);">Parent cannot help unless they know subject</td>
+        <td style="padding:14px 20px;border:1px solid var(--border-soft);">Parent guide written for non-experts</td>
+      </tr>
+    </tbody>
+  </table>
 </section>
 
 <!-- REVIEWS -->
@@ -828,6 +859,37 @@ a{color:inherit;}
   </p>
 </section>
 
+<!-- KEY TAKEAWAYS -->
+<section class="section" style="background:var(--mist);border-top:2px solid var(--border);border-bottom:2px solid var(--border);">
+  <div class="section-head">
+    <h2>Key takeaways: What you need to know about CoreMark</h2>
+  </div>
+  <div style="max-width:820px;margin:0 auto;">
+    <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:14px;">
+      <li style="display:flex;align-items:flex-start;gap:12px;font-size:16px;line-height:1.55;color:var(--ink-soft);">
+        <span style="flex:none;width:24px;height:24px;background:var(--blue);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:13px;margin-top:2px;">1</span>
+        <span><strong style="color:var(--ink);">Topic-focused practice:</strong> Each booster covers one topic only, so learning is never scattered across multiple subjects.</span>
+      </li>
+      <li style="display:flex;align-items:flex-start;gap:12px;font-size:16px;line-height:1.55;color:var(--ink-soft);">
+        <span style="flex:none;width:24px;height:24px;background:var(--blue);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:13px;margin-top:2px;">2</span>
+        <span><strong style="color:var(--ink);">Complete package:</strong> Cheat sheet + 20 leveled questions + full solutions + parent guide = everything you need in one PDF.</span>
+      </li>
+      <li style="display:flex;align-items:flex-start;gap:12px;font-size:16px;line-height:1.55;color:var(--ink-soft);">
+        <span style="flex:none;width:24px;height:24px;background:var(--blue);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:13px;margin-top:2px;">3</span>
+        <span><strong style="color:var(--ink);">Cambridge-aligned:</strong> Questions and guidance match what Cambridge examiners reward, with common mistakes flagged.</span>
+      </li>
+      <li style="display:flex;align-items:flex-start;gap:12px;font-size:16px;line-height:1.55;color:var(--ink-soft);">
+        <span style="flex:none;width:24px;height:24px;background:var(--blue);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:13px;margin-top:2px;">4</span>
+        <span><strong style="color:var(--ink);">Progress tracking built in:</strong> Score bands tell you exactly when your child is ready to move on to the next topic.</span>
+      </li>
+      <li style="display:flex;align-items:flex-start;gap:12px;font-size:16px;line-height:1.55;color:var(--ink-soft);">
+        <span style="flex:none;width:24px;height:24px;background:var(--blue);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:13px;margin-top:2px;">5</span>
+        <span><strong style="color:var(--ink);">Parent-friendly:</strong> The parent guide is written for non-experts, so you can help even if the subject isn't your strong point.</span>
+      </li>
+    </ul>
+  </div>
+</section>
+
 <!-- FAQ -->
 <section class="section" id="faq" style="padding-top:0;">
   <div class="section-head">
@@ -837,8 +899,8 @@ a{color:inherit;}
   <div class="faq-list">
 
     <div class="faq-item">
-      <button class="faq-q">Is this an official Cambridge paper?<span class="faq-icon">+</span></button>
-      <div class="faq-a">No. CoreMark is not affiliated with or endorsed by Cambridge Assessment International Education. These are original practice papers written in the style of Cambridge Lower Secondary Checkpoint. They are not past papers and not official Cambridge material. They are written specifically for topic-focused practice and concept building.</div>
+      <button class="faq-q">What is CoreMark? Is it an official Cambridge product?<span class="faq-icon">+</span></button>
+      <div class="faq-a">CoreMark is not affiliated with or endorsed by Cambridge Assessment International Education. These are original practice papers written in the style of Cambridge Lower Secondary Checkpoint—designed for topic-focused practice and concept building. They are not past papers and not official Cambridge material.</div>
     </div>
 
     <div class="faq-item">
@@ -857,8 +919,8 @@ a{color:inherit;}
     </div>
 
     <div class="faq-item">
-      <button class="faq-q">My child is not in a Cambridge school. Can they still use this?<span class="faq-icon">+</span></button>
-      <div class="faq-a">Absolutely yes. The topics covered in CoreMark boosters are standard secondary school topics across all major curricula including CBSE, ICSE and state boards. The questions are built around concept clarity and exam technique rather than any one board's exact format. Many Indian families use CoreMark even without a Cambridge school.</div>
+      <button class="faq-q">Can my child use CoreMark if they're not in a Cambridge school?<span class="faq-icon">+</span></button>
+      <div class="faq-a">Yes. CoreMark covers standard secondary school topics across all major curricula—CBSE, ICSE and state boards. The questions focus on concept clarity and exam technique rather than following any single board's exact format. Many Indian families use CoreMark for their children even without Cambridge schooling.</div>
     </div>
 
     <div class="faq-item">
@@ -927,7 +989,7 @@ a{color:inherit;}
       <strong>Note:</strong> CoreMark is original practice material written in the style of the Cambridge Lower Secondary Checkpoint assessment. Not affiliated with or endorsed by Cambridge Assessment International Education. For classroom, tutor and home use. Printable PDF, A4.
     </div>
     <div class="footer-bottom">
-      <span>© 2025 CoreMark · coremark.study</span>
+      <span>© 2025 CoreMark · coremark.study · Last updated June 24, 2026</span>
       <span><a href="legal/privacy.html">Privacy Policy</a> · <a href="legal/terms.html">Terms of Service</a></span>
       <span>Found a typo? <a href="mailto:info@coremark.study">Tell us</a> — every pack improves with every student who uses it.</span>
     </div>
