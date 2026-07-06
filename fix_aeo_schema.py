@@ -23,7 +23,7 @@ import re
 import sys
 from copy import deepcopy
 
-AUTHOR_LINKEDIN = "https://www.linkedin.com/in/snehalpatel"
+AUTHOR_LINKEDIN = "https://www.linkedin.com/in/snehalpateldev/"
 ORG_ID = "https://coremark.study/#organization"
 BLOG_DIR = os.path.join(os.path.dirname(__file__), "blog")
 

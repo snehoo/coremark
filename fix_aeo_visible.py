@@ -16,7 +16,7 @@ import os
 import re
 
 BLOG_DIR = os.path.join(os.path.dirname(__file__), "blog")
-LINKEDIN_URL = "https://www.linkedin.com/in/snehalpatel"
+LINKEDIN_URL = "https://www.linkedin.com/in/snehalpateldev/"
 NEW_DATE = "July 5, 2026"
 
 # Matches visible date spans like "Updated June 18, 2026" or "Updated [Month DD, YYYY]"
