@@ -139,6 +139,22 @@ a{color:inherit;text-decoration:none;}
   gtag('config', 'G-B8K210VPRV');
 </script>
 <!-- COREMARK-GA-END -->
+<!-- COREMARK-PIXEL-START -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window,document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1921557135206596');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1921557135206596&ev=PageView&noscript=1"/></noscript>
+<!-- COREMARK-PIXEL-END -->
 </head>
 <body>
 
@@ -457,6 +473,22 @@ async function verifyAndDeliver() {
       }
     })();
     // ── /GA4 purchase event ───────────────────────────────
+    // ── Meta Pixel purchase event ─────────────────────────
+    (function() {
+      var priceMap = { single: 249, fivepack: 799, subject: 1299, stage: 1299 };
+      var orderValue = priceMap[data.orderType] || 249;
+      if (typeof fbq === 'function') {
+        fbq('track', 'Purchase', {
+          value:        orderValue,
+          currency:     'INR',
+          content_ids:  [data.orderType === 'single' ? (slug || data.orderType) : data.orderType],
+          content_type: 'product',
+          content_name: data.orderTitle || title,
+          order_id:     data.orderId || orderId,
+        });
+      }
+    })();
+    // ── /Meta Pixel purchase event ────────────────────────
 
     // Fire send-email (fire-and-forget — don't block UI)
     if (buyerEmail) {
