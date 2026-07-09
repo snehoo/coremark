@@ -438,6 +438,25 @@ async function verifyAndDeliver() {
     }
 
     showSuccess();
+    // ── GA4 purchase event ────────────────────────────────
+    (function() {
+      var priceMap = { single: 249, fivepack: 799, subject: 1299, stage: 1299 };
+      var orderValue = priceMap[data.orderType] || 249;
+      if (typeof gtag === 'function') {
+        gtag('event', 'purchase', {
+          transaction_id: data.orderId || orderId,
+          value:          orderValue,
+          currency:       'INR',
+          items: [{
+            item_id:   data.orderType === 'single' ? (slug || data.orderType) : data.orderType,
+            item_name: data.orderTitle || title,
+            price:     orderValue,
+            quantity:  1,
+          }],
+        });
+      }
+    })();
+    // ── /GA4 purchase event ───────────────────────────────
 
     // Fire send-email (fire-and-forget — don't block UI)
     if (buyerEmail) {
