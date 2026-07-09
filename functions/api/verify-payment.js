@@ -197,21 +197,23 @@ export async function onRequestPost({ request, env }) {
       // Continue — delivery still works without DB
     }
 
-    // 5. Beehiiv (fire and forget)
-    if (email && env.BEEHIIV_API_KEY && env.BEEHIIV_PUB_ID) {
-      fetch(`https://api.beehiiv.com/v2/publications/${env.BEEHIIV_PUB_ID}/subscriptions`, {
+    // 5. Brevo — add buyer to CoreMark Buyers list (fire and forget)
+    if (email && env.BREVO_API_KEY) {
+      fetch('https://api.brevo.com/v3/contacts', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${env.BEEHIIV_API_KEY}` },
+        headers: { 'Content-Type': 'application/json', 'api-key': env.BREVO_API_KEY },
         body: JSON.stringify({
-          email, reactivate_existing: false, send_welcome_email: false,
-          utm_source: 'coremark_purchase', utm_campaign: rSlug,
-          custom_fields: [
-            { name: 'subject', value: rSubj || '' },
-            { name: 'stage',   value: rStage ? String(rStage) : '' },
-            { name: 'source',  value: 'coremark' },
-          ],
+          email,
+          listIds: [4],
+          updateEnabled: true,
+          attributes: {
+            SUBJECT: rSubj || '',
+            STAGE:   rStage ? String(rStage) : '',
+            SOURCE:  'purchase',
+            SLUG:    rSlug || '',
+          },
         }),
-      }).catch(e => console.warn('[beehiiv]', e.message));
+      }).catch(e => console.warn('[brevo]', e.message));
     }
 
     // 6. Get file URLs from R2
