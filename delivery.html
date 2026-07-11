@@ -482,6 +482,20 @@ async function verifyAndDeliver() {
       }
     })();
     // ── /GA4 purchase event ───────────────────────────────
+    // ── Google Ads conversion event ───────────────────────
+    (function() {
+      var priceMap = { single: 249, fivepack: 799, subject: 1299, stage: 1299 };
+      var orderValue = priceMap[data.orderType] || 249;
+      if (typeof gtag === 'function') {
+        gtag('event', 'conversion', {
+          send_to:        'AW-17160905849/XW2WCMeow84cEPnI-vY_',
+          value:          orderValue,
+          currency:       'INR',
+          transaction_id: data.orderId || orderId,
+        });
+      }
+    })();
+    // ── /Google Ads conversion event ──────────────────────
     // ── Meta Pixel purchase event ─────────────────────────
     (function() {
       var priceMap = { single: 249, fivepack: 799, subject: 1299, stage: 1299 };
