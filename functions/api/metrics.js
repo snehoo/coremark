@@ -42,8 +42,8 @@ export async function onRequestGet({request,env}){
       dbQuery(env,`SELECT DATE(paid_at) AS day,COUNT(*) AS orders,COALESCE(SUM(amount_paise),0) AS revenue_paise FROM orders WHERE status='paid' AND paid_at>=NOW()-INTERVAL '30 days' GROUP BY DATE(paid_at) ORDER BY day ASC`,[]),
       dbQuery(env,`SELECT sequence_step,COUNT(*) AS orders FROM orders WHERE status='paid' GROUP BY sequence_step ORDER BY sequence_step`,[]),
       dbQuery(env,`SELECT COUNT(*) AS total,ROUND(AVG(rating),1) AS avg_rating,COUNT(*)FILTER(WHERE rating>=4) AS happy,COUNT(*)FILTER(WHERE rating=3) AS neutral,COUNT(*)FILTER(WHERE rating<=2) AS unhappy FROM feedback`,[]),
-      dbQuery(env,`SELECT path,COUNT(*) AS views FROM pageviews WHERE viewed_at>=NOW()-INTERVAL '7 days' GROUP BY path ORDER BY views DESC LIMIT 10`,[]),
-      dbQuery(env,`SELECT COUNT(*) AS total,COUNT(*)FILTER(WHERE path='/free.html') AS free_page,COUNT(*)FILTER(WHERE path='/free-download.html') AS free_signups FROM pageviews WHERE viewed_at>=NOW()-INTERVAL '30 days'`,[]),
+      dbQuery(env,`SELECT SPLIT_PART(path,'?',1) AS path,COUNT(*) AS views FROM pageviews WHERE viewed_at>=NOW()-INTERVAL '7 days' GROUP BY SPLIT_PART(path,'?',1) ORDER BY views DESC LIMIT 10`,[]),
+      dbQuery(env,`SELECT COUNT(*) AS total,COUNT(*)FILTER(WHERE SPLIT_PART(path,'?',1)='/free') AS free_page,COUNT(*)FILTER(WHERE SPLIT_PART(path,'?',1)='/free-download') AS free_signups FROM pageviews WHERE viewed_at>=NOW()-INTERVAL '30 days'`,[]),
     ]);
     const r=rev.rows[0], o=ord.rows[0], b=buy.rows[0], f=fb.rows[0];
     return new Response(JSON.stringify({
