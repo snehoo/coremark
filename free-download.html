@@ -174,5 +174,12 @@ footer a{color:var(--ink-muted);text-decoration:none;}
   <a href="/legal/privacy.html">Privacy</a> · <a href="/legal/terms.html">Terms</a> · © 2026 CoreMark
 </footer>
 
+<script>
+fetch('/api/track', {
+  method: 'POST',
+  headers: {'Content-Type': 'application/json'},
+  body: JSON.stringify({path: location.pathname + location.search, referrer: document.referrer || null})
+}).catch(function(){});
+</script>
 </body>
 </html>
