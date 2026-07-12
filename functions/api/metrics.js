@@ -31,7 +31,7 @@ export async function onRequestGet({request,env}){
     return new Response('Unauthorized',{status:401,headers:CORS});
   }
   try {
-    const [rev,ord,buy,top,bySub,byStg,byTyp,daily,seq,fb,pages] = await Promise.all([
+    const [rev,ord,buy,top,bySub,byStg,byTyp,daily,seq,fb,pages,funnel] = await Promise.all([
       dbQuery(env,`SELECT COALESCE(SUM(amount_paise),0) AS total_paise,COALESCE(SUM(amount_paise)FILTER(WHERE paid_at>=NOW()-INTERVAL '30 days'),0) AS last30_paise,COALESCE(SUM(amount_paise)FILTER(WHERE paid_at>=NOW()-INTERVAL '7 days'),0) AS last7_paise,COALESCE(SUM(amount_paise)FILTER(WHERE paid_at>=CURRENT_DATE),0) AS today_paise FROM orders WHERE status='paid'`,[]),
       dbQuery(env,`SELECT COUNT(*) AS total,COUNT(*)FILTER(WHERE paid_at>=NOW()-INTERVAL '30 days') AS last30,COUNT(*)FILTER(WHERE paid_at>=NOW()-INTERVAL '7 days') AS last7,COUNT(*)FILTER(WHERE paid_at>=CURRENT_DATE) AS today,COUNT(*)FILTER(WHERE status='pending') AS pending,COUNT(*)FILTER(WHERE status='refunded') AS refunded FROM orders WHERE status IN('paid','pending','refunded')`,[]),
       dbQuery(env,`SELECT COUNT(*) AS total,COUNT(*)FILTER(WHERE created_at>=NOW()-INTERVAL '30 days') AS last30 FROM buyers`,[]),
@@ -43,6 +43,7 @@ export async function onRequestGet({request,env}){
       dbQuery(env,`SELECT sequence_step,COUNT(*) AS orders FROM orders WHERE status='paid' GROUP BY sequence_step ORDER BY sequence_step`,[]),
       dbQuery(env,`SELECT COUNT(*) AS total,ROUND(AVG(rating),1) AS avg_rating,COUNT(*)FILTER(WHERE rating>=4) AS happy,COUNT(*)FILTER(WHERE rating=3) AS neutral,COUNT(*)FILTER(WHERE rating<=2) AS unhappy FROM feedback`,[]),
       dbQuery(env,`SELECT path,COUNT(*) AS views FROM pageviews WHERE viewed_at>=NOW()-INTERVAL '7 days' GROUP BY path ORDER BY views DESC LIMIT 10`,[]),
+      dbQuery(env,`SELECT COUNT(*) AS total,COUNT(*)FILTER(WHERE path='/free.html') AS free_page,COUNT(*)FILTER(WHERE path='/free-download.html') AS free_signups FROM pageviews WHERE viewed_at>=NOW()-INTERVAL '30 days'`,[]),
     ]);
     const r=rev.rows[0], o=ord.rows[0], b=buy.rows[0], f=fb.rows[0];
     return new Response(JSON.stringify({
@@ -58,6 +59,7 @@ export async function onRequestGet({request,env}){
       sequence:seq.rows.map(x=>({step:Number(x.sequence_step),orders:Number(x.orders)})),
       feedback:{total:Number(f.total),avgRating:f.avg_rating?Number(f.avg_rating):null,happy:Number(f.happy),neutral:Number(f.neutral),unhappy:Number(f.unhappy)},
       topPages:pages.rows.map(x=>({path:x.path,views:Number(x.views)})),
+      funnel:{visitors:Number(funnel.rows[0]?.total||0),freePage:Number(funnel.rows[0]?.free_page||0),freeSignups:Number(funnel.rows[0]?.free_signups||0),paid:Number(o.last30)},
     }),{status:200,headers:{'Content-Type':'application/json',...CORS}});
   } catch(e) {
     console.error('[metrics]',e.message);
