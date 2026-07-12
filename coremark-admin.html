@@ -1,14 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-B8K210VPRV"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-B8K210VPRV');
-</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>CoreMark Admin</title>
@@ -17,15 +9,17 @@
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
-/* ── TOKENS ─────────────────────────────────────────────── */
+/* ── TOKENS ───────────────────────────────────────────────── */
 :root{
   --ink:#2A1B3D; --ink-soft:#4A3760; --ink-muted:#7A6A94;
-  --blue:#6E47C9; --blue-deep:#5234A4; --blue-tint:rgba(110,71,201,0.10);
+  --blue:#6E47C9; --blue-deep:#5234A4; --blue-tint:rgba(110,71,201,0.12);
   --coral:#F4C73E; --coral-soft:#FAE588;
   --cream:#FBF8F2; --paper:#FFFFFF; --mist:#F0EBF8;
   --border:#DDD5ED; --border-soft:#EAE3F5;
   --green:#059669; --green-bg:rgba(5,150,105,0.08); --green-text:#065f46;
-  --red:#dc2626; --red-bg:rgba(220,38,38,0.08);
+  --red:#dc2626; --red-bg:rgba(220,38,38,0.08); --red-text:#991b1b;
+  --amber:#d97706; --amber-bg:rgba(217,119,6,0.08);
+  --sidebar-bg:#1A0F2E; --sidebar-border:rgba(255,255,255,0.07);
   --font-sans:'Plus Jakarta Sans',system-ui,sans-serif;
   --font-mono:'JetBrains Mono',monospace;
   --radius-sm:8px; --radius-md:14px; --radius-lg:20px;
@@ -34,174 +28,169 @@
 *{box-sizing:border-box;margin:0;padding:0;}
 html,body{height:100%;background:var(--cream);color:var(--ink);font-family:var(--font-sans);-webkit-font-smoothing:antialiased;}
 
-/* ── LAYOUT ─────────────────────────────────────────────── */
-.shell{display:grid;grid-template-columns:220px 1fr;min-height:100vh;}
+/* ── SHELL ────────────────────────────────────────────────── */
+.shell{display:grid;grid-template-columns:230px 1fr;min-height:100vh;}
 
-/* ── SIDEBAR ─────────────────────────────────────────────── */
-.sidebar{background:var(--ink);padding:28px 0;display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow-y:auto;}
-.sb-logo{padding:0 20px 28px;border-bottom:1px solid rgba(255,255,255,0.08);margin-bottom:20px;}
-.sb-logo-mark{display:flex;align-items:center;gap:10px;}
-.sb-logo-sq{width:34px;height:34px;background:rgba(255,255,255,0.1);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;color:#fff;position:relative;}
-.sb-logo-dot{position:absolute;top:-3px;right:-3px;width:8px;height:8px;background:var(--coral);border-radius:50%;}
-.sb-logo-word{font-weight:800;font-size:17px;color:#fff;letter-spacing:-0.02em;}
-.sb-logo-word span{color:var(--blue);}
-.sb-label{font-family:var(--font-mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.3);padding:0 20px;margin-bottom:8px;}
-.sb-nav{list-style:none;padding:0 10px;margin-bottom:24px;}
-.sb-nav li a{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--radius-sm);font-size:14px;font-weight:600;color:rgba(255,255,255,0.55);text-decoration:none;transition:all .15s;}
-.sb-nav li a:hover{background:rgba(255,255,255,0.07);color:#fff;}
-.sb-nav li a.active{background:rgba(110,71,201,0.35);color:#fff;}
-.sb-nav li a .icon{font-size:16px;width:20px;text-align:center;}
-.sb-divider{border:none;border-top:1px solid rgba(255,255,255,0.08);margin:4px 20px 16px;}
-.sb-footer{margin-top:auto;padding:20px;border-top:1px solid rgba(255,255,255,0.08);}
-.sb-footer-text{font-size:12px;color:rgba(255,255,255,0.3);}
-.sb-footer-text a{color:rgba(255,255,255,0.45);text-decoration:none;}
+/* ── SIDEBAR ──────────────────────────────────────────────── */
+.sidebar{background:var(--sidebar-bg);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow-y:auto;}
+.sb-head{padding:24px 20px 20px;border-bottom:1px solid var(--sidebar-border);}
+.sb-logo{display:flex;align-items:center;gap:10px;}
+.sb-logo-sq{width:34px;height:34px;background:rgba(255,255,255,0.08);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;color:#fff;position:relative;flex:none;}
+.sb-dot{position:absolute;top:-3px;right:-3px;width:8px;height:8px;background:var(--coral);border-radius:50%;}
+.sb-logo-name{font-weight:800;font-size:17px;color:#fff;letter-spacing:-0.02em;}
+.sb-logo-name span{color:#9B7BE0;}
+.sb-body{flex:1;padding:16px 10px;}
+.sb-section{margin-bottom:6px;}
+.sb-label{font-family:var(--font-mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.25);padding:10px 12px 6px;}
+.sb-nav{list-style:none;}
+.sb-nav li button{display:flex;align-items:center;gap:10px;width:100%;padding:9px 12px;border-radius:var(--radius-sm);font-family:var(--font-sans);font-size:14px;font-weight:600;color:rgba(255,255,255,0.5);background:none;border:none;cursor:pointer;transition:all .15s;text-align:left;}
+.sb-nav li button:hover{background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.85);}
+.sb-nav li button.active{background:rgba(110,71,201,0.3);color:#fff;}
+.sb-nav li button .ico{font-size:15px;width:20px;text-align:center;flex:none;}
+.sb-footer{padding:16px 20px;border-top:1px solid var(--sidebar-border);}
+.sb-footer p{font-size:12px;color:rgba(255,255,255,0.25);}
 
 /* ── MAIN ─────────────────────────────────────────────────── */
-.main{padding:0;overflow-x:hidden;}
+.main{display:flex;flex-direction:column;min-height:100vh;overflow-x:hidden;}
 
 /* topbar */
-.topbar{background:var(--paper);border-bottom:1px solid var(--border-soft);padding:18px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;}
-.topbar-title{font-size:18px;font-weight:800;letter-spacing:-0.02em;}
-.topbar-right{display:flex;align-items:center;gap:12px;}
-.refresh-btn{padding:9px 16px;background:var(--mist);border:1.5px solid var(--border);border-radius:var(--radius-sm);font-family:var(--font-sans);font-size:13px;font-weight:700;color:var(--ink);cursor:pointer;display:flex;align-items:center;gap:7px;}
-.refresh-btn:hover{border-color:var(--blue);color:var(--blue);}
-.refresh-btn.loading .refresh-icon{animation:spin .7s linear infinite;}
+.topbar{background:var(--paper);border-bottom:1px solid var(--border-soft);padding:16px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;}
+.topbar-title{font-size:17px;font-weight:800;letter-spacing:-0.02em;}
+.topbar-right{display:flex;align-items:center;gap:10px;}
+.topbar-badge{font-family:var(--font-mono);font-size:11px;color:rgba(255,255,255,0.5);background:var(--sidebar-bg);padding:3px 9px;border-radius:999px;}
+.btn-sm{padding:8px 14px;background:var(--mist);border:1.5px solid var(--border);border-radius:var(--radius-sm);font-family:var(--font-sans);font-size:13px;font-weight:700;color:var(--ink);cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:all .15s;}
+.btn-sm:hover{border-color:var(--blue);color:var(--blue);}
+.btn-sm.loading .spin{animation:spin .7s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg)}}
 .status-dot{width:8px;height:8px;border-radius:50%;background:var(--green);}
-.status-dot.loading{background:var(--coral);animation:pulse 1s ease-in-out infinite;}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
-.last-refresh{font-family:var(--font-mono);font-size:11px;color:var(--ink-muted);}
+.status-dot.live{animation:pulse 2s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.35}}
 
 /* auth overlay */
-.auth-overlay{position:fixed;inset:0;background:var(--cream);z-index:100;display:flex;align-items:center;justify-content:center;}
-.auth-card{background:var(--paper);border:1.5px solid var(--border-soft);border-radius:var(--radius-lg);padding:44px;max-width:380px;width:100%;box-shadow:var(--shadow);}
+.auth-overlay{position:fixed;inset:0;background:var(--sidebar-bg);z-index:100;display:flex;align-items:center;justify-content:center;}
+.auth-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:var(--radius-lg);padding:44px;max-width:360px;width:100%;}
 .auth-logo{display:flex;align-items:center;gap:10px;margin-bottom:28px;}
-.auth-logo-sq{width:38px;height:38px;background:var(--ink);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;color:#fff;}
-.auth-logo-word{font-weight:800;font-size:20px;letter-spacing:-0.02em;}
-.auth-logo-word span{color:var(--blue);}
-.auth-heading{font-size:22px;font-weight:800;letter-spacing:-0.025em;margin-bottom:6px;}
-.auth-sub{font-size:14px;color:var(--ink-muted);margin-bottom:24px;}
-.auth-input{width:100%;padding:13px 15px;background:var(--cream);border:1.5px solid var(--border);border-radius:var(--radius-sm);font-family:var(--font-sans);font-size:15px;color:var(--ink);outline:none;margin-bottom:12px;}
-.auth-input:focus{border-color:var(--blue);box-shadow:0 0 0 3px var(--blue-tint);}
-.auth-btn{width:100%;padding:14px;background:var(--blue);color:#fff;border:none;border-radius:var(--radius-sm);font-family:var(--font-sans);font-size:15px;font-weight:700;cursor:pointer;}
+.auth-logo-sq{width:36px;height:36px;background:rgba(255,255,255,0.08);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;color:#fff;}
+.auth-logo-name{font-weight:800;font-size:20px;color:#fff;letter-spacing:-0.02em;}
+.auth-logo-name span{color:#9B7BE0;}
+.auth-heading{font-size:22px;font-weight:800;color:#fff;margin-bottom:6px;letter-spacing:-0.025em;}
+.auth-sub{font-size:14px;color:rgba(255,255,255,0.4);margin-bottom:24px;}
+.auth-input{width:100%;padding:13px 15px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:var(--radius-sm);font-family:var(--font-sans);font-size:15px;color:#fff;outline:none;margin-bottom:12px;}
+.auth-input:focus{border-color:rgba(110,71,201,0.7);box-shadow:0 0 0 3px rgba(110,71,201,0.15);}
+.auth-input::placeholder{color:rgba(255,255,255,0.25);}
+.auth-btn{width:100%;padding:13px;background:var(--blue);color:#fff;border:none;border-radius:var(--radius-sm);font-family:var(--font-sans);font-size:15px;font-weight:700;cursor:pointer;transition:background .15s;}
 .auth-btn:hover{background:var(--blue-deep);}
-.auth-error{font-size:13px;color:var(--red);margin-top:8px;display:none;}
+.auth-error{font-size:13px;color:#f87171;margin-top:10px;display:none;}
 .auth-error.show{display:block;}
 
-/* content */
+/* ── PAGE SECTIONS ────────────────────────────────────────── */
+.page{display:none;flex:1;}
+.page.active{display:block;}
 .content{padding:28px 32px 60px;}
 
 /* section header */
-.section-head{margin-bottom:20px;}
-.section-eyebrow{font-family:var(--font-mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:6px;}
-.section-title{font-size:20px;font-weight:800;letter-spacing:-0.025em;}
+.sec-head{margin-bottom:20px;}
+.sec-eye{font-family:var(--font-mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:5px;}
+.sec-title{font-size:20px;font-weight:800;letter-spacing:-0.025em;}
+.sec-divider{border:none;border-top:1px solid var(--border-soft);margin:28px 0;}
 
-/* ── KPI CARDS ─────────────────────────────────────────── */
-.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:32px;}
+/* ── KPI CARDS ────────────────────────────────────────────── */
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px;}
 .kpi-card{background:var(--paper);border:1.5px solid var(--border-soft);border-radius:var(--radius-md);padding:22px 24px;box-shadow:var(--shadow);}
-.kpi-card.highlight{background:var(--ink);border-color:var(--ink);}
+.kpi-card.dark{background:var(--sidebar-bg);border-color:var(--sidebar-bg);}
 .kpi-label{font-family:var(--font-mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:10px;}
-.kpi-card.highlight .kpi-label{color:rgba(255,255,255,0.45);}
-.kpi-value{font-size:32px;font-weight:800;letter-spacing:-0.04em;line-height:1;margin-bottom:6px;}
-.kpi-card.highlight .kpi-value{color:var(--coral-soft);}
+.kpi-card.dark .kpi-label{color:rgba(255,255,255,0.35);}
+.kpi-value{font-size:30px;font-weight:800;letter-spacing:-0.04em;line-height:1;margin-bottom:6px;}
+.kpi-card.dark .kpi-value{color:var(--coral-soft);}
 .kpi-sub{font-size:13px;color:var(--ink-muted);}
-.kpi-card.highlight .kpi-sub{color:rgba(255,255,255,0.4);}
-.kpi-badge{display:inline-flex;align-items:center;gap:4px;font-family:var(--font-mono);font-size:11px;background:var(--green-bg);color:var(--green-text);border-radius:999px;padding:2px 8px;font-weight:600;}
-.kpi-badge.neutral{background:var(--mist);color:var(--ink-muted);}
+.kpi-card.dark .kpi-sub{color:rgba(255,255,255,0.35);}
 
-/* ── CHARTS ROW ─────────────────────────────────────────── */
-.charts-row{display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-bottom:32px;}
+/* ── CHARTS ───────────────────────────────────────────────── */
+.charts-row{display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-bottom:28px;}
 .chart-card{background:var(--paper);border:1.5px solid var(--border-soft);border-radius:var(--radius-md);padding:24px;box-shadow:var(--shadow);}
-.chart-title{font-size:15px;font-weight:700;margin-bottom:4px;letter-spacing:-0.01em;}
-.chart-sub{font-size:13px;color:var(--ink-muted);margin-bottom:20px;}
+.chart-title{font-size:15px;font-weight:700;margin-bottom:4px;}
+.chart-sub{font-size:13px;color:var(--ink-muted);margin-bottom:18px;}
 .chart-wrap{position:relative;height:200px;}
 
-/* ── TABLES ROW ─────────────────────────────────────────── */
-.tables-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:32px;}
-.table-card{background:var(--paper);border:1.5px solid var(--border-soft);border-radius:var(--radius-md);padding:24px;box-shadow:var(--shadow);}
-.table-title{font-size:15px;font-weight:700;margin-bottom:16px;letter-spacing:-0.01em;}
-table.data-table{width:100%;border-collapse:collapse;}
-table.data-table th{font-family:var(--font-mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-muted);text-align:left;padding:0 0 10px;border-bottom:1px solid var(--border-soft);}
-table.data-table td{font-size:13px;padding:10px 0;border-bottom:1px solid var(--border-soft);color:var(--ink);}
-table.data-table tr:last-child td{border-bottom:none;}
-table.data-table .mono{font-family:var(--font-mono);font-size:12px;color:var(--ink-muted);}
-table.data-table .badge{display:inline-block;padding:2px 8px;border-radius:999px;font-family:var(--font-mono);font-size:10px;font-weight:600;background:var(--mist);color:var(--blue);}
-
-/* bar-in-cell */
+/* ── TABLES ───────────────────────────────────────────────── */
+.tables-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:28px;}
+.card{background:var(--paper);border:1.5px solid var(--border-soft);border-radius:var(--radius-md);padding:24px;box-shadow:var(--shadow);}
+.card-title{font-size:15px;font-weight:700;margin-bottom:16px;}
+.data-table{width:100%;border-collapse:collapse;}
+.data-table th{font-family:var(--font-mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-muted);text-align:left;padding:0 0 10px;border-bottom:1px solid var(--border-soft);}
+.data-table td{font-size:13px;padding:10px 0;border-bottom:1px solid var(--border-soft);color:var(--ink);}
+.data-table tr:last-child td{border-bottom:none;}
+.mono{font-family:var(--font-mono);font-size:12px;color:var(--ink-muted);}
 .bar-cell{display:flex;align-items:center;gap:8px;}
 .bar-track{flex:1;height:5px;background:var(--mist);border-radius:999px;overflow:hidden;}
-.bar-fill{height:100%;background:var(--blue);border-radius:999px;transition:width .5s ease;}
+.bar-fill{height:100%;background:var(--blue);border-radius:999px;}
 
-/* ── BREAKDOWN CARDS ─────────────────────────────────────── */
-.breakdown-row{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:32px;}
-.breakdown-card{background:var(--paper);border:1.5px solid var(--border-soft);border-radius:var(--radius-md);padding:22px 24px;box-shadow:var(--shadow);}
-.breakdown-title{font-size:14px;font-weight:700;margin-bottom:16px;letter-spacing:-0.01em;}
+/* ── BREAKDOWN ────────────────────────────────────────────── */
+.breakdown-row{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:28px;}
 .breakdown-item{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border-soft);}
 .breakdown-item:last-child{border-bottom:none;}
-.breakdown-key{font-size:13px;font-weight:600;}
-.breakdown-val{font-family:var(--font-mono);font-size:12px;color:var(--ink-muted);}
-.breakdown-rev{font-family:var(--font-mono);font-size:11px;color:var(--blue);margin-top:2px;}
+.bd-key{font-size:13px;font-weight:600;}
+.bd-val{font-family:var(--font-mono);font-size:12px;color:var(--ink-muted);}
+.bd-rev{font-family:var(--font-mono);font-size:11px;color:var(--blue);margin-top:2px;}
 
-/* ── EMAIL + FEEDBACK ROW ─────────────────────────────────── */
-.bottom-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:32px;}
-.stat-card{background:var(--paper);border:1.5px solid var(--border-soft);border-radius:var(--radius-md);padding:22px 24px;box-shadow:var(--shadow);}
-.stat-title{font-size:14px;font-weight:700;margin-bottom:16px;}
+/* ── STAT CARDS ───────────────────────────────────────────── */
+.stat-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:28px;}
 .stat-item{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border-soft);}
 .stat-item:last-child{border-bottom:none;}
 .stat-key{font-size:13px;color:var(--ink-muted);}
-.stat-val{font-family:var(--font-mono);font-size:13px;font-weight:600;color:var(--ink);}
-
-/* feedback emojis */
-.feedback-row{display:flex;gap:12px;margin-top:4px;}
-.fb-item{flex:1;background:var(--mist);border-radius:var(--radius-sm);padding:14px 12px;text-align:center;}
-.fb-emoji{font-size:22px;margin-bottom:4px;}
-.fb-count{font-family:var(--font-mono);font-size:16px;font-weight:700;color:var(--ink);}
+.stat-val{font-family:var(--font-mono);font-size:13px;font-weight:600;}
+.feedback-row{display:flex;gap:10px;margin-top:4px;}
+.fb-item{flex:1;background:var(--mist);border-radius:var(--radius-sm);padding:14px 10px;text-align:center;}
+.fb-emoji{font-size:20px;margin-bottom:4px;}
+.fb-count{font-family:var(--font-mono);font-size:16px;font-weight:700;}
 .fb-label{font-size:11px;color:var(--ink-muted);margin-top:2px;}
 
-/* ── LINKS ROW ─────────────────────────────────────────────── */
-.links-row{display:flex;gap:12px;flex-wrap:wrap;}
-.quick-link{display:flex;align-items:center;gap:8px;padding:11px 18px;background:var(--paper);border:1.5px solid var(--border-soft);border-radius:var(--radius-sm);font-size:14px;font-weight:600;color:var(--ink);text-decoration:none;box-shadow:var(--shadow);}
-.quick-link:hover{border-color:var(--blue);color:var(--blue);}
+/* ── STATUS BADGES ────────────────────────────────────────── */
+.badge{display:inline-block;padding:2px 9px;border-radius:999px;font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:0.05em;}
+.badge-paid{background:var(--green-bg);color:var(--green-text);}
+.badge-pending{background:var(--amber-bg);color:var(--amber);}
+.badge-refunded{background:var(--mist);color:var(--ink-muted);}
+.badge-failed{background:var(--red-bg);color:var(--red-text);}
 
-/* loading skeleton */
+/* ── ORDERS PAGE ──────────────────────────────────────────── */
+.filter-row{display:flex;align-items:center;gap:10px;margin-bottom:20px;flex-wrap:wrap;}
+.filter-tab{padding:7px 16px;border-radius:999px;font-size:13px;font-weight:600;border:1.5px solid var(--border);background:var(--paper);color:var(--ink-muted);cursor:pointer;transition:all .15s;}
+.filter-tab.active{border-color:var(--blue);background:var(--blue-tint);color:var(--blue);}
+.orders-card{background:var(--paper);border:1.5px solid var(--border-soft);border-radius:var(--radius-md);overflow:hidden;box-shadow:var(--shadow);}
+.orders-table{width:100%;border-collapse:collapse;}
+.orders-table th{font-family:var(--font-mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-muted);text-align:left;padding:12px 16px;border-bottom:1px solid var(--border-soft);background:var(--cream);}
+.orders-table td{font-size:13px;padding:12px 16px;border-bottom:1px solid var(--border-soft);color:var(--ink);vertical-align:middle;}
+.orders-table tr:last-child td{border-bottom:none;}
+.orders-table tr:hover td{background:var(--mist);}
+.email-cell{max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+
+/* ── SKELETON ─────────────────────────────────────────────── */
 .skel{background:linear-gradient(90deg,var(--mist) 25%,var(--border-soft) 50%,var(--mist) 75%);background-size:200% 100%;animation:shimmer 1.4s ease infinite;border-radius:6px;}
 @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.empty{text-align:center;padding:36px;color:var(--ink-muted);font-size:14px;}
 
-/* empty state */
-.empty{text-align:center;padding:32px;color:var(--ink-muted);font-size:14px;}
-
-/* ── RESPONSIVE ─────────────────────────────────────────── */
+/* ── RESPONSIVE ───────────────────────────────────────────── */
 @media(max-width:1200px){
   .kpi-grid{grid-template-columns:repeat(2,1fr);}
-  .breakdown-row{grid-template-columns:1fr 1fr;}
-  .bottom-row{grid-template-columns:1fr 1fr;}
+  .breakdown-row,.stat-row{grid-template-columns:1fr 1fr;}
 }
-@media(max-width:900px){
+@media(max-width:960px){
   .shell{grid-template-columns:1fr;}
   .sidebar{display:none;}
-  .charts-row,.tables-row,.bottom-row,.breakdown-row{grid-template-columns:1fr;}
+  .charts-row,.tables-row,.tables-row,.stat-row,.breakdown-row{grid-template-columns:1fr;}
 }
 </style>
-<!-- COREMARK-GA-START -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-B8K210VPRV"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-B8K210VPRV');
-</script>
-<!-- COREMARK-GA-END -->
 </head>
 <body>
 
-<!-- AUTH OVERLAY -->
+<!-- ── AUTH ────────────────────────────────────────────────── -->
 <div class="auth-overlay" id="auth-overlay">
   <div class="auth-card">
     <div class="auth-logo">
       <div class="auth-logo-sq">CM</div>
-      <div class="auth-logo-word">Core<span>Mark</span></div>
+      <div class="auth-logo-name">Core<span>Mark</span></div>
     </div>
-    <div class="auth-heading">Admin Dashboard</div>
+    <div class="auth-heading">Admin</div>
     <div class="auth-sub">Enter your metrics secret to continue.</div>
     <input class="auth-input" type="password" id="secret-input"
            placeholder="Metrics secret" autocomplete="current-password">
@@ -210,40 +199,30 @@ table.data-table .badge{display:inline-block;padding:2px 8px;border-radius:999px
   </div>
 </div>
 
-<!-- SHELL -->
+<!-- ── SHELL ────────────────────────────────────────────────── -->
 <div class="shell" id="shell" style="display:none;">
 
   <!-- SIDEBAR -->
   <aside class="sidebar">
-    <div class="sb-logo">
-      <div class="sb-logo-mark">
-        <div class="sb-logo-sq">CM<div class="sb-logo-dot"></div></div>
-        <div class="sb-logo-word">Core<span>Mark</span></div>
+    <div class="sb-head">
+      <div class="sb-logo">
+        <div class="sb-logo-sq">CM<div class="sb-dot"></div></div>
+        <div class="sb-logo-name">Core<span>Mark</span></div>
       </div>
     </div>
-    <div class="sb-label">Overview</div>
-    <ul class="sb-nav">
-      <li><a href="#" class="active"><span class="icon">📊</span>Dashboard</a></li>
-    </ul>
-    <hr class="sb-divider">
-    <div class="sb-label">Website</div>
-    <ul class="sb-nav">
-      <li><a href="/math.html"      target="_blank"><span class="icon">📐</span>Mathematics</a></li>
-      <li><a href="/science.html"   target="_blank"><span class="icon">🔬</span>Science</a></li>
-      <li><a href="/computing.html" target="_blank"><span class="icon">💻</span>Computing</a></li>
-      <li><a href="/index.html"     target="_blank"><span class="icon">🏠</span>Home</a></li>
-    </ul>
-    <hr class="sb-divider">
-    <div class="sb-label">External</div>
-    <ul class="sb-nav">
-      <li><a href="https://dashboard.razorpay.com" target="_blank"><span class="icon">💳</span>Razorpay</a></li>
-      <li><a href="https://resend.com/emails"       target="_blank"><span class="icon">📧</span>Resend</a></li>
-      <li><a href="https://console.neon.tech"       target="_blank"><span class="icon">🗄️</span>Neon DB</a></li>
-      <li><a href="https://app.beehiiv.com"         target="_blank"><span class="icon">🐝</span>Beehiiv</a></li>
-      <li><a href="https://dash.cloudflare.com"     target="_blank"><span class="icon">☁️</span>Cloudflare</a></li>
-    </ul>
+    <div class="sb-body">
+      <div class="sb-section">
+        <div class="sb-label">Main</div>
+        <ul class="sb-nav">
+          <li><button onclick="nav('overview')" id="nav-overview" class="active"><span class="ico">📊</span>Overview</button></li>
+          <li><button onclick="nav('orders')"   id="nav-orders"><span class="ico">🛒</span>Orders</button></li>
+          <li><button onclick="nav('analytics')" id="nav-analytics"><span class="ico">📈</span>Analytics</button></li>
+          <li><button onclick="nav('health')"   id="nav-health"><span class="ico">❤️</span>Health</button></li>
+        </ul>
+      </div>
+    </div>
     <div class="sb-footer">
-      <div class="sb-footer-text">CoreMark Admin · <a href="/index.html">coremark.study</a></div>
+      <p>CoreMark Admin v2</p>
     </div>
   </aside>
 
@@ -252,384 +231,389 @@ table.data-table .badge{display:inline-block;padding:2px 8px;border-radius:999px
 
     <!-- TOPBAR -->
     <div class="topbar">
-      <div class="topbar-title">Dashboard</div>
+      <div class="topbar-title" id="topbar-title">Overview</div>
       <div class="topbar-right">
-        <div class="status-dot" id="status-dot"></div>
-        <div class="last-refresh" id="last-refresh">—</div>
-        <button class="refresh-btn" id="refresh-btn" onclick="loadData()">
-          <span class="refresh-icon">↻</span> Refresh
+        <div class="status-dot live" id="status-dot"></div>
+        <span id="last-refresh" style="font-family:var(--font-mono);font-size:11px;color:var(--ink-muted);">—</span>
+        <button class="btn-sm" id="refresh-btn" onclick="refresh()">
+          <span class="spin">↻</span> Refresh
         </button>
       </div>
     </div>
 
-    <!-- CONTENT -->
-    <div class="content">
-
-      <!-- KPI CARDS -->
-      <div class="section-head">
-        <div class="section-eyebrow">Revenue</div>
-        <div class="section-title">Overview</div>
-      </div>
-      <div class="kpi-grid" id="kpi-grid">
-        <div class="kpi-card highlight">
-          <div class="kpi-label">Total Revenue</div>
-          <div class="kpi-value" id="kpi-total-rev">—</div>
-          <div class="kpi-sub" id="kpi-total-orders">— orders</div>
+    <!-- ── OVERVIEW PAGE ───────────────────────────────────── -->
+    <div class="page active" id="page-overview">
+      <div class="content">
+        <div class="sec-head">
+          <div class="sec-eye">Revenue</div>
+          <div class="sec-title">Overview</div>
         </div>
-        <div class="kpi-card">
-          <div class="kpi-label">Last 30 Days</div>
-          <div class="kpi-value" id="kpi-30-rev">—</div>
-          <div class="kpi-sub" id="kpi-30-orders">— orders</div>
+        <div class="kpi-grid">
+          <div class="kpi-card dark">
+            <div class="kpi-label">Total Revenue</div>
+            <div class="kpi-value" id="kpi-total-rev">—</div>
+            <div class="kpi-sub" id="kpi-total-sub">— orders · — buyers</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Last 30 Days</div>
+            <div class="kpi-value" id="kpi-30-rev">—</div>
+            <div class="kpi-sub" id="kpi-30-sub">— orders</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Last 7 Days</div>
+            <div class="kpi-value" id="kpi-7-rev">—</div>
+            <div class="kpi-sub" id="kpi-7-sub">— orders</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Today</div>
+            <div class="kpi-value" id="kpi-today-rev">—</div>
+            <div class="kpi-sub" id="kpi-today-sub">— orders</div>
+          </div>
         </div>
-        <div class="kpi-card">
-          <div class="kpi-label">Last 7 Days</div>
-          <div class="kpi-value" id="kpi-7-rev">—</div>
-          <div class="kpi-sub" id="kpi-7-orders">— orders</div>
-        </div>
-        <div class="kpi-card">
-          <div class="kpi-label">Today</div>
-          <div class="kpi-value" id="kpi-today-rev">—</div>
-          <div class="kpi-sub" id="kpi-today-sub">— orders · — buyers</div>
-        </div>
-      </div>
-
-      <!-- REVENUE CHART + ORDER TYPE -->
-      <div class="charts-row">
-        <div class="chart-card">
-          <div class="chart-title">Daily Revenue — Last 30 Days</div>
-          <div class="chart-sub">Amount collected per day (₹)</div>
-          <div class="chart-wrap"><canvas id="revenue-chart"></canvas></div>
-        </div>
-        <div class="chart-card">
-          <div class="chart-title">Orders by Type</div>
-          <div class="chart-sub">Single · 5-Pack · Subject · Stage</div>
-          <div class="chart-wrap"><canvas id="type-chart"></canvas></div>
+        <div class="charts-row">
+          <div class="chart-card">
+            <div class="chart-title">Daily Revenue — Last 30 Days</div>
+            <div class="chart-sub">Amount collected per day (₹)</div>
+            <div class="chart-wrap"><canvas id="revenue-chart"></canvas></div>
+          </div>
+          <div class="chart-card">
+            <div class="chart-title">Orders by Type</div>
+            <div class="chart-sub">Single · 5-Pack · Subject · Stage</div>
+            <div class="chart-wrap"><canvas id="type-chart"></canvas></div>
+          </div>
         </div>
       </div>
+    </div>
 
-      <!-- TOP BOOSTERS + TOP PAGES -->
-      <div class="tables-row">
-        <div class="table-card">
-          <div class="table-title">Top Boosters by Units Sold</div>
-          <table class="data-table">
+    <!-- ── ORDERS PAGE ─────────────────────────────────────── -->
+    <div class="page" id="page-orders">
+      <div class="content">
+        <div class="sec-head">
+          <div class="sec-eye">Transactions</div>
+          <div class="sec-title">Orders</div>
+        </div>
+        <div class="filter-row">
+          <button class="filter-tab active" id="filter-all"      onclick="setOrderFilter('all')">All</button>
+          <button class="filter-tab"        id="filter-paid"     onclick="setOrderFilter('paid')">Paid</button>
+          <button class="filter-tab"        id="filter-pending"  onclick="setOrderFilter('pending')">Pending</button>
+          <button class="filter-tab"        id="filter-refunded" onclick="setOrderFilter('refunded')">Refunded</button>
+          <button class="filter-tab"        id="filter-failed"   onclick="setOrderFilter('failed')">Failed</button>
+        </div>
+        <div class="orders-card">
+          <table class="orders-table">
             <thead>
               <tr>
-                <th>#</th>
-                <th>Booster</th>
-                <th>Units</th>
+                <th>Date</th>
+                <th>Buyer</th>
+                <th>Product</th>
+                <th>Type</th>
+                <th>Amount</th>
+                <th>Status</th>
               </tr>
             </thead>
-            <tbody id="top-boosters-body">
-              <tr><td colspan="3" class="empty">Loading…</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="table-card">
-          <div class="table-title">Top Pages — Last 7 Days</div>
-          <table class="data-table">
-            <thead>
-              <tr><th>Path</th><th>Views</th></tr>
-            </thead>
-            <tbody id="top-pages-body">
-              <tr><td colspan="2" class="empty">Loading…</td></tr>
+            <tbody id="orders-tbody">
+              <tr><td colspan="6" class="empty">Loading…</td></tr>
             </tbody>
           </table>
         </div>
       </div>
+    </div>
 
-      <!-- SUBJECT · STAGE · ORDER TYPE BREAKDOWN -->
-      <div class="section-head">
-        <div class="section-eyebrow">Breakdown</div>
-        <div class="section-title">By Subject, Stage and Type</div>
+    <!-- ── ANALYTICS PAGE ─────────────────────────────────── -->
+    <div class="page" id="page-analytics">
+      <div class="content">
+        <div class="sec-head">
+          <div class="sec-eye">Performance</div>
+          <div class="sec-title">Analytics</div>
+        </div>
+        <div class="tables-row">
+          <div class="card">
+            <div class="card-title">Top Boosters by Units Sold</div>
+            <table class="data-table">
+              <thead><tr><th>#</th><th>Booster</th><th>Units</th></tr></thead>
+              <tbody id="top-boosters-body"><tr><td colspan="3" class="empty">Loading…</td></tr></tbody>
+            </table>
+          </div>
+          <div class="card">
+            <div class="card-title">Top Pages — Last 7 Days</div>
+            <table class="data-table">
+              <thead><tr><th>Path</th><th>Views</th></tr></thead>
+              <tbody id="top-pages-body"><tr><td colspan="2" class="empty">Loading…</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+        <hr class="sec-divider">
+        <div class="sec-head">
+          <div class="sec-eye">Breakdown</div>
+          <div class="sec-title">By Subject, Stage and Type</div>
+        </div>
+        <div class="breakdown-row">
+          <div class="card">
+            <div class="card-title">By Subject</div>
+            <div id="by-subject"><div class="empty">—</div></div>
+          </div>
+          <div class="card">
+            <div class="card-title">By Stage</div>
+            <div id="by-stage"><div class="empty">—</div></div>
+          </div>
+          <div class="card">
+            <div class="card-title">By Order Type</div>
+            <div id="by-type"><div class="empty">—</div></div>
+          </div>
+        </div>
       </div>
-      <div class="breakdown-row">
-        <div class="breakdown-card">
-          <div class="breakdown-title">By Subject</div>
-          <div id="by-subject">—</div>
-        </div>
-        <div class="breakdown-card">
-          <div class="breakdown-title">By Stage</div>
-          <div id="by-stage">—</div>
-        </div>
-        <div class="breakdown-card">
-          <div class="breakdown-title">By Order Type</div>
-          <div id="by-type">—</div>
-        </div>
-      </div>
+    </div>
 
-      <!-- EMAIL SEQUENCE · FEEDBACK · BUYERS -->
-      <div class="section-head">
-        <div class="section-eyebrow">Health</div>
-        <div class="section-title">Email, Feedback and Buyers</div>
+    <!-- ── HEALTH PAGE ─────────────────────────────────────── -->
+    <div class="page" id="page-health">
+      <div class="content">
+        <div class="sec-head">
+          <div class="sec-eye">Operations</div>
+          <div class="sec-title">Health</div>
+        </div>
+        <div class="stat-row">
+          <div class="card">
+            <div class="card-title">Email Sequence</div>
+            <div id="sequence-stats"><div class="empty">—</div></div>
+          </div>
+          <div class="card">
+            <div class="card-title">Buyer Feedback</div>
+            <div id="feedback-stats"><div class="empty">—</div></div>
+          </div>
+          <div class="card">
+            <div class="card-title">Buyers</div>
+            <div id="buyers-stats"><div class="empty">—</div></div>
+          </div>
+        </div>
       </div>
-      <div class="bottom-row">
-        <div class="stat-card">
-          <div class="stat-title">Email Sequence</div>
-          <div id="sequence-stats">—</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-title">Buyer Feedback</div>
-          <div id="feedback-stats">—</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-title">Buyers</div>
-          <div id="buyers-stats">—</div>
-        </div>
-      </div>
+    </div>
 
-      <!-- QUICK LINKS -->
-      <div class="section-head">
-        <div class="section-eyebrow">Actions</div>
-        <div class="section-title">Quick Links</div>
-      </div>
-      <div class="links-row">
-        <a class="quick-link" href="https://dashboard.razorpay.com/app/payments"   target="_blank">💳 Razorpay Payments</a>
-        <a class="quick-link" href="https://resend.com/emails"                     target="_blank">📧 Resend Emails</a>
-        <a class="quick-link" href="https://console.neon.tech"                     target="_blank">🗄️ Neon DB</a>
-        <a class="quick-link" href="https://app.beehiiv.com"                       target="_blank">🐝 Beehiiv Subscribers</a>
-        <a class="quick-link" href="https://dash.cloudflare.com"                   target="_blank">☁️ Cloudflare</a>
-      </div>
-
-    </div><!-- /content -->
   </div><!-- /main -->
 </div><!-- /shell -->
 
 <script>
 'use strict';
 
-// ── Auth ─────────────────────────────────────────────────
-let SECRET = localStorage.getItem('cm_admin_secret') || '';
-let revenueChart = null;
-let typeChart    = null;
+// ── State ─────────────────────────────────────────────────
+let SECRET        = localStorage.getItem('cm_admin_secret') || '';
+let metricsData   = null;
+let revenueChart  = null;
+let typeChart     = null;
+let currentPage   = 'overview';
+let orderFilter   = 'all';
+let ordersCache   = {};
 
+// ── Auth ──────────────────────────────────────────────────
 function authenticate() {
   const val = document.getElementById('secret-input').value.trim();
   if (!val) return;
   SECRET = val;
   localStorage.setItem('cm_admin_secret', val);
-  loadData();
+  loadMetrics();
 }
-
 document.getElementById('secret-input').addEventListener('keydown', e => {
   if (e.key === 'Enter') authenticate();
 });
 
-// ── Helpers ───────────────────────────────────────────────
-function fmt(paise) {
-  const rupees = paise / 100;
-  if (rupees >= 100000) return '₹' + (rupees / 100000).toFixed(1) + 'L';
-  if (rupees >= 1000)   return '₹' + (rupees / 1000).toFixed(1)   + 'K';
-  return '₹' + rupees.toLocaleString('en-IN');
-}
-function fmtFull(paise) {
-  return '₹' + (paise / 100).toLocaleString('en-IN');
-}
-function capitalize(s) {
-  return s ? s.charAt(0).toUpperCase() + s.slice(1) : '—';
-}
-function subjectEmoji(s) {
-  return { math:'📐', science:'🔬', computing:'💻', mixed:'📚' }[s] || '📄';
+function logout() {
+  SECRET = '';
+  localStorage.removeItem('cm_admin_secret');
+  document.getElementById('auth-overlay').style.display = 'flex';
+  document.getElementById('shell').style.display = 'none';
 }
 
-// ── Load data ─────────────────────────────────────────────
-async function loadData() {
+// ── Navigation ────────────────────────────────────────────
+const PAGE_TITLES = { overview: 'Overview', orders: 'Orders', analytics: 'Analytics', health: 'Health' };
+
+function nav(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.sb-nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+  document.getElementById('nav-' + page).classList.add('active');
+  document.getElementById('topbar-title').textContent = PAGE_TITLES[page];
+  currentPage = page;
+  if (page === 'orders') loadOrders();
+}
+
+// ── Refresh dispatcher ────────────────────────────────────
+function refresh() {
+  if (currentPage === 'orders') { ordersCache = {}; loadOrders(); }
+  else loadMetrics();
+}
+
+// ── Helpers ───────────────────────────────────────────────
+const fmt = p => {
+  const r = p / 100;
+  if (r >= 100000) return '₹' + (r / 100000).toFixed(1) + 'L';
+  if (r >= 1000)   return '₹' + (r / 1000).toFixed(1) + 'K';
+  return '₹' + r.toLocaleString('en-IN');
+};
+const fmtFull = p => '₹' + (p / 100).toLocaleString('en-IN');
+const cap = s => s ? s.charAt(0).toUpperCase() + s.slice(1) : '—';
+const subEmoji = s => ({ math:'📐', science:'🔬', computing:'💻', mixed:'📚' }[s] || '📄');
+const typeLabel = t => ({ single:'Single', fivepack:'5-Pack', subject:'Subject Bundle', stage:'Stage Bundle' }[t] || cap(t));
+const fmtDate = iso => iso ? new Date(iso).toLocaleString('en-IN', { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' }) : '—';
+
+// ── Load Metrics ──────────────────────────────────────────
+async function loadMetrics() {
   const dot = document.getElementById('status-dot');
   const btn = document.getElementById('refresh-btn');
-  dot.classList.add('loading');
   btn.classList.add('loading');
-  document.getElementById('auth-error').classList.remove('show');
+  dot.classList.remove('live');
 
   try {
-    const res = await fetch('/api/metrics', {
-      headers: { 'x-metrics-secret': SECRET },
-    });
-
-    if (res.status === 401) {
-      document.getElementById('auth-overlay').style.display = 'flex';
-      document.getElementById('shell').style.display = 'none';
-      document.getElementById('auth-error').classList.add('show');
-      SECRET = '';
-      localStorage.removeItem('cm_admin_secret');
-      return;
-    }
-
+    const res = await fetch('/api/metrics', { headers: { 'x-metrics-secret': SECRET } });
+    if (res.status === 401) { logout(); return; }
     if (!res.ok) throw new Error('API error ' + res.status);
 
-    const data = await res.json();
-
-    // Show shell, hide auth
+    metricsData = await res.json();
     document.getElementById('auth-overlay').style.display = 'none';
     document.getElementById('shell').style.display = 'grid';
 
-    renderAll(data);
+    renderOverview(metricsData);
+    renderAnalytics(metricsData);
+    renderHealth(metricsData);
 
     document.getElementById('last-refresh').textContent =
-      'Updated ' + new Date().toLocaleTimeString('en-IN', { hour:'2-digit', minute:'2-digit' });
-
+      new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
   } catch (err) {
     console.error('[admin]', err);
     alert('Failed to load metrics: ' + err.message);
   } finally {
-    dot.classList.remove('loading');
     btn.classList.remove('loading');
+    dot.classList.add('live');
   }
 }
 
-// ── Render ────────────────────────────────────────────────
-function renderAll(d) {
-  renderKPIs(d);
+// ── Overview ──────────────────────────────────────────────
+function renderOverview(d) {
+  document.getElementById('kpi-total-rev').textContent  = fmtFull(d.revenue.totalPaise);
+  document.getElementById('kpi-total-sub').textContent  = d.orders.total + ' orders · ' + d.buyers.total + ' buyers';
+  document.getElementById('kpi-30-rev').textContent     = fmt(d.revenue.last30Paise);
+  document.getElementById('kpi-30-sub').textContent     = d.orders.last30 + ' orders';
+  document.getElementById('kpi-7-rev').textContent      = fmt(d.revenue.last7Paise);
+  document.getElementById('kpi-7-sub').textContent      = d.orders.last7 + ' orders';
+  document.getElementById('kpi-today-rev').textContent  = fmt(d.revenue.todayPaise);
+  document.getElementById('kpi-today-sub').textContent  = d.orders.today + ' orders';
   renderRevenueChart(d.daily);
   renderTypeChart(d.byType);
-  renderTopBoosters(d.topBoosters);
-  renderTopPages(d.topPages);
-  renderBreakdown('by-subject', d.bySubject, r => ({
-    key:  subjectEmoji(r.subject) + ' ' + capitalize(r.subject),
-    val:  r.orders + ' orders',
-    rev:  fmtFull(r.revenuePaise),
-  }));
-  renderBreakdown('by-stage', d.byStage, r => ({
-    key: 'Stage ' + r.stage,
-    val: r.orders + ' orders',
-    rev: fmtFull(r.revenuePaise),
-  }));
-  renderBreakdown('by-type', d.byType, r => ({
-    key: capitalize(r.type),
-    val: r.orders + ' orders',
-    rev: fmtFull(r.revenuePaise),
-  }));
-  renderSequence(d.sequence);
-  renderFeedback(d.feedback);
-  renderBuyers(d.buyers, d.orders);
-}
-
-function renderKPIs(d) {
-  document.getElementById('kpi-total-rev').textContent    = fmtFull(d.revenue.totalPaise);
-  document.getElementById('kpi-total-orders').textContent = d.orders.total + ' orders · ' + d.buyers.total + ' buyers';
-  document.getElementById('kpi-30-rev').textContent       = fmt(d.revenue.last30Paise);
-  document.getElementById('kpi-30-orders').textContent    = d.orders.last30 + ' orders';
-  document.getElementById('kpi-7-rev').textContent        = fmt(d.revenue.last7Paise);
-  document.getElementById('kpi-7-orders').textContent     = d.orders.last7 + ' orders';
-  document.getElementById('kpi-today-rev').textContent    = fmt(d.revenue.todayPaise);
-  document.getElementById('kpi-today-sub').textContent    = d.orders.today + ' orders today';
 }
 
 function renderRevenueChart(daily) {
-  const labels = daily.map(d => {
-    const dt = new Date(d.day);
-    return dt.toLocaleDateString('en-IN', { day:'numeric', month:'short' });
-  });
+  const labels = daily.map(d => new Date(d.day).toLocaleDateString('en-IN', { day:'numeric', month:'short' }));
   const values = daily.map(d => d.revenuePaise / 100);
-
   if (revenueChart) revenueChart.destroy();
-  revenueChart = new Chart(
-    document.getElementById('revenue-chart').getContext('2d'), {
-      type: 'bar',
-      data: {
-        labels,
-        datasets: [{
-          label:           'Revenue (₹)',
-          data:            values,
-          backgroundColor: 'rgba(110,71,201,0.75)',
-          borderRadius:    4,
-          borderSkipped:   false,
-        }],
+  revenueChart = new Chart(document.getElementById('revenue-chart').getContext('2d'), {
+    type: 'bar',
+    data: { labels, datasets: [{ label:'Revenue (₹)', data:values, backgroundColor:'rgba(110,71,201,0.75)', borderRadius:4, borderSkipped:false }] },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{ display:false } },
+      scales:{
+        x:{ grid:{ display:false }, ticks:{ font:{ size:10 }, color:'#7A6A94' } },
+        y:{ grid:{ color:'#EAE3F5' }, ticks:{ font:{ size:10 }, color:'#7A6A94', callback: v => v >= 1000 ? '₹'+(v/1000).toFixed(0)+'K' : '₹'+v } },
       },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: { legend: { display: false } },
-        scales: {
-          x: { grid: { display: false }, ticks: { font: { size: 10 }, color: '#7A6A94' } },
-          y: { grid: { color: '#EAE3F5' }, ticks: {
-            font: { size: 10 }, color: '#7A6A94',
-            callback: v => v >= 1000 ? '₹' + (v/1000).toFixed(0) + 'K' : '₹' + v,
-          }},
-        },
-      },
-    }
-  );
+    },
+  });
 }
 
 function renderTypeChart(byType) {
   const labelMap = { single:'Single', fivepack:'5-Pack', subject:'Subject', stage:'Stage' };
-  const colors   = ['#6E47C9','#F4C73E','#059669','#7A6A94'];
-  const labels   = byType.map(r => labelMap[r.type] || r.type);
-  const values   = byType.map(r => r.orders);
-
   if (typeChart) typeChart.destroy();
-  typeChart = new Chart(
-    document.getElementById('type-chart').getContext('2d'), {
-      type: 'doughnut',
-      data: {
-        labels,
-        datasets: [{
-          data: values,
-          backgroundColor: colors,
-          borderWidth: 2,
-          borderColor: '#ffffff',
-        }],
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        cutout: '68%',
-        plugins: {
-          legend: {
-            position: 'bottom',
-            labels: { font: { size: 12 }, color: '#4A3760', padding: 12 },
-          },
-        },
-      },
-    }
-  );
+  typeChart = new Chart(document.getElementById('type-chart').getContext('2d'), {
+    type: 'doughnut',
+    data: {
+      labels: byType.map(r => labelMap[r.type] || r.type),
+      datasets: [{ data: byType.map(r => r.orders), backgroundColor:['#6E47C9','#F4C73E','#059669','#7A6A94'], borderWidth:2, borderColor:'#ffffff' }],
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false, cutout:'68%',
+      plugins:{ legend:{ position:'bottom', labels:{ font:{ size:12 }, color:'#4A3760', padding:12 } } },
+    },
+  });
+}
+
+// ── Orders ────────────────────────────────────────────────
+async function loadOrders() {
+  if (ordersCache[orderFilter]) { renderOrders(ordersCache[orderFilter]); return; }
+  const tbody = document.getElementById('orders-tbody');
+  tbody.innerHTML = '<tr><td colspan="6" class="empty">Loading…</td></tr>';
+  try {
+    const url = orderFilter === 'all' ? '/api/orders?limit=200' : `/api/orders?status=${orderFilter}&limit=200`;
+    const res = await fetch(url, { headers: { 'x-metrics-secret': SECRET } });
+    if (res.status === 401) { logout(); return; }
+    if (!res.ok) throw new Error('API error ' + res.status);
+    const data = await res.json();
+    ordersCache[orderFilter] = data.orders || [];
+    renderOrders(ordersCache[orderFilter]);
+  } catch (err) {
+    tbody.innerHTML = `<tr><td colspan="6" class="empty">Error: ${err.message}</td></tr>`;
+  }
+}
+
+function renderOrders(orders) {
+  const tbody = document.getElementById('orders-tbody');
+  if (!orders.length) {
+    tbody.innerHTML = '<tr><td colspan="6" class="empty">No orders found</td></tr>';
+    return;
+  }
+  tbody.innerHTML = orders.map(o => {
+    const statusClass = { paid:'badge-paid', pending:'badge-pending', refunded:'badge-refunded', failed:'badge-failed' }[o.status] || '';
+    const slug = o.primary_slug || '—';
+    const product = slug.split('-').slice(2, -1).map(cap).join(' ') || slug;
+    return `<tr>
+      <td class="mono">${fmtDate(o.paid_at || o.created_at)}</td>
+      <td><div class="email-cell" title="${o.buyer_email || ''}">${o.buyer_email || '<span style="color:var(--ink-muted)">—</span>'}</div></td>
+      <td title="${slug}">${product}</td>
+      <td>${typeLabel(o.order_type)}</td>
+      <td class="mono" style="font-weight:600;">${o.amount_paise ? fmtFull(o.amount_paise) : '—'}</td>
+      <td><span class="badge ${statusClass}">${o.status}</span></td>
+    </tr>`;
+  }).join('');
+}
+
+function setOrderFilter(f) {
+  orderFilter = f;
+  document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('filter-' + f).classList.add('active');
+  loadOrders();
+}
+
+// ── Analytics ─────────────────────────────────────────────
+function renderAnalytics(d) {
+  renderTopBoosters(d.topBoosters);
+  renderTopPages(d.topPages);
+  renderBreakdown('by-subject', d.bySubject, r => ({ key: subEmoji(r.subject) + ' ' + cap(r.subject), val: r.orders + ' orders', rev: fmtFull(r.revenuePaise) }));
+  renderBreakdown('by-stage',   d.byStage,   r => ({ key: 'Stage ' + r.stage, val: r.orders + ' orders', rev: fmtFull(r.revenuePaise) }));
+  renderBreakdown('by-type',    d.byType,    r => ({ key: cap(r.type), val: r.orders + ' orders', rev: fmtFull(r.revenuePaise) }));
 }
 
 function renderTopBoosters(boosters) {
   const tbody = document.getElementById('top-boosters-body');
-  if (!boosters.length) {
-    tbody.innerHTML = '<tr><td colspan="3" class="empty">No sales yet</td></tr>';
-    return;
-  }
+  if (!boosters.length) { tbody.innerHTML = '<tr><td colspan="3" class="empty">No sales yet</td></tr>'; return; }
   const max = boosters[0]?.units || 1;
   tbody.innerHTML = boosters.map((b, i) => {
-    const pct = Math.round((b.units / max) * 100);
-    // Pretty-print slug: math-n1-integers-s8 → Integers (M·N1 S8)
     const parts = b.slug.split('-');
-    const stagePart = parts[parts.length - 1].toUpperCase();
-    const name = parts.slice(2, -1).map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' ');
+    const stage = parts[parts.length - 1].toUpperCase();
+    const name  = parts.slice(2, -1).map(cap).join(' ');
+    const pct   = Math.round((b.units / max) * 100);
     return `<tr>
-      <td class="mono">${i + 1}</td>
-      <td>
-        <div style="font-size:13px;font-weight:600;">${name}</div>
-        <div class="mono">${b.slug.split('-').slice(0,2).join('-').toUpperCase()} · ${stagePart}</div>
-      </td>
-      <td>
-        <div class="bar-cell">
-          <div class="bar-track"><div class="bar-fill" style="width:${pct}%"></div></div>
-          <span class="mono">${b.units}</span>
-        </div>
-      </td>
+      <td class="mono">${i+1}</td>
+      <td><div style="font-size:13px;font-weight:600;">${name}</div><div class="mono">${parts.slice(0,2).join('-').toUpperCase()} · ${stage}</div></td>
+      <td><div class="bar-cell"><div class="bar-track"><div class="bar-fill" style="width:${pct}%"></div></div><span class="mono">${b.units}</span></div></td>
     </tr>`;
   }).join('');
 }
 
 function renderTopPages(pages) {
   const tbody = document.getElementById('top-pages-body');
-  if (!pages.length) {
-    tbody.innerHTML = '<tr><td colspan="2" class="empty">No pageviews yet</td></tr>';
-    return;
-  }
+  if (!pages.length) { tbody.innerHTML = '<tr><td colspan="2" class="empty">No pageviews yet</td></tr>'; return; }
   const max = pages[0]?.views || 1;
   tbody.innerHTML = pages.map(p => {
     const pct = Math.round((p.views / max) * 100);
     return `<tr>
-      <td class="mono" style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${p.path}</td>
-      <td>
-        <div class="bar-cell">
-          <div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:#F4C73E"></div></div>
-          <span class="mono">${p.views}</span>
-        </div>
-      </td>
+      <td class="mono" style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${p.path}</td>
+      <td><div class="bar-cell"><div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:#F4C73E"></div></div><span class="mono">${p.views}</span></div></td>
     </tr>`;
   }).join('');
 }
@@ -640,86 +624,47 @@ function renderBreakdown(id, rows, mapper) {
   el.innerHTML = rows.map(r => {
     const m = mapper(r);
     return `<div class="breakdown-item">
-      <div>
-        <div class="breakdown-key">${m.key}</div>
-        <div class="breakdown-rev">${m.rev}</div>
-      </div>
-      <div class="breakdown-val">${m.val}</div>
+      <div><div class="bd-key">${m.key}</div><div class="bd-rev">${m.rev}</div></div>
+      <div class="bd-val">${m.val}</div>
     </div>`;
   }).join('');
 }
 
-function renderSequence(seq) {
+// ── Health ────────────────────────────────────────────────
+function renderHealth(d) {
   const stepLabel = ['Not sent', 'Day 2 sent', 'Day 7 sent'];
-  const el = document.getElementById('sequence-stats');
-  if (!seq.length) { el.innerHTML = '<div class="empty">No data</div>'; return; }
-  el.innerHTML = seq.map(s => `
-    <div class="stat-item">
-      <span class="stat-key">${stepLabel[s.step] || 'Step ' + s.step}</span>
-      <span class="stat-val">${s.orders}</span>
-    </div>`).join('');
-}
+  const seq = document.getElementById('sequence-stats');
+  seq.innerHTML = d.sequence.length
+    ? d.sequence.map(s => `<div class="stat-item"><span class="stat-key">${stepLabel[s.step]||'Step '+s.step}</span><span class="stat-val">${s.orders}</span></div>`).join('')
+    : '<div class="empty">No data</div>';
 
-function renderFeedback(fb) {
-  const el = document.getElementById('feedback-stats');
-  if (!fb.total) {
-    el.innerHTML = '<div class="empty">No feedback yet</div>';
-    return;
-  }
-  el.innerHTML = `
-    <div class="stat-item" style="margin-bottom:12px;">
-      <span class="stat-key">Avg rating</span>
-      <span class="stat-val">${fb.avgRating ? fb.avgRating + ' / 5' : '—'}</span>
-    </div>
-    <div class="feedback-row">
-      <div class="fb-item">
-        <div class="fb-emoji">😊</div>
-        <div class="fb-count">${fb.happy}</div>
-        <div class="fb-label">Happy</div>
-      </div>
-      <div class="fb-item">
-        <div class="fb-emoji">😐</div>
-        <div class="fb-count">${fb.neutral}</div>
-        <div class="fb-label">Neutral</div>
-      </div>
-      <div class="fb-item">
-        <div class="fb-emoji">😞</div>
-        <div class="fb-count">${fb.unhappy}</div>
-        <div class="fb-label">Unhappy</div>
-      </div>
-    </div>`;
-}
+  const fb = document.getElementById('feedback-stats');
+  fb.innerHTML = d.feedback.total
+    ? `<div class="stat-item" style="margin-bottom:12px;"><span class="stat-key">Avg rating</span><span class="stat-val">${d.feedback.avgRating ? d.feedback.avgRating+' / 5' : '—'}</span></div>
+       <div class="feedback-row">
+         <div class="fb-item"><div class="fb-emoji">😊</div><div class="fb-count">${d.feedback.happy}</div><div class="fb-label">Happy</div></div>
+         <div class="fb-item"><div class="fb-emoji">😐</div><div class="fb-count">${d.feedback.neutral}</div><div class="fb-label">Neutral</div></div>
+         <div class="fb-item"><div class="fb-emoji">😞</div><div class="fb-count">${d.feedback.unhappy}</div><div class="fb-label">Unhappy</div></div>
+       </div>`
+    : '<div class="empty">No feedback yet</div>';
 
-function renderBuyers(buyers, orders) {
   document.getElementById('buyers-stats').innerHTML = `
-    <div class="stat-item">
-      <span class="stat-key">Total buyers</span>
-      <span class="stat-val">${buyers.total}</span>
-    </div>
-    <div class="stat-item">
-      <span class="stat-key">New last 30d</span>
-      <span class="stat-val">${buyers.last30}</span>
-    </div>
-    <div class="stat-item">
-      <span class="stat-key">Pending orders</span>
-      <span class="stat-val">${orders.pending}</span>
-    </div>
-    <div class="stat-item">
-      <span class="stat-key">Refunded</span>
-      <span class="stat-val">${orders.refunded}</span>
-    </div>`;
+    <div class="stat-item"><span class="stat-key">Total buyers</span><span class="stat-val">${d.buyers.total}</span></div>
+    <div class="stat-item"><span class="stat-key">New last 30d</span><span class="stat-val">${d.buyers.last30}</span></div>
+    <div class="stat-item"><span class="stat-key">Pending orders</span><span class="stat-val">${d.orders.pending}</span></div>
+    <div class="stat-item"><span class="stat-key">Refunded</span><span class="stat-val">${d.orders.refunded}</span></div>`;
 }
 
-// ── Init ─────────────────────────────────────────────────
+// ── Init ──────────────────────────────────────────────────
 if (SECRET) {
-  loadData();
+  loadMetrics();
 } else {
   document.getElementById('auth-overlay').style.display = 'flex';
   document.getElementById('shell').style.display = 'none';
 }
 
-// Auto-refresh every 5 minutes
-setInterval(loadData, 5 * 60 * 1000);
+// Auto-refresh metrics every 5 minutes (not orders — those are on-demand)
+setInterval(() => { if (currentPage !== 'orders') loadMetrics(); }, 5 * 60 * 1000);
 </script>
 </body>
 </html>

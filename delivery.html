@@ -513,8 +513,8 @@ async function verifyAndDeliver() {
     })();
     // ── /Meta Pixel purchase event ────────────────────────
 
-    // Fire send-email (fire-and-forget — don't block UI)
-    if (buyerEmail) {
+    // Fire send-email only if verify-payment didn't already send it server-side
+    if (buyerEmail && !data.emailSent) {
       fetch('/api/send-email', {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },

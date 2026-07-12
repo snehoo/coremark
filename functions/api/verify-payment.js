@@ -219,9 +219,53 @@ export async function onRequestPost({ request, env }) {
     // 6. Get file URLs from R2
     const fileUrls = await getFileUrls(env, items, rType, rSlug);
 
+    // 7. Server-side email dispatch (fire and forget so the response is never blocked)
+    let emailSent = false;
+    if (env.RESEND_API_KEY) {
+      const origin      = new URL(request.url).origin;
+      const typeLabels  = { single: 'Single Booster', fivepack: '5-Pack Bundle', subject: 'Subject Bundle', stage: 'Stage Bundle' };
+      const typeLabel   = typeLabels[rType] || rType;
+      const amountRs    = Math.round(payment.amount / 100);
+      const subjDisplay = rSubj ? rSubj.charAt(0).toUpperCase() + rSubj.slice(1) : null;
+
+      // Buyer confirmation email (calls /api/send-email which owns the HTML template)
+      if (email) {
+        fetch(`${origin}/api/send-email`, {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body:    JSON.stringify({ to: email, orderTitle: title, orderType: rType, fileUrls, orderId: internalId }),
+        }).catch(e => console.warn('[send-email]', e.message));
+        emailSent = true;
+      }
+
+      // Admin notification to info@coremark.study
+      fetch('https://api.resend.com/emails', {
+        method:  'POST',
+        headers: { 'Authorization': `Bearer ${env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          from:    'CoreMark Sales <info@coremark.study>',
+          to:      ['info@coremark.study'],
+          subject: `💰 New Sale — ${typeLabel} — ₹${amountRs}`,
+          html: `<div style="font-family:Arial,sans-serif;max-width:480px;margin:20px auto;padding:24px;border:1px solid #EAE3F5;border-radius:12px;">
+<h2 style="color:#2A1B3D;margin:0 0 20px;font-size:18px;">New CoreMark Sale &#127881;</h2>
+<table style="width:100%;border-collapse:collapse;font-size:14px;">
+<tr><td style="padding:8px 0;color:#7A6A94;width:110px;vertical-align:top;">Product</td><td style="padding:8px 0;font-weight:600;">${title}</td></tr>
+<tr><td style="padding:8px 0;color:#7A6A94;">Type</td><td style="padding:8px 0;">${typeLabel}</td></tr>
+<tr><td style="padding:8px 0;color:#7A6A94;">Amount</td><td style="padding:8px 0;font-weight:700;color:#059669;">&#8377;${amountRs}</td></tr>
+<tr><td style="padding:8px 0;color:#7A6A94;">Buyer</td><td style="padding:8px 0;">${email || '&#8212;'}</td></tr>
+${subjDisplay ? `<tr><td style="padding:8px 0;color:#7A6A94;">Subject</td><td style="padding:8px 0;">${subjDisplay}${rStage ? ' &middot; Stage ' + rStage : ''}</td></tr>` : ''}
+<tr><td style="padding:8px 0;color:#7A6A94;">Payment ID</td><td style="padding:8px 0;font-family:monospace;font-size:12px;">${paymentId}</td></tr>
+<tr><td style="padding:8px 0;color:#7A6A94;">Order ID</td><td style="padding:8px 0;font-family:monospace;font-size:12px;">${internalId}</td></tr>
+</table>
+</div>`,
+        }),
+      }).catch(e => console.warn('[admin-notify]', e.message));
+    }
+
     return json({
       ok: true, email, orderTitle: title, orderId: internalId,
       paymentId, orderType: rType, subject: rSubj, stage: rStage, fileUrls,
+      emailSent,
     });
 
   } catch (e) {

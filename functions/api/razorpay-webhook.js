@@ -56,6 +56,23 @@ export async function onRequestPost({request,env}){
     const r=await dbQuery(env,`UPDATE orders SET razorpay_payment_id=$1,buyer_hash=$2,buyer_email=$3,status='paid',paid_at=NOW() WHERE razorpay_order_id=$4 AND status!='paid'`,[p.id,hash,email,p.order_id]);
     if(!r.rowCount)await dbQuery(env,`INSERT INTO orders(razorpay_order_id,razorpay_payment_id,buyer_hash,buyer_email,order_type,primary_slug,item_slugs,amount_paise,currency,status,subject,stage,paid_at,source)VALUES($1,$2,$3,$4,$5,$6,$7::jsonb,$8,'INR','paid',$9,$10,NOW(),'web')ON CONFLICT(razorpay_order_id)DO UPDATE SET razorpay_payment_id=EXCLUDED.razorpay_payment_id,status='paid',paid_at=NOW()`,
       [p.order_id,p.id,hash,email,n.order_type??'single',n.primary_slug??null,JSON.stringify(items),p.amount,n.subject??null,n.stage?parseInt(n.stage):null]);
+    // Admin notification — only when webhook is the first to mark this order paid
+    // (r.rowCount>0 means verify-payment hadn't already fired)
+    if(r.rowCount&&env.RESEND_API_KEY){
+      const amountRs=Math.round(p.amount/100);
+      const typeMap={single:'Single Booster',fivepack:'5-Pack Bundle',subject:'Subject Bundle',stage:'Stage Bundle'};
+      const typeLabel=typeMap[n.order_type??'single']||n.order_type||'Single Booster';
+      fetch('https://api.resend.com/emails',{
+        method:'POST',
+        headers:{'Authorization':`Bearer ${env.RESEND_API_KEY}`,'Content-Type':'application/json'},
+        body:JSON.stringify({
+          from:'CoreMark Sales <info@coremark.study>',
+          to:['info@coremark.study'],
+          subject:`💰 New Sale [webhook] — ${typeLabel} — ₹${amountRs}`,
+          html:`<div style="font-family:Arial,sans-serif;max-width:480px;margin:20px auto;padding:24px;border:1px solid #EAE3F5;border-radius:12px;"><h2 style="color:#2A1B3D;margin:0 0 20px;font-size:18px;">New CoreMark Sale &#127881;</h2><p style="color:#7A6A94;font-size:13px;margin:0 0 16px;">(Confirmed via Razorpay webhook)</p><table style="width:100%;border-collapse:collapse;font-size:14px;"><tr><td style="padding:8px 0;color:#7A6A94;width:110px;">Type</td><td style="padding:8px 0;">${typeLabel}</td></tr><tr><td style="padding:8px 0;color:#7A6A94;">Amount</td><td style="padding:8px 0;font-weight:700;color:#059669;">&#8377;${amountRs}</td></tr><tr><td style="padding:8px 0;color:#7A6A94;">Buyer</td><td style="padding:8px 0;">${email||'&#8212;'}</td></tr><tr><td style="padding:8px 0;color:#7A6A94;">Payment</td><td style="padding:8px 0;font-family:monospace;font-size:12px;">${p.id}</td></tr></table></div>`,
+        }),
+      }).catch(e=>console.warn('[webhook-notify]',e.message));
+    }
   }
   if(name==='payment.failed'){const p=payload.payment.entity;await dbQuery(env,`UPDATE orders SET status='failed' WHERE razorpay_order_id=$1 AND status='pending'`,[p.order_id]);}
   if(name==='refund.created'){const r=payload.refund.entity;await dbQuery(env,`UPDATE orders SET status='refunded' WHERE razorpay_payment_id=$1`,[r.payment_id]);}
