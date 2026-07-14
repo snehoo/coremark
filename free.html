@@ -177,45 +177,8 @@ footer a:hover{color:var(--ink);}
     <h2>Get the free booster — instant download</h2>
     <p>Enter your email and we'll send it straight to your inbox. Takes 30 seconds.</p>
     <div class="brevo-wrap">
-      <form id="free-form" style="display:flex;gap:12px;flex-wrap:wrap;">
-        <input id="free-email" type="email" placeholder="Your email address" required
-          style="flex:1;min-width:220px;padding:14px 18px;border-radius:999px;border:none;font-size:15px;font-family:inherit;outline:none;">
-        <button type="submit"
-          style="padding:14px 28px;border-radius:999px;background:var(--coral);color:var(--ink);font-size:15px;font-weight:700;border:none;cursor:pointer;font-family:inherit;white-space:nowrap;">
-          Get free booster →
-        </button>
-      </form>
-      <p id="free-msg" style="margin-top:14px;font-size:14px;color:rgba(255,255,255,0.7);display:none;"></p>
+      <iframe width="540" height="420" src="https://589ad281.sibforms.com/v2/serve/MUIFAKgbHeuSIbFrWgvMR0FuONMOr4ooqDZNMNpJAkX-IKyETvpNFic3R2tPjkYjMDLZI9cl2MoiW1YVPbw3REWIYJ3zuZ72S1o4eVfUYgmctGGDqiNpyurFN87FGniOlOpYmYv_pjvawvgoneAm3FSfIuqifUwj58L3kHMGRHeK_vP9dcSjoi1DfviKQC9KScyBocsjbXhKV25lJw==" frameborder="0" scrolling="no" allowfullscreen style="display:block;width:100%;max-width:100%;border-radius:12px;"></iframe>
     </div>
-    <script>
-    document.getElementById('free-form').addEventListener('submit', async function(e) {
-      e.preventDefault();
-      const email = document.getElementById('free-email').value.trim();
-      const btn = this.querySelector('button');
-      const msg = document.getElementById('free-msg');
-      btn.disabled = true;
-      btn.textContent = 'Sending…';
-      try {
-        const res = await fetch('/api/subscribe', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, source: 'free-booster' }),
-        });
-        if (res.ok) {
-          if (typeof fbq === 'function') fbq('track', 'Lead');
-          if (typeof gtag === 'function') gtag('event', 'generate_lead');
-          window.location.href = '/free-download';
-        } else {
-          throw new Error('failed');
-        }
-      } catch {
-        btn.disabled = false;
-        btn.textContent = 'Get free booster →';
-        msg.textContent = 'Something went wrong — please try again.';
-        msg.style.display = 'block';
-      }
-    });
-    </script>
   </div>
 
   <div class="trust">

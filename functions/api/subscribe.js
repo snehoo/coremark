@@ -65,29 +65,6 @@ export async function onRequestPost({ request, env }) {
       );
     }
 
-    // On free booster signup: send download email to subscriber, BCC owner
-    console.log('[subscribe] source=', source, 'hasResend=', !!env.RESEND_API_KEY);
-    if (source === 'free-booster' && env.RESEND_API_KEY) {
-      fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${env.RESEND_API_KEY}` },
-        body: JSON.stringify({
-          from: 'CoreMark <info@coremark.study>',
-          to: email.trim(),
-          bcc: 'snehalp@gmail.com',
-          subject: 'Your free Stage 8 Algebra booster is ready',
-          html: `<p>Hi,</p>
-<p>Your free Stage 8 Algebra booster is ready to download.</p>
-<p><a href="https://assets.coremark.study/booster/free-algebra-stage8.pdf" style="display:inline-block;padding:12px 24px;background:#2A1B3D;color:white;border-radius:999px;text-decoration:none;font-weight:700;">Download PDF →</a></p>
-<p>Or visit: <a href="https://coremark.study/free-download">coremark.study/free-download</a></p>
-<p>— CoreMark</p>`,
-        }),
-      }).then(async r => {
-        if (!r.ok) console.error('[notify] Resend error:', r.status, await r.text());
-        else console.log('[notify] sent to', email.trim());
-      }).catch(e => console.error('[notify] fetch failed:', e.message));
-    }
-
     return new Response(
       JSON.stringify({ ok: true }),
       { status: 200, headers: { 'Content-Type': 'application/json', ...CORS } }
