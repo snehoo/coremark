@@ -7,37 +7,37 @@
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://coremark.study/about.html</loc>
+    <loc>https://coremark.study/about</loc>
     <lastmod>2026-07-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://coremark.study/math.html</loc>
+    <loc>https://coremark.study/math</loc>
     <lastmod>2026-06-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://coremark.study/science.html</loc>
+    <loc>https://coremark.study/science</loc>
     <lastmod>2026-06-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://coremark.study/computing.html</loc>
+    <loc>https://coremark.study/computing</loc>
     <lastmod>2026-06-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://coremark.study/legal/privacy.html</loc>
+    <loc>https://coremark.study/legal/privacy</loc>
     <lastmod>2026-06-19</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://coremark.study/legal/terms.html</loc>
+    <loc>https://coremark.study/legal/terms</loc>
     <lastmod>2026-06-19</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
@@ -49,121 +49,121 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://coremark.study/blog/why-child-keeps-getting-fractions-wrong.html</loc>
+    <loc>https://coremark.study/blog/why-child-keeps-getting-fractions-wrong</loc>
     <lastmod>2026-06-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://coremark.study/blog/child-cant-understand-algebra.html</loc>
+    <loc>https://coremark.study/blog/child-cant-understand-algebra</loc>
     <lastmod>2026-06-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://coremark.study/blog/percentages-ratio-word-problems-at-home.html</loc>
+    <loc>https://coremark.study/blog/percentages-ratio-word-problems-at-home</loc>
     <lastmod>2026-06-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://coremark.study/blog/why-geometry-angle-problems-get-harder.html</loc>
+    <loc>https://coremark.study/blog/why-geometry-angle-problems-get-harder</loc>
     <lastmod>2026-06-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://coremark.study/blog/child-mixes-up-photosynthesis-respiration-breathing.html</loc>
+    <loc>https://coremark.study/blog/child-mixes-up-photosynthesis-respiration-breathing</loc>
     <lastmod>2026-06-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://coremark.study/blog/why-chemical-reactions-rates-dont-make-sense.html</loc>
+    <loc>https://coremark.study/blog/why-chemical-reactions-rates-dont-make-sense</loc>
     <lastmod>2026-06-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://coremark.study/blog/why-forces-energy-physics-calculations-trip-kids-up.html</loc>
+    <loc>https://coremark.study/blog/why-forces-energy-physics-calculations-trip-kids-up</loc>
     <lastmod>2026-06-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://coremark.study/blog/how-to-revise-science-definitions-so-they-stick.html</loc>
+    <loc>https://coremark.study/blog/how-to-revise-science-definitions-so-they-stick</loc>
     <lastmod>2026-06-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://coremark.study/blog/child-understands-logic-cant-write-python-code.html</loc>
+    <loc>https://coremark.study/blog/child-understands-logic-cant-write-python-code</loc>
     <lastmod>2026-06-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://coremark.study/blog/pseudocode-flowcharts-harder-than-they-look.html</loc>
+    <loc>https://coremark.study/blog/pseudocode-flowcharts-harder-than-they-look</loc>
     <lastmod>2026-06-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://coremark.study/blog/why-child-freezes-on-networks-computer-systems.html</loc>
+    <loc>https://coremark.study/blog/why-child-freezes-on-networks-computer-systems</loc>
     <lastmod>2026-06-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://coremark.study/blog/databases-spreadsheets-modelling-overlooked-topics.html</loc>
+    <loc>https://coremark.study/blog/databases-spreadsheets-modelling-overlooked-topics</loc>
     <lastmod>2026-06-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://coremark.study/blog/best-cambridge-checkpoint-stage-8-maths-resources.html</loc>
+    <loc>https://coremark.study/blog/best-cambridge-checkpoint-stage-8-maths-resources</loc>
     <lastmod>2026-06-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://coremark.study/blog/cambridge-checkpoint-score-explained.html</loc>
+    <loc>https://coremark.study/blog/cambridge-checkpoint-score-explained</loc>
     <lastmod>2026-06-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://coremark.study/blog/cambridge-lower-secondary-stages-explained.html</loc>
+    <loc>https://coremark.study/blog/cambridge-lower-secondary-stages-explained</loc>
     <lastmod>2026-06-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://coremark.study/blog/cambridge-maths-topics-that-cost-marks.html</loc>
+    <loc>https://coremark.study/blog/cambridge-maths-topics-that-cost-marks</loc>
     <lastmod>2026-06-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://coremark.study/blog/child-falling-behind-cambridge-maths-what-works.html</loc>
+    <loc>https://coremark.study/blog/child-falling-behind-cambridge-maths-what-works</loc>
     <lastmod>2026-06-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://coremark.study/blog/cambridge-checkpoint-explained-parent-guide.html</loc>
+    <loc>https://coremark.study/blog/cambridge-checkpoint-explained-parent-guide</loc>
     <lastmod>2026-06-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://coremark.study/blog/cambridge-checkpoint-past-papers-vs-topic-boosters.html</loc>
+    <loc>https://coremark.study/blog/cambridge-checkpoint-past-papers-vs-topic-boosters</loc>
     <lastmod>2026-06-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://coremark.study/blog/cambridge-checkpoint-science-help-non-expert-parent.html</loc>
+    <loc>https://coremark.study/blog/cambridge-checkpoint-science-help-non-expert-parent</loc>
     <lastmod>2026-06-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
