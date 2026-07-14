@@ -71,7 +71,7 @@ export async function onRequestPost({ request, env }) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${env.RESEND_API_KEY}` },
         body: JSON.stringify({
-          from: 'CoreMark <noreply@coremark.study>',
+          from: 'CoreMark <info@coremark.study>',
           to: 'snehalp@gmail.com',
           subject: `New free booster signup: ${email.trim()}`,
           text: `${email.trim()} just signed up for the free Stage 8 Algebra booster.`,
