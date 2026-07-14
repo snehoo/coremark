@@ -65,6 +65,20 @@ export async function onRequestPost({ request, env }) {
       );
     }
 
+    // Notify owner on free booster signups (fire and forget)
+    if (source === 'free-booster' && env.RESEND_API_KEY) {
+      fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${env.RESEND_API_KEY}` },
+        body: JSON.stringify({
+          from: 'CoreMark <noreply@coremark.study>',
+          to: 'snehalp@gmail.com',
+          subject: `New free booster signup: ${email.trim()}`,
+          text: `${email.trim()} just signed up for the free Stage 8 Algebra booster.`,
+        }),
+      }).catch(e => console.warn('[notify]', e.message));
+    }
+
     return new Response(
       JSON.stringify({ ok: true }),
       { status: 200, headers: { 'Content-Type': 'application/json', ...CORS } }
