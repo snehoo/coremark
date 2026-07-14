@@ -104,8 +104,21 @@ Never use these words/phrases in any content:
       to re-check in cycle 2 since the canonical mismatch (see below) may have been contributing.
       A second stray "sitemap" entry (`https://coremark.study/`, itself not a sitemap file) shows
       1 error in GSC — likely a leftover manual submission; low priority, note for cycle 2 cleanup.
-- [ ] Core Web Vitals — SKIPPED this cycle, no PageSpeed API key configured in this environment.
-      Needs a Google Cloud API key with PageSpeed Insights API enabled before next run.
+- [x] Core Web Vitals — PageSpeed Insights API key configured 2026-07-14 (key stored in
+      `.env.local`, gitignored, not in this file). Mobile performance pulled for the 4 pages
+      with click data:
+      - `/` — score 69, LCP 7.3s, CLS 0.068, TBT 100ms
+      - `/math` — score 58, LCP 7.1s, CLS 0.211 (needs-improvement territory), TBT 170ms
+      - `/science` — score 86, LCP 2.9s (only page in "good" LCP territory), CLS 0.015, TBT 210ms
+      - `/computing` — score 64, LCP 6.9s, CLS 0.015, TBT 310ms
+      Finding: LCP is "poor" (>4s, Google's threshold) on 3 of 4 pages — home, math, computing.
+      `/science` is a clear outlier for the better; worth diffing what it's doing differently.
+      Diagnosis on homepage: ~2,020ms of render-blocking-request savings available (almost
+      certainly the synchronous Google Fonts `<link rel="stylesheet">` in `<head>` — no
+      `media="print"` swap trick or preload used) plus ~258 KiB unused JavaScript. Per SOP §3,
+      CWV is a tiebreaker not a ranking pillar — not fixing ad hoc outside the loop's cadence.
+      Flagged as a strong candidate technical experiment for the 2026-08-14 cycle (fixing
+      render-blocking fonts is a well-scoped, low-risk, "obvious offender" fix per the SOP).
 - [x] Internal linking audit — coarse check only (link-tag count per blog post, 36-37 each,
       includes nav/footer). No orphan pages found. Not a precise contextual-in-content-link count;
       revisit with a real crawler if a specific post looks under-linked.

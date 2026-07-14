@@ -75,7 +75,14 @@ includes parent/tutor guide, one-time price, instant PDF download, no subscripti
 
 ## Data Access
 
-- GSC: sc-domain:coremark.study — connect via Google Search Console API or mcp-gsc MCP server
+- GSC: sc-domain:coremark.study — connect via Google Search Console API or mcp-gsc MCP server.
+  Note: searchAnalytics.query lives under `www.googleapis.com/webmasters/v3`, NOT
+  `searchconsole.googleapis.com/v1` (that host only serves urlInspection).
+- PageSpeed Insights: configured 2026-07-14, GCP project `coremark-seo` (same project as GSC).
+  Key stored in `.env.local` (gitignored) as `PAGESPEED_API_KEY`, restricted to PageSpeed
+  Insights API only. Free tier, no billing required.
 - DataForSEO: not configured (skip competitor SERP data for now; revisit after cycle 2)
 - Write access: git repo at github.com/snehoo/coremark; commit changes to feature branch, open PR for human review before merge to main
-- Email: Brevo (track lead signups as secondary signal; not API-connected to agent)
+- Email: no send-capable tool configured in this environment yet (report step falls back to
+  posting the summary in chat instead of emailing snehalp@gmail.com). Brevo tracks lead
+  signups as a secondary signal but isn't API-connected to the agent.
