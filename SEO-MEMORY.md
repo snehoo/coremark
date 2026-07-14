@@ -75,10 +75,10 @@ Never use these words/phrases in any content:
 
 - **EXP-1 (2026-07-canonical-sitemap-fix)** — shipped 2026-07-14, review 2026-08-11.
   Metric: sitemap "indexed" count in GSC Page Indexing report should move off 0/24; no
-  regression in indexed page count or clicks. Status: OPEN, PR pending human merge.
+  regression in indexed page count or clicks. Status: OPEN, merged to main via PR #2, live.
 - **EXP-2 (2026-07-computing-ctr-title)** — shipped 2026-07-14, review 2026-08-04 (3 weeks;
   CTR is fast-feedback per SOP §4.2). Metric: computing.html CTR ≥15% (up from 0% on 11
-  impressions) without a position drop. Status: OPEN, PR pending human merge.
+  impressions) without a position drop. Status: OPEN, merged to main via PR #2, live.
 
 ---
 

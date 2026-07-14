@@ -3,7 +3,7 @@
 **Type:** Technical (sitewide template + sitemap.xml)
 **Ship date:** 2026-07-14
 **Review date:** 2026-08-11 (4 weeks)
-**Status:** OPEN — shipped to feature branch, PR pending human merge
+**Status:** OPEN — merged to main 2026-07-14 via [PR #2](https://github.com/snehoo/coremark/pull/2), live in production. Awaiting review at 2026-08-11.
 
 ---
 
