@@ -66,6 +66,7 @@ export async function onRequestPost({ request, env }) {
     }
 
     // On free booster signup: send download email to subscriber, BCC owner
+    console.log('[subscribe] source=', source, 'hasResend=', !!env.RESEND_API_KEY);
     if (source === 'free-booster' && env.RESEND_API_KEY) {
       fetch('https://api.resend.com/emails', {
         method: 'POST',
