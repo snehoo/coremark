@@ -65,16 +65,21 @@ export async function onRequestPost({ request, env }) {
       );
     }
 
-    // Notify owner on free booster signups (fire and forget)
+    // On free booster signup: send download email to subscriber, BCC owner
     if (source === 'free-booster' && env.RESEND_API_KEY) {
       fetch('https://api.resend.com/emails', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${env.RESEND_API_KEY}` },
         body: JSON.stringify({
           from: 'CoreMark <info@coremark.study>',
-          to: 'snehalp@gmail.com',
-          subject: `New free booster signup: ${email.trim()}`,
-          text: `${email.trim()} just signed up for the free Stage 8 Algebra booster.`,
+          to: email.trim(),
+          bcc: 'snehalp@gmail.com',
+          subject: 'Your free Stage 8 Algebra booster is ready',
+          html: `<p>Hi,</p>
+<p>Your free Stage 8 Algebra booster is ready to download.</p>
+<p><a href="https://assets.coremark.study/booster/free-algebra-stage8.pdf" style="display:inline-block;padding:12px 24px;background:#2A1B3D;color:white;border-radius:999px;text-decoration:none;font-weight:700;">Download PDF →</a></p>
+<p>Or visit: <a href="https://coremark.study/free-download">coremark.study/free-download</a></p>
+<p>— CoreMark</p>`,
         }),
       }).catch(e => console.warn('[notify]', e.message));
     }
