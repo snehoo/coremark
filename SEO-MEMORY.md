@@ -148,3 +148,12 @@ computing.html (EXP-2). Both changes are on a feature branch awaiting PR + human
 site.config.md write-access rules (github.com/snehoo/coremark, PR review required). Kill-switch:
 OK (no prior period to compare against — traffic is ramping from zero, not dropping). No
 PageSpeed API key configured — Core Web Vitals check skipped, needs setup before it can run.
+2026-07-14 — PR #2 approved and merged to main by human same day. EXP-1 and EXP-2 now live in
+production.
+2026-07-14 — PageSpeed Insights API key configured (GCP project `coremark-seo`, free tier).
+First CWV pull done same day: LCP poor (>4s) on home/math/computing, science.html is the outlier
+in good shape (2.9s). Render-blocking Google Fonts stylesheet flagged as likely cause — a
+candidate technical experiment for cycle 2 (2026-08-14), not fixed ad hoc.
+2026-07-14 — Gmail SMTP configured (app password in `.env.local`, send script
+`send_seo_report.py`). Test email confirmed delivered. Future cycle reports (§9 of SOP) now
+send by email instead of chat-only; scheduled task SKILL.md updated with the exact invocation.

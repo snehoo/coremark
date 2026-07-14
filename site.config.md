@@ -72,6 +72,9 @@ includes parent/tutor guide, one-time price, instant PDF download, no subscripti
 
 - Email: snehalp@gmail.com — send run summary after every cycle
 - Include: experiments shipped, wins/losses scored, kill-switch status, next review date
+- Send mechanism: configured 2026-07-14 via Gmail SMTP + app password. Script at
+  `send_seo_report.py` in this directory; credentials in `.env.local` (gitignored). See the
+  scheduled task's SKILL.md §9 for exact invocation.
 
 ## Data Access
 
