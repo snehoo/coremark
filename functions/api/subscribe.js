@@ -81,7 +81,10 @@ export async function onRequestPost({ request, env }) {
 <p>Or visit: <a href="https://coremark.study/free-download">coremark.study/free-download</a></p>
 <p>— CoreMark</p>`,
         }),
-      }).catch(e => console.warn('[notify]', e.message));
+      }).then(async r => {
+        if (!r.ok) console.error('[notify] Resend error:', r.status, await r.text());
+        else console.log('[notify] sent to', email.trim());
+      }).catch(e => console.error('[notify] fetch failed:', e.message));
     }
 
     return new Response(
