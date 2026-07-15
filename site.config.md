@@ -86,6 +86,4 @@ includes parent/tutor guide, one-time price, instant PDF download, no subscripti
   Insights API only. Free tier, no billing required.
 - DataForSEO: not configured (skip competitor SERP data for now; revisit after cycle 2)
 - Write access: git repo at github.com/snehoo/coremark; commit changes to feature branch, open PR for human review before merge to main
-- Email: no send-capable tool configured in this environment yet (report step falls back to
-  posting the summary in chat instead of emailing snehalp@gmail.com). Brevo tracks lead
-  signups as a secondary signal but isn't API-connected to the agent.
+- Email: configured 2026-07-14 via Gmail SMTP + app password. Script at `send_seo_report.py`; credentials in `.env.local` (gitignored). Brevo tracks lead signups as a secondary signal but isn't API-connected to the agent.

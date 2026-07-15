@@ -54,6 +54,14 @@ as directional, not statistically confident. Revisit statistical rigor once clic
   zero clicks (computing.html, position 4.6, 0/11 CTR) rather than force 4 experiments out of
   noise. Lesson: don't pad a cycle with speculative experiments just to hit the playbook's
   suggested count — attribution discipline matters more than experiment count when data is thin.
+- 2026-07-14 (post-cycle gap-fill) — Fixed 3 items the agent found but deferred:
+  (1) Google Fonts render-blocking stylesheet replaced with preload/onload swap + noscript
+  fallback on all 30 pages — LCP was poor (>4s) on home/math/computing due to this single tag.
+  (2) free.html canonical + og:url aligned to extensionless URL (completing EXP-1 scope).
+  (3) JSON-LD @id/mainEntityOfPage/BreadcrumbList URLs stripped of .html suffix across all 20
+  blog posts and about.html — these were the last remaining .html signals after EXP-1.
+  Committed to main as f1dfdd6. Not registered as experiments (technical cleanup, not content
+  changes; no success metric to track beyond "no regression").
 
 ---
 
@@ -135,6 +143,25 @@ Never use these words/phrases in any content:
 
 ---
 
+## Tactic Scoreboard
+
+*(feeds §10 meta-loop — updated after every scored experiment)*
+
+| Playbook tactic | Times run | Wins | Losses | Inconclusive | Avg Δclicks | Verdict |
+|-----------------|-----------|------|--------|--------------|-------------|---------|
+| Canonical/URL fix (§3 audit) | 1 | 0 | 0 | 0 | — | pending (review 2026-08-11) |
+| CTR fix — title/meta rewrite | 1 | 0 | 0 | 0 | — | pending (review 2026-08-04) |
+
+---
+
+## Exhausted Hypotheses
+
+*(never retry without new external evidence; archived after 2 LOSS or INCONCLUSIVE refinements)*
+
+*(none yet)*
+
+---
+
 ## Human Feedback Log
 
 *(agent appends here after each report; human can annotate)*
@@ -157,3 +184,9 @@ candidate technical experiment for cycle 2 (2026-08-14), not fixed ad hoc.
 2026-07-14 — Gmail SMTP configured (app password in `.env.local`, send script
 `send_seo_report.py`). Test email confirmed delivered. Future cycle reports (§9 of SOP) now
 send by email instead of chat-only; scheduled task SKILL.md updated with the exact invocation.
+2026-07-15 — Upgraded to SEO-LOOP-SOP-v2. New additions wired in: run-state.json created
+(cycle 1 complete, phases 0–9 done), SOP-CHANGELOG.md created (empty — meta-loop first fires
+at cycle 3), Tactic Scoreboard and Exhausted Hypotheses sections added to this file, SKILL.md
+updated to incorporate v2 procedures (verifier sub-agent, resumable state, bounded attempts,
+meta-loop check). SOP reference path updated to
+/Users/snehoomac/snehoo/AI/MD-other/seo-loop-sops 2/SEO-LOOP-SOP-v2.md.

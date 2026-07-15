@@ -1,0 +1,25 @@
+{
+  "run_number": 1,
+  "run_date": "2026-07-14",
+  "current_phase": null,
+  "last_completed_phase": 9,
+  "last_completed_step": "report",
+  "run_in_progress": false,
+  "open_experiments": {
+    "EXP-1": {
+      "name": "2026-07-canonical-sitemap-fix",
+      "attempt": 1,
+      "status": "OPEN",
+      "review_date": "2026-08-11"
+    },
+    "EXP-2": {
+      "name": "2026-07-computing-ctr-title",
+      "attempt": 1,
+      "status": "OPEN",
+      "review_date": "2026-08-04"
+    }
+  },
+  "experiments_shipped_this_run": 2,
+  "meta_loop_due_at_cycle": 3,
+  "completed_cycles": 1
+}
