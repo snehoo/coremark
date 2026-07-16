@@ -127,6 +127,10 @@ Never use these words/phrases in any content:
       CWV is a tiebreaker not a ranking pillar — not fixing ad hoc outside the loop's cadence.
       Flagged as a strong candidate technical experiment for the 2026-08-14 cycle (fixing
       render-blocking fonts is a well-scoped, low-risk, "obvious offender" fix per the SOP).
+      UPDATE 2026-07-17 (v3 test ride re-PSI): Font fix (f1dfdd6) confirmed working —
+      /math LCP 7.1s→1.5s (score 58→86), /computing LCP 6.9s→2.9s (score 64→81), both now
+      "good". Homepage still LCP 6.8s (score 62), render-blocking=no savings — different cause
+      (likely large hero). BL-001 in BACKLOG.md updated; homepage LCP queued for cycle 2.
 - [x] Internal linking audit — coarse check only (link-tag count per blog post, 36-37 each,
       includes nav/footer). No orphan pages found. Not a precise contextual-in-content-link count;
       revisit with a real crawler if a specific post looks under-linked.

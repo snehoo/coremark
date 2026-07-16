@@ -1,4 +1,5 @@
 {
+  "sop_version": "v3",
   "run_number": 1,
   "run_date": "2026-07-14",
   "current_phase": null,
@@ -20,6 +21,10 @@
     }
   },
   "experiments_shipped_this_run": 2,
+  "spend_this_run_usd": null,
+  "token_budget_usd": 10,
+  "completed_cycles": 1,
   "meta_loop_due_at_cycle": 3,
-  "completed_cycles": 1
+  "trust_ladder_rung": 1,
+  "kill_switch_warnings": 0
 }
