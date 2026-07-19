@@ -22,6 +22,27 @@ async function dbQuery(env, sql, params = []) {
   return { rows, rowCount: data.rowCount ?? rows.length };
 }
 
+async function getFileUrls(env, items, orderType, bundleSlug) {
+  if ((orderType === 'subject' || orderType === 'stage') && bundleSlug) {
+    try {
+      const l = await env.R2_BUCKET.list({ prefix: `bundle/cm-${bundleSlug}` });
+      const z = (l.objects || [])[0];
+      if (z) return [`https://assets.coremark.study/${z.key}`];
+    } catch (e) { /* fall through */ }
+  }
+  const urls = [];
+  for (const slug of items) {
+    try {
+      const l = await env.R2_BUCKET.list({ prefix: `booster/cm-${slug}` });
+      for (const o of (l.objects || [])) urls.push(`https://assets.coremark.study/${o.key}`);
+    } catch (e) { /* ignore */ }
+  }
+  if (!urls.length) {
+    for (const slug of items) urls.push(`https://assets.coremark.study/booster/cm-${slug}.pdf`);
+  }
+  return urls;
+}
+
 async function sha256(text) {
   const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text.toLowerCase().trim()));
   return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
@@ -56,12 +77,24 @@ export async function onRequestPost({request,env}){
     const r=await dbQuery(env,`UPDATE orders SET razorpay_payment_id=$1,buyer_hash=$2,buyer_email=$3,status='paid',paid_at=NOW() WHERE razorpay_order_id=$4 AND status!='paid'`,[p.id,hash,email,p.order_id]);
     if(!r.rowCount)await dbQuery(env,`INSERT INTO orders(razorpay_order_id,razorpay_payment_id,buyer_hash,buyer_email,order_type,primary_slug,item_slugs,amount_paise,currency,status,subject,stage,paid_at,source)VALUES($1,$2,$3,$4,$5,$6,$7::jsonb,$8,'INR','paid',$9,$10,NOW(),'web')ON CONFLICT(razorpay_order_id)DO UPDATE SET razorpay_payment_id=EXCLUDED.razorpay_payment_id,status='paid',paid_at=NOW()`,
       [p.order_id,p.id,hash,email,n.order_type??'single',n.primary_slug??null,JSON.stringify(items),p.amount,n.subject??null,n.stage?parseInt(n.stage):null]);
-    // Admin notification — only when webhook is the first to mark this order paid
-    // (r.rowCount>0 means verify-payment hadn't already fired)
+    // Only when webhook is the first to mark this order paid (verify-payment hadn't fired)
     if(r.rowCount&&env.RESEND_API_KEY){
       const amountRs=Math.round(p.amount/100);
       const typeMap={single:'Single Booster',fivepack:'5-Pack Bundle',subject:'Subject Bundle',stage:'Stage Bundle'};
       const typeLabel=typeMap[n.order_type??'single']||n.order_type||'Single Booster';
+      const origin=new URL(request.url).origin;
+
+      // Buyer email — webhook fallback (verify-payment never completed)
+      if(email){
+        const fileUrls=await getFileUrls(env,items,n.order_type??'single',n.primary_slug??null);
+        fetch(`${origin}/api/send-email`,{
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body:JSON.stringify({to:email,orderTitle:n.primary_slug||'Your Booster',orderType:n.order_type??'single',fileUrls,orderId:p.order_id}),
+        }).catch(e=>console.warn('[webhook-buyer-email]',e.message));
+      }
+
+      // Admin notification
       fetch('https://api.resend.com/emails',{
         method:'POST',
         headers:{'Authorization':`Bearer ${env.RESEND_API_KEY}`,'Content-Type':'application/json'},
