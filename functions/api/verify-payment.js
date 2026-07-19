@@ -1,6 +1,7 @@
 // functions/api/verify-payment.js
 // NOTE: Never return 5xx — Cloudflare intercepts them with HTML error pages.
 // Use 200 with ok:false, or 4xx only.
+import { BOOSTER_MAP } from './_booster-map.js';
 
 const CORS = {
   'Access-Control-Allow-Origin':  '*',
@@ -64,29 +65,20 @@ async function dbQuery(env, sql, params = []) {
 }
 
 async function getFileUrls(env, itemSlugs, orderType, bundleSlug) {
-  // For subject/stage bundles, serve a single pre-built zip instead of
-  // looping through every individual booster PDF.
+  // For subject/stage bundles, serve a single pre-built zip.
   if ((orderType === 'subject' || orderType === 'stage') && bundleSlug) {
     try {
       const l = await env.R2_BUCKET.list({ prefix: `bundle/cm-${bundleSlug}` });
       const zipObj = (l.objects || [])[0];
       if (zipObj) return [`https://assets.coremark.study/${zipObj.key}`];
-    } catch (e) { /* fall through to per-file links below */ }
+    } catch (e) { /* fall through */ }
   }
 
-  const urls = [];
-  for (const slug of itemSlugs) {
-    try {
-      const l = await env.R2_BUCKET.list({ prefix: `booster/cm-${slug}` });
-      for (const o of (l.objects || [])) urls.push(`https://assets.coremark.study/${o.key}`);
-    } catch (e) { /* R2 not set up yet — use fallback */ }
-  }
-  if (!urls.length) {
-    for (const slug of itemSlugs) {
-      urls.push(`https://assets.coremark.study/booster/cm-${slug}.pdf`);
-    }
-  }
-  return urls;
+  // Individual boosters — explicit map preserves hash-protected filenames.
+  return itemSlugs.map(slug => {
+    const key = BOOSTER_MAP[slug];
+    return `https://assets.coremark.study/${key || `booster/cm-${slug}.pdf`}`;
+  });
 }
 
 export async function onRequestPost({ request, env }) {

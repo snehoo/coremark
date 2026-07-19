@@ -1,4 +1,5 @@
 // functions/api/razorpay-webhook.js
+import { BOOSTER_MAP } from './_booster-map.js';
 
 // ── Inline DB helper (no imports needed) ─────────────────
 async function dbQuery(env, sql, params = []) {
@@ -30,17 +31,10 @@ async function getFileUrls(env, items, orderType, bundleSlug) {
       if (z) return [`https://assets.coremark.study/${z.key}`];
     } catch (e) { /* fall through */ }
   }
-  const urls = [];
-  for (const slug of items) {
-    try {
-      const l = await env.R2_BUCKET.list({ prefix: `booster/cm-${slug}` });
-      for (const o of (l.objects || [])) urls.push(`https://assets.coremark.study/${o.key}`);
-    } catch (e) { /* ignore */ }
-  }
-  if (!urls.length) {
-    for (const slug of items) urls.push(`https://assets.coremark.study/booster/cm-${slug}.pdf`);
-  }
-  return urls;
+  return items.map(slug => {
+    const key = BOOSTER_MAP[slug];
+    return `https://assets.coremark.study/${key || `booster/cm-${slug}.pdf`}`;
+  });
 }
 
 async function sha256(text) {
