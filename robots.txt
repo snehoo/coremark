@@ -22,5 +22,7 @@ Disallow: /delivery.html
 Disallow: /delivery
 Disallow: /coremark-admin.html
 Disallow: /api/
+Disallow: /blog/coremark-blog-template
+Disallow: /blog/coremark-blog-template.html
 
 Sitemap: https://coremark.study/sitemap.xml
