@@ -228,14 +228,19 @@ export async function onRequestPost({ request, env }) {
       const amountRs    = Math.round(payment.amount / 100);
       const subjDisplay = rSubj ? rSubj.charAt(0).toUpperCase() + rSubj.slice(1) : null;
 
-      // Buyer confirmation email (calls /api/send-email which owns the HTML template)
+      // Buyer confirmation email (awaited so emailSent reflects actual success)
       if (email) {
-        fetch(`${origin}/api/send-email`, {
-          method:  'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body:    JSON.stringify({ to: email, orderTitle: title, orderType: rType, fileUrls, orderId: internalId }),
-        }).catch(e => console.warn('[send-email]', e.message));
-        emailSent = true;
+        try {
+          const emailRes = await fetch(`${origin}/api/send-email`, {
+            method:  'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body:    JSON.stringify({ to: email, orderTitle: title, orderType: rType, fileUrls, orderId: internalId }),
+          });
+          emailSent = emailRes.ok;
+          if (!emailRes.ok) console.warn('[send-email] non-OK:', await emailRes.text());
+        } catch (e) {
+          console.warn('[send-email]', e.message);
+        }
       }
 
       // Admin notification to info@coremark.study
