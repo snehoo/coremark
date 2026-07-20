@@ -18,9 +18,21 @@
       "attempt": 1,
       "status": "OPEN",
       "review_date": "2026-08-04"
+    },
+    "EXP-3": {
+      "name": "2026-07-maths-boost",
+      "attempt": 1,
+      "status": "OPEN",
+      "review_date": "2026-08-14"
+    },
+    "EXP-4": {
+      "name": "2026-07-science-boost",
+      "attempt": 1,
+      "status": "OPEN",
+      "review_date": "2026-08-14"
     }
   },
-  "experiments_shipped_this_run": 2,
+  "experiments_shipped_this_run": 4,
   "spend_this_run_usd": null,
   "token_budget_usd": 10,
   "completed_cycles": 1,

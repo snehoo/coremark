@@ -87,6 +87,14 @@ Never use these words/phrases in any content:
 - **EXP-2 (2026-07-computing-ctr-title)** — shipped 2026-07-14, review 2026-08-04 (3 weeks;
   CTR is fast-feedback per SOP §4.2). Metric: computing.html CTR ≥15% (up from 0% on 11
   impressions) without a position drop. Status: OPEN, merged to main via PR #2, live.
+- **EXP-3 (2026-07-maths-boost)** — shipped 2026-07-20, review 2026-08-14. /math title
+  rewritten to "Cambridge Lower Secondary Maths Boosters | CoreMark" (matching GSC query
+  "maths booster"); 3 FAQ items added; contextual prose links from 2 maths blog posts.
+  Pending PR merge. Metric: /math position move from 19.5 toward <15, and/or CTR lift.
+- **EXP-4 (2026-07-science-boost)** — shipped 2026-07-20, review 2026-08-14. /science title
+  rewritten to "Cambridge Lower Secondary Science Boosters | CoreMark"; 3 FAQ items added;
+  contextual prose links from 2 science blog posts. Pending PR merge.
+  Metric: /science position consolidation below 10, CTR maintenance.
 
 ---
 
