@@ -348,6 +348,19 @@ table.data-table tr:last-child td{border-bottom:0;}
   .footer-top{grid-template-columns:1fr;}
   .stat-strip{flex-direction:column;}
 }
+
+.tldr-box{background:var(--mist);border-left:4px solid var(--blue);border-radius:0 var(--radius-md) var(--radius-md) 0;padding:18px 22px;margin:0 0 36px;}
+.tldr-label{display:block;font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--blue-deep);margin-bottom:8px;font-family:monospace;}
+.tldr-text{margin:0;font-size:16px;color:var(--ink-soft);line-height:1.65;}
+.free-booster-card{background:var(--paper);border:1.5px solid var(--border);border-radius:var(--radius-lg);padding:26px 28px;margin:44px 0 32px;display:flex;gap:20px;align-items:flex-start;}
+.fbc-icon{width:44px;height:44px;background:var(--blue-tint);border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;border:1px solid rgba(110,71,201,0.15);}
+.fbc-body{flex:1;}
+.fbc-label{font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--blue-deep);margin:0 0 5px;font-family:monospace;}
+.fbc-title{font-size:19px;font-weight:800;color:var(--ink);margin:0 0 8px;letter-spacing:-0.01em;line-height:1.25;}
+.fbc-desc{font-size:14.5px;color:var(--ink-muted);line-height:1.6;margin:0 0 16px;}
+.fbc-btn{display:inline-block;background:var(--ink);color:#fff;padding:12px 20px;border-radius:999px;font-size:14px;font-weight:700;text-decoration:none;}
+.fbc-btn:hover{background:var(--blue);}
+@media(max-width:600px){.free-booster-card{flex-direction:column;gap:12px;}}
 </style>
 <!-- COREMARK-GA-START -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-B8K210VPRV"></script>
@@ -452,6 +465,11 @@ src="https://www.facebook.com/tr?id=1921557135206596&ev=PageView&noscript=1"/></
       <li><a href="#faq">FAQs</a></li>
     </ol>
   </nav>
+
+  <div class="tldr-box">
+    <span class="tldr-label">Quick answer</span>
+    <p class="tldr-text">Fraction mistakes in Cambridge Lower Secondary Maths almost always trace to one of three specific misconceptions carried over from whole-number arithmetic — not carelessness or lack of effort. This guide identifies the three misconceptions and explains how each one surfaces in Stage 7, 8 and 9 exam questions.</p>
+  </div>
 
   <p>If your child keeps getting fractions wrong, the cause is almost always one of three specific misconceptions, not inattention. Fraction errors are some of the most consistent and well-documented mistakes in middle-school mathematics, and they follow predictable patterns across Stage 7, 8 and 9 &mdash; which means they're also predictable to fix once you know which misconception you're dealing with.</p>
 
@@ -614,6 +632,17 @@ src="https://www.facebook.com/tr?id=1921557135206596&ev=PageView&noscript=1"/></
     <a class="tag-chip" href="/blog/tag/number-strand.html">#number-strand</a>
     <a class="tag-chip" href="/blog/tag/maths-mistakes.html">#maths-mistakes</a>
     <a class="tag-chip" href="/blog/tag/stage-7-8-9.html">#stage-7-8-9</a>
+  </div>
+
+  <!-- FREE BOOSTER -->
+  <div class="free-booster-card">
+    <div class="fbc-icon">📐</div>
+    <div class="fbc-body">
+      <p class="fbc-label">Free download</p>
+      <h3 class="fbc-title">Try a CoreMark booster free</h3>
+      <p class="fbc-desc">CoreMark is a Cambridge Lower Secondary revision product for Maths (0862), Science (0893) and Computing (0860) across Stages 7, 8 and 9. Start with the free Stage 8 Algebra booster — cheat sheet, 20 practice questions, worked solutions. No payment needed.</p>
+      <a class="fbc-btn" href="/free">Get the free booster →</a>
+    </div>
   </div>
 
 </main>

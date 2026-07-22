@@ -322,6 +322,19 @@ table.data-table tr:last-child td{border-bottom:0;}
   .footer-top{grid-template-columns:1fr;}
   .stat-strip{flex-direction:column;}
 }
+
+.tldr-box{background:var(--mist);border-left:4px solid var(--blue);border-radius:0 var(--radius-md) var(--radius-md) 0;padding:18px 22px;margin:0 0 36px;}
+.tldr-label{display:block;font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--blue-deep);margin-bottom:8px;font-family:monospace;}
+.tldr-text{margin:0;font-size:16px;color:var(--ink-soft);line-height:1.65;}
+.free-booster-card{background:var(--paper);border:1.5px solid var(--border);border-radius:var(--radius-lg);padding:26px 28px;margin:44px 0 32px;display:flex;gap:20px;align-items:flex-start;}
+.fbc-icon{width:44px;height:44px;background:var(--blue-tint);border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;border:1px solid rgba(110,71,201,0.15);}
+.fbc-body{flex:1;}
+.fbc-label{font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--blue-deep);margin:0 0 5px;font-family:monospace;}
+.fbc-title{font-size:19px;font-weight:800;color:var(--ink);margin:0 0 8px;letter-spacing:-0.01em;line-height:1.25;}
+.fbc-desc{font-size:14.5px;color:var(--ink-muted);line-height:1.6;margin:0 0 16px;}
+.fbc-btn{display:inline-block;background:var(--ink);color:#fff;padding:12px 20px;border-radius:999px;font-size:14px;font-weight:700;text-decoration:none;}
+.fbc-btn:hover{background:var(--blue);}
+@media(max-width:600px){.free-booster-card{flex-direction:column;gap:12px;}}
 </style>
 <!-- COREMARK-GA-START -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-B8K210VPRV"></script>
@@ -418,6 +431,11 @@ src="https://www.facebook.com/tr?id=1921557135206596&ev=PageView&noscript=1"/></
       <li><a href="#faq">FAQs</a></li>
     </ol>
   </nav>
+
+  <div class="tldr-box">
+    <span class="tldr-label">Quick answer</span>
+    <p class="tldr-text">A student who can explain an algorithm clearly but cannot write working Python code is not failing at computing — they have hit the well-documented gap between algorithmic thinking and program syntax. This guide explains why the gap exists at Cambridge Lower Secondary level and what kind of practice bridges it for the 0860 Computing framework.</p>
+  </div>
 
   <p>A child who can explain an algorithm out loud but can't get it running in Python isn't failing at computing &mdash; they're hitting the well-documented gap between algorithmic thinking and program writing, two distinct skills that develop at different speeds. Understanding what a loop should do and writing a loop that Python will actually run without error are not the same task, and conflating them is one of the most common reasons parents think their child "isn't good at coding" when the opposite is usually true.</p>
 
@@ -570,6 +588,17 @@ src="https://www.facebook.com/tr?id=1921557135206596&ev=PageView&noscript=1"/></
     <a class="tag-chip" href="/blog/tag/programming.html">#programming</a>
     <a class="tag-chip" href="/blog/tag/computational-thinking.html">#computational-thinking</a>
     <a class="tag-chip" href="/blog/tag/stage-7-8-9.html">#stage-7-8-9</a>
+  </div>
+
+  <!-- FREE BOOSTER -->
+  <div class="free-booster-card">
+    <div class="fbc-icon">📐</div>
+    <div class="fbc-body">
+      <p class="fbc-label">Free download</p>
+      <h3 class="fbc-title">Try a CoreMark booster free</h3>
+      <p class="fbc-desc">CoreMark is a Cambridge Lower Secondary revision product for Maths (0862), Science (0893) and Computing (0860) across Stages 7, 8 and 9. Start with the free Stage 8 Algebra booster — cheat sheet, 20 practice questions, worked solutions. No payment needed.</p>
+      <a class="fbc-btn" href="/free">Get the free booster →</a>
+    </div>
   </div>
 
 </main>
