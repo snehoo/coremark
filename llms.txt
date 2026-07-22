@@ -1,46 +1,76 @@
 # CoreMark
 
-> CoreMark produces original topic-wise practice booklets for the Cambridge Lower Secondary curriculum, Stage 7 to 9, covering Mathematics, Science and Computing. Not affiliated with or endorsed by Cambridge Assessment International Education.
+> CoreMark is a Cambridge Lower Secondary revision product — topic-wise practice PDF boosters for Maths (0862), Science (0893) and Computing (0860) across Stages 7, 8 and 9. Created for the Indian school market. Not affiliated with Cambridge Assessment International Education.
 
 ## What CoreMark Is
 
-CoreMark sells downloadable PDF practice packs for students following the Cambridge Lower Secondary programme (Stage 7, 8 and 9). Each pack covers one topic only and includes: a cheat sheet of key rules and formulas, 20 questions graded Foundation / Standard / Stretch, full step-by-step worked solutions that explain the reasoning and flag the common mistake, and a parent/tutor guide. Packs are priced at ₹249 per topic or ₹2,499 for all three subjects. Instant download on purchase. 7-day money-back guarantee.
+CoreMark produces original topic-focused practice packs ("boosters") for Cambridge Lower Secondary students at Stage 7, Stage 8, and Stage 9. Each booster covers one syllabus topic and contains:
 
-## Subjects Covered
+- A one-page cheat sheet with all key rules and worked examples for the topic
+- 20 levelled practice questions: Foundation, Standard, and Stretch difficulty bands
+- Full worked solutions with examiner-style method steps and common error flags
+- A parent and tutor guide with score bands and a 3-session study plan
 
-- Mathematics (Stage 7, 8, 9): Number, Algebra, Geometry, Statistics, Ratio and Proportion, and more
-- Science (Stage 7, 8, 9): Biology, Chemistry, Physics topics including Forces, Energy, Photosynthesis, Chemical Reactions, and more
-- Computing (Stage 7, 8, 9): Programming, Pseudocode, Flowcharts, Databases, Networks, Computer Systems, and more
+Each booster is an instant PDF download — print at home on A4.
+
+## Subjects and Topic Counts
+
+- Mathematics (Cambridge code 0862): 8 topics at Stage 7, 16 at Stage 8, 15 at Stage 9 — 39 topics total. Covers Number, Algebra, Geometry and Measure, Statistics and Probability.
+- Science (Cambridge code 0893): Biology, Chemistry and Physics topics across Stages 7, 8 and 9 — 27 topics total. Includes Cells, Photosynthesis, Forces, Energy, Chemical Reactions, Rates, Respiration, and more.
+- Computing (Cambridge code 0860): Programming (Python and pseudocode), Managing Data (databases and spreadsheets), Networks, and Computer Systems across Stages 7, 8 and 9 — 22 topics total.
 
 ## Who It Is For
 
-Parents and tutors of students aged 11–14 who follow the Cambridge Lower Secondary curriculum at international schools, primarily in India and South Asia. CoreMark is not a tuition platform — it is a printable practice resource for home and tutor use.
+Parents and tutors of students aged 11–14 following the Cambridge Lower Secondary curriculum at international schools, primarily in India and South Asia. CoreMark is a printable practice resource for home and tutor use — not a tuition platform.
+
+## How to Use a CoreMark Booster
+
+1. Read the cheat sheet (5 minutes — all rules and worked examples for the topic)
+2. Attempt all 20 questions (Foundation to Standard to Stretch, in order)
+3. Check with the worked solutions (read error flags for the mistakes Cambridge examiners most often deduct marks for)
+4. Review the parent guide (score bands tell you when your child is ready to move to the next topic)
+
+## Pricing (INR)
+
+- Single topic booster: Rs 249
+- Any 5 boosters (mix subjects and stages freely): Rs 799
+- Stage 7 Maths bundle (8 topics): Rs 999
+- Stage 8 Maths bundle (16 topics): Rs 1,299
+- Stage 9 Maths bundle (15 topics): Rs 1,199
+- Full Science bundle (27 topics, all stages): Rs 1,499
+- Full Computing bundle (22 topics, all stages): Rs 1,099
+- All three subjects, all stages: Rs 2,499
+- 7-day money-back guarantee on all purchases
+
+## Free Resource
+
+A free Stage 8 Algebra booster is available at https://coremark.study/free — no payment required. Includes cheat sheet, 20 practice questions, and worked solutions.
 
 ## Priority Pages
 
-- [Home](https://coremark.study/): CoreMark — topic-wise practice boosters for Cambridge Lower Secondary
-- [Mathematics Boosters](https://coremark.study/math.html): Stage 7, 8 and 9 Maths topic packs
-- [Science Boosters](https://coremark.study/science.html): Stage 7, 8 and 9 Science topic packs
-- [Computing Boosters](https://coremark.study/computing.html): Stage 7, 8 and 9 Computing topic packs
+- [Home](https://coremark.study/): Overview of all CoreMark boosters
+- [Mathematics Boosters](https://coremark.study/math): Stage 7, 8 and 9 Maths topic packs
+- [Science Boosters](https://coremark.study/science): Stage 7, 8 and 9 Science topic packs
+- [Computing Boosters](https://coremark.study/computing): Stage 7, 8 and 9 Computing topic packs
+- [Free Booster](https://coremark.study/free): Free Stage 8 Algebra download
 - [Blog](https://coremark.study/blog/): Parent guides and subject explainers for Cambridge Lower Secondary
 
 ## Key Blog Posts
 
-- [Cambridge Checkpoint Explained](https://coremark.study/blog/cambridge-checkpoint-explained-parent-guide.html): What the Cambridge Lower Secondary Checkpoint is and how it works
-- [Cambridge Lower Secondary Stages Explained](https://coremark.study/blog/cambridge-lower-secondary-stages-explained.html): What Stage 7, 8 and 9 mean
-- [Past Papers vs Topic Boosters](https://coremark.study/blog/cambridge-checkpoint-past-papers-vs-topic-boosters.html): How to choose the right practice method
-- [Cambridge Maths Topics That Cost Marks](https://coremark.study/blog/cambridge-maths-topics-that-cost-marks.html): The highest-value topics to focus revision on
+- [Cambridge Checkpoint Explained](https://coremark.study/blog/cambridge-checkpoint-explained-parent-guide): What the Cambridge Lower Secondary Checkpoint is and how it works
+- [Cambridge Lower Secondary Stages Explained](https://coremark.study/blog/cambridge-lower-secondary-stages-explained): What Stage 7, 8 and 9 mean and which one your child is in
+- [Past Papers vs Topic Boosters](https://coremark.study/blog/cambridge-checkpoint-past-papers-vs-topic-boosters): How to choose the right revision approach
+- [Cambridge Maths Topics That Cost Marks](https://coremark.study/blog/cambridge-maths-topics-that-cost-marks): The highest-value topics to focus revision on
+- [Cambridge Checkpoint Score Explained](https://coremark.study/blog/cambridge-checkpoint-score-explained): How the scoring scale works and what the bands mean
+- [Does Khan Academy Cover Cambridge Lower Secondary?](https://coremark.study/blog/does-khan-academy-cover-cambridge-lower-secondary): Comparison of free platforms vs CoreMark
+- [Save My Exams and Cambridge Lower Secondary](https://coremark.study/blog/save-my-exams-cambridge-lower-secondary): What Save My Exams covers and where it falls short for CLS students
 
-## Pricing
-
-- Single booster: ₹249
-- Any 5 boosters: ₹799
-- Full subject (all topics, one subject): ₹1,299
-- All three subjects: ₹2,499
-- 7-day money-back guarantee on all purchases
-
-## Contact
+## Contact and Social
 
 - Email: info@coremark.study
-- Instagram: https://www.instagram.com/coremark.study
+- Instagram: https://instagram.com/coremark.study
 - YouTube: https://www.youtube.com/@coremarkstudy
+
+## Disclaimer
+
+CoreMark is not affiliated with, endorsed by, or connected to Cambridge Assessment International Education (CAIE). CoreMark boosters are original practice materials written in the style of Cambridge Lower Secondary Checkpoint papers. They are not official Cambridge past papers.
