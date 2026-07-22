@@ -167,6 +167,14 @@
 
 <style>
 /* ===================== COREMARK PLUM TOKENS — DO NOT EDIT ===================== */
+@font-face {
+  font-family: 'Plus Jakarta Sans Fallback';
+  src: local('Arial');
+  ascent-override: 96%;
+  descent-override: 24%;
+  line-gap-override: 0%;
+  size-adjust: 99%;
+}
 :root[data-palette="plum"]{
   --ink:#2A1B3D; --ink-soft:#4A3760; --blue:#6E47C9; --blue-deep:#5234A4;
   --blue-tint:rgba(110,71,201,0.10); --coral:#F4C73E; --coral-soft:#FAE588;
@@ -175,7 +183,7 @@
 :root{
   --ink-muted:#7A6A94; --cream:#FBF8F2; --paper:#FFFFFF; --mist:#F0EBF8;
   --border:#DDD5ED; --border-soft:#EAE3F5;
-  --font-sans:'Plus Jakarta Sans',system-ui,sans-serif;
+  --font-sans:'Plus Jakarta Sans','Plus Jakarta Sans Fallback',system-ui,sans-serif;
   --font-serif:'Instrument Serif',Georgia,serif;
   --radius-sm:8px; --radius-md:14px; --radius-lg:22px; --radius-xl:32px;
 }
