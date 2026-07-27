@@ -235,13 +235,13 @@ export async function onRequestPost({ request, env }) {
         }
       }
 
-      // Admin notification to info@coremark.study
+      // Admin notification — send directly to Gmail to avoid Cloudflare routing hop
       fetch('https://api.resend.com/emails', {
         method:  'POST',
         headers: { 'Authorization': `Bearer ${env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
         body: JSON.stringify({
           from:    'CoreMark Sales <info@coremark.study>',
-          to:      ['info@coremark.study'],
+          to:      ['snehalp@gmail.com'],
           subject: `💰 New Sale — ${typeLabel} — ₹${amountRs}`,
           html: `<div style="font-family:Arial,sans-serif;max-width:480px;margin:20px auto;padding:24px;border:1px solid #EAE3F5;border-radius:12px;">
 <h2 style="color:#2A1B3D;margin:0 0 20px;font-size:18px;">New CoreMark Sale &#127881;</h2>

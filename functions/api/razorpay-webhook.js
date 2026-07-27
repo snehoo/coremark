@@ -88,13 +88,13 @@ export async function onRequestPost({request,env}){
         }).catch(e=>console.warn('[webhook-buyer-email]',e.message));
       }
 
-      // Admin notification
+      // Admin notification — send directly to Gmail to avoid Cloudflare routing hop
       fetch('https://api.resend.com/emails',{
         method:'POST',
         headers:{'Authorization':`Bearer ${env.RESEND_API_KEY}`,'Content-Type':'application/json'},
         body:JSON.stringify({
           from:'CoreMark Sales <info@coremark.study>',
-          to:['info@coremark.study'],
+          to:['snehalp@gmail.com'],
           subject:`💰 New Sale [webhook] — ${typeLabel} — ₹${amountRs}`,
           html:`<div style="font-family:Arial,sans-serif;max-width:480px;margin:20px auto;padding:24px;border:1px solid #EAE3F5;border-radius:12px;"><h2 style="color:#2A1B3D;margin:0 0 20px;font-size:18px;">New CoreMark Sale &#127881;</h2><p style="color:#7A6A94;font-size:13px;margin:0 0 16px;">(Confirmed via Razorpay webhook)</p><table style="width:100%;border-collapse:collapse;font-size:14px;"><tr><td style="padding:8px 0;color:#7A6A94;width:110px;">Type</td><td style="padding:8px 0;">${typeLabel}</td></tr><tr><td style="padding:8px 0;color:#7A6A94;">Amount</td><td style="padding:8px 0;font-weight:700;color:#059669;">&#8377;${amountRs}</td></tr><tr><td style="padding:8px 0;color:#7A6A94;">Buyer</td><td style="padding:8px 0;">${email||'&#8212;'}</td></tr><tr><td style="padding:8px 0;color:#7A6A94;">Payment</td><td style="padding:8px 0;font-family:monospace;font-size:12px;">${p.id}</td></tr></table></div>`,
         }),
