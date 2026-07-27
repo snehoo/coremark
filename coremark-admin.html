@@ -201,6 +201,9 @@ html,body{height:100%;background:var(--cream);color:var(--ink);font-family:var(-
   .kpi-grid{grid-template-columns:repeat(2,1fr);}
   .breakdown-row,.stat-row{grid-template-columns:1fr 1fr;}
 }
+/* date display helpers */
+.d-short{display:none;}
+
 @media(max-width:960px){
   .shell{grid-template-columns:1fr;}
   .sidebar{display:none;}
@@ -211,8 +214,19 @@ html,body{height:100%;background:var(--cream);color:var(--ink);font-family:var(-
   .charts-row,.tables-row,.stat-row,.breakdown-row{grid-template-columns:1fr;}
   .kpi-grid{grid-template-columns:repeat(2,1fr);gap:10px;}
   .kpi-value{font-size:24px;}
-  /* Hide Type column on mobile */
-  .col-type{display:none;}
+
+  /* Overview table: show only Date(short), Product, Amount, Status */
+  #page-overview .col-type,
+  #page-overview .col-buyer,
+  #page-overview .col-refundable{display:none;}
+  #page-overview .d-full{display:none;}
+  #page-overview .d-short{display:inline;}
+
+  /* Orders page: all columns, horizontally scrollable */
+  #page-orders .orders-card{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+  #page-orders .orders-table{min-width:660px;}
+  /* hide type on orders page too, keep rest */
+  #page-orders .col-type{display:none;}
 }
 </style>
 </head>
@@ -324,12 +338,12 @@ html,body{height:100%;background:var(--cream);color:var(--ink);font-family:var(-
             <thead>
               <tr>
                 <th>Date</th>
-                <th>Buyer</th>
+                <th class="col-buyer">Buyer</th>
                 <th>Product</th>
                 <th class="col-type">Type</th>
                 <th>Amount</th>
                 <th>Status</th>
-                <th>Refundable</th>
+                <th class="col-refundable">Refundable</th>
               </tr>
             </thead>
             <tbody id="ov-orders-tbody">
@@ -394,12 +408,12 @@ html,body{height:100%;background:var(--cream);color:var(--ink);font-family:var(-
             <thead>
               <tr>
                 <th>Date</th>
-                <th>Buyer</th>
+                <th class="col-buyer">Buyer</th>
                 <th>Product</th>
                 <th class="col-type">Type</th>
                 <th>Amount</th>
                 <th>Status</th>
-                <th>Refundable</th>
+                <th class="col-refundable">Refundable</th>
               </tr>
             </thead>
             <tbody id="orders-tbody">
@@ -558,7 +572,8 @@ const fmtFull = p => '₹' + (p / 100).toLocaleString('en-IN');
 const cap = s => s ? s.charAt(0).toUpperCase() + s.slice(1) : '—';
 const subEmoji = s => ({ math:'📐', science:'🔬', computing:'💻', mixed:'📚' }[s] || '📄');
 const typeLabel = t => ({ single:'Single', fivepack:'5-Pack', subject:'Subject Bundle', stage:'Stage Bundle' }[t] || cap(t));
-const fmtDate = iso => iso ? new Date(iso).toLocaleString('en-IN', { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' }) : '—';
+const fmtDate      = iso => iso ? new Date(iso).toLocaleString('en-IN', { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' }) : '—';
+const fmtDateShort = iso => iso ? new Date(iso).toLocaleDateString('en-IN', { day:'numeric', month:'short' }) : '—';
 
 // ── Load Metrics ──────────────────────────────────────────
 async function loadMetrics() {
@@ -604,14 +619,15 @@ function buildOrderRows(orders) {
     const refundCell = canRefund
       ? '<span class="badge badge-refundable">✓ Yes</span>'
       : '<span style="color:var(--ink-muted);font-size:12px;">—</span>';
+    const dateIso = o.paid_at || o.created_at;
     return `<tr>
-      <td class="mono">${fmtDate(o.paid_at || o.created_at)}</td>
-      <td><div class="email-cell" title="${o.buyer_email || ''}">${o.buyer_email || '<span style="color:var(--ink-muted)">—</span>'}</div></td>
+      <td class="mono" style="white-space:nowrap;"><span class="d-full">${fmtDate(dateIso)}</span><span class="d-short">${fmtDateShort(dateIso)}</span></td>
+      <td class="col-buyer"><div class="email-cell" title="${o.buyer_email || ''}">${o.buyer_email || '<span style="color:var(--ink-muted)">—</span>'}</div></td>
       <td title="${slug}">${product}</td>
       <td class="col-type">${typeLabel(o.order_type)}</td>
       <td class="mono" style="font-weight:600;">${o.amount_paise ? fmtFull(o.amount_paise) : '—'}</td>
       <td><span class="badge ${statusClass}">${o.status}</span></td>
-      <td>${refundCell}</td>
+      <td class="col-refundable">${refundCell}</td>
     </tr>`;
   }).join('');
 }
