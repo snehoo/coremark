@@ -615,7 +615,7 @@ function buildOrderRows(orders) {
     const statusClass = { paid:'badge-paid', pending:'badge-pending', refunded:'badge-refunded', failed:'badge-failed' }[o.status] || '';
     const slug    = o.primary_slug || '—';
     const product = slug.split('-').slice(2, -1).map(cap).join(' ') || slug;
-    const canRefund = o.status === 'paid' && o.paid_at && (now - new Date(o.paid_at).getTime()) < 180 * 86400 * 1000;
+    const canRefund = o.status === 'paid' && o.paid_at && (now - new Date(o.paid_at).getTime()) < 7 * 86400 * 1000;
     const refundCell = canRefund
       ? '<span class="badge badge-refundable">✓ Yes</span>'
       : '<span style="color:var(--ink-muted);font-size:12px;">—</span>';
