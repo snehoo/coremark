@@ -169,6 +169,15 @@ img{max-width:100%;display:block;}
 .nav-links a:hover{color:var(--ink);}
 .nav-cta{background:var(--ink);color:#fff;padding:11px 22px;border-radius:999px;font-size:15px;font-weight:700;text-decoration:none;}
 .nav-cta:hover{background:var(--blue);}
+/* MOBILE MENU */
+.hamburger{display:none;background:none;border:none;cursor:pointer;padding:6px;color:var(--ink);flex-shrink:0;}
+.hamburger svg{display:block;}
+.mobile-menu{display:none;position:fixed;top:65px;left:0;right:0;background:var(--cream);border-bottom:1px solid var(--border);z-index:49;padding:8px 0 16px;box-shadow:0 8px 24px rgba(0,0,0,0.08);}
+.mobile-menu a{display:block;padding:14px 24px;font-size:16px;font-weight:600;color:var(--ink-soft);text-decoration:none;border-bottom:1px solid var(--border-soft);}
+.mobile-menu a:last-child{border-bottom:none;}
+.mobile-menu a:hover{color:var(--ink);background:var(--mist);}
+.mobile-menu.open{display:block;}
+
 @media (max-width:860px){.nav-links{display:none;} .hamburger{display:flex;}}
 
 /* ===================== BREADCRUMB ===================== */
@@ -352,14 +361,6 @@ table.data-table tr:last-child td{border-bottom:0;}
   .stat-strip{flex-direction:column;}
 }
 
-/* MOBILE MENU */
-.hamburger{display:none;background:none;border:none;cursor:pointer;padding:6px;color:var(--ink);flex-shrink:0;}
-.hamburger svg{display:block;}
-.mobile-menu{display:none;position:fixed;top:65px;left:0;right:0;background:var(--cream);border-bottom:1px solid var(--border);z-index:49;padding:8px 0 16px;box-shadow:0 8px 24px rgba(0,0,0,0.08);}
-.mobile-menu a{display:block;padding:14px 24px;font-size:16px;font-weight:600;color:var(--ink-soft);text-decoration:none;border-bottom:1px solid var(--border-soft);}
-.mobile-menu a:last-child{border-bottom:none;}
-.mobile-menu a:hover{color:var(--ink);background:var(--mist);}
-.mobile-menu.open{display:block;}
 </style>
 <!-- COREMARK-GA-START -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-B8K210VPRV"></script>

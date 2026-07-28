@@ -187,6 +187,15 @@ a{color:inherit;} img{max-width:100%;display:block;}
 .nav-links a:hover{color:var(--ink);}
 .nav-cta{background:var(--ink);color:#fff;padding:11px 22px;border-radius:999px;font-size:15px;font-weight:700;text-decoration:none;}
 .nav-cta:hover{background:var(--blue);}
+/* MOBILE MENU */
+.hamburger{display:none;background:none;border:none;cursor:pointer;padding:6px;color:var(--ink);flex-shrink:0;}
+.hamburger svg{display:block;}
+.mobile-menu{display:none;position:fixed;top:65px;left:0;right:0;background:var(--cream);border-bottom:1px solid var(--border);z-index:49;padding:8px 0 16px;box-shadow:0 8px 24px rgba(0,0,0,0.08);}
+.mobile-menu a{display:block;padding:14px 24px;font-size:16px;font-weight:600;color:var(--ink-soft);text-decoration:none;border-bottom:1px solid var(--border-soft);}
+.mobile-menu a:last-child{border-bottom:none;}
+.mobile-menu a:hover{color:var(--ink);background:var(--mist);}
+.mobile-menu.open{display:block;}
+
 @media (max-width:860px){.nav-links{display:none;} .hamburger{display:flex;}}
 .crumbs{max-width:760px;margin:28px auto 0;padding:0 24px;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.06em;color:var(--ink-muted);}
 .crumbs a{text-decoration:none;color:var(--ink-muted);}
@@ -331,14 +340,6 @@ table.data-table tr:last-child td{border-bottom:0;}
 .fbc-btn:hover{background:var(--blue);}
 @media(max-width:600px){.free-booster-card{flex-direction:column;gap:12px;}}
 
-/* MOBILE MENU */
-.hamburger{display:none;background:none;border:none;cursor:pointer;padding:6px;color:var(--ink);flex-shrink:0;}
-.hamburger svg{display:block;}
-.mobile-menu{display:none;position:fixed;top:65px;left:0;right:0;background:var(--cream);border-bottom:1px solid var(--border);z-index:49;padding:8px 0 16px;box-shadow:0 8px 24px rgba(0,0,0,0.08);}
-.mobile-menu a{display:block;padding:14px 24px;font-size:16px;font-weight:600;color:var(--ink-soft);text-decoration:none;border-bottom:1px solid var(--border-soft);}
-.mobile-menu a:last-child{border-bottom:none;}
-.mobile-menu a:hover{color:var(--ink);background:var(--mist);}
-.mobile-menu.open{display:block;}
 </style>
 <!-- COREMARK-TRACKING-START -->
 <link rel="preconnect" href="https://www.googletagmanager.com">
