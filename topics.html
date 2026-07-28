@@ -82,7 +82,16 @@ body{font-family:var(--font-sans);background:var(--cream);color:var(--ink);-webk
 .footer-min .fr a{color:var(--ink-muted);text-decoration:none;}
 .footer-min .fr a:hover{color:var(--ink);}
 @media(max-width:900px){.topic-grid{grid-template-columns:repeat(2,1fr);}.stat-strip{grid-template-columns:repeat(2,1fr);}}
-@media(max-width:600px){.page-hero{padding:56px 24px 52px;}.page-hero h1{font-size:32px;}.page-body{padding:48px 24px 80px;}.topic-grid{grid-template-columns:1fr;}.stat-strip{grid-template-columns:repeat(2,1fr);}.nav-inner{padding:0 20px;}.nav-links{display:none;}.footer-min{padding:24px;}.footer-min-inner{flex-direction:column;align-items:flex-start;gap:12px;}}
+@media(max-width:600px){.page-hero{padding:56px 24px 52px;}.page-hero h1{font-size:32px;}.page-body{padding:48px 24px 80px;}.topic-grid{grid-template-columns:1fr;}.stat-strip{grid-template-columns:repeat(2,1fr);}.nav-inner{padding:0 20px;}.nav-links{display:none;} .hamburger{display:flex;}.footer-min{padding:24px;}.footer-min-inner{flex-direction:column;align-items:flex-start;gap:12px;}}
+
+/* MOBILE MENU */
+.hamburger{display:none;background:none;border:none;cursor:pointer;padding:6px;color:var(--ink);flex-shrink:0;}
+.hamburger svg{display:block;}
+.mobile-menu{display:none;position:fixed;top:65px;left:0;right:0;background:var(--cream);border-bottom:1px solid var(--border);z-index:49;padding:8px 0 16px;box-shadow:0 8px 24px rgba(0,0,0,0.08);}
+.mobile-menu a{display:block;padding:14px 24px;font-size:16px;font-weight:600;color:var(--ink-soft);text-decoration:none;border-bottom:1px solid var(--border-soft);}
+.mobile-menu a:last-child{border-bottom:none;}
+.mobile-menu a:hover{color:var(--ink);background:var(--mist);}
+.mobile-menu.open{display:block;}
 </style>
 <!-- COREMARK-TRACKING-START -->
 <link rel="preconnect" href="https://www.googletagmanager.com">
@@ -127,8 +136,37 @@ src="https://www.facebook.com/tr?id=1921557135206596&ev=PageView&noscript=1"/></
       <a href="about.html">About</a>
     </div>
     <a href="/#pricing" class="nav-cta">Buy a booster</a>
+    <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect y="4" width="22" height="2" rx="1" fill="currentColor"/>
+        <rect y="10" width="22" height="2" rx="1" fill="currentColor"/>
+        <rect y="16" width="22" height="2" rx="1" fill="currentColor"/>
+      </svg>
+    </button>
   </div>
 </nav>
+<div class="mobile-menu" id="mobile-menu">
+  <a href="/math">Maths</a>
+  <a href="/science">Science</a>
+  <a href="/computing">Computing</a>
+  <a href="/blog/">Blog</a>
+  <a href="/about">About</a>
+  <a href="/#pricing" style="color:var(--blue);font-weight:700;">See Packs →</a>
+</div>
+<script>
+(function(){
+  var btn = document.getElementById('hamburger');
+  var menu = document.getElementById('mobile-menu');
+  if(!btn||!menu) return;
+  btn.addEventListener('click', function(){
+    var open = menu.classList.toggle('open');
+    btn.setAttribute('aria-expanded', open);
+  });
+  menu.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click', function(){ menu.classList.remove('open'); btn.setAttribute('aria-expanded','false'); });
+  });
+})();
+</script>
 
 <div class="page-hero">
   <div class="page-hero-inner">

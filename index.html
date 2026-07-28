@@ -303,9 +303,18 @@ a{color:inherit;}
 .footer-bottom a{color:var(--ink-muted);text-decoration:none;}
 .footer-bottom a:hover{color:var(--ink);}
 
+/* MOBILE MENU */
+.hamburger{display:none;background:none;border:none;cursor:pointer;padding:6px;color:var(--ink);flex-shrink:0;}
+.hamburger svg{display:block;}
+.mobile-menu{display:none;position:fixed;top:65px;left:0;right:0;background:var(--cream);border-bottom:1px solid var(--border);z-index:49;padding:8px 0 16px;box-shadow:0 8px 24px rgba(0,0,0,0.08);}
+.mobile-menu a{display:block;padding:14px 24px;font-size:16px;font-weight:600;color:var(--ink-soft);text-decoration:none;border-bottom:1px solid var(--border-soft);}
+.mobile-menu a:last-child{border-bottom:none;}
+.mobile-menu a:hover{color:var(--ink);background:var(--mist);}
+.mobile-menu.open{display:block;}
+
 /* RESPONSIVE */
 @media(max-width:980px){
-  .nav{padding:16px 20px;} .nav-links{display:none;}
+  .nav{padding:16px 20px;} .nav-links{display:none;} .hamburger{display:flex;}
   .hero{grid-template-columns:1fr;padding:40px 20px 60px;gap:40px;}
   .hero h1{font-size:46px;} .hero-visual{height:360px;}
   .section{padding:64px 20px;}
@@ -415,8 +424,37 @@ src="https://www.facebook.com/tr?id=1921557135206596&ev=PageView&noscript=1"/></
       <a href="/blog/">Blog</a>
     </div>
     <a href="#pricing" class="nav-cta">See Packs</a>
+    <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect y="4" width="22" height="2" rx="1" fill="currentColor"/>
+        <rect y="10" width="22" height="2" rx="1" fill="currentColor"/>
+        <rect y="16" width="22" height="2" rx="1" fill="currentColor"/>
+      </svg>
+    </button>
   </nav>
 </div>
+<div class="mobile-menu" id="mobile-menu">
+  <a href="/math">Maths</a>
+  <a href="/science">Science</a>
+  <a href="/computing">Computing</a>
+  <a href="#why">Why CoreMark</a>
+  <a href="#pricing">Pricing</a>
+  <a href="/blog/">Blog</a>
+  <a href="/about">About</a>
+</div>
+<script>
+(function(){
+  var btn = document.getElementById('hamburger');
+  var menu = document.getElementById('mobile-menu');
+  btn.addEventListener('click', function(){
+    var open = menu.classList.toggle('open');
+    btn.setAttribute('aria-expanded', open);
+  });
+  menu.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click', function(){ menu.classList.remove('open'); btn.setAttribute('aria-expanded','false'); });
+  });
+})();
+</script>
 
 <!-- HERO -->
 <section class="hero">
