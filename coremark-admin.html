@@ -352,7 +352,23 @@ html,body{height:100%;background:var(--cream);color:var(--ink);font-family:var(-
           </table>
         </div>
 
-        <!-- 3. DAILY REVENUE & ORDERS BY TYPE -->
+        <!-- 3. MONTHLY REVENUE CHART -->
+        <div class="sec-head">
+          <div class="sec-eye">Growth</div>
+          <div class="sec-title-row sec-title">
+            <span>Monthly Revenue</span>
+            <span id="mrr-delta" style="font-size:13px;font-weight:600;color:var(--green);"></span>
+          </div>
+        </div>
+        <div class="chart-card" style="margin-bottom:28px;">
+          <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:2px;">
+            <div class="chart-sub" id="mrr-sub">Revenue by month</div>
+            <div id="mrr-current" style="font-family:var(--font-mono);font-size:22px;font-weight:800;color:var(--blue);letter-spacing:-0.03em;">—</div>
+          </div>
+          <div class="chart-wrap" style="height:220px;"><canvas id="mrr-chart"></canvas></div>
+        </div>
+
+        <!-- 4. DAILY REVENUE & ORDERS BY TYPE -->
         <div class="sec-head">
           <div class="sec-eye">Trends</div>
           <div class="sec-title">Daily Revenue &amp; Orders by Type</div>
@@ -478,7 +494,7 @@ html,body{height:100%;background:var(--cream);color:var(--ink);font-family:var(-
         </div>
         <div class="stat-row">
           <div class="card">
-            <div class="card-title">Email Sequence</div>
+            <div class="card-title">Buyer Email Sequence</div>
             <div id="sequence-stats"><div class="empty">—</div></div>
           </div>
           <div class="card">
@@ -488,6 +504,22 @@ html,body{height:100%;background:var(--cream);color:var(--ink);font-family:var(-
           <div class="card">
             <div class="card-title">Buyers</div>
             <div id="buyers-stats"><div class="empty">—</div></div>
+          </div>
+        </div>
+
+        <!-- FREE FUNNEL TRACKER -->
+        <div class="sec-head" style="margin-top:8px;">
+          <div class="sec-eye">Brevo Automation</div>
+          <div class="sec-title">Free Funnel Email Sequence</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:28px;">
+          <div class="card">
+            <div class="card-title">Sequence Progress <span id="free-total-badge" style="font-family:var(--font-mono);font-size:11px;color:var(--ink-muted);font-weight:400;margin-left:6px;"></span></div>
+            <div id="free-funnel-steps"><div class="empty">—</div></div>
+          </div>
+          <div class="card">
+            <div class="card-title">Recent Signups</div>
+            <div id="free-funnel-recent"><div class="empty">—</div></div>
           </div>
         </div>
       </div>
@@ -514,6 +546,7 @@ let SECRET        = localStorage.getItem('cm_admin_secret') || '';
 let metricsData   = null;
 let revenueChart  = null;
 let typeChart     = null;
+let mrrChart      = null;
 let currentPage   = 'overview';
 let orderFilter   = 'all';
 let ordersCache   = {};
@@ -678,6 +711,81 @@ function renderOverview(d) {
   renderRevenueChart(d.daily);
   renderTypeChart(d.byType);
   renderFunnel(d.funnel);
+  renderMrrChart(d.monthly || []);
+}
+
+function renderMrrChart(monthly) {
+  const canvas = document.getElementById('mrr-chart');
+  if (!canvas) return;
+
+  // Fill missing months between first and today
+  const now = new Date();
+  const labels = [], values = [];
+  if (monthly.length) {
+    const start = new Date(monthly[0].month + '-01');
+    const cur = new Date(start);
+    const dataMap = {};
+    monthly.forEach(m => { dataMap[m.month] = m.revenuePaise; });
+    while (cur <= now) {
+      const key = cur.toISOString().slice(0,7);
+      labels.push(new Date(key + '-01').toLocaleDateString('en-IN', { month:'short', year:'2-digit' }));
+      values.push((dataMap[key] || 0) / 100);
+      cur.setMonth(cur.getMonth() + 1);
+    }
+  }
+
+  // Current month KPI
+  const thisMonth = now.toISOString().slice(0,7);
+  const thisEntry = monthly.find(m => m.month === thisMonth);
+  const lastEntry = monthly.find(m => m.month === new Date(now.getFullYear(), now.getMonth()-1, 1).toISOString().slice(0,7));
+  const thisRev = thisEntry ? thisEntry.revenuePaise : 0;
+  const lastRev = lastEntry ? lastEntry.revenuePaise : 0;
+  document.getElementById('mrr-current').textContent = fmtFull(thisRev);
+  const deltaEl = document.getElementById('mrr-delta');
+  if (lastRev > 0) {
+    const pct = Math.round((thisRev - lastRev) / lastRev * 100);
+    deltaEl.textContent = (pct >= 0 ? '▲ ' : '▼ ') + Math.abs(pct) + '% vs last month';
+    deltaEl.style.color = pct >= 0 ? 'var(--green)' : 'var(--red)';
+  } else {
+    deltaEl.textContent = '';
+  }
+  const sub = document.getElementById('mrr-sub');
+  if (sub) sub.textContent = monthly.length ? `${monthly.length} months of data` : 'Revenue by month';
+
+  if (mrrChart) mrrChart.destroy();
+  const ctx = canvas.getContext('2d');
+  const grad = ctx.createLinearGradient(0, 0, 0, 220);
+  grad.addColorStop(0, 'rgba(110,71,201,0.25)');
+  grad.addColorStop(1, 'rgba(110,71,201,0)');
+
+  mrrChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [{
+        data: values,
+        borderColor: '#6E47C9',
+        borderWidth: 2.5,
+        pointBackgroundColor: '#6E47C9',
+        pointRadius: values.length > 6 ? 3 : 5,
+        pointHoverRadius: 6,
+        tension: 0.4,
+        fill: true,
+        backgroundColor: grad,
+      }],
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: {
+        callbacks: { label: ctx => '₹' + ctx.parsed.y.toLocaleString('en-IN') }
+      }},
+      scales: {
+        x: { grid: { display: false }, ticks: { font: { size: 10 }, color: '#7A6A94' } },
+        y: { grid: { color: '#EAE3F5' }, ticks: { font: { size: 10 }, color: '#7A6A94',
+          callback: v => v >= 1000 ? '₹'+(v/1000).toFixed(0)+'K' : '₹'+v } },
+      },
+    },
+  });
 }
 
 function renderRevenueChart(daily) {
@@ -819,6 +927,68 @@ function renderHealth(d) {
     <div class="stat-item"><span class="stat-key">New last 30d</span><span class="stat-val">${d.buyers.last30}</span></div>
     <div class="stat-item"><span class="stat-key">Pending orders</span><span class="stat-val">${d.orders.pending}</span></div>
     <div class="stat-item"><span class="stat-key">Refunded</span><span class="stat-val">${d.orders.refunded}</span></div>`;
+
+  renderFreeFunnel(d.freeLeads || { count: 0, contacts: [] });
+}
+
+function renderFreeFunnel({ count, contacts }) {
+  const STEPS = [
+    { day: 0,  label: 'Email 1 — Welcome (Day 0)' },
+    { day: 2,  label: 'Email 2 — 3 Topics (Day 2)' },
+    { day: 5,  label: 'Email 3 — What Next (Day 5)' },
+    { day: 10, label: 'Email 4 — Checkpoint (Day 10)' },
+    { day: 18, label: 'Email 5 — Last note (Day 18)' },
+  ];
+
+  const badge = document.getElementById('free-total-badge');
+  if (badge) badge.textContent = count + ' total in Brevo';
+
+  const stepsEl = document.getElementById('free-funnel-steps');
+  if (!contacts.length) {
+    stepsEl.innerHTML = '<div class="empty">No Brevo data</div>';
+  } else {
+    const now = Date.now();
+    const stepCounts = STEPS.map(s => ({
+      ...s,
+      n: contacts.filter(c => {
+        const days = (now - new Date(c.createdAt).getTime()) / 86400000;
+        return days >= s.day;
+      }).length,
+    }));
+    const max = stepCounts[0].n || 1;
+    stepsEl.innerHTML = stepCounts.map(s => `
+      <div style="margin-bottom:14px;">
+        <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+          <span style="font-size:12px;color:var(--ink-soft);">${s.label}</span>
+          <span style="font-family:var(--font-mono);font-size:12px;font-weight:700;">${s.n}</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill" style="width:${Math.round(s.n/max*100)}%;background:${s.n===max?'var(--blue)':'var(--green)'}"></div></div>
+      </div>`).join('');
+  }
+
+  const recentEl = document.getElementById('free-funnel-recent');
+  if (!contacts.length) {
+    recentEl.innerHTML = '<div class="empty">No signups yet</div>';
+    return;
+  }
+  const now = Date.now();
+  const stepName = days => {
+    if (days >= 18) return '<span class="badge badge-paid">✓ Complete</span>';
+    if (days >= 10) return '<span class="badge badge-pending">Email 4</span>';
+    if (days >= 5)  return '<span class="badge badge-pending">Email 3</span>';
+    if (days >= 2)  return '<span class="badge badge-pending">Email 2</span>';
+    return '<span style="font-family:var(--font-mono);font-size:10px;color:var(--ink-muted);">Email 1</span>';
+  };
+  recentEl.innerHTML = `<table class="data-table"><thead><tr><th>Email</th><th>Signed up</th><th>Step</th></tr></thead><tbody>` +
+    contacts.slice(0, 10).map(c => {
+      const days = (now - new Date(c.createdAt).getTime()) / 86400000;
+      const email = c.email.length > 22 ? c.email.slice(0, 22) + '…' : c.email;
+      return `<tr>
+        <td class="mono" style="font-size:11px;" title="${c.email}">${email}</td>
+        <td style="font-size:11px;color:var(--ink-muted);">${fmtDateShort(c.createdAt)}</td>
+        <td>${stepName(days)}</td>
+      </tr>`;
+    }).join('') + `</tbody></table>`;
 }
 
 // ── Init ──────────────────────────────────────────────────

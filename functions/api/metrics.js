@@ -26,12 +26,27 @@ async function dbQuery(env, sql, params=[]) {
   return { rows, rowCount: data.rowCount ?? rows.length };
 }
 
+async function brevoFreeLeads(env) {
+  if (!env.BREVO_API_KEY) return { count: 0, contacts: [] };
+  try {
+    const res = await fetch('https://api.brevo.com/v3/contacts?listId=2&limit=100&sort=desc', {
+      headers: { 'api-key': env.BREVO_API_KEY, 'Accept': 'application/json' }
+    });
+    if (!res.ok) return { count: 0, contacts: [] };
+    const data = await res.json();
+    return {
+      count: data.count || 0,
+      contacts: (data.contacts || []).map(c => ({ email: c.email, createdAt: c.createdAt })),
+    };
+  } catch { return { count: 0, contacts: [] }; }
+}
+
 export async function onRequestGet({request,env}){
   if(request.headers.get('x-metrics-secret')!==env.METRICS_SECRET){
     return new Response('Unauthorized',{status:401,headers:CORS});
   }
   try {
-    const [rev,ord,buy,top,bySub,byStg,byTyp,daily,seq,fb,pages,funnel] = await Promise.all([
+    const [rev,ord,buy,top,bySub,byStg,byTyp,daily,seq,fb,pages,funnel,monthly,freeLeads] = await Promise.all([
       dbQuery(env,`SELECT COALESCE(SUM(amount_paise),0) AS total_paise,COALESCE(SUM(amount_paise)FILTER(WHERE paid_at>=NOW()-INTERVAL '30 days'),0) AS last30_paise,COALESCE(SUM(amount_paise)FILTER(WHERE paid_at>=NOW()-INTERVAL '7 days'),0) AS last7_paise,COALESCE(SUM(amount_paise)FILTER(WHERE paid_at>=CURRENT_DATE),0) AS today_paise FROM orders WHERE status='paid'`,[]),
       dbQuery(env,`SELECT COUNT(*) AS total,COUNT(*)FILTER(WHERE paid_at>=NOW()-INTERVAL '30 days') AS last30,COUNT(*)FILTER(WHERE paid_at>=NOW()-INTERVAL '7 days') AS last7,COUNT(*)FILTER(WHERE paid_at>=CURRENT_DATE) AS today,COUNT(*)FILTER(WHERE status='pending') AS pending,COUNT(*)FILTER(WHERE status='refunded') AS refunded FROM orders WHERE status IN('paid','pending','refunded')`,[]),
       dbQuery(env,`SELECT COUNT(*) AS total,COUNT(*)FILTER(WHERE created_at>=NOW()-INTERVAL '30 days') AS last30 FROM buyers`,[]),
@@ -44,6 +59,8 @@ export async function onRequestGet({request,env}){
       dbQuery(env,`SELECT COUNT(*) AS total,ROUND(AVG(rating),1) AS avg_rating,COUNT(*)FILTER(WHERE rating>=4) AS happy,COUNT(*)FILTER(WHERE rating=3) AS neutral,COUNT(*)FILTER(WHERE rating<=2) AS unhappy FROM feedback`,[]),
       dbQuery(env,`SELECT SPLIT_PART(path,'?',1) AS path,COUNT(*) AS views FROM pageviews WHERE viewed_at>=NOW()-INTERVAL '7 days' GROUP BY SPLIT_PART(path,'?',1) ORDER BY views DESC LIMIT 10`,[]),
       dbQuery(env,`SELECT COUNT(*) AS total,COUNT(*)FILTER(WHERE SPLIT_PART(path,'?',1)='/free') AS free_page,COUNT(*)FILTER(WHERE SPLIT_PART(path,'?',1)='/free-download') AS free_signups FROM pageviews WHERE viewed_at>=NOW()-INTERVAL '30 days'`,[]),
+      dbQuery(env,`SELECT TO_CHAR(DATE_TRUNC('month',paid_at),'YYYY-MM') AS month,COALESCE(SUM(amount_paise),0) AS revenue_paise,COUNT(*) AS orders FROM orders WHERE status='paid' GROUP BY DATE_TRUNC('month',paid_at) ORDER BY month ASC`,[]),
+      brevoFreeLeads(env),
     ]);
     const r=rev.rows[0], o=ord.rows[0], b=buy.rows[0], f=fb.rows[0];
     return new Response(JSON.stringify({
@@ -60,6 +77,8 @@ export async function onRequestGet({request,env}){
       feedback:{total:Number(f.total),avgRating:f.avg_rating?Number(f.avg_rating):null,happy:Number(f.happy),neutral:Number(f.neutral),unhappy:Number(f.unhappy)},
       topPages:pages.rows.map(x=>({path:x.path,views:Number(x.views)})),
       funnel:{visitors:Number(funnel.rows[0]?.total||0),freePage:Number(funnel.rows[0]?.free_page||0),freeSignups:Number(funnel.rows[0]?.free_signups||0),paid:Number(o.last30)},
+      monthly:monthly.rows.map(x=>({month:x.month,orders:Number(x.orders),revenuePaise:Number(x.revenue_paise)})),
+      freeLeads:{count:freeLeads.count,contacts:freeLeads.contacts},
     }),{status:200,headers:{'Content-Type':'application/json',...CORS}});
   } catch(e) {
     console.error('[metrics]',e.message);
