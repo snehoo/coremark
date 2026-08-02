@@ -65,12 +65,13 @@ export async function onRequestPost({request,env}){
   if(name==='payment.captured'){
     const p=payload.payment.entity,n=p.notes??{};
     const email=n.buyer_email??null,hash=email?await sha256(email):null;
+    const bname=n.buyer_name??null;
     const country=p.international?'International':'IN';
     const items=n.item_slugs?n.item_slugs.split(','):[];
     if(hash)await dbQuery(env,`INSERT INTO buyers(buyer_hash,country,order_count,total_paise)VALUES($1,$2,1,$3)ON CONFLICT(buyer_hash)DO UPDATE SET order_count=buyers.order_count+1,total_paise=buyers.total_paise+$3,updated_at=NOW()`,[hash,country,p.amount]);
-    const r=await dbQuery(env,`UPDATE orders SET razorpay_payment_id=$1,buyer_hash=$2,buyer_email=$3,status='paid',paid_at=NOW() WHERE razorpay_order_id=$4 AND status!='paid'`,[p.id,hash,email,p.order_id]);
-    if(!r.rowCount)await dbQuery(env,`INSERT INTO orders(razorpay_order_id,razorpay_payment_id,buyer_hash,buyer_email,order_type,primary_slug,item_slugs,amount_paise,currency,status,subject,stage,paid_at,source)VALUES($1,$2,$3,$4,$5,$6,$7::jsonb,$8,'INR','paid',$9,$10,NOW(),'web')ON CONFLICT(razorpay_order_id)DO UPDATE SET razorpay_payment_id=EXCLUDED.razorpay_payment_id,status='paid',paid_at=NOW()`,
-      [p.order_id,p.id,hash,email,n.order_type??'single',n.primary_slug??null,JSON.stringify(items),p.amount,n.subject??null,n.stage?parseInt(n.stage):null]);
+    const r=await dbQuery(env,`UPDATE orders SET razorpay_payment_id=$1,buyer_hash=$2,buyer_email=$3,buyer_name=COALESCE(orders.buyer_name,$4),status='paid',paid_at=NOW() WHERE razorpay_order_id=$5 AND status!='paid'`,[p.id,hash,email,bname,p.order_id]);
+    if(!r.rowCount)await dbQuery(env,`INSERT INTO orders(razorpay_order_id,razorpay_payment_id,buyer_hash,buyer_email,buyer_name,order_type,primary_slug,item_slugs,amount_paise,currency,status,subject,stage,paid_at,source)VALUES($1,$2,$3,$4,$5,$6,$7,$8::jsonb,$9,'INR','paid',$10,$11,NOW(),'web')ON CONFLICT(razorpay_order_id)DO UPDATE SET razorpay_payment_id=EXCLUDED.razorpay_payment_id,buyer_name=COALESCE(orders.buyer_name,EXCLUDED.buyer_name),status='paid',paid_at=NOW()`,
+      [p.order_id,p.id,hash,email,bname,n.order_type??'single',n.primary_slug??null,JSON.stringify(items),p.amount,n.subject??null,n.stage?parseInt(n.stage):null]);
     // Only when webhook is the first to mark this order paid (verify-payment hadn't fired)
     if(r.rowCount&&env.RESEND_API_KEY){
       const amountRs=Math.round(p.amount/100);
