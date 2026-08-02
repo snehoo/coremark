@@ -231,7 +231,11 @@ export async function onRequestPost({ request, env }) {
             body:    JSON.stringify({ to: email, orderTitle: title, orderType: rType, fileUrls, orderId: internalId }),
           });
           emailSent = emailRes.ok;
-          if (!emailRes.ok) console.warn('[send-email] non-OK:', await emailRes.text());
+          if (emailRes.ok) {
+            await dbQuery(env, `UPDATE orders SET delivery_email_sent=TRUE WHERE razorpay_order_id=$1`, [razorpayOrderId]).catch(()=>{});
+          } else {
+            console.warn('[send-email] non-OK:', await emailRes.text());
+          }
         } catch (e) {
           console.warn('[send-email]', e.message);
         }

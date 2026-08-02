@@ -93,6 +93,41 @@ async function processBatch(env, { selectSql, sendPath, nextStep, label }) {
 }
 
 async function run(env) {
+  // Delivery retry: paid orders where delivery email never sent (> 15 min old)
+  const missed = await dbQuery(env,
+    `SELECT id,buyer_email,buyer_name,order_type,primary_slug,item_slugs,subject,stage
+     FROM orders
+     WHERE status='paid' AND delivery_email_sent=FALSE
+       AND paid_at < NOW() - INTERVAL '15 minutes'
+       AND buyer_email IS NOT NULL
+     LIMIT 20`
+  );
+  for (const o of missed.rows) {
+    try {
+      const items = Array.isArray(o.item_slugs) ? o.item_slugs : JSON.parse(o.item_slugs || '[]');
+      const title = await resolveTitle(env, o.primary_slug, items);
+      const r = await fetch(`${BASE}/api/send-email`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          to: o.buyer_email, buyerName: o.buyer_name || null,
+          orderTitle: title, orderType: o.order_type,
+          subject: o.subject, stage: o.stage,
+          orderId: o.id, itemSlugs: items,
+        }),
+      });
+      if (r.ok) {
+        await dbQuery(env, `UPDATE orders SET delivery_email_sent=TRUE WHERE id=$1::uuid`, [o.id]);
+        console.log('[cron delivery-retry] sent to', o.buyer_email);
+      } else {
+        console.error('[cron delivery-retry] failed', o.id, r.status);
+      }
+    } catch (e) {
+      console.error('[cron delivery-retry]', o.id, e.message);
+    }
+    await new Promise(r => setTimeout(r, SEND_DELAY_MS));
+  }
+
   // Day 2: 48h after purchase, sequence_step 0 -> 1
   const day2 = await processBatch(env, {
     label:    'day2',

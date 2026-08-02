@@ -57,7 +57,8 @@ async function verifySig(rawBody,sig,secret){
   return crypto.subtle.verify('HMAC',key,bytes,new TextEncoder().encode(rawBody));
 }
 export async function onRequestGet(){return new Response('OK',{status:200});}
-export async function onRequestPost({request,env}){
+export async function onRequestPost(context){
+  const {request,env,waitUntil}=context;
   const raw=await request.text();const sig=request.headers.get('x-razorpay-signature')||'';
   if(env.RAZORPAY_WEBHOOK_SECRET){const v=await verifySig(raw,sig,env.RAZORPAY_WEBHOOK_SECRET);if(!v)return new Response('Unauthorized',{status:401});}
   let event;try{event=JSON.parse(raw);}catch{return new Response('Bad JSON',{status:400});}
@@ -80,26 +81,39 @@ export async function onRequestPost({request,env}){
       const origin=new URL(request.url).origin;
 
       // Buyer email — webhook fallback (verify-payment never completed)
+      // waitUntil keeps the Worker alive until both sends complete
+      const sends=[];
       if(email){
         const fileUrls=await getFileUrls(env,items,n.order_type??'single',n.primary_slug??null);
-        fetch(`${origin}/api/send-email`,{
-          method:'POST',
-          headers:{'Content-Type':'application/json'},
-          body:JSON.stringify({to:email,orderTitle:n.primary_slug||'Your Booster',orderType:n.order_type??'single',fileUrls,orderId:p.order_id}),
-        }).catch(e=>console.warn('[webhook-buyer-email]',e.message));
+        sends.push(
+          fetch(`${origin}/api/send-email`,{
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify({to:email,orderTitle:n.primary_slug||'Your Booster',orderType:n.order_type??'single',fileUrls,orderId:p.order_id}),
+          }).then(async res=>{
+            if(res.ok){
+              await dbQuery(env,`UPDATE orders SET delivery_email_sent=TRUE WHERE razorpay_order_id=$1`,[p.order_id]);
+            } else {
+              console.error('[webhook-buyer-email] non-OK',res.status,await res.text());
+            }
+          }).catch(e=>console.error('[webhook-buyer-email]',e.message))
+        );
       }
 
-      // Admin notification — send directly to Gmail to avoid Cloudflare routing hop
-      fetch('https://api.resend.com/emails',{
-        method:'POST',
-        headers:{'Authorization':`Bearer ${env.RESEND_API_KEY}`,'Content-Type':'application/json'},
-        body:JSON.stringify({
-          from:'CoreMark Sales <info@coremark.study>',
-          to:['snehalp@gmail.com'],
-          subject:`💰 New Sale [webhook] — ${typeLabel} — ₹${amountRs}`,
-          html:`<div style="font-family:Arial,sans-serif;max-width:480px;margin:20px auto;padding:24px;border:1px solid #EAE3F5;border-radius:12px;"><h2 style="color:#2A1B3D;margin:0 0 20px;font-size:18px;">New CoreMark Sale &#127881;</h2><p style="color:#7A6A94;font-size:13px;margin:0 0 16px;">(Confirmed via Razorpay webhook)</p><table style="width:100%;border-collapse:collapse;font-size:14px;"><tr><td style="padding:8px 0;color:#7A6A94;width:110px;">Type</td><td style="padding:8px 0;">${typeLabel}</td></tr><tr><td style="padding:8px 0;color:#7A6A94;">Amount</td><td style="padding:8px 0;font-weight:700;color:#059669;">&#8377;${amountRs}</td></tr><tr><td style="padding:8px 0;color:#7A6A94;">Buyer</td><td style="padding:8px 0;">${email||'&#8212;'}</td></tr><tr><td style="padding:8px 0;color:#7A6A94;">Payment</td><td style="padding:8px 0;font-family:monospace;font-size:12px;">${p.id}</td></tr></table></div>`,
-        }),
-      }).catch(e=>console.warn('[webhook-notify]',e.message));
+      // Admin notification
+      sends.push(
+        fetch('https://api.resend.com/emails',{
+          method:'POST',
+          headers:{'Authorization':`Bearer ${env.RESEND_API_KEY}`,'Content-Type':'application/json'},
+          body:JSON.stringify({
+            from:'CoreMark Sales <info@coremark.study>',
+            to:['snehalp@gmail.com'],
+            subject:`💰 New Sale [webhook] — ${typeLabel} — ₹${amountRs}`,
+            html:`<div style="font-family:Arial,sans-serif;max-width:480px;margin:20px auto;padding:24px;border:1px solid #EAE3F5;border-radius:12px;"><h2 style="color:#2A1B3D;margin:0 0 20px;font-size:18px;">New CoreMark Sale &#127881;</h2><p style="color:#7A6A94;font-size:13px;margin:0 0 16px;">(Confirmed via Razorpay webhook)</p><table style="width:100%;border-collapse:collapse;font-size:14px;"><tr><td style="padding:8px 0;color:#7A6A94;width:110px;">Type</td><td style="padding:8px 0;">${typeLabel}</td></tr><tr><td style="padding:8px 0;color:#7A6A94;">Amount</td><td style="padding:8px 0;font-weight:700;color:#059669;">&#8377;${amountRs}</td></tr><tr><td style="padding:8px 0;color:#7A6A94;">Buyer</td><td style="padding:8px 0;">${email||'&#8212;'}</td></tr><tr><td style="padding:8px 0;color:#7A6A94;">Payment</td><td style="padding:8px 0;font-family:monospace;font-size:12px;">${p.id}</td></tr></table></div>`,
+          }),
+        }).catch(e=>console.error('[webhook-notify]',e.message))
+      );
+      waitUntil(Promise.all(sends));
     }
   }
   if(name==='payment.failed'){const p=payload.payment.entity;await dbQuery(env,`UPDATE orders SET status='failed' WHERE razorpay_order_id=$1 AND status='pending'`,[p.order_id]);}
