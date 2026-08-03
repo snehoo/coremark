@@ -90,11 +90,28 @@ Never use these words/phrases in any content:
 - **EXP-3 (2026-07-maths-boost)** — shipped 2026-07-20, review 2026-08-14. /math title
   rewritten to "Cambridge Lower Secondary Maths Boosters | CoreMark" (matching GSC query
   "maths booster"); 3 FAQ items added; contextual prose links from 2 maths blog posts.
-  Pending PR merge. Metric: /math position move from 19.5 toward <15, and/or CTR lift.
+  Metric: /math position move from 19.5 toward <15, and/or CTR lift.
 - **EXP-4 (2026-07-science-boost)** — shipped 2026-07-20, review 2026-08-14. /science title
   rewritten to "Cambridge Lower Secondary Science Boosters | CoreMark"; 3 FAQ items added;
-  contextual prose links from 2 science blog posts. Pending PR merge.
+  contextual prose links from 2 science blog posts.
   Metric: /science position consolidation below 10, CTR maintenance.
+- **EXP-ADS-002 (2026-07-phrase-match-trim)** — review 2026-07-30.
+  Phrase match keyword trimming in Google Ads CoreMark campaign. See ads-backlog.md.
+- **EXP-KA-CURRICULUM (2026-08-03)** — shipped 2026-08-03, review 2026-08-17.
+  GSC showed "khan academy cambridge curriculum" at position 4.5 (page 1!) but 0 clicks —
+  the blog post title and H1 said "Maths" not "curriculum". Fixed title and H1 of
+  blog/does-khan-academy-cover-cambridge-lower-secondary.html to include "curriculum".
+  Metric: CTR lift on this post from 0% → any clicks; position should hold at 4.5 or improve.
+- **EXP-SME-TABLE (2026-08-03)** — shipped 2026-08-03, review 2026-08-17.
+  save-my-exams-cambridge-lower-secondary.html at pos 12.5 (28 impressions, 0 clicks).
+  Added 6-row side-by-side comparison table (SME scope vs CLS 0862/0893/0860 needs) and
+  renamed H2 to name Save My Exams explicitly. Targeting featured snippet for "save my exams
+  cambridge lower secondary". Metric: impressions hold or grow, 1+ click, position <10.
+- **EXP-SCI-NAMED (2026-08-03)** — shipped 2026-08-03, review 2026-08-17.
+  best-cambridge-checkpoint-science-resources.html at pos 12.5 (26 impressions, 0 clicks).
+  Renamed H2 from vague "The four resource types" to named resources (textbooks, past papers,
+  Khan Academy, CoreMark). Expanded comparison table from 4 generic rows to 6 named resources
+  each with a Cambridge-0893-aligned column. Metric: position <10, 1+ click.
 
 ---
 
@@ -202,3 +219,15 @@ at cycle 3), Tactic Scoreboard and Exhausted Hypotheses sections added to this f
 updated to incorporate v2 procedures (verifier sub-agent, resumable state, bounded attempts,
 meta-loop check). SOP reference path updated to
 /Users/snehoomac/snehoo/AI/MD-other/seo-loop-sops 2/SEO-LOOP-SOP-v2.md.
+2026-08-03 — Run 5 (SOP v3). GSC 28d window: 2026-07-06 to 2026-08-02 vs prior 2026-06-08
+to 2026-07-05. Notable findings: (1) "khan academy cambridge curriculum" ranking pos 4.5 with
+0 clicks — title mismatch ("Maths" not "curriculum") → fixed title/H1. (2) save-my-exams
+and science-resources both at pos 12.5 with 26–28 impressions and 0 clicks — added named
+comparison tables to both. (3) Placeholder text ("Placeholder image — swap for licensed photo")
+was live in 31 blog posts — removed across all. (4) Mobile hamburger nav added to all 40 pages
+(all blog posts + main pages) in two commits. (5) /topics.html (88 topics, ItemList JSON-LD)
+and /for-parents.html (parent guide, FAQPage schema) created and submitted to sitemap.
+(6) Homepage checkpoint explainer section removed. (7) Title/H1/meta rewrites on math.html,
+science.html, computing.html, does-khan-academy post, save-my-exams post, science-resources post.
+3 new experiments registered: EXP-KA-CURRICULUM, EXP-SME-TABLE, EXP-SCI-NAMED.
+Review date for all three: 2026-08-17.
