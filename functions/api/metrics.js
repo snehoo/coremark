@@ -58,7 +58,7 @@ export async function onRequestGet({request,env}){
       dbQuery(env,`SELECT sequence_step,COUNT(*) AS orders FROM orders WHERE status='paid' GROUP BY sequence_step ORDER BY sequence_step`,[]),
       dbQuery(env,`SELECT COUNT(*) AS total,ROUND(AVG(rating),1) AS avg_rating,COUNT(*)FILTER(WHERE rating>=4) AS happy,COUNT(*)FILTER(WHERE rating=3) AS neutral,COUNT(*)FILTER(WHERE rating<=2) AS unhappy FROM feedback`,[]),
       dbQuery(env,`SELECT SPLIT_PART(path,'?',1) AS path,COUNT(*) AS views FROM pageviews WHERE viewed_at>=NOW()-INTERVAL '7 days' GROUP BY SPLIT_PART(path,'?',1) ORDER BY views DESC LIMIT 10`,[]),
-      dbQuery(env,`SELECT COUNT(*) AS total,COUNT(*)FILTER(WHERE SPLIT_PART(path,'?',1)='/free') AS free_page,COUNT(*)FILTER(WHERE SPLIT_PART(path,'?',1)='/free-download') AS free_signups FROM pageviews WHERE viewed_at>=NOW()-INTERVAL '30 days'`,[]),
+      dbQuery(env,`SELECT COUNT(*) AS total,COUNT(*)FILTER(WHERE SPLIT_PART(path,'?',1)='/free') AS free_page,COUNT(*)FILTER(WHERE SPLIT_PART(path,'?',1)='/free-download') AS free_signups,COUNT(*)FILTER(WHERE path LIKE '/free%' AND path LIKE '%utm_source=ig%') AS free_ig,COUNT(*)FILTER(WHERE path LIKE '/free%' AND (path LIKE '%gclid%' OR path LIKE '%utm_source=google%' OR path LIKE '%utm_source=ads%')) AS free_google FROM pageviews WHERE viewed_at>=NOW()-INTERVAL '30 days'`,[]),
       dbQuery(env,`SELECT TO_CHAR(DATE_TRUNC('month',paid_at),'YYYY-MM') AS month,COALESCE(SUM(amount_paise),0) AS revenue_paise,COUNT(*) AS orders FROM orders WHERE status='paid' GROUP BY DATE_TRUNC('month',paid_at) ORDER BY month ASC`,[]),
       brevoFreeLeads(env),
     ]);
@@ -76,7 +76,7 @@ export async function onRequestGet({request,env}){
       sequence:seq.rows.map(x=>({step:Number(x.sequence_step),orders:Number(x.orders)})),
       feedback:{total:Number(f.total),avgRating:f.avg_rating?Number(f.avg_rating):null,happy:Number(f.happy),neutral:Number(f.neutral),unhappy:Number(f.unhappy)},
       topPages:pages.rows.map(x=>({path:x.path,views:Number(x.views)})),
-      funnel:{visitors:Number(funnel.rows[0]?.total||0),freePage:Number(funnel.rows[0]?.free_page||0),freeSignups:Number(funnel.rows[0]?.free_signups||0),paid:Number(o.last30)},
+      funnel:{visitors:Number(funnel.rows[0]?.total||0),freePage:Number(funnel.rows[0]?.free_page||0),freeSignups:Number(funnel.rows[0]?.free_signups||0),paid:Number(o.last30),freeIg:Number(funnel.rows[0]?.free_ig||0),freeGoogle:Number(funnel.rows[0]?.free_google||0)},
       monthly:monthly.rows.map(x=>({month:x.month,orders:Number(x.orders),revenuePaise:Number(x.revenue_paise)})),
       freeLeads:{count:freeLeads.count,contacts:freeLeads.contacts},
     }),{status:200,headers:{'Content-Type':'application/json',...CORS}});
