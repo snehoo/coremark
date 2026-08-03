@@ -92,7 +92,59 @@ async function processBatch(env, { selectSql, sendPath, nextStep, label }) {
   return { sent, failed };
 }
 
+async function sendAbandonedCheckoutEmail(env, order) {
+  const typeMap = { single:'Single Booster', fivepack:'5-Pack Bundle', subject:'Subject Bundle', stage:'Stage Bundle' };
+  const typeLabel = typeMap[order.order_type] || order.order_type || 'order';
+  const firstName = order.buyer_name ? order.buyer_name.split(' ')[0] : null;
+  const greeting = firstName ? `Hi ${firstName}` : 'Hi';
+
+  const res = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: { 'Authorization': `Bearer ${env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      from: 'CoreMark <info@coremark.study>',
+      to:   [order.buyer_email],
+      subject: 'Did something go wrong at checkout?',
+      html: `<div style="font-family:Arial,sans-serif;max-width:480px;margin:20px auto;font-size:15px;color:#2A1B3D;line-height:1.7;">
+<p>${greeting},</p>
+<p>You started a checkout for a <strong>${typeLabel}</strong> on CoreMark but the payment didn't go through.</p>
+<p>If a UPI app timed out or something went wrong, you can try again here:<br>
+<a href="https://coremark.study" style="color:#6E47C9;font-weight:600;">coremark.study</a></p>
+<p>If you have any questions before purchasing, just reply to this email.</p>
+<p>Snehal<br>CoreMark</p>
+</div>`,
+    }),
+  });
+  return res.ok;
+}
+
 async function run(env) {
+  // Abandoned checkout: pending orders > 1h old, recovery email not yet sent
+  const abandoned = await dbQuery(env,
+    `SELECT id,buyer_email,buyer_name,order_type,primary_slug,razorpay_order_id
+     FROM orders
+     WHERE status='pending'
+       AND created_at < NOW() - INTERVAL '1 hour'
+       AND created_at > NOW() - INTERVAL '24 hours'
+       AND buyer_email IS NOT NULL
+       AND abandoned_email_sent IS NOT TRUE
+     LIMIT 20`
+  );
+  let abandonedSent = 0;
+  for (const o of abandoned.rows) {
+    try {
+      const ok = await sendAbandonedCheckoutEmail(env, o);
+      if (ok) {
+        await dbQuery(env, `UPDATE orders SET abandoned_email_sent=TRUE WHERE id=$1::uuid`, [o.id]);
+        abandonedSent++;
+        console.log('[cron abandoned] sent to', o.buyer_email);
+      }
+    } catch (e) {
+      console.error('[cron abandoned]', o.id, e.message);
+    }
+    await new Promise(r => setTimeout(r, SEND_DELAY_MS));
+  }
+
   // Delivery retry: paid orders where delivery email never sent (> 15 min old)
   const missed = await dbQuery(env,
     `SELECT id,buyer_email,buyer_name,order_type,primary_slug,item_slugs,subject,stage
@@ -155,8 +207,8 @@ async function run(env) {
   });
 
   // Counts land in the Cloudflare Functions log so you can confirm runs.
-  console.log('[cron] done', JSON.stringify({ day2, day7 }));
-  return { day2, day7 };
+  console.log('[cron] done', JSON.stringify({ abandonedSent, day2, day7 }));
+  return { abandonedSent, day2, day7 };
 }
 
 // ── HTTP handler — what cron-job.org actually calls ──────────────────────────
