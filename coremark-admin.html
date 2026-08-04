@@ -672,7 +672,7 @@ async function loadOverviewOrders() {
   const tbody = document.getElementById('ov-orders-tbody');
   if (!tbody) return;
   try {
-    const res = await fetch('/api/orders?limit=20', { headers: { 'x-metrics-secret': SECRET } });
+    const res = await fetch('/api/orders?limit=5', { headers: { 'x-metrics-secret': SECRET } });
     if (!res.ok) throw new Error('API error');
     const data = await res.json();
     const rows = buildOrderRows(data.orders || []);
@@ -710,7 +710,7 @@ function renderFunnel(f) {
 
 // ── Overview ──────────────────────────────────────────────
 function renderOverview(d) {
-  document.getElementById('kpi-total-rev').textContent  = fmtFull(d.revenue.totalPaise);
+  document.getElementById('kpi-total-rev').textContent  = fmt(d.revenue.totalPaise);
   document.getElementById('kpi-total-sub').textContent  = d.orders.total + ' orders · ' + d.buyers.total + ' buyers';
   document.getElementById('kpi-30-rev').textContent     = fmt(d.revenue.last30Paise);
   document.getElementById('kpi-30-sub').textContent     = d.orders.last30 + ' orders';
