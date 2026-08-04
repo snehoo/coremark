@@ -57,11 +57,49 @@ A free Stage 8 Algebra booster is available at https://coremark.study/free — n
 
 ## Key Blog Posts
 
+### Understanding Cambridge Lower Secondary
 - [Cambridge Checkpoint Explained](https://coremark.study/blog/cambridge-checkpoint-explained-parent-guide): What the Cambridge Lower Secondary Checkpoint is and how it works
+- [What Is Cambridge Lower Secondary Checkpoint](https://coremark.study/blog/what-is-cambridge-lower-secondary-checkpoint): Parent guide to the assessment structure
 - [Cambridge Lower Secondary Stages Explained](https://coremark.study/blog/cambridge-lower-secondary-stages-explained): What Stage 7, 8 and 9 mean and which one your child is in
-- [Past Papers vs Topic Boosters](https://coremark.study/blog/cambridge-checkpoint-past-papers-vs-topic-boosters): How to choose the right revision approach
-- [Cambridge Maths Topics That Cost Marks](https://coremark.study/blog/cambridge-maths-topics-that-cost-marks): The highest-value topics to focus revision on
 - [Cambridge Checkpoint Score Explained](https://coremark.study/blog/cambridge-checkpoint-score-explained): How the scoring scale works and what the bands mean
+- [Cambridge Lower Secondary vs IGCSE](https://coremark.study/blog/cambridge-lower-secondary-vs-igcse): How CLS fits into the broader Cambridge pathway
+- [Stage 7: What to Expect](https://coremark.study/blog/cambridge-lower-secondary-stage-7-what-to-expect): Entry-point guide for parents new to CLS
+
+### Revision Strategy
+- [Past Papers vs Topic Boosters](https://coremark.study/blog/cambridge-checkpoint-past-papers-vs-topic-boosters): How to choose the right revision approach
+- [Cambridge Checkpoint Past Papers: Where to Find Them](https://coremark.study/blog/cambridge-checkpoint-past-papers-where-to-find-them): Official and unofficial sources compared
+- [How to Study Cambridge Lower Secondary Maths Stage 8](https://coremark.study/blog/how-to-study-cambridge-lower-secondary-maths-stage-8): A structured home-study plan
+
+### Mathematics Help
+- [Cambridge Maths Topics That Cost Marks](https://coremark.study/blog/cambridge-maths-topics-that-cost-marks): The highest-value topics to focus revision on
+- [Why My Child Keeps Getting Fractions Wrong](https://coremark.study/blog/why-child-keeps-getting-fractions-wrong): Common misconceptions and how to fix them
+- [Percentages and Ratio Word Problems at Home](https://coremark.study/blog/percentages-ratio-word-problems-at-home): Practical strategies for parents
+- [Why Geometry and Angle Problems Get Harder](https://coremark.study/blog/why-geometry-angle-problems-get-harder): Stage-by-stage difficulty curve explained
+- [Child Can't Understand Algebra](https://coremark.study/blog/child-cant-understand-algebra): How to rebuild algebra foundations at home
+- [Child Falling Behind Cambridge Maths: What Works](https://coremark.study/blog/child-falling-behind-cambridge-maths-what-works): Evidence-based catch-up strategies
+
+### Science Help
+- [Cambridge Checkpoint Science Help for Non-Expert Parents](https://coremark.study/blog/cambridge-checkpoint-science-help-non-expert-parent): How to support science revision without a science background
+- [Child Mixes Up Photosynthesis, Respiration, and Breathing](https://coremark.study/blog/child-mixes-up-photosynthesis-respiration-breathing): Clear explanations for confused students
+- [Why Chemical Reactions and Rates Don't Make Sense](https://coremark.study/blog/why-chemical-reactions-rates-dont-make-sense): Breaking down the hardest Chemistry topics
+- [Why Forces and Energy Physics Calculations Trip Kids Up](https://coremark.study/blog/why-forces-energy-physics-calculations-trip-kids-up): Common errors and how to prevent them
+- [How to Revise Science Definitions So They Stick](https://coremark.study/blog/how-to-revise-science-definitions-so-they-stick): Memory strategies for Biology, Chemistry, Physics
+
+### Computing Help
+- [Child Understands Logic But Can't Write Python Code](https://coremark.study/blog/child-understands-logic-cant-write-python-code): Bridging the gap between thinking and coding
+- [Pseudocode and Flowcharts Are Harder Than They Look](https://coremark.study/blog/pseudocode-flowcharts-harder-than-they-look): Why students struggle and how to practise
+- [Why Child Freezes on Networks and Computer Systems](https://coremark.study/blog/why-child-freezes-on-networks-computer-systems): Making abstract Computing topics concrete
+- [Databases and Spreadsheets: The Overlooked Topics](https://coremark.study/blog/databases-spreadsheets-modelling-overlooked-topics): Often neglected, frequently tested
+
+### Best Resources Guides (Buying-Intent)
+- [Best Cambridge Checkpoint Maths Resources: Stage 7](https://coremark.study/blog/best-cambridge-checkpoint-stage-7-maths-resources): Comparison of all available Stage 7 Maths practice materials
+- [Best Cambridge Checkpoint Maths Resources: Stage 8](https://coremark.study/blog/best-cambridge-checkpoint-stage-8-maths-resources): Comparison of all available Stage 8 Maths practice materials
+- [Best Cambridge Checkpoint Maths Resources: Stage 9](https://coremark.study/blog/best-cambridge-checkpoint-stage-9-maths-resources): Comparison of all available Stage 9 Maths practice materials
+- [Best Cambridge Checkpoint Science Resources](https://coremark.study/blog/best-cambridge-checkpoint-science-resources): What to use for Biology, Chemistry and Physics revision
+- [Best Cambridge Checkpoint Computing Resources](https://coremark.study/blog/best-cambridge-checkpoint-computing-resources): Top practice resources for CLS Computing
+- [Best Cambridge Lower Secondary Practice Resources in India](https://coremark.study/blog/best-cambridge-lower-secondary-practice-resources-india): India-specific guide to CLS revision materials
+
+### Platform Comparisons
 - [Does Khan Academy Cover Cambridge Lower Secondary?](https://coremark.study/blog/does-khan-academy-cover-cambridge-lower-secondary): Comparison of free platforms vs CoreMark
 - [Save My Exams and Cambridge Lower Secondary](https://coremark.study/blog/save-my-exams-cambridge-lower-secondary): What Save My Exams covers and where it falls short for CLS students
 

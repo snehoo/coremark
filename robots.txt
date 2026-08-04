@@ -1,5 +1,13 @@
 User-agent: *
 Allow: /
+Disallow: /checkout.html
+Disallow: /checkout
+Disallow: /delivery.html
+Disallow: /delivery
+Disallow: /coremark-admin.html
+Disallow: /api/
+Disallow: /blog/coremark-blog-template
+Disallow: /blog/coremark-blog-template.html
 
 User-agent: GPTBot
 Allow: /
@@ -13,6 +21,9 @@ Allow: /
 User-agent: ClaudeBot
 Allow: /
 
+User-agent: Anthropic-AI
+Allow: /
+
 User-agent: PerplexityBot
 Allow: /
 
@@ -22,13 +33,10 @@ Allow: /
 User-agent: Googlebot
 Allow: /
 
-Disallow: /checkout.html
-Disallow: /checkout
-Disallow: /delivery.html
-Disallow: /delivery
-Disallow: /coremark-admin.html
-Disallow: /api/
-Disallow: /blog/coremark-blog-template
-Disallow: /blog/coremark-blog-template.html
+User-agent: CCBot
+Allow: /
+
+User-agent: Bytespider
+Allow: /
 
 Sitemap: https://coremark.study/sitemap.xml
