@@ -96,24 +96,36 @@ anonymised bucket (queries too rare to attribute).
   checkpoint?", "How can I prepare for Cambridge checkpoint?", "Where can I get
   Cambridge checkpoint past papers?"
 
-## OPEN ISSUE — outdated Checkpoint scoring scale
+## RESOLVED — outdated Checkpoint scoring scale (commit `a953317`)
 
 Cambridge's own help centre states: *"From the May 2023 Cambridge Checkpoint
 series, all Lower Secondary Checkpoint reports will show a score on a 0 to 50
 scale (rather than a score on the legacy [0.0–6.0] scale)."*
 
-13 pages still assert the retired 0–6 scale, including the homepage hero stat
-and the FAQ schema answers. The "below 4.0 in a strand" threshold is also the
-site's core sales argument. Not changed pending a decision — it touches the PDF
-parent guides and Google Ads copy too, not just the website.
+Band table (`help.cambridgeinternational.org/hc/en-gb/articles/31495563008530`):
 
-Affected: `index.html`, `for-parents.html`, `results.html`, `science.html`,
-`blog/cambridge-checkpoint-score-explained.html`,
-`blog/what-is-cambridge-lower-secondary-checkpoint.html`,
-`blog/how-to-improve-cambridge-checkpoint-score.html`,
-`blog/cambridge-checkpoint-explained-parent-guide.html`,
-`blog/cambridge-checkpoint-science-help-non-expert-parent.html`,
-`blog/best-cambridge-checkpoint-stage-8-maths-resources.html`,
-`blog/best-cambridge-checkpoint-stage-9-maths-resources.html`,
-`blog/best-cambridge-lower-secondary-resources-india.html`,
-`blog/cambridge-lower-secondary-computing-guide.html`
+| Score /50 | Band |
+|---|---|
+| 0 | Unclassified |
+| 1–10 | Basic |
+| 11–20 | Aspiring |
+| 21–30 | Good |
+| 31–40 | High |
+| 41–50 | Outstanding |
+
+All 16 affected pages corrected. The "below 4.0 in a strand" sales hook is now
+"a strand sitting in the Basic or Aspiring band" — no linear conversion was
+attempted, because the two scales are Rasch-graded and not proportional.
+
+Two unverifiable claims were also removed: that 4.0 is "considered
+age-appropriate by CAIE", and a six-band scheme (Early/Developing/Building/
+Secure/Strong/Advanced) attributed to Cambridge that is not their terminology.
+
+**Still outstanding (not website):** the booster PDF parent guides and any
+Google Ads copy referencing the 4.0 threshold.
+
+This is also a ranking factor, not just an accuracy one — for "cambridge
+checkpoint score" Cambridge's own pages rank 1st and 5th stating 0–50, and our
+snippet said "A score of 4.5…". Contradicting the top-ranked authority on a
+factual query is a plausible reason for 24 impressions at position 6.9 with
+zero clicks. Watch this page specifically on 2026-08-24.
