@@ -8,6 +8,8 @@ Disallow: /coremark-admin.html
 Disallow: /api/
 Disallow: /blog/coremark-blog-template
 Disallow: /blog/coremark-blog-template.html
+Disallow: /index-old
+Disallow: /index-old.html
 
 User-agent: GPTBot
 Allow: /
