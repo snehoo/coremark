@@ -33,6 +33,11 @@ as directional, not statistically confident. Revisit statistical rigor once clic
 | Run date | Cycle | Experiments shipped | Wins | Losses | Inconclusive | Clicks 28d | Δ vs baseline | Kill-switch? |
 |----------|-------|---------------------|------|--------|--------------|------------|---------------|--------------|
 | 2026-07-14 | 1 | 2 (canonical/sitemap fix; computing.html CTR) | 0 | 0 | 0 | 6 | baseline | OK |
+| 2026-07-20 | out-of-band | 2 (EXP-3 math title/FAQ; EXP-4 science title/FAQ) | 0 | 0 | 0 | — | — | OK |
+| 2026-08-03 | out-of-band ("Run 5") | 3 (EXP-KA-CURRICULUM, EXP-SME-TABLE, EXP-SCI-NAMED) + placeholder-text cleanup, mobile nav, /topics, /for-parents | 0 | 0 | 0 | — | — | OK |
+| 2026-08-05 | out-of-band ("Run 6") | 0 registered (2 new blog posts, homepage GEO block, FAQPage→inline microdata migration sitewide) | — | — | — | — | — | OK |
+| 2026-08-10/11/13 | out-of-band (unlogged in this file until now) | 0 registered (major GSC audit: 173 dead links removed, 143 dupe .html links fixed, 25 truncated meta descriptions rewritten, retired 0.0–6.0 scoring scale corrected on 16 pages, new baseline set — see SEO-BASELINE-2026-08-10.md; 1 new blog post) | — | — | — | 26 (3mo) | new baseline, re-measure 2026-08-24 | OK |
+| 2026-08-15 | 2 (formal loop counter) | 2 (EXP-CKPT-MARKING, EXP-CKPT-SCORE) | 1 (EXP-1) | 0 | 4 (EXP-2, EXP-3, EXP-4, EXP-KA-CURRICULUM — all superseded by later out-of-band rewrites before a clean read) | 27 | ramping (see note) | OK |
 
 ---
 
@@ -54,6 +59,32 @@ as directional, not statistically confident. Revisit statistical rigor once clic
   zero clicks (computing.html, position 4.6, 0/11 CTR) rather than force 4 experiments out of
   noise. Lesson: don't pad a cycle with speculative experiments just to hit the playbook's
   suggested count — attribution discipline matters more than experiment count when data is thin.
+- 2026-08-15 — Fresh GSC pull surfaced the single biggest CTR gap seen in this loop so far
+  on a page (cambridge-checkpoint-marking-explained.html, 192 impressions/28d at position 5.0
+  but 1.0% CTR) purely from a title/meta over-length bug: title 83 chars, meta description
+  227 chars, both far past Google's SERP truncation limits. Lesson: add a length check to the
+  writing-quality checklist enforcement, not just a static limit stated in the SOP — a page can
+  ship with title/meta well past the stated 60/155 char limits without anyone catching it if no
+  step actually counts characters. This run's verifier sub-agent caught it by literally counting
+  chars in the diff; earlier cycles evidently did not.
+- 2026-08-15 — Found a worse version of the same gap: cambridge-checkpoint-score-explained.html
+  had its `<title>` and meta description correctly updated to describe the current Cambridge
+  Checkpoint 0–50 scale (in commit a953317, 2026-08-10), but the page's H1, takeaway box,
+  comparison table, strand section, and both FAQ blocks (inline HTML *and* a separate FAQPage
+  JSON-LD block) still described the retired 0.0–6.0 scale in detail, using "4.5" as the running
+  example throughout — a direct, page-internal self-contradiction, and a direct contradiction of
+  Cambridge's own top-ranking pages for the exact query this page targets. Lesson: a "fix the
+  scale everywhere" audit needs a completeness check (grep the old value across the *whole* repo
+  after the fix, not just the specific paragraphs edited) — this bug survived one dedicated
+  scale-correction commit that explicitly listed "16 pages fixed" and this page apparently
+  wasn't fully covered by it, or the fix touched only the meta layer and missed the body.
+- 2026-08-15 — This page also revealed that a FAQPage JSON-LD block, explicitly removed
+  sitewide in favor of inline itemscope/itemprop microdata on 2026-08-05 (commit ea55af0,
+  "Remove FAQPage JSON-LD from all 33 existing blog posts"), was back in this file by
+  2026-08-10 (edited, not removed, by commit a953317) — meaning either the 8/5 removal missed
+  this file, or something reintroduced it. This page currently has no inline FAQ microdata at
+  all, only the (now-fixed) JSON-LD block. Filed as BL-032: audit all blog posts for FAQPage
+  JSON-LD vs inline-microdata consistency, not just this one page.
 - 2026-07-14 (post-cycle gap-fill) — Fixed 3 items the agent found but deferred:
   (1) Google Fonts render-blocking stylesheet replaced with preload/onload swap + noscript
   fallback on all 30 pages — LCP was poor (>4s) on home/math/computing due to this single tag.
@@ -82,36 +113,70 @@ Never use these words/phrases in any content:
 ## Open Experiments
 
 - **EXP-1 (2026-07-canonical-sitemap-fix)** — shipped 2026-07-14, review 2026-08-11.
-  Metric: sitemap "indexed" count in GSC Page Indexing report should move off 0/24; no
-  regression in indexed page count or clicks. Status: OPEN, merged to main via PR #2, live.
-- **EXP-2 (2026-07-computing-ctr-title)** — shipped 2026-07-14, review 2026-08-04 (3 weeks;
-  CTR is fast-feedback per SOP §4.2). Metric: computing.html CTR ≥15% (up from 0% on 11
-  impressions) without a position drop. Status: OPEN, merged to main via PR #2, live.
-- **EXP-3 (2026-07-maths-boost)** — shipped 2026-07-20, review 2026-08-14. /math title
-  rewritten to "Cambridge Lower Secondary Maths Boosters | CoreMark" (matching GSC query
-  "maths booster"); 3 FAQ items added; contextual prose links from 2 maths blog posts.
-  Metric: /math position move from 19.5 toward <15, and/or CTR lift.
-- **EXP-4 (2026-07-science-boost)** — shipped 2026-07-20, review 2026-08-14. /science title
-  rewritten to "Cambridge Lower Secondary Science Boosters | CoreMark"; 3 FAQ items added;
-  contextual prose links from 2 science blog posts.
-  Metric: /science position consolidation below 10, CTR maintenance.
+  **SCORED WIN 2026-08-15.** Canonical/og:url tags confirmed still extensionless sitewide;
+  sitemap.xml has zero `.html` entries. Reinforced (not undone) by the 2026-08-10 audit, which
+  additionally fixed 143 internal `.html` links that were splitting indexing signal between
+  `/blog/x` and `/blog/x.html`. No regression found. Closing out — no further tracking needed.
+- **EXP-2 (2026-07-computing-ctr-title)** — shipped 2026-07-14, review 2026-08-04.
+  **SCORED INCONCLUSIVE (superseded) 2026-08-15.** computing.html's title was rewritten again
+  on 2026-08-03 (BL-026) and again on 2026-08-10 (GSC audit), both times replacing the
+  originally-tested treatment before a clean read was possible. Current title targets the bare
+  syllabus code "0860" (computing.html now ranks #1 for that query) — a different, later
+  hypothesis, not formally re-registered as its own experiment. Not retrying EXP-2's specific
+  title text; if computing.html's CTR needs another look, open a fresh experiment against the
+  page's *current* title.
+- **EXP-3 (2026-07-maths-boost)** — shipped 2026-07-20, review 2026-08-14.
+  **SCORED INCONCLUSIVE (superseded) 2026-08-15.** The tested hypothesis (retitle /math to
+  match "maths booster") was itself invalidated by later SERP research: "maths booster" was
+  found to be JEE/SSC-coaching intent with zero Cambridge relevance (see
+  SEO-BASELINE-2026-08-10.md SERP intelligence). /math was deliberately retitled away from
+  "Boosters" on 2026-08-10 toward "Cambridge Lower Secondary Maths (0862)" — the opposite
+  direction from EXP-3's hypothesis, and the right call. **Do not chase "maths booster" again.**
+- **EXP-4 (2026-07-science-boost)** — shipped 2026-07-20, review 2026-08-14.
+  **SCORED INCONCLUSIVE (superseded) 2026-08-15.** Same pattern as EXP-3 — /science retitled
+  again 2026-08-10 toward "Cambridge Lower Secondary Science (0893)", moving off "Boosters".
 - **EXP-ADS-002 (2026-07-phrase-match-trim)** — review 2026-07-30.
   Phrase match keyword trimming in Google Ads CoreMark campaign. See ads-backlog.md.
 - **EXP-KA-CURRICULUM (2026-08-03)** — shipped 2026-08-03, review 2026-08-17.
-  GSC showed "khan academy cambridge curriculum" at position 4.5 (page 1!) but 0 clicks —
-  the blog post title and H1 said "Maths" not "curriculum". Fixed title and H1 of
-  blog/does-khan-academy-cover-cambridge-lower-secondary.html to include "curriculum".
-  Metric: CTR lift on this post from 0% → any clicks; position should hold at 4.5 or improve.
-- **EXP-SME-TABLE (2026-08-03)** — shipped 2026-08-03, review 2026-08-17.
-  save-my-exams-cambridge-lower-secondary.html at pos 12.5 (28 impressions, 0 clicks).
-  Added 6-row side-by-side comparison table (SME scope vs CLS 0862/0893/0860 needs) and
-  renamed H2 to name Save My Exams explicitly. Targeting featured snippet for "save my exams
-  cambridge lower secondary". Metric: impressions hold or grow, 1+ click, position <10.
-- **EXP-SCI-NAMED (2026-08-03)** — shipped 2026-08-03, review 2026-08-17.
-  best-cambridge-checkpoint-science-resources.html at pos 12.5 (26 impressions, 0 clicks).
-  Renamed H2 from vague "The four resource types" to named resources (textbooks, past papers,
-  Khan Academy, CoreMark). Expanded comparison table from 4 generic rows to 6 named resources
-  each with a Cambridge-0893-aligned column. Metric: position <10, 1+ click.
+  **SCORED INCONCLUSIVE (superseded) 2026-08-15, ahead of its own review date.** GSC showed
+  "khan academy cambridge curriculum" at position 4.5 but 0 clicks; title/H1 were fixed to
+  include "curriculum". That title was overwritten again on 2026-08-11 (commit 13e1b7e) with
+  a completely different title ("Does Khan Academy Cover Cambridge Lower Secondary? What It
+  Gets Right and What It Misses") that no longer contains "curriculum" at all — the treatment
+  no longer exists on the live page, 6 days after shipping and before its own review date.
+  Scoring early rather than waiting for a review date whose premise is already gone. See
+  process lesson below.
+- **EXP-SME-TABLE (2026-08-03)** — shipped 2026-08-03, review 2026-08-17 (not yet due).
+  save-my-exams-cambridge-lower-secondary.html comparison table + H2 rename. Title/meta were
+  also touched by the 2026-08-10 audit (unrelated fix: meta descriptions site-wide were being
+  cut mid-sentence at ~155 chars). The specific comparison-table content change appears intact.
+  Score carefully at 2026-08-17 — separate the audit's CTR contribution from this experiment's.
+- **EXP-SCI-NAMED (2026-08-03)** — shipped 2026-08-03, review 2026-08-17 (not yet due).
+  Same caveat as EXP-SME-TABLE — title/meta touched again 2026-08-10, comparison-table content
+  appears intact. Score carefully at 2026-08-17.
+- **EXP-CKPT-MARKING (2026-08-15)** — shipped 2026-08-15, review 2026-09-05. Title/meta length
+  fix on cambridge-checkpoint-marking-explained.html (83→54 char title, 227→151 char meta —
+  both were well past SERP truncation limits at 192 impressions / 1.0% CTR / position 5.0).
+  See experiments/2026-08-checkpoint-marking-ctr.md.
+- **EXP-CKPT-SCORE (2026-08-15)** — shipped 2026-08-15, review 2026-09-05. Title/meta length
+  fix + retired-scale content-accuracy rewrite on cambridge-checkpoint-score-explained.html
+  (page's own title said "0-50 Scale" while its H1/FAQ/comparison-table still described the
+  retired 0.0–6.0 scale using "4.5" as the running example — direct self-contradiction).
+  See experiments/2026-08-checkpoint-score-scale-fix.md.
+
+### Process lesson driving the EXP-2/3/4/KA-CURRICULUM scoring above
+
+Between 2026-07-20 and 2026-08-13, at least 4 registered open experiments (EXP-2, EXP-3,
+EXP-4, EXP-KA-CURRICULUM) had their specific tested treatment silently overwritten by later,
+independently-reasoned out-of-band edits to the same pages — before any of them reached a
+clean read. None of this was malicious or wrong on the merits (the later edits were generally
+*better*, e.g. dropping "maths booster" after discovering it's the wrong search intent), but
+it means 4 of this cycle's 9 tracked experiments produced no usable signal at all. This is a
+bookkeeping/coordination gap, not a content problem: **whoever starts a session that touches
+title/meta/H1 on a page should grep SEO-MEMORY.md's Open Experiments section for that page
+first**, and either wait for the existing experiment's review date or explicitly close it out
+before overwriting. Flagging for the next meta-loop review (due at completed_cycles=3) as a
+candidate SOP addition: a pre-edit check step, or a lighter-weight "experiment lock" convention.
 
 ---
 
@@ -178,8 +243,10 @@ Never use these words/phrases in any content:
 
 | Playbook tactic | Times run | Wins | Losses | Inconclusive | Avg Δclicks | Verdict |
 |-----------------|-----------|------|--------|--------------|-------------|---------|
-| Canonical/URL fix (§3 audit) | 1 | 0 | 0 | 0 | — | pending (review 2026-08-11) |
-| CTR fix — title/meta rewrite | 1 | 0 | 0 | 0 | — | pending (review 2026-08-04) |
+| Canonical/URL fix (§3 audit) | 1 | 1 | 0 | 0 | — | WIN — technical fix held, reinforced by later dupe-URL cleanup |
+| CTR fix — title/meta rewrite | 6 (EXP-2/3/4/KA-CURRICULUM/SME-TABLE/SCI-NAMED) | 0 | 0 | 4 (superseded before read; 2 pending 2026-08-17) | — | high overwrite risk when multiple sessions touch the same pages — see process lesson under Open Experiments. Not enough clean reads yet to judge the tactic itself. |
+| CTR fix — title/meta length limit | 2 (EXP-CKPT-MARKING/SCORE, 2026-08-15) | 0 | 0 | 0 | — | pending (review 2026-09-05) |
+| Content accuracy fix (retired scale, self-contradiction) | 1 (EXP-CKPT-SCORE) | 0 | 0 | 0 | — | pending (review 2026-09-05) — new tactic, first run |
 
 ---
 
@@ -220,6 +287,31 @@ updated to incorporate v2 procedures (verifier sub-agent, resumable state, bound
 meta-loop check). SOP reference path updated to
 /Users/snehoomac/snehoo/AI/MD-other/seo-loop-sops 2/SEO-LOOP-SOP-v2.md.
 2026-08-05 — Run 6 (SOP v3). Three content prompts executed: (1) New blog post /blog/cambridge-checkpoint-past-papers-alternatives — 5-row comparison table, 5-question FAQ inline microdata, ~980 words, targeting "Cambridge checkpoint past papers alternatives". (2) New blog post /blog/cambridge-lower-secondary-maths-stage-8-practice — 4-strand syllabus guide, named CoreMark boosters (M·N2, M·A2, M·G1, M·S1), 4-question FAQ inline microdata, ~970 words, targeting "Cambridge lower secondary maths stage 8 practice". (3) Homepage updated: "What is CoreMark?" section replaced with GEO-optimised Block 1 (3-paragraph definition, coremark.study as library of PDF booster packs); Block 2 (6-question FAQPage inline microdata) added after Block 1; existing FAQ section (8 items) updated with inline microdata; FAQPage JSON-LD removed from head (replaced by inline pattern throughout); Organization schema description updated to VERSION A definition + added foundingDate 2025 + areaServed India/International; WebSite schema description added + dateModified updated to 2026-08-05. Both new blog posts added to sitemap.xml. FAQPage JSON-LD also removed from blog post 1 (cambridge-checkpoint-past-papers-alternatives.html) per inline-only rule. All three new pages use BlogPosting + BreadcrumbList JSON-LD in head; FAQ sections use itemscope/itemprop only.
+
+2026-08-15 — Run 2 (formal loop counter; see run-state.json reconciliation_note for the full
+out-of-band history this entry is closing the gap on). GSC 28d window: 2026-07-18 to
+2026-08-14 vs prior 2026-06-20 to 2026-07-17. Clicks 27 vs 8 (up, ramping — no kill-switch
+concern; only a drop triggers it). Impressions 970 vs 39 (large jump, consistent with the
+2026-08-10 audit's new content + fixed indexing going live and being recrawled). Site-wide CTR
+looks like it dropped (2.8% vs 20.5%) but this is a base-rate artifact of impressions growing
+9x faster than clicks while new pages/queries are still accumulating position — not treated as
+a real signal. Found run-state.json badly out of sync with actual history (see reconciliation
+above) and reconciled it. Scored 7 open experiments: 1 WIN (EXP-1), 4 INCONCLUSIVE-superseded
+(EXP-2, EXP-3, EXP-4, EXP-KA-CURRICULUM — all overwritten by later out-of-band edits before a
+clean read), 2 left OPEN pending their 2026-08-17 review (EXP-SME-TABLE, EXP-SCI-NAMED).
+Biggest finding: two blog posts (cambridge-checkpoint-marking-explained.html,
+cambridge-checkpoint-score-explained.html) had title/meta well past SERP length limits, and
+the second also had a page-wide self-contradiction (title said "0-50 scale", entire body still
+described the retired 0.0-6.0 scale). Shipped fixes for both as EXP-CKPT-MARKING and
+EXP-CKPT-SCORE, verified via fresh-context sub-agent (caught one leftover "decimal number"
+phrase, fixed and rechecked before shipping), committed and pushed directly to main per SOP §7
+(blog/ changes). PageSpeed Insights API returned 429 (quota exhausted) — CWV delta audit
+skipped this cycle, no other technical/indexing issues found (sitemap coverage complete,
+robots.txt clean, canonicals still consistent). Did not attempt to score the 2026-08-10 GSC
+audit itself — that has its own dedicated baseline (SEO-BASELINE-2026-08-10.md) with an
+explicit 2026-08-24 re-measure date; scoring it early would cross into a known-noisy window
+(GSC lag ~2 days, first clean post-change week is 2026-08-13→2026-08-20). Meta-loop not due
+this cycle (due at completed_cycles=3, currently at 2).
 
 2026-08-03 — Run 5 (SOP v3). GSC 28d window: 2026-07-06 to 2026-08-02 vs prior 2026-06-08
 to 2026-07-05. Notable findings: (1) "khan academy cambridge curriculum" ranking pos 4.5 with
