@@ -69,6 +69,27 @@
       "attempt": 1,
       "status": "OPEN",
       "review_date": "2026-09-05"
+    },
+    "EXP-GRADING-2026": {
+      "name": "2026-09-grading-system-title-year",
+      "attempt": 1,
+      "status": "OPEN",
+      "review_date": "2026-10-03",
+      "note": "Added '2026' to title: 'Cambridge Checkpoint Grading System 2026: Scores & Bands'. Hypothesis: query 'grading system 2026' shows 13.33% CTR at pos 3.7 — year signal should lift CTR on the site's highest-impression page (1,464 impr, pos 5.0, 2.39% CTR)."
+    },
+    "EXP-KA-TITLE-V2": {
+      "name": "2026-09-khan-academy-title-direct",
+      "attempt": 1,
+      "status": "OPEN",
+      "review_date": "2026-10-03",
+      "note": "Rewrote from 'What It Gets Right and What It Misses' to '(The Honest Answer)'. Hypothesis: 94 impressions, 0 clicks at pos 7.8 — searcher wants a direct yes/no framing, not a feature-comparison frame."
+    },
+    "EXP-HTML-REDIRECTS": {
+      "name": "2026-09-html-duplicate-301",
+      "attempt": 1,
+      "status": "OPEN",
+      "review_date": "2026-10-03",
+      "note": "_redirects: 301 from /blog/cambridge-checkpoint-score-explained.html and /blog/cambridge-lower-secondary-stages-explained.html → clean URLs. Both .html versions were indexed with 40 and 35 impressions respectively, splitting link equity."
     }
   },
   "baseline_pending_remeasure": {
