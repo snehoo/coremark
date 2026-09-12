@@ -61,7 +61,6 @@
 *{box-sizing:border-box;} html,body{margin:0;padding:0;}
 body{font-family:var(--font-sans);color:var(--ink);background:var(--cream);-webkit-font-smoothing:antialiased;}
 a{color:inherit;}
-.intl-banner{display:none;background:var(--blue-tint);border-bottom:1px solid var(--border-soft);color:var(--ink-soft);font-size:13px;font-weight:600;text-align:center;padding:10px 20px;}
 .nav-outer{background:var(--cream);border-bottom:1px solid var(--border-soft);position:sticky;top:0;z-index:50;}
 .nav{max-width:1280px;margin:0 auto;padding:18px 40px;display:flex;justify-content:space-between;align-items:center;}
 .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit;}
@@ -102,6 +101,7 @@ a{color:inherit;}
 .bundle-bar-text .bb-label{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--coral);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:6px;}
 .bundle-bar-text .bb-title{font-size:22px;font-weight:700;color:white;letter-spacing:-0.02em;}
 .bundle-bar-text .bb-sub{font-size:15px;color:rgba(255,255,255,0.55);margin-top:4px;}
+.bundle-bar-text .intl-note{display:none;font-size:13px;color:var(--coral);margin-top:10px;font-weight:600;}
 .bundle-bar-actions{display:flex;gap:10px;flex-wrap:wrap;flex-shrink:0;}
 .bb-btn{padding:13px 22px;border-radius:999px;font-size:14px;font-weight:700;text-decoration:none;cursor:pointer;border:none;font-family:var(--font-sans);white-space:nowrap;}
 .bb-btn.primary{background:var(--coral);color:var(--ink);}
@@ -286,8 +286,6 @@ src="https://www.facebook.com/tr?id=1921557135206596&ev=PageView&noscript=1"/></
 </script>
 </div>
 
-<div class="intl-banner" id="intl-banner">🌍 Prices below are shown in ₹ (India). Outside India? You'll see USD pricing at checkout.</div>
-
 <div class="page-hero">
   <div class="page-hero-inner">
     <div class="breadcrumb">
@@ -321,6 +319,7 @@ src="https://www.facebook.com/tr?id=1921557135206596&ev=PageView&noscript=1"/></
       <div class="bb-label">Stage 7 · Science · 9 boosters</div>
       <div class="bb-title">Best value: get all 9 Stage 7 Science boosters for ₹1,299</div>
       <div class="bb-sub">That is ₹144 per booster. Buying individually costs ₹2,241. You save ₹942.</div>
+      <div class="intl-note">🌍 Outside India? USD pricing shown at checkout.</div>
     </div>
     <div class="bundle-bar-actions">
       <button class="bb-btn outline" onclick="document.querySelector('[data-stage=s7]').scrollIntoView({behavior:'smooth'})">Choose 5 topics — ₹799</button>
@@ -422,6 +421,7 @@ src="https://www.facebook.com/tr?id=1921557135206596&ev=PageView&noscript=1"/></
       <div class="bb-label">Stage 8 · Science · 9 boosters</div>
       <div class="bb-title">Best value: get all 9 Stage 8 Science boosters for ₹1,299</div>
       <div class="bb-sub">That is ₹144 per booster. Buying individually costs ₹2,241. You save ₹942.</div>
+      <div class="intl-note">🌍 Outside India? USD pricing shown at checkout.</div>
     </div>
     <div class="bundle-bar-actions">
       <button class="bb-btn outline" onclick="document.querySelector('[data-stage=s8]').scrollIntoView({behavior:'smooth'})">Choose 5 topics — ₹799</button>
@@ -523,6 +523,7 @@ src="https://www.facebook.com/tr?id=1921557135206596&ev=PageView&noscript=1"/></
       <div class="bb-label">Stage 9 · Science · 9 boosters</div>
       <div class="bb-title">Best value: get all 9 Stage 9 Science boosters for ₹1,299</div>
       <div class="bb-sub">That is ₹144 per booster. Buying individually costs ₹2,241. You save ₹942.</div>
+      <div class="intl-note">🌍 Outside India? USD pricing shown at checkout.</div>
     </div>
     <div class="bundle-bar-actions">
       <button class="bb-btn outline" onclick="document.querySelector('[data-stage=s9]').scrollIntoView({behavior:'smooth'})">Choose 5 topics — ₹799</button>
@@ -772,8 +773,7 @@ let currency = 'INR';
 fetch('/api/geo').then(r => r.json()).then(d => {
   if (d.currency === 'USD') {
     currency = d.currency;
-    const banner = document.getElementById('intl-banner');
-    if (banner) banner.style.display = 'block';
+    document.querySelectorAll('.intl-note').forEach(el => el.style.display = 'block');
   }
 }).catch(() => {});
 
