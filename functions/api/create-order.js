@@ -1,5 +1,5 @@
 // functions/api/create-order.js
-// No imports — all logic self-contained to avoid module resolution issues
+import { BOOSTER_MAP } from './_booster-map.js';
 
 const CORS = {
   'Access-Control-Allow-Origin':  '*',
@@ -38,6 +38,24 @@ function deriveStage(itemSlugs, primarySlug) {
   return match ? parseInt(match[1]) : null;
 }
 
+// Prevents underpaying for a 5-pack by sending fewer/mismatched boosters —
+// the client already enforces this in CM_PRODUCTS.validateBasket(), but
+// that's trivially bypassable by calling this endpoint directly.
+function validateFivepack(itemSlugs) {
+  if (itemSlugs.length !== 5) return 'A 5-pack must contain exactly 5 boosters.';
+  const subjects = new Set(), stages = new Set();
+  for (const slug of itemSlugs) {
+    if (!BOOSTER_MAP[slug]) return `Unknown booster: ${slug}`;
+    const m = slug.match(/^(math|sci|comp)-.+-s(\d)$/);
+    if (!m) return `Invalid booster slug: ${slug}`;
+    subjects.add(m[1]);
+    stages.add(m[2]);
+  }
+  if (subjects.size > 1) return 'All 5-pack boosters must be from the same subject.';
+  if (stages.size > 1) return 'All 5-pack boosters must be from the same stage.';
+  return null;
+}
+
 async function dbQuery(env, sql, params = []) {
   const connStr = env.DATABASE_URL;
   if (!connStr) throw new Error('DATABASE_URL not set');
@@ -71,6 +89,12 @@ export async function onRequestPost({ request, env }) {
 
   if (!buyerEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(buyerEmail.trim()))
     return new Response(JSON.stringify({ error: 'Valid email required' }), { status: 400, headers: { 'Content-Type': 'application/json', ...CORS } });
+
+  if (orderType === 'fivepack') {
+    const fpError = validateFivepack(itemSlugs);
+    if (fpError)
+      return new Response(JSON.stringify({ error: fpError }), { status: 400, headers: { 'Content-Type': 'application/json', ...CORS } });
+  }
 
   const amountPaise = calculatePrice(orderType, itemSlugs);
   const subject     = deriveSubject(orderType, primarySlug, itemSlugs);
