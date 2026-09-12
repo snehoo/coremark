@@ -61,6 +61,7 @@
 *{box-sizing:border-box;} html,body{margin:0;padding:0;}
 body{font-family:var(--font-sans);color:var(--ink);background:var(--cream);-webkit-font-smoothing:antialiased;}
 a{color:inherit;}
+.intl-banner{display:none;background:var(--blue-tint);border-bottom:1px solid var(--border-soft);color:var(--ink-soft);font-size:13px;font-weight:600;text-align:center;padding:10px 20px;}
 .nav-outer{background:var(--cream);border-bottom:1px solid var(--border-soft);position:sticky;top:0;z-index:50;}
 .nav{max-width:1280px;margin:0 auto;padding:18px 40px;display:flex;justify-content:space-between;align-items:center;}
 .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit;}
@@ -284,6 +285,8 @@ src="https://www.facebook.com/tr?id=1921557135206596&ev=PageView&noscript=1"/></
 })();
 </script>
 </div>
+
+<div class="intl-banner" id="intl-banner">🌍 Prices below are shown in ₹ (India). Outside India? You'll see USD pricing at checkout.</div>
 
 <div class="page-hero">
   <div class="page-hero-inner">
@@ -766,7 +769,13 @@ function toggleSelect(btn) {
 // INR copy below is untouched from before this change; USD copy is
 // independently authored (not derived from the INR numbers).
 let currency = 'INR';
-fetch('/api/geo').then(r => r.json()).then(d => { if (d.currency === 'USD') currency = d.currency; }).catch(() => {});
+fetch('/api/geo').then(r => r.json()).then(d => {
+  if (d.currency === 'USD') {
+    currency = d.currency;
+    const banner = document.getElementById('intl-banner');
+    if (banner) banner.style.display = 'block';
+  }
+}).catch(() => {});
 
 function tiers() { return currency === 'USD' ? TIERS_USD : TIERS; }
 
