@@ -63,6 +63,7 @@
 *{box-sizing:border-box;} html,body{margin:0;padding:0;}
 body{font-family:var(--font-sans);color:var(--ink);background:var(--cream);-webkit-font-smoothing:antialiased;}
 a{color:inherit;}
+.intl-note-strip{display:none;text-align:center;font-size:13px;color:var(--blue-deep);font-weight:600;margin-top:14px;}
 
 /* NAV */
 .nav-outer{background:var(--cream);border-bottom:1px solid var(--border-soft);position:sticky;top:0;z-index:50;}
@@ -1019,6 +1020,7 @@ src="https://www.facebook.com/tr?id=1921557135206596&ev=PageView&noscript=1"/></
       <a href="#stage-picker" class="plan-btn">Get All Subjects</a>
     </div>
   </div>
+  <div class="intl-note-strip">🌍 Shopping from outside India? Your total will be shown in USD at checkout.</div>
   <p style="text-align:center;margin-top:24px;font-size:16px;color:var(--ink-muted);">
     🛡️ &nbsp;<strong style="color:var(--ink);">7-day money back guarantee</strong> on every purchase. If you are not happy, email us and we will refund you. No questions asked.
   </p>
@@ -1247,6 +1249,15 @@ fetch('/api/track', {
   method: 'POST',
   headers: {'Content-Type': 'application/json'},
   body: JSON.stringify({path: location.pathname + location.search, referrer: document.referrer || null})
+}).catch(function(){});
+
+// International-pricing note — decided server-side from request.cf.country
+// (see functions/api/geo.js). Display-only: the actual charge is always
+// re-derived in create-order.js.
+fetch('/api/geo').then(function(r){ return r.json(); }).then(function(d){
+  if (d.currency === 'USD') {
+    document.querySelectorAll('.intl-note-strip').forEach(function(el){ el.style.display = 'block'; });
+  }
 }).catch(function(){});
 </script>
 </body>
