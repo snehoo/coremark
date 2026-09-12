@@ -751,7 +751,8 @@ function toggleSelect(btn) {
   }
   if (window.selected.length >= 5) {
     shakeBasket();
-    showToast('Basket is full at 5 topics  (₹799)', 'For more topics get the full stage bundle at ₹1,299');
+    const t = FULL_BASKET_TOAST[currency];
+    showToast(t.title, t.sub);
     return;
   }
   card.classList.add('selected');
@@ -760,12 +761,43 @@ function toggleSelect(btn) {
   updateBasket();
 }
 
+// Currency — decided server-side from request.cf.country (see functions/api/geo.js).
+// Display-only: the actual charge is always re-derived in create-order.js.
+// INR copy below is untouched from before this change; USD copy is
+// independently authored (not derived from the INR numbers).
+let currency = 'INR';
+fetch('/api/geo').then(r => r.json()).then(d => { if (d.currency === 'USD') currency = d.currency; }).catch(() => {});
+
+function tiers() { return currency === 'USD' ? TIERS_USD : TIERS; }
+
+const FULL_BASKET_TOAST = {
+  INR: { title: 'Basket is full at 5 topics  (₹799)', sub: 'For more topics get the full stage bundle at ₹1,299' },
+  USD: { title: 'Basket is full at 5 topics  ($14.99)', sub: 'For more topics get the full subject bundle at $19.99' },
+};
+
 const TIERS = [
-  { count:1, total:249,  label:'1 booster',     sub:'₹249 · single price' },
-  { count:2, total:498,  label:'2 boosters',    sub:'₹498 · add 3 more to save ₹446' },
-  { count:3, total:747,  label:'3 boosters',    sub:'₹747 · add 2 more to save ₹446' },
-  { count:4, total:996,  label:'4 boosters',    sub:'₹996 · add 1 more to save ₹197' },
-  { count:5, total:799,  label:'5-pack bundle', sub:'Best bundle price — ₹160 per topic' },
+  { count:1, total:249,  label:'1 booster',     sub:'₹249 · single price',
+    toastTitle:'Add 4 more topics to unlock ₹799 bundle pricing', toastSub:'You save ₹446 with 5 topics' },
+  { count:2, total:498,  label:'2 boosters',    sub:'₹498 · add 3 more to save ₹446',
+    toastTitle:'Add 3 more topics to unlock ₹799 bundle pricing', toastSub:'You save ₹446 with 5 topics' },
+  { count:3, total:747,  label:'3 boosters',    sub:'₹747 · add 2 more to save ₹446',
+    toastTitle:'Add 2 more topics to unlock ₹799 bundle pricing', toastSub:'You save ₹446 with 5 topics' },
+  { count:4, total:996,  label:'4 boosters',    sub:'₹996 · add 1 more to save ₹197',
+    toastTitle:'One more topic unlocks the 5-pack bundle!', toastSub:'Pay ₹799 instead of ₹996 — save ₹197' },
+  { count:5, total:799,  label:'5-pack bundle', sub:'Best bundle price — ₹160 per topic',
+    toastTitle:'5-pack bundle unlocked  🎉', toastSub:'All 5 for ₹799 — saving ₹446' },
+];
+const TIERS_USD = [
+  { count:1, total:4.99,  label:'1 booster',     sub:'$4.99 · single price',
+    toastTitle:'Add 4 more topics to unlock $14.99 bundle pricing', toastSub:'You save $9.96 with 5 topics' },
+  { count:2, total:9.98,  label:'2 boosters',    sub:'$9.98 · add 3 more to save $9.96',
+    toastTitle:'Add 3 more topics to unlock $14.99 bundle pricing', toastSub:'You save $9.96 with 5 topics' },
+  { count:3, total:14.97, label:'3 boosters',    sub:'$14.97 · add 2 more to save $9.96',
+    toastTitle:'Add 2 more topics to unlock $14.99 bundle pricing', toastSub:'You save $9.96 with 5 topics' },
+  { count:4, total:19.96, label:'4 boosters',    sub:'$19.96 · add 1 more to save $4.97',
+    toastTitle:'One more topic unlocks the 5-pack bundle!', toastSub:'Pay $14.99 instead of $19.96 — save $4.97' },
+  { count:5, total:14.99, label:'5-pack bundle', sub:'Best bundle price — $3.00 per topic',
+    toastTitle:'5-pack bundle unlocked  🎉', toastSub:'All 5 for $14.99 — saving $9.96' },
 ];
 
 function updateBasket() {
@@ -774,17 +806,13 @@ function updateBasket() {
   document.getElementById('b-count').textContent = count;
   if (count === 0) { basket.classList.remove('visible'); return; }
   basket.classList.add('visible');
-  const tier = TIERS[count - 1];
+  const tier = tiers()[count - 1];
   document.getElementById('b-label-main').textContent = tier.label;
-  document.getElementById('b-price').textContent = '₹' + tier.total.toLocaleString('en-IN');
+  document.getElementById('b-price').textContent = currency === 'USD' ? '$' + tier.total.toFixed(2) : '₹' + tier.total.toLocaleString('en-IN');
   const sub = document.getElementById('b-label-sub');
   sub.textContent = tier.sub;
   sub.style.color = count === 5 ? 'var(--coral)' : 'rgba(255,255,255,0.5)';
-  if (count === 1) showToast('Add 4 more topics to unlock ₹799 bundle pricing', 'You save ₹446 with 5 topics');
-  else if (count === 2) showToast('Add 3 more topics to unlock ₹799 bundle pricing', 'You save ₹446 with 5 topics');
-  else if (count === 3) showToast('Add 2 more topics to unlock ₹799 bundle pricing', 'You save ₹446 with 5 topics');
-  else if (count === 4) showToast('One more topic unlocks the 5-pack bundle!', 'Pay ₹799 instead of ₹996 — save ₹197');
-  else if (count === 5) showToast('5-pack bundle unlocked  🎉', 'All 5 for ₹799 — saving ₹446');
+  showToast(tier.toastTitle, tier.toastSub);
   if (typeof window.refreshBtn === 'function') window.refreshBtn(window.selected.length);
 }
 

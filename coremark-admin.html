@@ -603,7 +603,7 @@ const fmt = p => {
   if (r >= 1000)   return '₹' + (r / 1000).toFixed(1) + 'K';
   return '₹' + r.toLocaleString('en-IN');
 };
-const fmtFull = p => '₹' + (p / 100).toLocaleString('en-IN');
+const fmtFull = (p, currency) => currency === 'USD' ? '$' + (p / 100).toFixed(2) : '₹' + (p / 100).toLocaleString('en-IN');
 const cap = s => s ? s.charAt(0).toUpperCase() + s.slice(1) : '—';
 const subEmoji = s => ({ math:'📐', science:'🔬', computing:'💻', mixed:'📚' }[s] || '📄');
 const typeLabel = t => ({ single:'Single', fivepack:'5-Pack', subject:'Subject Bundle', stage:'Stage Bundle' }[t] || cap(t));
@@ -660,7 +660,7 @@ function buildOrderRows(orders) {
       <td class="col-buyer"><div class="email-cell" title="${o.buyer_email || ''}">${o.buyer_email || '<span style="color:var(--ink-muted)">—</span>'}</div></td>
       <td title="${slug}">${product}</td>
       <td class="col-type">${typeLabel(o.order_type)}</td>
-      <td class="mono" style="font-weight:600;">${o.amount_paise ? fmtFull(o.amount_paise) : '—'}</td>
+      <td class="mono" style="font-weight:600;">${o.amount_paise ? fmtFull(o.amount_paise, o.currency) : '—'}</td>
       <td><span class="badge ${statusClass}">${o.status}</span></td>
       <td class="col-refundable">${refundCell}</td>
     </tr>`;
@@ -711,7 +711,8 @@ function renderFunnel(f) {
 // ── Overview ──────────────────────────────────────────────
 function renderOverview(d) {
   document.getElementById('kpi-total-rev').textContent  = fmt(d.revenue.totalPaise);
-  document.getElementById('kpi-total-sub').textContent  = d.orders.total + ' orders · ' + d.buyers.total + ' buyers';
+  document.getElementById('kpi-total-sub').textContent  = d.orders.total + ' orders · ' + d.buyers.total + ' buyers'
+    + (d.intl && d.intl.orders > 0 ? ' · ' + fmtFull(d.intl.totalCents, 'USD') + ' intl (' + d.intl.orders + ')' : '');
   document.getElementById('kpi-30-rev').textContent     = fmt(d.revenue.last30Paise);
   document.getElementById('kpi-30-sub').textContent     = d.orders.last30 + ' orders';
   document.getElementById('kpi-7-rev').textContent      = fmt(d.revenue.last7Paise);

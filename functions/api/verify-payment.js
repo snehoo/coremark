@@ -24,6 +24,11 @@ function razorpayAuth(env) {
   return 'Basic ' + btoa(`${env.RAZORPAY_KEY_ID}:${env.RAZORPAY_KEY_SECRET}`);
 }
 
+function formatMoney(amountMinor, currency) {
+  if (currency === 'USD') return '$' + (amountMinor / 100).toFixed(2);
+  return '₹' + Math.round(amountMinor / 100).toLocaleString('en-IN');
+}
+
 async function sha256(text) {
   const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text.toLowerCase().trim()));
   return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
@@ -129,6 +134,7 @@ export async function onRequestPost({ request, env }) {
     const rSubj    = payment.notes?.subject || null;
     const rStage   = payment.notes?.stage ? parseInt(payment.notes.stage) : null;
     const rName    = payment.notes?.buyer_name || null;
+    const rCurrency = payment.currency || 'INR';
 
     // 4. DB operations — all in one try/catch, non-fatal
     let internalId = razorpayOrderId;
@@ -140,7 +146,7 @@ export async function onRequestPost({ request, env }) {
            (razorpay_order_id, razorpay_payment_id, buyer_email, buyer_hash,
             order_type, primary_slug, item_slugs, amount_paise, currency,
             status, subject, stage, buyer_name, paid_at, source)
-         VALUES ($1,$2,$3,$4,$5,$6,$7::jsonb,$8,'INR','paid',$9,$10,$11,NOW(),'web')
+         VALUES ($1,$2,$3,$4,$5,$6,$7::jsonb,$8,$9,'paid',$10,$11,$12,NOW(),'web')
          ON CONFLICT (razorpay_order_id) DO UPDATE SET
            razorpay_payment_id = EXCLUDED.razorpay_payment_id,
            buyer_email         = EXCLUDED.buyer_email,
@@ -152,7 +158,7 @@ export async function onRequestPost({ request, env }) {
            subject             = COALESCE(orders.subject, EXCLUDED.subject),
            stage               = COALESCE(orders.stage, EXCLUDED.stage)`,
         [razorpayOrderId, paymentId, email, hash,
-         rType, rSlug, JSON.stringify(items), payment.amount,
+         rType, rSlug, JSON.stringify(items), payment.amount, rCurrency,
          rSubj, rStage, rName]
       );
 
@@ -219,7 +225,7 @@ export async function onRequestPost({ request, env }) {
       const origin      = new URL(request.url).origin;
       const typeLabels  = { single: 'Single Booster', fivepack: '5-Pack Bundle', subject: 'Subject Bundle', stage: 'Stage Bundle' };
       const typeLabel   = typeLabels[rType] || rType;
-      const amountRs    = Math.round(payment.amount / 100);
+      const amountLabel = formatMoney(payment.amount, rCurrency);
       const subjDisplay = rSubj ? rSubj.charAt(0).toUpperCase() + rSubj.slice(1) : null;
 
       // Buyer confirmation email (awaited so emailSent reflects actual success)
@@ -248,13 +254,13 @@ export async function onRequestPost({ request, env }) {
         body: JSON.stringify({
           from:    'CoreMark Sales <info@coremark.study>',
           to:      ['snehalp@gmail.com'],
-          subject: `💰 New Sale — ${typeLabel} — ₹${amountRs}`,
+          subject: `💰 New Sale — ${typeLabel} — ${amountLabel}${rCurrency === 'USD' ? ' (international)' : ''}`,
           html: `<div style="font-family:Arial,sans-serif;max-width:480px;margin:20px auto;padding:24px;border:1px solid #EAE3F5;border-radius:12px;">
 <h2 style="color:#2A1B3D;margin:0 0 20px;font-size:18px;">New CoreMark Sale &#127881;</h2>
 <table style="width:100%;border-collapse:collapse;font-size:14px;">
 <tr><td style="padding:8px 0;color:#7A6A94;width:110px;vertical-align:top;">Product</td><td style="padding:8px 0;font-weight:600;">${title}</td></tr>
 <tr><td style="padding:8px 0;color:#7A6A94;">Type</td><td style="padding:8px 0;">${typeLabel}</td></tr>
-<tr><td style="padding:8px 0;color:#7A6A94;">Amount</td><td style="padding:8px 0;font-weight:700;color:#059669;">&#8377;${amountRs}</td></tr>
+<tr><td style="padding:8px 0;color:#7A6A94;">Amount</td><td style="padding:8px 0;font-weight:700;color:#059669;">${amountLabel}</td></tr>
 <tr><td style="padding:8px 0;color:#7A6A94;">Buyer</td><td style="padding:8px 0;">${email || '&#8212;'}</td></tr>
 ${subjDisplay ? `<tr><td style="padding:8px 0;color:#7A6A94;">Subject</td><td style="padding:8px 0;">${subjDisplay}${rStage ? ' &middot; Stage ' + rStage : ''}</td></tr>` : ''}
 <tr><td style="padding:8px 0;color:#7A6A94;">Payment ID</td><td style="padding:8px 0;font-family:monospace;font-size:12px;">${paymentId}</td></tr>
@@ -268,7 +274,7 @@ ${subjDisplay ? `<tr><td style="padding:8px 0;color:#7A6A94;">Subject</td><td st
     return json({
       ok: true, email, orderTitle: title, orderId: internalId,
       paymentId, orderType: rType, subject: rSubj, stage: rStage, fileUrls,
-      emailSent,
+      emailSent, amountPaise: payment.amount, currency: rCurrency,
     });
 
   } catch (e) {

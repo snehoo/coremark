@@ -324,11 +324,24 @@ const isIncompleteFivepack = orderType === 'fivepack' && itemSlugs.length > 0 &&
 const isFivepack           = orderType === 'fivepack' && itemSlugs.length === 5;
 
 let orderData = null;
+let currency  = 'INR'; // default while /api/geo resolves — India is the primary market
+
+// request.cf.country (read by /api/geo) decides currency; this call is
+// display-only — create-order.js independently re-derives currency
+// server-side, so the actual charge is never trusted to the client.
+async function detectCurrency() {
+  try {
+    const res  = await fetch('/api/geo');
+    const data = await res.json();
+    if (data.currency === 'USD') currency = 'USD';
+  } catch (e) { /* keep INR default */ }
+}
 
 function subjectLabel(s) {
   return { math:'Mathematics', science:'Science', computing:'Computing', all:'All Subjects' }[s] || s;
 }
 function formatPrice(p) {
+  if (currency === 'USD') return '$' + (p / 100).toFixed(2);
   return '₹' + (p / 100).toLocaleString('en-IN');
 }
 
@@ -340,7 +353,7 @@ function resolveOrder() {
       type:'single', title:b.name, stage:b.stage, subject:b.subject,
       stageLabel: subjectLabel(b.subject) + ' · Stage ' + b.stage,
       sub: b.topicCode + ' · Single booster · Instant PDF download',
-      pricePaise:b.pricePaise, wasLabel:null, saveLabel:null,
+      pricePaise: P.priceFor('single', currency), wasLabel:null, saveLabel:null,
       items:[b], primarySlug:slug, itemSlugs:[slug],
       bundleSlug: P.subjectBundleSlug(b.subject, b.stage),
     };
@@ -350,12 +363,16 @@ function resolveOrder() {
     const boosters = itemSlugs.map(s => P.getBooster(s)).filter(Boolean);
     if (boosters.length !== 5) return null;
     const b0 = boosters[0];
+    const fivepackPrice = P.priceFor('fivepack', currency);
+    const fullPrice     = P.priceFor('single', currency) * 5;
     return {
       type:'fivepack', title: subjectLabel(b0.subject) + ' 5-Pack',
       stage:b0.stage, subject:b0.subject,
       stageLabel: subjectLabel(b0.subject) + ' · Stage ' + b0.stage,
       sub:'5 boosters · Your selection · Instant PDF download',
-      pricePaise:79900, wasLabel:'₹1,245 if bought individually', saveLabel:'Save ₹446',
+      pricePaise: fivepackPrice,
+      wasLabel: formatPrice(fullPrice) + ' if bought individually',
+      saveLabel: 'Save ' + formatPrice(fullPrice - fivepackPrice),
       items:boosters, primarySlug: P.fivepackSlug(b0.subject, b0.stage),
       itemSlugs, bundleSlug:null,
     };
@@ -371,7 +388,7 @@ function resolveOrder() {
       stage: b0?.stage, subject: b0?.subject,
       stageLabel: subjectLabel(b0?.subject) + ' · Stage ' + b0?.stage,
       sub: itemSlugs.length + ' of 5 boosters selected',
-      pricePaise: 79900,
+      pricePaise: P.priceFor('fivepack', currency),
       wasLabel:null, saveLabel:null,
       items: boosters, primarySlug: null, itemSlugs, bundleSlug:null,
     };
@@ -380,15 +397,16 @@ function resolveOrder() {
   if (orderType === 'subject' && slug) {
     const bundle = P.bundles[slug];
     if (!bundle) return null;
-    const boosters = bundle.itemSlugs.map(s => P.getBooster(s)).filter(Boolean);
-    const fullPrice = boosters.length * 24900;
-    const save = fullPrice - bundle.pricePaise;
+    const boosters      = bundle.itemSlugs.map(s => P.getBooster(s)).filter(Boolean);
+    const bundlePrice   = P.priceFor('subject', currency);
+    const fullPrice     = boosters.length * P.priceFor('single', currency);
+    const save          = fullPrice - bundlePrice;
     return {
       type:'subject', title:'Complete ' + subjectLabel(bundle.subject) + ' Stage ' + bundle.stage,
       stage:bundle.stage, subject:bundle.subject,
       stageLabel: subjectLabel(bundle.subject) + ' · Stage ' + bundle.stage,
       sub: boosters.length + ' boosters · Full subject coverage · Instant PDF download',
-      pricePaise:bundle.pricePaise,
+      pricePaise: bundlePrice,
       wasLabel: formatPrice(fullPrice) + ' individually',
       saveLabel: 'Save ' + formatPrice(save),
       items:boosters, primarySlug:slug, itemSlugs:bundle.itemSlugs, bundleSlug:null,
@@ -398,15 +416,16 @@ function resolveOrder() {
   if (orderType === 'stage' && slug) {
     const bundle = P.bundles[slug];
     if (!bundle) return null;
-    const boosters = bundle.itemSlugs.map(s => P.getBooster(s)).filter(Boolean);
-    const fullPrice = boosters.length * 24900;
-    const save = fullPrice - bundle.pricePaise;
+    const boosters      = bundle.itemSlugs.map(s => P.getBooster(s)).filter(Boolean);
+    const bundlePrice   = P.priceFor('stage', currency);
+    const fullPrice     = boosters.length * P.priceFor('single', currency);
+    const save          = fullPrice - bundlePrice;
     return {
       type:'stage', title:'Everything · Stage ' + bundle.stage,
       stage:bundle.stage, subject:'all',
       stageLabel:'All Subjects · Stage ' + bundle.stage,
       sub: boosters.length + ' boosters · Maths, Science and Computing · Instant PDF download',
-      pricePaise:bundle.pricePaise,
+      pricePaise: bundlePrice,
       wasLabel: formatPrice(fullPrice) + ' individually',
       saveLabel: 'Save ' + formatPrice(save),
       items:boosters, primarySlug:slug, itemSlugs:bundle.itemSlugs, bundleSlug:null,
@@ -484,7 +503,8 @@ function populateUI() {
       document.getElementById('oc-upsell-title').textContent =
         'Get all ' + bundle.itemSlugs.length + ' Stage ' + orderData.stage + ' ' + subjectLabel(orderData.subject) + ' boosters';
       document.getElementById('oc-upsell-sub').textContent =
-        'Complete topic coverage for ₹1,299 instead of ₹249 for just this one.';
+        'Complete topic coverage for ' + formatPrice(P.priceFor('subject', currency)) +
+        ' instead of ' + formatPrice(P.priceFor('single', currency)) + ' for just this one.';
       document.getElementById('oc-upsell').style.display = 'block';
     }
     document.getElementById('form-sub').textContent =
@@ -499,8 +519,10 @@ function populateUI() {
     // Left panel nudge
     document.getElementById('oc-fn-title').textContent =
       count + ' of 5 boosters selected — add ' + need + ' more';
+    const fivepackPrice = P.priceFor('fivepack', currency);
     document.getElementById('oc-fn-sub').textContent =
-      'Pick ' + need + ' more to unlock the 5-pack price of ₹799 — just ₹160 per topic.';
+      'Pick ' + need + ' more to unlock the 5-pack price of ' + formatPrice(fivepackPrice) +
+      ' — just ' + formatPrice(fivepackPrice / 5) + ' per topic.';
     buildProgressDots('oc-fn-progress', count, 5);
     document.getElementById('oc-fn').style.display = 'block';
 
@@ -508,7 +530,7 @@ function populateUI() {
     document.getElementById('fw-title').textContent =
       'You\'ve selected ' + count + ' of 5 boosters';
     document.getElementById('fw-sub').textContent =
-      'Go back and pick ' + need + ' more topic' + (need > 1 ? 's' : '') + ' to unlock the ₹799 bundle price.';
+      'Go back and pick ' + need + ' more topic' + (need > 1 ? 's' : '') + ' to unlock the ' + formatPrice(fivepackPrice) + ' bundle price.';
     buildProgressDots('fw-progress', count, 5);
     document.getElementById('fivepack-wall').style.display = 'block';
     document.getElementById('pay-btn').style.display = 'none';
@@ -521,7 +543,7 @@ function populateUI() {
   // ── 5-pack complete — show progress filled ──
   if (orderData.type === 'fivepack') {
     document.getElementById('oc-fn-title').textContent = '5-pack unlocked 🎉';
-    document.getElementById('oc-fn-sub').textContent   = 'All 5 boosters selected — ₹160 per topic.';
+    document.getElementById('oc-fn-sub').textContent   = 'All 5 boosters selected — ' + formatPrice(P.priceFor('fivepack', currency) / 5) + ' per topic.';
     buildProgressDots('oc-fn-progress', 5, 5);
     document.getElementById('oc-fn').style.display = 'block';
     document.getElementById('form-sub').textContent =
@@ -622,8 +644,8 @@ async function handlePay() {
     const rzp = new Razorpay({
       key:      data.keyId,
       order_id: data.razorpayOrderId,
-      amount:   orderData.pricePaise,
-      currency: 'INR',
+      amount:   data.amountPaise,
+      currency: data.currency,
       name:     'CoreMark',
       description: orderData.title,
       prefill:  { email },
@@ -665,7 +687,7 @@ async function handlePay() {
 }
 window.handlePay = handlePay;
 
-populateUI();
+detectCurrency().then(populateUI);
 </script>
 </body>
 </html>

@@ -1569,6 +1569,47 @@ window.CM_PRODUCTS = {
     { count: 5, total: 79900,  label: '5-pack bundle', sub: 'Best value — ₹160 per topic',               nudge: '5-pack unlocked 🎉 All 5 for ₹799' },
   ],
 
+  // ─────────────────────────────────────────────────────────────
+  // INTERNATIONAL (USD) PRICING
+  // Charm-priced, not a straight FX conversion — protects margin
+  // against ~4.5–5.5% international-card + forex-markup fees.
+  // Shown to any visitor whose request doesn't resolve to country
+  // 'IN' (see functions/api/geo.js). Amounts are in US cents.
+  //   Single        $4.99  →  499
+  //   5-pack        $14.99 →  1499
+  //   Full subject  $19.99 →  1999
+  //   Full stage    $34.99 →  3499
+  // ─────────────────────────────────────────────────────────────
+  PRICE_USD_CENTS: { single: 499, fivepack: 1499, subject: 1999, stage: 3499 },
+
+  /**
+   * Price for an order type in the given currency.
+   * @param {string} orderType  'single' | 'fivepack' | 'subject' | 'stage'
+   * @param {string} currency   'INR' | 'USD'
+   * @returns {number} amount in the currency's minor unit (paise or cents)
+   */
+  priceFor(orderType, currency) {
+    if (currency === 'USD') return this.PRICE_USD_CENTS[orderType];
+    const inrMap = { single: 24900, fivepack: 79900, subject: 129900, stage: 249900 };
+    return inrMap[orderType];
+  },
+
+  basketTiersUSD: [
+    { count: 1, total: 499,  label: '1 booster',     sub: '$4.99 · single price',                 nudge: null },
+    { count: 2, total: 998,  label: '2 boosters',    sub: '$9.98 · $4.99 each',                    nudge: null },
+    { count: 3, total: 1497, label: '3 boosters',    sub: '$14.97 · add 2 more to save $9.96',     nudge: 'Add 2 more to unlock the 5-pack bundle!' },
+    { count: 4, total: 1996, label: '4 boosters',    sub: '$19.96 · add 1 more to save $9.96',     nudge: 'One more topic unlocks the 5-pack bundle!' },
+    { count: 5, total: 1499, label: '5-pack bundle', sub: 'Best value — $3.00 per topic',          nudge: '5-pack unlocked 🎉 All 5 for $14.99' },
+  ],
+
+  /**
+   * Basket tier table for the given currency.
+   * @param {string} currency  'INR' | 'USD'
+   */
+  basketTiersFor(currency) {
+    return currency === 'USD' ? this.basketTiersUSD : this.basketTiers;
+  },
+
   /**
    * Verify a basket selection is valid for checkout.
    * Returns { ok, error } 

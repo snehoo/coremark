@@ -15,11 +15,19 @@ function razorpayAuth(env) {
   return 'Basic ' + btoa(`${env.RAZORPAY_KEY_ID}:${env.RAZORPAY_KEY_SECRET}`);
 }
 
-function calculatePrice(orderType) {
-  if (orderType === 'single')   return 24900;
-  if (orderType === 'fivepack') return 79900;
-  if (orderType === 'subject')  return 129900;
-  if (orderType === 'stage')    return 249900;
+const PRICE_INR_PAISE = { single: 24900, fivepack: 79900, subject: 129900, stage: 249900 };
+const PRICE_USD_CENTS = { single: 499, fivepack: 1499, subject: 1999, stage: 3499 };
+
+function calculatePrice(orderType, currency) {
+  return currency === 'USD' ? PRICE_USD_CENTS[orderType] : PRICE_INR_PAISE[orderType];
+}
+
+// Currency is decided entirely server-side from Cloudflare's edge-resolved
+// country — never from anything the client sends. This closes the same
+// pricing-abuse surface as validateOrder() above: there is no client-supplied
+// currency field anywhere, so there is nothing to trust or distrust.
+function currencyForRequest(request) {
+  return request.cf?.country === 'IN' ? 'INR' : 'USD';
 }
 
 function deriveSubject(orderType, primarySlug, itemSlugs) {
@@ -135,7 +143,8 @@ export async function onRequestPost({ request, env }) {
   if (orderError)
     return new Response(JSON.stringify({ error: orderError }), { status: 400, headers: { 'Content-Type': 'application/json', ...CORS } });
 
-  const amountPaise = calculatePrice(orderType);
+  const currency    = currencyForRequest(request);
+  const amountPaise = calculatePrice(orderType, currency);
   const subject     = deriveSubject(orderType, primarySlug, itemSlugs);
   const stage       = deriveStage(itemSlugs, primarySlug);
 
@@ -146,7 +155,7 @@ export async function onRequestPost({ request, env }) {
       method:  'POST',
       headers: { 'Authorization': razorpayAuth(env), 'Content-Type': 'application/json' },
       body:    JSON.stringify({
-        amount: amountPaise, currency: 'INR',
+        amount: amountPaise, currency,
         notes: {
           source: 'coremark', order_type: orderType,
           primary_slug: primarySlug, item_slugs: itemSlugs.join(','),
@@ -165,15 +174,15 @@ export async function onRequestPost({ request, env }) {
   try {
     await dbQuery(env,
       `INSERT INTO orders (razorpay_order_id, buyer_email, order_type, primary_slug, item_slugs, amount_paise, currency, status, subject, stage, source)
-       VALUES ($1,$2,$3,$4,$5::jsonb,$6,'INR','pending',$7,$8,'web') ON CONFLICT (razorpay_order_id) DO NOTHING`,
-      [rzpOrder.id, buyerEmail.trim(), orderType, primarySlug, JSON.stringify(itemSlugs), amountPaise, subject, stage]
+       VALUES ($1,$2,$3,$4,$5::jsonb,$6,$7,'pending',$8,$9,'web') ON CONFLICT (razorpay_order_id) DO NOTHING`,
+      [rzpOrder.id, buyerEmail.trim(), orderType, primarySlug, JSON.stringify(itemSlugs), amountPaise, currency, subject, stage]
     );
   } catch (err) {
     console.error('[create-order] DB:', err.message);
   }
 
   return new Response(
-    JSON.stringify({ ok: true, razorpayOrderId: rzpOrder.id, keyId: env.RAZORPAY_KEY_ID, amountPaise }),
+    JSON.stringify({ ok: true, razorpayOrderId: rzpOrder.id, keyId: env.RAZORPAY_KEY_ID, amountPaise, currency }),
     { status: 200, headers: { 'Content-Type': 'application/json', ...CORS } }
   );
 }

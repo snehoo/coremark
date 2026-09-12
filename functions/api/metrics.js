@@ -46,23 +46,27 @@ export async function onRequestGet({request,env}){
     return new Response('Unauthorized',{status:401,headers:CORS});
   }
   try {
-    const [rev,ord,buy,top,bySub,byStg,byTyp,daily,seq,fb,pages,funnel,monthly,freeLeads] = await Promise.all([
-      dbQuery(env,`SELECT COALESCE(SUM(amount_paise),0) AS total_paise,COALESCE(SUM(amount_paise)FILTER(WHERE paid_at>=NOW()-INTERVAL '30 days'),0) AS last30_paise,COALESCE(SUM(amount_paise)FILTER(WHERE paid_at>=NOW()-INTERVAL '7 days'),0) AS last7_paise,COALESCE(SUM(amount_paise)FILTER(WHERE paid_at>=CURRENT_DATE),0) AS today_paise FROM orders WHERE status='paid'`,[]),
+    // Revenue rollups are scoped to INR — once USD orders exist, blending
+    // paise and cents in one SUM() would be meaningless. USD gets its own
+    // small secondary total (intl) rather than an FX-normalized blend.
+    const [rev,ord,buy,top,bySub,byStg,byTyp,daily,seq,fb,pages,funnel,monthly,freeLeads,intl] = await Promise.all([
+      dbQuery(env,`SELECT COALESCE(SUM(amount_paise),0) AS total_paise,COALESCE(SUM(amount_paise)FILTER(WHERE paid_at>=NOW()-INTERVAL '30 days'),0) AS last30_paise,COALESCE(SUM(amount_paise)FILTER(WHERE paid_at>=NOW()-INTERVAL '7 days'),0) AS last7_paise,COALESCE(SUM(amount_paise)FILTER(WHERE paid_at>=CURRENT_DATE),0) AS today_paise FROM orders WHERE status='paid' AND COALESCE(currency,'INR')='INR'`,[]),
       dbQuery(env,`SELECT COUNT(*) AS total,COUNT(*)FILTER(WHERE paid_at>=NOW()-INTERVAL '30 days') AS last30,COUNT(*)FILTER(WHERE paid_at>=NOW()-INTERVAL '7 days') AS last7,COUNT(*)FILTER(WHERE paid_at>=CURRENT_DATE) AS today,COUNT(*)FILTER(WHERE status='pending') AS pending,COUNT(*)FILTER(WHERE status='refunded') AS refunded FROM orders WHERE status IN('paid','pending','refunded')`,[]),
       dbQuery(env,`SELECT COUNT(*) AS total,COUNT(*)FILTER(WHERE created_at>=NOW()-INTERVAL '30 days') AS last30 FROM buyers`,[]),
       dbQuery(env,`SELECT slug_item AS slug,COUNT(*) AS units FROM orders,jsonb_array_elements_text(item_slugs) AS slug_item WHERE status='paid' GROUP BY slug_item ORDER BY units DESC LIMIT 10`,[]),
-      dbQuery(env,`SELECT subject,COUNT(*) AS orders,COALESCE(SUM(amount_paise),0) AS revenue_paise FROM orders WHERE status='paid' AND subject IS NOT NULL GROUP BY subject ORDER BY revenue_paise DESC`,[]),
-      dbQuery(env,`SELECT stage,COUNT(*) AS orders,COALESCE(SUM(amount_paise),0) AS revenue_paise FROM orders WHERE status='paid' AND stage IS NOT NULL GROUP BY stage ORDER BY stage`,[]),
-      dbQuery(env,`SELECT order_type,COUNT(*) AS orders,COALESCE(SUM(amount_paise),0) AS revenue_paise FROM orders WHERE status='paid' GROUP BY order_type ORDER BY orders DESC`,[]),
-      dbQuery(env,`SELECT DATE(paid_at) AS day,COUNT(*) AS orders,COALESCE(SUM(amount_paise),0) AS revenue_paise FROM orders WHERE status='paid' AND paid_at>=NOW()-INTERVAL '30 days' GROUP BY DATE(paid_at) ORDER BY day ASC`,[]),
+      dbQuery(env,`SELECT subject,COUNT(*) AS orders,COALESCE(SUM(amount_paise),0) AS revenue_paise FROM orders WHERE status='paid' AND COALESCE(currency,'INR')='INR' AND subject IS NOT NULL GROUP BY subject ORDER BY revenue_paise DESC`,[]),
+      dbQuery(env,`SELECT stage,COUNT(*) AS orders,COALESCE(SUM(amount_paise),0) AS revenue_paise FROM orders WHERE status='paid' AND COALESCE(currency,'INR')='INR' AND stage IS NOT NULL GROUP BY stage ORDER BY stage`,[]),
+      dbQuery(env,`SELECT order_type,COUNT(*) AS orders,COALESCE(SUM(amount_paise),0) AS revenue_paise FROM orders WHERE status='paid' AND COALESCE(currency,'INR')='INR' GROUP BY order_type ORDER BY orders DESC`,[]),
+      dbQuery(env,`SELECT DATE(paid_at) AS day,COUNT(*) AS orders,COALESCE(SUM(amount_paise),0) AS revenue_paise FROM orders WHERE status='paid' AND COALESCE(currency,'INR')='INR' AND paid_at>=NOW()-INTERVAL '30 days' GROUP BY DATE(paid_at) ORDER BY day ASC`,[]),
       dbQuery(env,`SELECT sequence_step,COUNT(*) AS orders FROM orders WHERE status='paid' GROUP BY sequence_step ORDER BY sequence_step`,[]),
       dbQuery(env,`SELECT COUNT(*) AS total,ROUND(AVG(rating),1) AS avg_rating,COUNT(*)FILTER(WHERE rating>=4) AS happy,COUNT(*)FILTER(WHERE rating=3) AS neutral,COUNT(*)FILTER(WHERE rating<=2) AS unhappy FROM feedback`,[]),
       dbQuery(env,`SELECT SPLIT_PART(path,'?',1) AS path,COUNT(*) AS views FROM pageviews WHERE viewed_at>=NOW()-INTERVAL '7 days' GROUP BY SPLIT_PART(path,'?',1) ORDER BY views DESC LIMIT 10`,[]),
       dbQuery(env,`SELECT COUNT(*) AS total,COUNT(*)FILTER(WHERE SPLIT_PART(path,'?',1)='/free') AS free_page,COUNT(*)FILTER(WHERE SPLIT_PART(path,'?',1)='/free-download') AS free_signups,COUNT(*)FILTER(WHERE path LIKE '/free%' AND path LIKE '%utm_source=ig%') AS free_ig,COUNT(*)FILTER(WHERE path LIKE '/free%' AND (path LIKE '%gclid%' OR path LIKE '%utm_source=google%' OR path LIKE '%utm_source=ads%')) AS free_google FROM pageviews WHERE viewed_at>=NOW()-INTERVAL '30 days'`,[]),
-      dbQuery(env,`SELECT TO_CHAR(DATE_TRUNC('month',paid_at),'YYYY-MM') AS month,COALESCE(SUM(amount_paise),0) AS revenue_paise,COUNT(*) AS orders FROM orders WHERE status='paid' GROUP BY DATE_TRUNC('month',paid_at) ORDER BY month ASC`,[]),
+      dbQuery(env,`SELECT TO_CHAR(DATE_TRUNC('month',paid_at),'YYYY-MM') AS month,COALESCE(SUM(amount_paise),0) AS revenue_paise,COUNT(*) AS orders FROM orders WHERE status='paid' AND COALESCE(currency,'INR')='INR' GROUP BY DATE_TRUNC('month',paid_at) ORDER BY month ASC`,[]),
       brevoFreeLeads(env),
+      dbQuery(env,`SELECT COALESCE(SUM(amount_paise),0) AS total_cents,COUNT(*) AS orders FROM orders WHERE status='paid' AND currency='USD'`,[]),
     ]);
-    const r=rev.rows[0], o=ord.rows[0], b=buy.rows[0], f=fb.rows[0];
+    const r=rev.rows[0], o=ord.rows[0], b=buy.rows[0], f=fb.rows[0], i=intl.rows[0];
     return new Response(JSON.stringify({
       ok:true, generatedAt:new Date().toISOString(),
       revenue:{totalPaise:Number(r.total_paise),last30Paise:Number(r.last30_paise),last7Paise:Number(r.last7_paise),todayPaise:Number(r.today_paise)},
@@ -79,6 +83,7 @@ export async function onRequestGet({request,env}){
       funnel:{visitors:Number(funnel.rows[0]?.total||0),freePage:Number(funnel.rows[0]?.free_page||0),freeSignups:Number(funnel.rows[0]?.free_signups||0),paid:Number(o.last30),freeIg:Number(funnel.rows[0]?.free_ig||0),freeGoogle:Number(funnel.rows[0]?.free_google||0)},
       monthly:monthly.rows.map(x=>({month:x.month,orders:Number(x.orders),revenuePaise:Number(x.revenue_paise)})),
       freeLeads:{count:freeLeads.count,contacts:freeLeads.contacts},
+      intl:{totalCents:Number(i.total_cents),orders:Number(i.orders)},
     }),{status:200,headers:{'Content-Type':'application/json',...CORS}});
   } catch(e) {
     console.error('[metrics]',e.message);

@@ -387,7 +387,12 @@ function renderDownloads(fileUrls, orderTitle, count) {
 }
 
 // ── Populate upsell ───────────────────────────────────────
-function renderUpsell(subject, stage) {
+function formatMoney(amountMinor, currency) {
+  if (currency === 'USD') return '$' + (amountMinor / 100).toFixed(2);
+  return '₹' + Math.round(amountMinor / 100).toLocaleString('en-IN');
+}
+
+function renderUpsell(subject, stage, currency) {
   if (!subject || !stage || orderType !== 'single') return;
 
   const subjSlug  = P.subjectBundleSlug(subject, stage);
@@ -396,10 +401,15 @@ function renderUpsell(subject, stage) {
 
   if (!subjBundle) return;
 
+  const subjectPrice = P.priceFor('subject', currency);
+  const stagePrice   = P.priceFor('stage', currency);
+
   document.getElementById('upsell-title').textContent =
     'Get all ' + subjBundle.itemSlugs.length + ' Stage ' + stage + ' ' + subjectLabel(subject) + ' boosters';
   document.getElementById('upsell-sub').textContent =
-    'Cover every topic for the year — ₹1,299 for all ' + subjBundle.itemSlugs.length + ' boosters.';
+    'Cover every topic for the year — ' + formatMoney(subjectPrice, currency) + ' for all ' + subjBundle.itemSlugs.length + ' boosters.';
+  document.getElementById('upsell-btn-subject').textContent = 'Get Full Subject Bundle — ' + formatMoney(subjectPrice, currency);
+  document.getElementById('upsell-btn-stage').textContent   = 'All Subjects Bundle — ' + formatMoney(stagePrice, currency);
   document.getElementById('upsell-btn-subject').href =
     'checkout.html?type=subject&slug=' + subjSlug;
   document.getElementById('upsell-btn-stage').href =
@@ -459,19 +469,23 @@ async function verifyAndDeliver() {
 
     // Upsell (single booster only)
     if (data.subject && data.stage) {
-      renderUpsell(data.subject, data.stage);
+      renderUpsell(data.subject, data.stage, data.currency || 'INR');
     }
 
     showSuccess();
+    // Real charged amount/currency from verify-payment.js's response — not a
+    // hardcoded map (which used to also mislabel every stage-bundle sale as
+    // ₹1,299 instead of its actual ₹2,499, understating ad-platform ROAS data
+    // on the highest-value tier).
+    var orderCurrency = data.currency || 'INR';
+    var orderValue     = (data.amountPaise != null ? data.amountPaise : 24900) / 100;
     // ── GA4 purchase event ────────────────────────────────
     (function() {
-      var priceMap = { single: 249, fivepack: 799, subject: 1299, stage: 1299 };
-      var orderValue = priceMap[data.orderType] || 249;
       if (typeof gtag === 'function') {
         gtag('event', 'purchase', {
           transaction_id: data.orderId || orderId,
           value:          orderValue,
-          currency:       'INR',
+          currency:       orderCurrency,
           items: [{
             item_id:   data.orderType === 'single' ? (slug || data.orderType) : data.orderType,
             item_name: data.orderTitle || title,
@@ -484,13 +498,11 @@ async function verifyAndDeliver() {
     // ── /GA4 purchase event ───────────────────────────────
     // ── Google Ads conversion event ───────────────────────
     (function() {
-      var priceMap = { single: 249, fivepack: 799, subject: 1299, stage: 1299 };
-      var orderValue = priceMap[data.orderType] || 249;
       if (typeof gtag === 'function') {
         gtag('event', 'conversion', {
           send_to:        'AW-17160905849/QjfKCL3T3dEcEPnI-vY_',
           value:          orderValue,
-          currency:       'INR',
+          currency:       orderCurrency,
           transaction_id: data.orderId || orderId,
         });
       }
@@ -498,12 +510,10 @@ async function verifyAndDeliver() {
     // ── /Google Ads conversion event ──────────────────────
     // ── Meta Pixel purchase event ─────────────────────────
     (function() {
-      var priceMap = { single: 249, fivepack: 799, subject: 1299, stage: 1299 };
-      var orderValue = priceMap[data.orderType] || 249;
       if (typeof fbq === 'function') {
         fbq('track', 'Purchase', {
           value:        orderValue,
-          currency:     'INR',
+          currency:     orderCurrency,
           content_ids:  [data.orderType === 'single' ? (slug || data.orderType) : data.orderType],
           content_type: 'product',
           content_name: data.orderTitle || title,

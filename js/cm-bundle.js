@@ -5,6 +5,12 @@
   var SUBJECT   = window.CM_SUBJECT || 'math';
   var SUBJ_SLUG = { math:'math', science:'sci', computing:'comp' }[SUBJECT] || 'math';
 
+  // Currency — decided server-side from request.cf.country (see functions/api/geo.js).
+  // Display-only: the actual charge is always re-derived in create-order.js.
+  var currency = 'INR';
+  fetch('/api/geo').then(function(r){ return r.json(); }).then(function(d){ if (d.currency === 'USD') currency = d.currency; }).catch(function(){});
+  function fivepackPriceLabel() { return currency === 'USD' ? '$14.99' : '₹799'; }
+
   var CODE_MAP = {};
   Object.values(P.boosters)
     .filter(function(b){ return b.subject === SUBJECT; })
@@ -26,7 +32,7 @@
       btn.style.opacity    = '1';
       btn.style.cursor     = 'pointer';
       btn.style.background = '';
-      btn.textContent      = 'Buy Bundle — ₹799';
+      btn.textContent      = 'Buy Bundle — ' + fivepackPriceLabel();
     } else {
       btn.setAttribute('disabled','');
       btn.style.opacity    = '0.38';
@@ -52,7 +58,8 @@
     }
     if (slugs.length < 5) {
       if (typeof window.showToast === 'function')
-        window.showToast('Add ' + (5-slugs.length) + ' more topics to unlock the 5-pack', '5 topics for ₹799 — ₹160 each');
+        window.showToast('Add ' + (5-slugs.length) + ' more topics to unlock the 5-pack',
+          currency === 'USD' ? '5 topics for $14.99 — $3.00 each' : '5 topics for ₹799 — ₹160 each');
       return;
     }
     location.href = 'checkout.html?type=fivepack'
