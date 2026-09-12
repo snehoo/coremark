@@ -15,12 +15,11 @@ function razorpayAuth(env) {
   return 'Basic ' + btoa(`${env.RAZORPAY_KEY_ID}:${env.RAZORPAY_KEY_SECRET}`);
 }
 
-function calculatePrice(orderType, itemSlugs) {
+function calculatePrice(orderType) {
   if (orderType === 'single')   return 24900;
   if (orderType === 'fivepack') return 79900;
   if (orderType === 'subject')  return 129900;
   if (orderType === 'stage')    return 249900;
-  return itemSlugs.length * 24900;
 }
 
 function deriveSubject(orderType, primarySlug, itemSlugs) {
@@ -38,22 +37,64 @@ function deriveStage(itemSlugs, primarySlug) {
   return match ? parseInt(match[1]) : null;
 }
 
-// Prevents underpaying for a 5-pack by sending fewer/mismatched boosters —
-// the client already enforces this in CM_PRODUCTS.validateBasket(), but
-// that's trivially bypassable by calling this endpoint directly.
-function validateFivepack(itemSlugs) {
-  if (itemSlugs.length !== 5) return 'A 5-pack must contain exactly 5 boosters.';
-  const subjects = new Set(), stages = new Set();
+const SUBJECT_PREFIXES = ['math', 'sci', 'comp'];
+
+function slugsFor(prefix, stage) {
+  return Object.keys(BOOSTER_MAP).filter(k => k.startsWith(`${prefix}-`) && k.endsWith(`-s${stage}`));
+}
+
+function sameSet(a, b) {
+  if (a.length !== b.length) return false;
+  const setB = new Set(b);
+  return a.every(x => setB.has(x));
+}
+
+// Every order type has a fixed price computed from orderType alone
+// (calculatePrice never looks at itemSlugs' actual content). Without this,
+// a direct POST to this endpoint could pay the single/fivepack/subject/stage
+// price while requesting far more files than that tier is supposed to include
+// — verify-payment.js's getFileUrls() falls back to emailing every slug in
+// itemSlugs individually whenever no pre-built bundle zip matches primarySlug.
+// The client already enforces basket shape in CM_PRODUCTS, but that's
+// trivially bypassable by calling this endpoint directly.
+function validateOrder(orderType, itemSlugs, primarySlug) {
+  const parsed = [];
   for (const slug of itemSlugs) {
     if (!BOOSTER_MAP[slug]) return `Unknown booster: ${slug}`;
     const m = slug.match(/^(math|sci|comp)-.+-s(\d)$/);
     if (!m) return `Invalid booster slug: ${slug}`;
-    subjects.add(m[1]);
-    stages.add(m[2]);
+    parsed.push({ slug, prefix: m[1], stage: m[2] });
   }
-  if (subjects.size > 1) return 'All 5-pack boosters must be from the same subject.';
-  if (stages.size > 1) return 'All 5-pack boosters must be from the same stage.';
-  return null;
+
+  if (orderType === 'single') {
+    if (itemSlugs.length !== 1) return 'A single booster order must contain exactly 1 item.';
+    return null;
+  }
+
+  if (orderType === 'fivepack') {
+    if (itemSlugs.length !== 5) return 'A 5-pack must contain exactly 5 boosters.';
+    if (new Set(parsed.map(p => p.prefix)).size > 1) return 'All 5-pack boosters must be from the same subject.';
+    if (new Set(parsed.map(p => p.stage)).size > 1) return 'All 5-pack boosters must be from the same stage.';
+    return null;
+  }
+
+  if (orderType === 'subject') {
+    const prefixes = new Set(parsed.map(p => p.prefix)), stages = new Set(parsed.map(p => p.stage));
+    if (prefixes.size !== 1 || stages.size !== 1) return 'A subject bundle must be a single subject and stage.';
+    const expected = slugsFor([...prefixes][0], [...stages][0]);
+    if (!sameSet(itemSlugs, expected)) return 'Subject bundle must include every booster for that subject and stage — nothing more, nothing less.';
+    return null;
+  }
+
+  if (orderType === 'stage') {
+    const stages = new Set(parsed.map(p => p.stage));
+    if (stages.size !== 1) return 'A stage bundle must be a single stage.';
+    const expected = SUBJECT_PREFIXES.flatMap(p => slugsFor(p, [...stages][0]));
+    if (!sameSet(itemSlugs, expected)) return 'Stage bundle must include every booster across all subjects for that stage.';
+    return null;
+  }
+
+  return `Unknown order type: ${orderType}`;
 }
 
 async function dbQuery(env, sql, params = []) {
@@ -90,13 +131,11 @@ export async function onRequestPost({ request, env }) {
   if (!buyerEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(buyerEmail.trim()))
     return new Response(JSON.stringify({ error: 'Valid email required' }), { status: 400, headers: { 'Content-Type': 'application/json', ...CORS } });
 
-  if (orderType === 'fivepack') {
-    const fpError = validateFivepack(itemSlugs);
-    if (fpError)
-      return new Response(JSON.stringify({ error: fpError }), { status: 400, headers: { 'Content-Type': 'application/json', ...CORS } });
-  }
+  const orderError = validateOrder(orderType, itemSlugs, primarySlug);
+  if (orderError)
+    return new Response(JSON.stringify({ error: orderError }), { status: 400, headers: { 'Content-Type': 'application/json', ...CORS } });
 
-  const amountPaise = calculatePrice(orderType, itemSlugs);
+  const amountPaise = calculatePrice(orderType);
   const subject     = deriveSubject(orderType, primarySlug, itemSlugs);
   const stage       = deriveStage(itemSlugs, primarySlug);
 
