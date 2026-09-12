@@ -34,6 +34,7 @@
 :root{--ink:#2A1B3D;--ink-soft:#4A3A5E;--ink-muted:#8A7A9E;--paper:#FBF8F2;--cream:#FBF8F2;--mist:#F0EBF8;--blue:#6E47C9;--blue-deep:#5235A0;--blue-tint:#EDE8FA;--coral:#F4C73E;--coral-soft:#F7D872;--border:#E2DBEF;--border-soft:#EDE8FA;--green:#059669;--font-sans:'Plus Jakarta Sans',sans-serif;--font-serif:'Instrument Serif',serif;--font-mono:'JetBrains Mono',monospace;--radius-lg:16px;--radius-md:12px;--radius-sm:8px;}
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:var(--font-sans);background:var(--cream);color:var(--ink);-webkit-font-smoothing:antialiased;}
+.intl-note-strip{display:none;text-align:center;font-size:13px;color:var(--blue-deep);font-weight:600;margin:0 0 24px;}
 .nav{position:sticky;top:0;z-index:50;background:rgba(251,248,242,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border-soft);}
 .nav-inner{max-width:1280px;margin:0 auto;padding:0 40px;height:65px;display:flex;align-items:center;justify-content:space-between;gap:24px;}
 .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
@@ -222,6 +223,16 @@ src="https://www.facebook.com/tr?id=1921557135206596&ev=PageView&noscript=1"/></
   });
 })();
 </script>
+<script>
+// International-pricing note — decided server-side from request.cf.country
+// (see functions/api/geo.js). Display-only: the actual charge is always
+// re-derived in create-order.js.
+fetch('/api/geo').then(function(r){ return r.json(); }).then(function(d){
+  if (d.currency === 'USD') {
+    document.querySelectorAll('.intl-note-strip').forEach(function(el){ el.style.display = 'block'; });
+  }
+}).catch(function(){});
+</script>
 
 <div class="page-hero">
   <div class="page-hero-inner">
@@ -244,6 +255,8 @@ src="https://www.facebook.com/tr?id=1921557135206596&ev=PageView&noscript=1"/></
     <div class="stat-card"><div class="num">27</div><div class="lbl">Science topics across Stages 7, 8 and 9</div></div>
     <div class="stat-card"><div class="num">22</div><div class="lbl">Computing topics across Stages 7, 8 and 9</div></div>
   </div>
+
+  <div class="intl-note-strip">🌍 Shopping from outside India? Your total will be shown in USD at checkout.</div>
 
   <!-- MATHEMATICS -->
   <div class="subject-block" id="maths">

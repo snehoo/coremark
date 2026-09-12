@@ -64,6 +64,7 @@
 body{font-family:var(--font-sans);color:var(--ink);background:var(--cream);-webkit-font-smoothing:antialiased;}
 a{color:inherit;}
 .intl-note-strip{display:none;text-align:center;font-size:13px;color:var(--blue-deep);font-weight:600;margin-top:14px;}
+.intl-note-dark{display:none;text-align:center;font-size:13px;color:var(--coral);font-weight:600;margin-top:18px;}
 
 /* NAV */
 .nav-outer{background:var(--cream);border-bottom:1px solid var(--border-soft);position:sticky;top:0;z-index:50;}
@@ -883,6 +884,8 @@ src="https://www.facebook.com/tr?id=1921557135206596&ev=PageView&noscript=1"/></
         </div>
         <a href="/checkout.html?type=stage&slug=all-s8" id="spb-all-btn" class="spb-btn">All subjects — ₹2,499</a>
       </div>
+
+      <div class="intl-note-dark">🌍 Shopping from outside India? Your total will be shown in USD at checkout.</div>
     </div>
   </section>
 </div>
@@ -1256,7 +1259,7 @@ fetch('/api/track', {
 // re-derived in create-order.js.
 fetch('/api/geo').then(function(r){ return r.json(); }).then(function(d){
   if (d.currency === 'USD') {
-    document.querySelectorAll('.intl-note-strip').forEach(function(el){ el.style.display = 'block'; });
+    document.querySelectorAll('.intl-note-strip, .intl-note-dark').forEach(function(el){ el.style.display = 'block'; });
   }
 }).catch(function(){});
 </script>
