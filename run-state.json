@@ -2,12 +2,12 @@
   "sop_version": "v3",
   "run_number": 3,
   "run_date": "2026-09-14",
-  "current_phase": 9,
-  "last_completed_phase": 8,
-  "last_completed_step": "record",
-  "run_in_progress": true,
+  "current_phase": null,
+  "last_completed_phase": 9,
+  "last_completed_step": "report",
+  "run_in_progress": false,
   "spend_this_run_usd": 0,
-  "report_sent": "2026-08-15",
+  "report_sent": "2026-09-14",
   "reconciliation_note": "2026-09-14 (run 3): a 2026-09-03 out-of-band session shipped EXP-GRADING-2026, EXP-KA-TITLE-V2, EXP-HTML-REDIRECTS and registered them here, but never created experiments/*.md files for them nor logged a Human Feedback Log entry in SEO-MEMORY.md. Backfilling experiment files and the log entry this run (Phase 1). Prior reconciliation note (covering 2026-07-14 to 2026-08-15 out-of-band work) is folded into SEO-MEMORY.md and removed from here.",
   "open_experiments": {
     "EXP-1": {
