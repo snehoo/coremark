@@ -1,3 +1,12 @@
+**CLOSED 2026-09-14** — remeasured 21 days late (no loop run happened 2026-08-15→2026-09-14
+except one out-of-band session). Results folded into SEO-MEMORY.md's Scoreboard and Human
+Feedback Log (2026-09-14 entry) and run-state.json's `baseline_remeasure_2026-09-14` field.
+Summary: retitled pages broadly met or exceeded the CTR targets below; duplicate-URL
+consolidation in progress (not yet zero); site-wide clicks up sharply (170 vs 34 prior 28d).
+This file is kept for historical reference only — no further tracking against it.
+
+---
+
 # GSC Baseline — 2026-08-10 (pre-change snapshot)
 
 Changes shipped in commit `0dc5c4e`. Re-pull the same report on **2026-08-24**

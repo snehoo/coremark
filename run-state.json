@@ -1,13 +1,14 @@
 {
   "sop_version": "v3",
-  "run_number": 2,
-  "run_date": "2026-08-15",
-  "current_phase": null,
-  "last_completed_phase": 9,
-  "last_completed_step": "report",
-  "run_in_progress": false,
+  "run_number": 3,
+  "run_date": "2026-09-14",
+  "current_phase": 9,
+  "last_completed_phase": 8,
+  "last_completed_step": "record",
+  "run_in_progress": true,
+  "spend_this_run_usd": 0,
   "report_sent": "2026-08-15",
-  "reconciliation_note": "This file was not updated between 2026-07-14 (run_number 1) and 2026-08-15, even though substantial SEO work happened in that window across several out-of-band sessions (not driven through this file's phase machinery): 2026-07-20 (EXP-3/EXP-4 shipped), 2026-08-03 ('Run 5' per SEO-MEMORY.md), 2026-08-05 ('Run 6'), and a large unlogged GSC audit + 2 new posts on 2026-08-10/11/13 (see SEO-BASELINE-2026-08-10.md, commits 0dc5c4e/a953317/0be7c95/13e1b7e). All of that work is now folded into SEO-MEMORY.md's Human Feedback Log and Scoreboard as of this run. completed_cycles below is intentionally kept conservative (does not retroactively count the out-of-band sessions as formal loop cycles) so the meta-loop trigger at cycle 3 stays meaningful.",
+  "reconciliation_note": "2026-09-14 (run 3): a 2026-09-03 out-of-band session shipped EXP-GRADING-2026, EXP-KA-TITLE-V2, EXP-HTML-REDIRECTS and registered them here, but never created experiments/*.md files for them nor logged a Human Feedback Log entry in SEO-MEMORY.md. Backfilling experiment files and the log entry this run (Phase 1). Prior reconciliation note (covering 2026-07-14 to 2026-08-15 out-of-band work) is folded into SEO-MEMORY.md and removed from here.",
   "open_experiments": {
     "EXP-1": {
       "name": "2026-07-canonical-sitemap-fix",
@@ -47,28 +48,34 @@
     "EXP-SME-TABLE": {
       "name": "2026-08-save-my-exams-table",
       "attempt": 1,
-      "status": "OPEN",
+      "status": "WIN",
       "review_date": "2026-08-17",
-      "note": "Title/desc touched again 2026-08-10 (broader GSC audit) but the comparison-table content change itself appears intact. Not yet due (2 days out) — left OPEN, will need a careful re-check of what specifically survived at next review rather than a clean score."
+      "scored_date": "2026-09-14",
+      "note": "Baseline (2026-08-03): pos 12.5, 28 impr, 0 clicks. Current (2026-09-14 pull): 2 clicks, 44 impr, 4.55% CTR, pos 7.1. Impressions did NOT inflate (unlike most other pages this cycle, which saw 2-5x growth from site-wide ranking gains) — this is a cleaner isolated read than most. Caveat retained from original note: title/desc also touched by the 2026-08-10 audit, so cannot cleanly separate this specific comparison-table change from that broader pass, but the combined treatment produced a clear, sustained improvement."
     },
     "EXP-SCI-NAMED": {
       "name": "2026-08-science-resources-named",
       "attempt": 1,
-      "status": "OPEN",
+      "status": "WIN",
       "review_date": "2026-08-17",
-      "note": "Same caveat as EXP-SME-TABLE — title/desc touched again 2026-08-10, comparison-table content appears intact. Not yet due."
+      "scored_date": "2026-09-14",
+      "note": "Prior-period comparison (2026-07-19 to 2026-08-15): 3 clicks, 119 impr, 2.52% CTR, pos 10.6. Current (2026-08-16 to 2026-09-12): 17 clicks, 309 impr, 5.50% CTR, pos 6.6. Clicks up 5.7x, CTR more than doubled, position meaningfully better. Same caveat as EXP-SME-TABLE re: 2026-08-10 audit overlap, but signal strength here is high enough to call a clean WIN."
     },
     "EXP-CKPT-MARKING": {
       "name": "2026-08-checkpoint-marking-ctr",
       "attempt": 1,
-      "status": "OPEN",
-      "review_date": "2026-09-05"
+      "status": "INCONCLUSIVE",
+      "review_date": "2026-09-05",
+      "scored_date": "2026-09-14",
+      "note": "Post-fix window (2026-08-16 to 2026-09-12, fully after shipping): CTR 1.0%->1.20%, position 5.0->6.2 (worse), impressions 192->502 (2.6x, site-wide growth diluting the comparison). Marginal CTR gain against a worse position is not a confident signal at 6 clicks. Not retried as attempt 2 this cycle - left as a clean INCONCLUSIVE read, revisit only if fresh evidence emerges."
     },
     "EXP-CKPT-SCORE": {
       "name": "2026-08-checkpoint-score-scale-fix",
       "attempt": 1,
-      "status": "OPEN",
-      "review_date": "2026-09-05"
+      "status": "WIN",
+      "review_date": "2026-09-05",
+      "scored_date": "2026-09-14",
+      "note": "Post-fix window: CTR 0.9%->1.08%, position 7.3->6.5 (better), clicks ~0-1->6, impressions 112->554 (site-wide growth, but CTR and position both moved the right direction together, unlike EXP-CKPT-MARKING). Content-accuracy fix (retired 0.0-6.0 scale corrected to 0-50) has standalone value regardless of CTR."
     },
     "EXP-GRADING-2026": {
       "name": "2026-09-grading-system-title-year",
@@ -89,19 +96,30 @@
       "attempt": 1,
       "status": "OPEN",
       "review_date": "2026-10-03",
-      "note": "_redirects: 301 from /blog/cambridge-checkpoint-score-explained.html and /blog/cambridge-lower-secondary-stages-explained.html → clean URLs. Both .html versions were indexed with 40 and 35 impressions respectively, splitting link equity."
+      "note": "_redirects: 301 from /blog/cambridge-checkpoint-score-explained.html and /blog/cambridge-lower-secondary-stages-explained.html → clean URLs. Both .html versions were indexed with 40 and 35 impressions respectively, splitting link equity. Progress check 2026-09-14: score-explained.html down to 8 impr (from 40), stages-explained.html down to 2 impr (from 35) — decaying as expected, not yet due for a clean score."
+    },
+    "EXP-VS-IGCSE": {
+      "name": "2026-09-vs-igcse-direct-answer",
+      "attempt": 1,
+      "status": "OPEN",
+      "review_date": "2026-10-05",
+      "note": "Title/meta rewrite to direct yes/no question framing on cambridge-lower-secondary-vs-igcse.html. Biggest single opportunity found this cycle: page absorbs 3 largest impression-cluster queries site-wide (igcse lower secondary/cambridge international lower secondary/cambridge lower secondary, 214 combined impressions) all at 0% CTR."
+    },
+    "EXP-INDIA-RESOURCES": {
+      "name": "2026-09-india-resources-ctr",
+      "attempt": 1,
+      "status": "OPEN",
+      "review_date": "2026-10-05",
+      "note": "Title/meta rewrite on best-cambridge-lower-secondary-resources-india.html (0 clicks/36 impr/pos10.6, meta was 173 chars). Also fixed title/og/twitter/JSON-LD drift and differentiated from sibling '...Practice Resources in India' page per verifier flag."
     }
   },
-  "baseline_pending_remeasure": {
-    "file": "SEO-BASELINE-2026-08-10.md",
-    "remeasure_date": "2026-08-24",
-    "note": "Set after a major GSC audit (dead-link cleanup, duplicate-URL consolidation, meta description rewrite, retired scoring-scale fix). Do not score that audit's impact before 2026-08-24 — this run's GSC pull (2026-08-15) is recorded as directional only."
-  },
+  "baseline_pending_remeasure": null,
+  "baseline_remeasure_2026-09-14": "SEO-BASELINE-2026-08-10.md remeasured this run (11 days late; no run happened between 2026-08-15 and 2026-09-14 except the out-of-band 2026-09-03 session). All 4 'what to look for' targets checked: (1) CTR on retitled pages — met/exceeded on science-resources (1.6%->5.50%) and save-my-exams (1.6%->4.55%); computing/math/science subject pages also improved. (2) Position on /math and /science — both moved from poor (20.4/11.5) to good (6.7/13.9-ish, though /science still highish); math especially improved. (3) Duplicate URL consolidation — in progress, not yet zero (score-explained.html 13->8 impr, stages-explained.html 17->2 impr); a 3rd previously-unknown dupe found (best-cambridge-checkpoint-computing-resources.html) and redirect PR opened. (4) Total indexed pages — not re-checked via GSC Pages report this run (out of scope for budget); flag for next cycle. Site-wide clicks 170 vs prior-28d 34 (up, healthy) vs the original 3mo baseline of 26 clicks (different window length, not directly comparable, but directionally strong). Closing this baseline file's tracking — folded into SEO-MEMORY.md.",
   "experiments_shipped_this_run": 2,
-  "spend_this_run_usd": null,
   "token_budget_usd": 10,
-  "completed_cycles": 2,
-  "meta_loop_due_at_cycle": 3,
+  "completed_cycles": 3,
+  "meta_loop_due_at_cycle": 6,
+  "meta_loop_ran_this_cycle": true,
   "trust_ladder_rung": 1,
   "kill_switch_warnings": 0
 }

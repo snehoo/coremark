@@ -38,6 +38,8 @@ as directional, not statistically confident. Revisit statistical rigor once clic
 | 2026-08-05 | out-of-band ("Run 6") | 0 registered (2 new blog posts, homepage GEO block, FAQPage→inline microdata migration sitewide) | — | — | — | — | — | OK |
 | 2026-08-10/11/13 | out-of-band (unlogged in this file until now) | 0 registered (major GSC audit: 173 dead links removed, 143 dupe .html links fixed, 25 truncated meta descriptions rewritten, retired 0.0–6.0 scoring scale corrected on 16 pages, new baseline set — see SEO-BASELINE-2026-08-10.md; 1 new blog post) | — | — | — | 26 (3mo) | new baseline, re-measure 2026-08-24 | OK |
 | 2026-08-15 | 2 (formal loop counter) | 2 (EXP-CKPT-MARKING, EXP-CKPT-SCORE) | 1 (EXP-1) | 0 | 4 (EXP-2, EXP-3, EXP-4, EXP-KA-CURRICULUM — all superseded by later out-of-band rewrites before a clean read) | 27 | ramping (see note) | OK |
+| 2026-09-03 | out-of-band | 3 (EXP-GRADING-2026, EXP-KA-TITLE-V2, EXP-HTML-REDIRECTS) | 0 | 0 | 0 | — | — | OK |
+| 2026-09-14 | 3 (formal loop counter; meta-loop due, ran) | 2 (EXP-VS-IGCSE, EXP-INDIA-RESOURCES) + 1 hygiene fix (PR #4, 3rd .html redirect) | 3 (EXP-CKPT-SCORE, EXP-SME-TABLE, EXP-SCI-NAMED) | 0 | 1 (EXP-CKPT-MARKING) | 170 | up sharply (34 prior 28d) | OK |
 
 ---
 
@@ -85,6 +87,30 @@ as directional, not statistically confident. Revisit statistical rigor once clic
   this file, or something reintroduced it. This page currently has no inline FAQ microdata at
   all, only the (now-fixed) JSON-LD block. Filed as BL-032: audit all blog posts for FAQPage
   JSON-LD vs inline-microdata consistency, not just this one page.
+- 2026-09-14 — A page's title/meta can be already "good" (contains the right keywords,
+  under the char limit) and still get 0% CTR across 150+ impressions on its 3 biggest
+  queries if the framing doesn't match query *intent*. cambridge-lower-secondary-vs-igcse.html
+  had a perfectly reasonable neutral-statement title ("What's Different") that nonetheless
+  produced 0.40% page CTR — the fix wasn't length, it was switching to a direct yes/no
+  question format matching how "igcse lower secondary" / comparison queries are actually
+  phrased. Lesson: when CTR is near-zero despite decent position AND the title is within
+  length limits, check intent-framing (statement vs. question, neutral vs. direct-answer)
+  before assuming there's nothing left to fix.
+- 2026-09-14 — Confounding from site-wide traffic growth is now a real measurement problem,
+  not a hypothetical one. Impressions grew 2-9x across most tracked pages this cycle purely
+  from broader ranking gains, which inflates the denominator for CTR and makes "did this
+  specific title change work" hard to isolate from "did the whole site get more visible."
+  EXP-SME-TABLE and EXP-CKPT-SCORE were scorable cleanly because their impressions did NOT
+  inflate proportionally; EXP-CKPT-MARKING was not scorable cleanly for the opposite reason.
+  Going forward, prefer experiments on pages/queries where a control or an isolated query
+  slice is available, and treat "impressions roughly flat, CTR moved" as the highest-trust
+  signal type available at this traffic level.
+- 2026-09-14 — Second confirmed instance of an out-of-band session skipping loop bookkeeping
+  (see META-2026-09-experiment-lock-and-registration.md): the 2026-09-03 session registered
+  3 experiments in run-state.json but created no experiments/*.md files and no Human Feedback
+  Log entry, requiring this run to reconstruct them from git history. Proposed as a formal
+  SOP diff this cycle (meta-loop, first review at completed_cycles=3) rather than a one-off
+  fix — see SOP-CHANGELOG.md pending entry.
 - 2026-07-14 (post-cycle gap-fill) — Fixed 3 items the agent found but deferred:
   (1) Google Fonts render-blocking stylesheet replaced with preload/onload swap + noscript
   fallback on all 30 pages — LCP was poor (>4s) on home/math/computing due to this single tag.
@@ -146,23 +172,58 @@ Never use these words/phrases in any content:
   no longer exists on the live page, 6 days after shipping and before its own review date.
   Scoring early rather than waiting for a review date whose premise is already gone. See
   process lesson below.
-- **EXP-SME-TABLE (2026-08-03)** — shipped 2026-08-03, review 2026-08-17 (not yet due).
-  save-my-exams-cambridge-lower-secondary.html comparison table + H2 rename. Title/meta were
-  also touched by the 2026-08-10 audit (unrelated fix: meta descriptions site-wide were being
-  cut mid-sentence at ~155 chars). The specific comparison-table content change appears intact.
-  Score carefully at 2026-08-17 — separate the audit's CTR contribution from this experiment's.
-- **EXP-SCI-NAMED (2026-08-03)** — shipped 2026-08-03, review 2026-08-17 (not yet due).
-  Same caveat as EXP-SME-TABLE — title/meta touched again 2026-08-10, comparison-table content
-  appears intact. Score carefully at 2026-08-17.
-- **EXP-CKPT-MARKING (2026-08-15)** — shipped 2026-08-15, review 2026-09-05. Title/meta length
-  fix on cambridge-checkpoint-marking-explained.html (83→54 char title, 227→151 char meta —
-  both were well past SERP truncation limits at 192 impressions / 1.0% CTR / position 5.0).
-  See experiments/2026-08-checkpoint-marking-ctr.md.
-- **EXP-CKPT-SCORE (2026-08-15)** — shipped 2026-08-15, review 2026-09-05. Title/meta length
-  fix + retired-scale content-accuracy rewrite on cambridge-checkpoint-score-explained.html
-  (page's own title said "0-50 Scale" while its H1/FAQ/comparison-table still described the
-  retired 0.0–6.0 scale using "4.5" as the running example — direct self-contradiction).
+- **EXP-SME-TABLE (2026-08-03)** — shipped 2026-08-03, review 2026-08-17.
+  **SCORED WIN 2026-09-14.** Baseline pos 12.5/28impr/0 clicks → now 2 clicks/44 impr/4.55%
+  CTR/pos 7.1. Impressions did not inflate (unlike most pages this cycle) — a cleaner read
+  than most. Caveat: title/meta also touched by the 2026-08-10 audit, so this WIN is for the
+  combined treatment, not the comparison-table change in isolation.
+- **EXP-SCI-NAMED (2026-08-03)** — shipped 2026-08-03, review 2026-08-17.
+  **SCORED WIN 2026-09-14.** 3 clicks/119impr/2.52% CTR/pos10.6 → 17 clicks/309impr/5.50%
+  CTR/pos6.6. Clicks up 5.7x, CTR more than doubled. Same combined-treatment caveat as
+  EXP-SME-TABLE.
+- **EXP-CKPT-MARKING (2026-08-15)** — shipped 2026-08-15, review 2026-09-05.
+  **SCORED INCONCLUSIVE 2026-09-14.** Post-fix window: CTR 1.0%→1.20% but position got worse
+  (5.0→6.2) and impressions grew 2.6x from site-wide ranking gains — too confounded to call a
+  clean WIN. Not retried; treat current title/meta as the new baseline if this page's CTR
+  still looks weak in a future cycle. See experiments/2026-08-checkpoint-marking-ctr.md.
+- **EXP-CKPT-SCORE (2026-08-15)** — shipped 2026-08-15, review 2026-09-05.
+  **SCORED WIN 2026-09-14.** CTR 0.9%→1.08% AND position 7.3→6.5 moved together (unlike
+  EXP-CKPT-MARKING); clicks ~0-1→6. The content-accuracy component (retired 0.0–6.0 scale
+  corrected to 0–50) has standalone value independent of the CTR read.
   See experiments/2026-08-checkpoint-score-scale-fix.md.
+- **EXP-GRADING-2026 (2026-09-03)** — shipped 2026-09-03 (out-of-band session), review
+  2026-10-03 (not yet due). Added "2026" to cambridge-checkpoint-grading-system.html's title.
+  See experiments/2026-09-grading-system-title-year.md (backfilled 2026-09-14 — see process
+  note below).
+- **EXP-KA-TITLE-V2 (2026-09-03)** — shipped 2026-09-03 (out-of-band session), review
+  2026-10-03 (not yet due). Rewrote does-khan-academy-cover-cambridge-lower-secondary.html's
+  title to a direct-answer "(The Honest Answer)" framing — a fresh hypothesis, not a retry of
+  EXP-KA-CURRICULUM. See experiments/2026-09-khan-academy-title-direct.md (backfilled
+  2026-09-14). Note: this page's meta description is still 217 chars (well over limit) —
+  flagged as BL-038, but deliberately NOT touched this cycle since it would overwrite this
+  still-open experiment before its review date (see meta-loop Diff A proposal).
+- **EXP-HTML-REDIRECTS (2026-09-03)** — shipped 2026-09-03 (out-of-band session), review
+  2026-10-03 (not yet due). 301s for 2 duplicate .html URLs. Progress check 2026-09-14: both
+  decaying as expected (40→8 and 35→2 impressions). See experiments/2026-09-html-duplicate-301.md
+  (backfilled 2026-09-14).
+- **EXP-VS-IGCSE (2026-09-14)** — shipped 2026-09-14, review 2026-10-05. Direct-answer
+  title/meta rewrite on cambridge-lower-secondary-vs-igcse.html — the single biggest
+  isolated CTR opportunity found this cycle (752 impressions across the site's 3 largest
+  single-query clusters, all 0% CTR). See experiments/2026-09-vs-igcse-direct-answer.md.
+- **EXP-INDIA-RESOURCES (2026-09-14)** — shipped 2026-09-14, review 2026-10-05. Title/meta
+  rewrite on best-cambridge-lower-secondary-resources-india.html (0 clicks/36impr/pos10.6);
+  also fixed title/og/twitter/JSON-LD drift and a near-duplicate title vs. a sibling page
+  (caught by the verifier sub-agent before shipping).
+  See experiments/2026-09-india-resources-ctr.md.
+
+### Process note — 2026-09-03 out-of-band session bookkeeping gap
+
+The 2026-09-03 session (outside the formal loop) shipped and registered EXP-GRADING-2026,
+EXP-KA-TITLE-V2, and EXP-HTML-REDIRECTS in run-state.json, but did not create their
+experiments/*.md files or log a Human Feedback Log entry here. Backfilled 2026-09-14 from
+git history (commits 51c7c5b, 143aec3). Proposed as a formal SOP diff (mandatory
+same-session registration) in this cycle's meta-loop review — see
+experiments/META-2026-09-experiment-lock-and-registration.md.
 
 ### Process lesson driving the EXP-2/3/4/KA-CURRICULUM scoring above
 
@@ -244,9 +305,10 @@ candidate SOP addition: a pre-edit check step, or a lighter-weight "experiment l
 | Playbook tactic | Times run | Wins | Losses | Inconclusive | Avg Δclicks | Verdict |
 |-----------------|-----------|------|--------|--------------|-------------|---------|
 | Canonical/URL fix (§3 audit) | 1 | 1 | 0 | 0 | — | WIN — technical fix held, reinforced by later dupe-URL cleanup |
-| CTR fix — title/meta rewrite | 6 (EXP-2/3/4/KA-CURRICULUM/SME-TABLE/SCI-NAMED) | 0 | 0 | 4 (superseded before read; 2 pending 2026-08-17) | — | high overwrite risk when multiple sessions touch the same pages — see process lesson under Open Experiments. Not enough clean reads yet to judge the tactic itself. |
-| CTR fix — title/meta length limit | 2 (EXP-CKPT-MARKING/SCORE, 2026-08-15) | 0 | 0 | 0 | — | pending (review 2026-09-05) |
-| Content accuracy fix (retired scale, self-contradiction) | 1 (EXP-CKPT-SCORE) | 0 | 0 | 0 | — | pending (review 2026-09-05) — new tactic, first run |
+| CTR fix — title/meta rewrite (competitor-piggyback / named-comparison pattern) | 6 (EXP-2/3/4/KA-CURRICULUM/SME-TABLE/SCI-NAMED) | 2 (SME-TABLE, SCI-NAMED) | 0 | 4 (superseded before read) | SME-TABLE +2 clicks/28d, SCI-NAMED +14 clicks/28d | now has 2 clean WINs — named-comparison-table pattern looks genuinely effective when it survives to a clean read. Overwrite risk remains the main failure mode (4/6 lost to it), not the tactic itself. |
+| CTR fix — title/meta length limit | 2 (EXP-CKPT-MARKING/SCORE, 2026-08-15) | 1 (SCORE) | 0 | 1 (MARKING) | SCORE: CTR +0.18pp with position also improving; MARKING: CTR +0.15pp but position worsened | mixed — length fix alone (MARKING) gives a weaker, more confounded signal than length fix + content-accuracy fix together (SCORE). Small sample. |
+| Content accuracy fix (retired scale, self-contradiction) | 1 (EXP-CKPT-SCORE) | 1 | 0 | 0 | CTR+position both improved | first WIN for this tactic — content correctness may itself be a ranking/CTR factor when it contradicts top-ranked competitors, not just a compliance nicety. |
+| CTR fix — title/meta direct-answer/question framing | 1 (EXP-VS-IGCSE, plus EXP-KA-TITLE-V2 pending) | 0 | 0 | 0 | — | pending (review 2026-10-05) — new framing hypothesis, distinct from length/accuracy fixes above |
 
 ---
 
@@ -286,6 +348,36 @@ at cycle 3), Tactic Scoreboard and Exhausted Hypotheses sections added to this f
 updated to incorporate v2 procedures (verifier sub-agent, resumable state, bounded attempts,
 meta-loop check). SOP reference path updated to
 /Users/snehoomac/snehoo/AI/MD-other/seo-loop-sops 2/SEO-LOOP-SOP-v2.md.
+2026-09-14 — Cycle 3 (formal loop counter; meta-loop due and ran, first review). GSC 28d
+window: 2026-08-16 to 2026-09-12 vs prior 2026-07-19 to 2026-08-15. Clicks 170 vs 34 (up
+sharply — no kill-switch concern, only drops trigger it). Impressions 7,011 vs 1,460.
+Backfilled 3 missing experiment files + a Human Feedback Log entry for the 2026-09-03
+out-of-band session (see process note under Open Experiments). Scored 4 overdue experiments:
+3 WIN (EXP-CKPT-SCORE, EXP-SME-TABLE, EXP-SCI-NAMED), 1 INCONCLUSIVE (EXP-CKPT-MARKING —
+CTR up slightly but position worsened, too confounded by site-wide impression growth).
+Remeasured the overdue SEO-BASELINE-2026-08-10.md (due 2026-08-24, 21 days late — no run
+happened in that window): all 4 "what to look for" targets checked, retitled pages broadly
+met or exceeded target CTR, duplicate-URL consolidation in progress (found a 3rd previously
+untracked dupe, redirect PR #4 opened). Biggest finding: cambridge-lower-secondary-vs-igcse.html
+absorbs the site's 3 largest single-query impression clusters (752 total page impressions)
+at 0.40% CTR — shipped a direct-answer title/meta rewrite (EXP-VS-IGCSE). Also shipped
+EXP-INDIA-RESOURCES (0-click page, meta over length limit, title had drifted from
+og/twitter/JSON-LD and duplicated a sibling page's title — caught by the verifier sub-agent
+before shipping and fixed). PageSpeed audit on top 5 clicked pages found a new sitewide CLS
+regression (0.22–0.37, "needs improvement"/"poor" on 4 of 5 pages) — root cause not
+confidently identified (hypothesis: web-font swap reflowing article headers, not the hero
+image which already reserves aspect-ratio correctly) — filed as BL-035, not blind-fixed.
+Also found all 40 blog posts still use picsum.photos random placeholder hero images (BL-021's
+2026-08-03 fix removed only the visible "placeholder" text label, not the images themselves,
+exactly as that entry's own note said) — filed as BL-036, flagged prominently for human
+prioritization (licensing/design decision, out of this loop's scope). Repo-wide FAQPage
+JSON-LD grep found 35 of 40 blog posts still carry it despite a 2026-08-05 commit claiming
+sitewide removal — BL-032 updated with real scope, deferred as a dedicated bulk-edit pass.
+First meta-loop review (completed_cycles reached 3): proposed 2 SOP diffs (experiment-lock
+before editing an open-experiment page; mandatory same-session experiment-file + log
+registration) — see experiments/META-2026-09-experiment-lock-and-registration.md, awaiting
+human approval, not yet applied to the SOP.
+
 2026-08-05 — Run 6 (SOP v3). Three content prompts executed: (1) New blog post /blog/cambridge-checkpoint-past-papers-alternatives — 5-row comparison table, 5-question FAQ inline microdata, ~980 words, targeting "Cambridge checkpoint past papers alternatives". (2) New blog post /blog/cambridge-lower-secondary-maths-stage-8-practice — 4-strand syllabus guide, named CoreMark boosters (M·N2, M·A2, M·G1, M·S1), 4-question FAQ inline microdata, ~970 words, targeting "Cambridge lower secondary maths stage 8 practice". (3) Homepage updated: "What is CoreMark?" section replaced with GEO-optimised Block 1 (3-paragraph definition, coremark.study as library of PDF booster packs); Block 2 (6-question FAQPage inline microdata) added after Block 1; existing FAQ section (8 items) updated with inline microdata; FAQPage JSON-LD removed from head (replaced by inline pattern throughout); Organization schema description updated to VERSION A definition + added foundingDate 2025 + areaServed India/International; WebSite schema description added + dateModified updated to 2026-08-05. Both new blog posts added to sitemap.xml. FAQPage JSON-LD also removed from blog post 1 (cambridge-checkpoint-past-papers-alternatives.html) per inline-only rule. All three new pages use BlogPosting + BreadcrumbList JSON-LD in head; FAQ sections use itemscope/itemprop only.
 
 2026-08-15 — Run 2 (formal loop counter; see run-state.json reconciliation_note for the full
