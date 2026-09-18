@@ -72,6 +72,7 @@ async function processBatch(env, { selectSql, sendPath, nextStep, label }) {
           stage:     o.stage,
           orderId:   o.id,
           itemSlugs: items,
+          currency:  o.currency || 'INR',
         }),
       });
 
@@ -185,7 +186,7 @@ async function run(env) {
     label:    'day2',
     sendPath: '/api/send-email-day2',
     nextStep: 1,
-    selectSql: `SELECT id,buyer_email,buyer_name,order_type,primary_slug,item_slugs,subject,stage
+    selectSql: `SELECT id,buyer_email,buyer_name,order_type,primary_slug,item_slugs,subject,stage,currency
                 FROM orders
                 WHERE status='paid' AND sequence_step=0
                   AND paid_at < NOW() - INTERVAL '48 hours'
@@ -198,7 +199,7 @@ async function run(env) {
     label:    'day7',
     sendPath: '/api/send-email-day7',
     nextStep: 2,
-    selectSql: `SELECT id,buyer_email,buyer_name,order_type,primary_slug,item_slugs,subject,stage
+    selectSql: `SELECT id,buyer_email,buyer_name,order_type,primary_slug,item_slugs,subject,stage,currency
                 FROM orders
                 WHERE status='paid' AND sequence_step=1
                   AND paid_at < NOW() - INTERVAL '7 days'

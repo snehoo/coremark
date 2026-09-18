@@ -28,8 +28,19 @@ function subjectSlug(s) {
   return { math:'math', science:'sci', computing:'comp' }[s] || s;
 }
 
+// Same catalog constants as create-order.js / js/products.js — duplicated
+// here since this is an isolated Pages Function with no import access to
+// the client catalog.
+const PRICE = {
+  INR: { subject: '₹1,299', stage: '₹2,499' },
+  USD: { subject: '$19.99', stage: '$34.99' },
+};
+function priceLabel(currency, tier) {
+  return (PRICE[currency] || PRICE.INR)[tier];
+}
+
 // Build upsell options based on what they bought
-function buildUpsells(orderType, subject, stage) {
+function buildUpsells(orderType, subject, stage, currency) {
   const upsells = [];
 
   // If they bought single/5pack → suggest full subject bundle
@@ -37,7 +48,7 @@ function buildUpsells(orderType, subject, stage) {
     upsells.push({
       label:    `Complete ${subjectLabel(subject)} Stage ${stage}`,
       sub:      `All boosters for Stage ${stage} ${subjectLabel(subject)} — every topic covered.`,
-      price:    '₹1,299',
+      price:    priceLabel(currency, 'subject'),
       slug:     `all-${subjectSlug(subject)}-s${stage}`,
       type:     'subject',
       priority: 1,
@@ -49,7 +60,7 @@ function buildUpsells(orderType, subject, stage) {
     upsells.push({
       label:    `Everything for Stage ${stage}`,
       sub:      `Maths, Science and Computing — all subjects, one stage.`,
-      price:    '₹2,499',
+      price:    priceLabel(currency, 'stage'),
       slug:     `all-s${stage}`,
       type:     'stage',
       priority: 2,
@@ -61,7 +72,7 @@ function buildUpsells(orderType, subject, stage) {
     upsells.push({
       label:    `Start Stage ${stage + 1} early`,
       sub:      `Get ahead — all Stage ${stage + 1} boosters across Maths, Science and Computing.`,
-      price:    '₹2,499',
+      price:    priceLabel(currency, 'stage'),
       slug:     `all-s${stage + 1}`,
       type:     'stage',
       priority: 1,
@@ -222,7 +233,7 @@ export async function onRequestPost({ request, env }) {
     return new Response('Bad JSON', { status: 400, headers: CORS });
   }
 
-  const { to, buyerName, orderTitle, orderType, subject, stage, orderId } = body;
+  const { to, buyerName, orderTitle, orderType, subject, stage, orderId, currency } = body;
 
   if (!to || !orderId) {
     return new Response(
@@ -231,7 +242,7 @@ export async function onRequestPost({ request, env }) {
     );
   }
 
-  const upsells = buildUpsells(orderType, subject, stage);
+  const upsells = buildUpsells(orderType, subject, stage, currency);
 
   const html = buildDay7Html({
     to, buyerName, orderTitle, orderType,

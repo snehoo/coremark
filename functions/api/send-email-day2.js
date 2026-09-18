@@ -90,7 +90,16 @@ function subjectLabel(s) {
   return { math:'Mathematics', science:'Science', computing:'Computing' }[s] || 'Subject';
 }
 
-function buildDay2Html({ to, buyerName, orderTitle, orderType, subject, stage, tip, feedbackUrl, upsellUrl, upsellLabel }) {
+// Same catalog constants as create-order.js / js/products.js — duplicated
+// here since this is an isolated Pages Function with no import access to
+// the client catalog.
+const PRICE_INR = { subject: '₹1,299' };
+const PRICE_USD = { subject: '$19.99' };
+function subjectPriceLabel(currency) {
+  return currency === 'USD' ? PRICE_USD.subject : PRICE_INR.subject;
+}
+
+function buildDay2Html({ to, buyerName, orderTitle, orderType, subject, stage, tip, feedbackUrl, upsellUrl, upsellLabel, upsellPrice }) {
   const greeting = buyerName ? `Hi ${buyerName.split(' ')[0]}` : 'Hi there';
 
   return `<!DOCTYPE html>
@@ -212,7 +221,7 @@ function buildDay2Html({ to, buyerName, orderTitle, orderType, subject, stage, t
                style="display:inline-block;padding:12px 22px;background:#F4C73E;
                       color:#2A1B3D;border-radius:8px;font-size:14px;font-weight:700;
                       text-decoration:none;letter-spacing:-0.01em;">
-              Get the Full Bundle — ₹1,299 →
+              Get the Full Bundle — ${upsellPrice} →
             </a>
           </td>
         </tr>
@@ -250,7 +259,7 @@ export async function onRequestPost({ request, env }) {
     return new Response('Bad JSON', { status: 400, headers: CORS });
   }
 
-  const { to, buyerName, orderTitle, orderType, subject, stage, orderId, itemSlugs } = body;
+  const { to, buyerName, orderTitle, orderType, subject, stage, orderId, itemSlugs, currency } = body;
 
   if (!to || !orderId) {
     return new Response(
@@ -274,10 +283,11 @@ export async function onRequestPost({ request, env }) {
   const upsellLabel = upsellUrl
     ? `Get all Stage ${stage} ${subjectLabel(subject)} boosters`
     : null;
+  const upsellPrice = subjectPriceLabel(currency);
 
   const html = buildDay2Html({
     to, buyerName, orderTitle, orderType, subject, stage: stage || 8,
-    tip, feedbackUrl, upsellUrl, upsellLabel,
+    tip, feedbackUrl, upsellUrl, upsellLabel, upsellPrice,
   });
 
   try {
