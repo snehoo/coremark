@@ -112,7 +112,7 @@ html,body{height:100%;background:var(--cream);color:var(--ink);font-family:var(-
 .kpi-value{font-size:30px;font-weight:800;letter-spacing:-0.04em;line-height:1;margin-bottom:6px;}
 .kpi-card.dark .kpi-value{color:var(--coral-soft);}
 .kpi-sub{font-size:13px;color:var(--ink-muted);}
-.kpi-card.dark .kpi-sub{color:rgba(255,255,255,0.28);}
+.kpi-card.dark .kpi-sub{color:rgba(255,255,255,0.6);}
 
 /* ── CHARTS ───────────────────────────────────────────────── */
 .charts-row{display:grid;grid-template-columns:2fr 1fr 1fr;gap:16px;margin-bottom:28px;}
@@ -727,7 +727,7 @@ function renderOverview(d) {
     const inrNativePaise = d.revenue.totalPaise - usdInInrPaise;
     document.getElementById('kpi-total-sub').innerHTML =
       d.orders.total + ' orders&nbsp;&nbsp;|&nbsp;&nbsp;' + fmt(inrNativePaise) + '&nbsp;&nbsp;|&nbsp;&nbsp;' + fmtUsd(d.intl.totalCents)
-      + '<br><span style="opacity:.6;font-size:11px;">@ ₹' + d.fx.usdToInr.toFixed(1) + '/$1</span>';
+      + '<br><span style="color:rgba(255,255,255,0.4);font-size:11px;">@ ₹' + d.fx.usdToInr.toFixed(1) + '/$1</span>';
   } else {
     document.getElementById('kpi-total-sub').textContent = d.orders.total + ' orders · ' + d.buyers.total + ' buyers';
   }
