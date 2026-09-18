@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" data-palette="plum">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CoreMark Tutor — Coming Soon</title>
+<link rel="canonical" href="https://coremark.study/tutor">
+<meta name="robots" content="noindex, follow">
+<meta name="theme-color" content="#FBF8F2">
+<link rel="icon" type="image/jpeg" href="https://coremark.study/assets/favicon.jpg">
+<link rel="shortcut icon" type="image/jpeg" href="https://coremark.study/assets/favicon.jpg">
+<link rel="apple-touch-icon" href="https://coremark.study/assets/favicon.jpg">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="CoreMark">
+<meta property="og:title" content="CoreMark Tutor — Coming Soon">
+<meta property="og:description" content="CoreMark's AI tutor for Cambridge Lower Secondary students is on its way.">
+<meta property="og:url" content="https://coremark.study/tutor">
+<meta property="og:image" content="https://assets.coremark.study/logo.jpg">
+<meta name="description" content="CoreMark's AI tutor for Cambridge Lower Secondary students is on its way. Check back soon.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;700&display=swap"></noscript>
+<style>
+:root{
+  --ink:#2A1B3D;--ink-soft:#4A3A5E;--ink-muted:#8A7A9E;
+  --paper:#FBF8F2;--cream:#FBF8F2;--mist:#F0EBF8;
+  --blue:#6E47C9;--blue-deep:#5235A0;--blue-tint:#EDE8FA;
+  --coral:#F4C73E;--coral-soft:#F7D872;
+  --border:#E2DBEF;--border-soft:#EDE8FA;
+  --font-sans:'Plus Jakarta Sans',sans-serif;
+  --font-serif:'Instrument Serif',serif;
+  --font-mono:'JetBrains Mono',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--font-sans);background:var(--cream);color:var(--ink);-webkit-font-smoothing:antialiased;}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:50;background:rgba(251,248,242,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border-soft);}
+.nav-inner{max-width:1280px;margin:0 auto;padding:0 40px;height:65px;display:flex;align-items:center;justify-content:space-between;gap:24px;}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.mark-sq{background:var(--ink);color:white;font-weight:800;font-size:13px;letter-spacing:0.04em;border-radius:8px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;position:relative;font-family:var(--font-mono);}
+.dot{position:absolute;bottom:5px;right:5px;width:7px;height:7px;border-radius:50%;background:var(--coral);}
+.word{font-size:18px;font-weight:800;letter-spacing:-0.025em;color:var(--ink);}
+.word .acc{color:var(--blue);}
+.nav-links{display:flex;align-items:center;gap:28px;}
+.nav-links a{text-decoration:none;font-size:15px;font-weight:500;color:var(--ink-soft);}
+.nav-links a:hover{color:var(--ink);}
+.nav-cta{background:var(--ink);color:white;padding:10px 20px;border-radius:999px;font-size:14px;font-weight:700;text-decoration:none;}
+.nav-cta:hover{background:var(--blue);}
+
+/* MOBILE MENU */
+.hamburger{display:none;background:none;border:none;cursor:pointer;padding:6px;color:var(--ink);flex-shrink:0;}
+.hamburger svg{display:block;}
+.mobile-menu{display:none;position:fixed;top:65px;left:0;right:0;background:var(--cream);border-bottom:1px solid var(--border);z-index:49;padding:8px 0 16px;box-shadow:0 8px 24px rgba(0,0,0,0.08);}
+.mobile-menu a{display:block;padding:14px 24px;font-size:16px;font-weight:600;color:var(--ink-soft);text-decoration:none;border-bottom:1px solid var(--border-soft);}
+.mobile-menu a:last-child{border-bottom:none;}
+.mobile-menu a:hover{color:var(--ink);background:var(--mist);}
+.mobile-menu.open{display:block;}
+
+/* COMING SOON HERO */
+.soon{min-height:calc(100vh - 65px);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:64px 40px;}
+.soon .eyebrow{font-family:var(--font-mono);font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:var(--blue);margin-bottom:24px;}
+.soon h1{font-size:96px;font-weight:800;letter-spacing:-0.04em;line-height:1.0;margin:0 0 24px;text-wrap:balance;}
+.soon h1 em{font-family:var(--font-serif);font-style:italic;font-weight:400;color:var(--ink-soft);}
+.soon .lead{font-size:19px;color:var(--ink-soft);line-height:1.6;max-width:520px;margin-bottom:36px;}
+.soon .back{background:var(--ink);color:white;padding:16px 28px;border-radius:999px;font-size:16px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:8px;}
+.soon .back:hover{background:var(--blue);}
+
+@media(max-width:768px){
+  .nav-inner{padding:0 20px;}
+  .nav-links{display:none;} .hamburger{display:flex;}
+  .soon{padding:48px 24px;}
+  .soon h1{font-size:52px;}
+}
+</style>
+<!-- COREMARK-TRACKING-START -->
+<link rel="preconnect" href="https://www.googletagmanager.com">
+<link rel="preconnect" href="https://connect.facebook.net">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-B8K210VPRV"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-B8K210VPRV');
+  gtag('config', 'AW-17160905849');
+</script>
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window,document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1921557135206596');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1921557135206596&ev=PageView&noscript=1"/></noscript>
+<!-- COREMARK-TRACKING-END -->
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="/" aria-label="CoreMark home">
+      <div class="mark-sq">CM<div class="dot"></div></div>
+      <div class="word">Core<span class="acc">Mark</span></div>
+    </a>
+    <div class="nav-links">
+      <a href="/math">Maths</a>
+      <a href="/science">Science</a>
+      <a href="/computing">Computing</a>
+      <a href="/blog/">Blog</a>
+      <a href="/about">About</a>
+    </div>
+    <a href="/#pricing" class="nav-cta">See packs</a>
+    <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect y="4" width="22" height="2" rx="1" fill="currentColor"/>
+        <rect y="10" width="22" height="2" rx="1" fill="currentColor"/>
+        <rect y="16" width="22" height="2" rx="1" fill="currentColor"/>
+      </svg>
+    </button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobile-menu">
+  <a href="/math">Maths</a>
+  <a href="/science">Science</a>
+  <a href="/computing">Computing</a>
+  <a href="/blog/">Blog</a>
+  <a href="/about">About</a>
+  <a href="/#pricing" style="color:var(--blue);font-weight:700;">See Packs →</a>
+</div>
+<script>
+(function(){
+  var btn = document.getElementById('hamburger');
+  var menu = document.getElementById('mobile-menu');
+  if(!btn||!menu) return;
+  btn.addEventListener('click', function(){
+    var open = menu.classList.toggle('open');
+    btn.setAttribute('aria-expanded', open);
+  });
+  menu.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click', function(){ menu.classList.remove('open'); btn.setAttribute('aria-expanded','false'); });
+  });
+})();
+</script>
+
+<div class="soon">
+  <p class="eyebrow">CoreMark Tutor</p>
+  <h1>Coming <em>soon</em></h1>
+  <p class="lead">We're building an AI tutor to help Cambridge Lower Secondary students work through topics step by step. Check back soon.</p>
+  <a href="/" class="back">← Back to CoreMark</a>
+</div>
+
+</body>
+</html>
