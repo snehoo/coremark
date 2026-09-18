@@ -130,10 +130,9 @@ a{color:inherit;}
 .float-tag .icon{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:12px;font-weight:700;}
 .float-tag.coral{top:16px;right:-12px;} .float-tag.coral .icon{background:var(--coral);color:var(--ink);}
 .float-tag.blue{bottom:60px;left:-18px;} .float-tag.blue .icon{background:var(--blue);}
-.float-tutor{position:absolute;top:-56px;right:-12px;z-index:6;display:flex;flex-direction:column;align-items:center;gap:6px;text-decoration:none;}
-.float-tutor .tutor-icon{width:48px;height:48px;border-radius:50%;background:white;border:1px solid var(--border);box-shadow:0 8px 28px -12px rgba(42,27,61,0.2);display:flex;align-items:center;justify-content:center;overflow:hidden;padding:8px;}
-.float-tutor .tutor-icon img{width:100%;height:100%;object-fit:contain;}
-.float-tutor span:last-child{font-size:12px;font-weight:700;color:var(--ink);white-space:nowrap;}
+.float-tutor{position:absolute;top:-64px;left:-35px;z-index:6;display:block;filter:drop-shadow(0 10px 20px rgba(42,27,61,0.18));transition:transform 0.2s;}
+.float-tutor:hover{transform:translateY(-3px);}
+.float-tutor img{width:220px;height:auto;display:block;}
 
 /* MARQUEE */
 .trust{background:var(--ink);color:rgba(255,255,255,0.65);padding:22px 0;overflow:hidden;}
@@ -316,6 +315,8 @@ a{color:inherit;}
   .nav{padding:16px 20px;} .nav-links{display:none;} .hamburger{display:flex;}
   .hero{grid-template-columns:1fr;padding:40px 20px 60px;gap:40px;}
   .hero h1{font-size:46px;} .hero-visual{height:360px;}
+  .float-tutor{top:-46px;left:-10px;} .float-tutor img{width:170px;}
+  .float-tag.coral{top:96px;}
   .section{padding:64px 20px;}
   .section h2{font-size:36px;}
   .anatomy{grid-template-columns:1fr 1fr;}
@@ -515,10 +516,7 @@ src="https://www.facebook.com/tr?id=1921557135206596&ev=PageView&noscript=1"/></
     </div>
   </div>
   <div class="hero-visual">
-    <a href="/tutor" class="float-tutor">
-      <span class="tutor-icon"><img src="/assets/tutor-icon.svg" alt="CoreMark Tutor"></span>
-      <span>Try Tutor</span>
-    </a>
+    <a href="/tutor" class="float-tutor"><img src="/assets/try-tutor-badge.webp" alt="Try Tutor — CoreMark's AI tutor"></a>
     <div class="float-tag coral">
       <div class="icon">20</div><span>Questions per pack</span>
     </div>
