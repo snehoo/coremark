@@ -28,7 +28,7 @@ async function dbQuery(env, sql, params=[]) {
 
 // Manual fallback if the live rate fetch fails or times out — update this
 // occasionally if it's ever actually hit (check console logs for the warning).
-const FALLBACK_USD_INR_RATE = 88;
+const FALLBACK_USD_INR_RATE = 95;
 
 async function getUsdToInrRate() {
   try {
@@ -70,7 +70,7 @@ export async function onRequestGet({request,env}){
     // just in Recent Orders. `intl` below still reports the raw USD figure
     // alongside the blended INR total for transparency.
     const fxRate = await getUsdToInrRate();
-    const inrExpr = `CASE WHEN currency='USD' THEN amount_paise*$1 ELSE amount_paise END`;
+    const inrExpr = `CASE WHEN currency='USD' THEN amount_paise*$1::numeric ELSE amount_paise END`;
     const [rev,ord,buy,top,bySub,byStg,byTyp,daily,seq,fb,pages,funnel,monthly,freeLeads,intl] = await Promise.all([
       dbQuery(env,`SELECT COALESCE(SUM(${inrExpr}),0) AS total_paise,COALESCE(SUM(${inrExpr})FILTER(WHERE paid_at>=NOW()-INTERVAL '30 days'),0) AS last30_paise,COALESCE(SUM(${inrExpr})FILTER(WHERE paid_at>=NOW()-INTERVAL '7 days'),0) AS last7_paise,COALESCE(SUM(${inrExpr})FILTER(WHERE paid_at>=CURRENT_DATE),0) AS today_paise FROM orders WHERE status='paid'`,[fxRate]),
       dbQuery(env,`SELECT COUNT(*) AS total,COUNT(*)FILTER(WHERE paid_at>=NOW()-INTERVAL '30 days') AS last30,COUNT(*)FILTER(WHERE paid_at>=NOW()-INTERVAL '7 days') AS last7,COUNT(*)FILTER(WHERE paid_at>=CURRENT_DATE) AS today,COUNT(*)FILTER(WHERE status='pending') AS pending,COUNT(*)FILTER(WHERE status='refunded') AS refunded FROM orders WHERE status IN('paid','pending','refunded')`,[]),
