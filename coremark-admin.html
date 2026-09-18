@@ -712,7 +712,9 @@ function renderFunnel(f) {
 function renderOverview(d) {
   document.getElementById('kpi-total-rev').textContent  = fmt(d.revenue.totalPaise);
   document.getElementById('kpi-total-sub').textContent  = d.orders.total + ' orders · ' + d.buyers.total + ' buyers'
-    + (d.intl && d.intl.orders > 0 ? ' · ' + fmtFull(d.intl.totalCents, 'USD') + ' intl (' + d.intl.orders + ')' : '');
+    + (d.intl && d.intl.orders > 0
+        ? ' · incl. ' + fmtFull(d.intl.totalCents, 'USD') + ' intl (' + d.intl.orders + ') @ ₹' + (d.fx ? d.fx.usdToInr.toFixed(1) : '?') + '/$1'
+        : '');
   document.getElementById('kpi-30-rev').textContent     = fmt(d.revenue.last30Paise);
   document.getElementById('kpi-30-sub').textContent     = d.orders.last30 + ' orders';
   document.getElementById('kpi-7-rev').textContent      = fmt(d.revenue.last7Paise);

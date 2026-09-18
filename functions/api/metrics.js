@@ -26,6 +26,24 @@ async function dbQuery(env, sql, params=[]) {
   return { rows, rowCount: data.rowCount ?? rows.length };
 }
 
+// Manual fallback if the live rate fetch fails or times out — update this
+// occasionally if it's ever actually hit (check console logs for the warning).
+const FALLBACK_USD_INR_RATE = 88;
+
+async function getUsdToInrRate() {
+  try {
+    const res = await fetch('https://api.frankfurter.app/latest?from=USD&to=INR');
+    if (!res.ok) throw new Error(`rate API ${res.status}`);
+    const data = await res.json();
+    const rate = data?.rates?.INR;
+    if (typeof rate !== 'number' || !(rate > 0)) throw new Error('bad rate payload');
+    return rate;
+  } catch (e) {
+    console.warn('[metrics] USD/INR rate fetch failed, using fallback:', e.message);
+    return FALLBACK_USD_INR_RATE;
+  }
+}
+
 async function brevoFreeLeads(env) {
   if (!env.BREVO_API_KEY) return { count: 0, contacts: [] };
   try {
@@ -46,23 +64,27 @@ export async function onRequestGet({request,env}){
     return new Response('Unauthorized',{status:401,headers:CORS});
   }
   try {
-    // Revenue rollups are scoped to INR — once USD orders exist, blending
-    // paise and cents in one SUM() would be meaningless. USD gets its own
-    // small secondary total (intl) rather than an FX-normalized blend.
+    // Revenue rollups convert USD orders to INR (at the current rate) and
+    // blend them into every total/chart/breakdown, rather than filtering
+    // USD out — a real international sale should show up everywhere, not
+    // just in Recent Orders. `intl` below still reports the raw USD figure
+    // alongside the blended INR total for transparency.
+    const fxRate = await getUsdToInrRate();
+    const inrExpr = `CASE WHEN currency='USD' THEN amount_paise*$1 ELSE amount_paise END`;
     const [rev,ord,buy,top,bySub,byStg,byTyp,daily,seq,fb,pages,funnel,monthly,freeLeads,intl] = await Promise.all([
-      dbQuery(env,`SELECT COALESCE(SUM(amount_paise),0) AS total_paise,COALESCE(SUM(amount_paise)FILTER(WHERE paid_at>=NOW()-INTERVAL '30 days'),0) AS last30_paise,COALESCE(SUM(amount_paise)FILTER(WHERE paid_at>=NOW()-INTERVAL '7 days'),0) AS last7_paise,COALESCE(SUM(amount_paise)FILTER(WHERE paid_at>=CURRENT_DATE),0) AS today_paise FROM orders WHERE status='paid' AND COALESCE(currency,'INR')='INR'`,[]),
+      dbQuery(env,`SELECT COALESCE(SUM(${inrExpr}),0) AS total_paise,COALESCE(SUM(${inrExpr})FILTER(WHERE paid_at>=NOW()-INTERVAL '30 days'),0) AS last30_paise,COALESCE(SUM(${inrExpr})FILTER(WHERE paid_at>=NOW()-INTERVAL '7 days'),0) AS last7_paise,COALESCE(SUM(${inrExpr})FILTER(WHERE paid_at>=CURRENT_DATE),0) AS today_paise FROM orders WHERE status='paid'`,[fxRate]),
       dbQuery(env,`SELECT COUNT(*) AS total,COUNT(*)FILTER(WHERE paid_at>=NOW()-INTERVAL '30 days') AS last30,COUNT(*)FILTER(WHERE paid_at>=NOW()-INTERVAL '7 days') AS last7,COUNT(*)FILTER(WHERE paid_at>=CURRENT_DATE) AS today,COUNT(*)FILTER(WHERE status='pending') AS pending,COUNT(*)FILTER(WHERE status='refunded') AS refunded FROM orders WHERE status IN('paid','pending','refunded')`,[]),
       dbQuery(env,`SELECT COUNT(*) AS total,COUNT(*)FILTER(WHERE created_at>=NOW()-INTERVAL '30 days') AS last30 FROM buyers`,[]),
       dbQuery(env,`SELECT slug_item AS slug,COUNT(*) AS units FROM orders,jsonb_array_elements_text(item_slugs) AS slug_item WHERE status='paid' GROUP BY slug_item ORDER BY units DESC LIMIT 10`,[]),
-      dbQuery(env,`SELECT subject,COUNT(*) AS orders,COALESCE(SUM(amount_paise),0) AS revenue_paise FROM orders WHERE status='paid' AND COALESCE(currency,'INR')='INR' AND subject IS NOT NULL GROUP BY subject ORDER BY revenue_paise DESC`,[]),
-      dbQuery(env,`SELECT stage,COUNT(*) AS orders,COALESCE(SUM(amount_paise),0) AS revenue_paise FROM orders WHERE status='paid' AND COALESCE(currency,'INR')='INR' AND stage IS NOT NULL GROUP BY stage ORDER BY stage`,[]),
-      dbQuery(env,`SELECT order_type,COUNT(*) AS orders,COALESCE(SUM(amount_paise),0) AS revenue_paise FROM orders WHERE status='paid' AND COALESCE(currency,'INR')='INR' GROUP BY order_type ORDER BY orders DESC`,[]),
-      dbQuery(env,`SELECT DATE(paid_at) AS day,COUNT(*) AS orders,COALESCE(SUM(amount_paise),0) AS revenue_paise FROM orders WHERE status='paid' AND COALESCE(currency,'INR')='INR' AND paid_at>=NOW()-INTERVAL '30 days' GROUP BY DATE(paid_at) ORDER BY day ASC`,[]),
+      dbQuery(env,`SELECT subject,COUNT(*) AS orders,COALESCE(SUM(${inrExpr}),0) AS revenue_paise FROM orders WHERE status='paid' AND subject IS NOT NULL GROUP BY subject ORDER BY revenue_paise DESC`,[fxRate]),
+      dbQuery(env,`SELECT stage,COUNT(*) AS orders,COALESCE(SUM(${inrExpr}),0) AS revenue_paise FROM orders WHERE status='paid' AND stage IS NOT NULL GROUP BY stage ORDER BY stage`,[fxRate]),
+      dbQuery(env,`SELECT order_type,COUNT(*) AS orders,COALESCE(SUM(${inrExpr}),0) AS revenue_paise FROM orders WHERE status='paid' GROUP BY order_type ORDER BY orders DESC`,[fxRate]),
+      dbQuery(env,`SELECT DATE(paid_at) AS day,COUNT(*) AS orders,COALESCE(SUM(${inrExpr}),0) AS revenue_paise FROM orders WHERE status='paid' AND paid_at>=NOW()-INTERVAL '30 days' GROUP BY DATE(paid_at) ORDER BY day ASC`,[fxRate]),
       dbQuery(env,`SELECT sequence_step,COUNT(*) AS orders FROM orders WHERE status='paid' GROUP BY sequence_step ORDER BY sequence_step`,[]),
       dbQuery(env,`SELECT COUNT(*) AS total,ROUND(AVG(rating),1) AS avg_rating,COUNT(*)FILTER(WHERE rating>=4) AS happy,COUNT(*)FILTER(WHERE rating=3) AS neutral,COUNT(*)FILTER(WHERE rating<=2) AS unhappy FROM feedback`,[]),
       dbQuery(env,`SELECT SPLIT_PART(path,'?',1) AS path,COUNT(*) AS views FROM pageviews WHERE viewed_at>=NOW()-INTERVAL '7 days' GROUP BY SPLIT_PART(path,'?',1) ORDER BY views DESC LIMIT 10`,[]),
       dbQuery(env,`SELECT COUNT(*) AS total,COUNT(*)FILTER(WHERE SPLIT_PART(path,'?',1)='/free') AS free_page,COUNT(*)FILTER(WHERE SPLIT_PART(path,'?',1)='/free-download') AS free_signups,COUNT(*)FILTER(WHERE path LIKE '/free%' AND path LIKE '%utm_source=ig%') AS free_ig,COUNT(*)FILTER(WHERE path LIKE '/free%' AND (path LIKE '%gclid%' OR path LIKE '%utm_source=google%' OR path LIKE '%utm_source=ads%')) AS free_google FROM pageviews WHERE viewed_at>=NOW()-INTERVAL '30 days'`,[]),
-      dbQuery(env,`SELECT TO_CHAR(DATE_TRUNC('month',paid_at),'YYYY-MM') AS month,COALESCE(SUM(amount_paise),0) AS revenue_paise,COUNT(*) AS orders FROM orders WHERE status='paid' AND COALESCE(currency,'INR')='INR' GROUP BY DATE_TRUNC('month',paid_at) ORDER BY month ASC`,[]),
+      dbQuery(env,`SELECT TO_CHAR(DATE_TRUNC('month',paid_at),'YYYY-MM') AS month,COALESCE(SUM(${inrExpr}),0) AS revenue_paise,COUNT(*) AS orders FROM orders WHERE status='paid' GROUP BY DATE_TRUNC('month',paid_at) ORDER BY month ASC`,[fxRate]),
       brevoFreeLeads(env),
       dbQuery(env,`SELECT COALESCE(SUM(amount_paise),0) AS total_cents,COUNT(*) AS orders FROM orders WHERE status='paid' AND currency='USD'`,[]),
     ]);
@@ -84,6 +106,7 @@ export async function onRequestGet({request,env}){
       monthly:monthly.rows.map(x=>({month:x.month,orders:Number(x.orders),revenuePaise:Number(x.revenue_paise)})),
       freeLeads:{count:freeLeads.count,contacts:freeLeads.contacts},
       intl:{totalCents:Number(i.total_cents),orders:Number(i.orders)},
+      fx:{usdToInr:fxRate},
     }),{status:200,headers:{'Content-Type':'application/json',...CORS}});
   } catch(e) {
     console.error('[metrics]',e.message);
