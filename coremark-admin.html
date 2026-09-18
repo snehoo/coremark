@@ -112,10 +112,10 @@ html,body{height:100%;background:var(--cream);color:var(--ink);font-family:var(-
 .kpi-value{font-size:30px;font-weight:800;letter-spacing:-0.04em;line-height:1;margin-bottom:6px;}
 .kpi-card.dark .kpi-value{color:var(--coral-soft);}
 .kpi-sub{font-size:13px;color:var(--ink-muted);}
-.kpi-card.dark .kpi-sub{color:rgba(255,255,255,0.35);}
+.kpi-card.dark .kpi-sub{color:rgba(255,255,255,0.28);}
 
 /* ── CHARTS ───────────────────────────────────────────────── */
-.charts-row{display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-bottom:28px;}
+.charts-row{display:grid;grid-template-columns:2fr 1fr 1fr;gap:16px;margin-bottom:28px;}
 .chart-card{background:var(--paper);border:1.5px solid var(--border-soft);border-radius:var(--radius-md);padding:24px;box-shadow:var(--shadow);}
 .chart-title{font-size:15px;font-weight:700;margin-bottom:4px;}
 .chart-sub{font-size:13px;color:var(--ink-muted);margin-bottom:18px;}
@@ -384,6 +384,11 @@ html,body{height:100%;background:var(--cream);color:var(--ink);font-family:var(-
             <div class="chart-sub">Single · 5-Pack · Subject · Stage</div>
             <div class="chart-wrap"><canvas id="type-chart"></canvas></div>
           </div>
+          <div class="chart-card">
+            <div class="chart-title">Sales by Currency</div>
+            <div class="chart-sub">India (₹) · International ($)</div>
+            <div class="chart-wrap"><canvas id="currency-chart"></canvas></div>
+          </div>
         </div>
 
         <!-- 4. SITE-WIDE FUNNEL -->
@@ -548,6 +553,7 @@ let SECRET        = localStorage.getItem('cm_admin_secret') || '';
 let metricsData   = null;
 let revenueChart  = null;
 let typeChart     = null;
+let currencyChart = null;
 let mrrChart      = null;
 let currentPage   = 'overview';
 let orderFilter   = 'all';
@@ -604,6 +610,11 @@ const fmt = p => {
   return '₹' + r.toLocaleString('en-IN');
 };
 const fmtFull = (p, currency) => currency === 'USD' ? '$' + (p / 100).toFixed(2) : '₹' + (p / 100).toLocaleString('en-IN');
+const fmtUsd = cents => {
+  const d = cents / 100;
+  if (d >= 1000) return '$' + (d / 1000).toFixed(1) + 'K';
+  return '$' + (d % 1 === 0 ? d.toFixed(0) : d.toFixed(2));
+};
 const cap = s => s ? s.charAt(0).toUpperCase() + s.slice(1) : '—';
 const subEmoji = s => ({ math:'📐', science:'🔬', computing:'💻', mixed:'📚' }[s] || '📄');
 const typeLabel = t => ({ single:'Single', fivepack:'5-Pack', subject:'Subject Bundle', stage:'Stage Bundle' }[t] || cap(t));
@@ -711,10 +722,15 @@ function renderFunnel(f) {
 // ── Overview ──────────────────────────────────────────────
 function renderOverview(d) {
   document.getElementById('kpi-total-rev').textContent  = fmt(d.revenue.totalPaise);
-  document.getElementById('kpi-total-sub').textContent  = d.orders.total + ' orders · ' + d.buyers.total + ' buyers'
-    + (d.intl && d.intl.orders > 0
-        ? ' · incl. ' + fmtFull(d.intl.totalCents, 'USD') + ' intl (' + d.intl.orders + ') @ ₹' + (d.fx ? d.fx.usdToInr.toFixed(1) : '?') + '/$1'
-        : '');
+  if (d.intl && d.intl.orders > 0 && d.fx) {
+    const usdInInrPaise  = Math.round(d.intl.totalCents * d.fx.usdToInr);
+    const inrNativePaise = d.revenue.totalPaise - usdInInrPaise;
+    document.getElementById('kpi-total-sub').innerHTML =
+      d.orders.total + ' orders&nbsp;&nbsp;|&nbsp;&nbsp;' + fmt(inrNativePaise) + '&nbsp;&nbsp;|&nbsp;&nbsp;' + fmtUsd(d.intl.totalCents)
+      + '<br><span style="opacity:.6;font-size:11px;">@ ₹' + d.fx.usdToInr.toFixed(1) + '/$1</span>';
+  } else {
+    document.getElementById('kpi-total-sub').textContent = d.orders.total + ' orders · ' + d.buyers.total + ' buyers';
+  }
   document.getElementById('kpi-30-rev').textContent     = fmt(d.revenue.last30Paise);
   document.getElementById('kpi-30-sub').textContent     = d.orders.last30 + ' orders';
   document.getElementById('kpi-7-rev').textContent      = fmt(d.revenue.last7Paise);
@@ -723,6 +739,7 @@ function renderOverview(d) {
   document.getElementById('kpi-today-sub').textContent  = d.orders.today + ' orders';
   renderRevenueChart(d.daily);
   renderTypeChart(d.byType);
+  renderCurrencyChart(d);
   renderFunnel(d.funnel);
   renderMrrChart(d.monthly || []);
 }
@@ -831,6 +848,26 @@ function renderTypeChart(byType) {
     options: {
       responsive:true, maintainAspectRatio:false, cutout:'68%',
       plugins:{ legend:{ position:'bottom', labels:{ font:{ size:12 }, color:'#4A3760', padding:12 } } },
+    },
+  });
+}
+
+function renderCurrencyChart(d) {
+  const usdInInrPaise  = (d.intl && d.fx) ? Math.round(d.intl.totalCents * d.fx.usdToInr) : 0;
+  const inrNativePaise = Math.max(0, (d.revenue.totalPaise || 0) - usdInInrPaise);
+  if (currencyChart) currencyChart.destroy();
+  currencyChart = new Chart(document.getElementById('currency-chart').getContext('2d'), {
+    type: 'doughnut',
+    data: {
+      labels: ['India (₹)', 'International ($)'],
+      datasets: [{ data: [inrNativePaise, usdInInrPaise], backgroundColor:['#6E47C9','#F4C73E'], borderWidth:2, borderColor:'#ffffff' }],
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false, cutout:'68%',
+      plugins:{
+        legend:{ position:'bottom', labels:{ font:{ size:12 }, color:'#4A3760', padding:12 } },
+        tooltip:{ callbacks:{ label: ctx => ctx.label + ': ' + fmt(ctx.parsed) } },
+      },
     },
   });
 }
