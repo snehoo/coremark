@@ -47,6 +47,20 @@ as directional, not statistically confident. Revisit statistical rigor once clic
 
 *(dated bullets added after each cycle — this is the compounding asset)*
 
+- 2026-09-21 — GSC's "Page Indexing" (Coverage) report can lag a live fix by weeks, and
+  robots.txt can make it lag indefinitely for a specific reason. The crawl-loop bug fixed in
+  commit 792090c (2026-09-04) generated garbage URLs under `/api/legal/legal/...` — all fixed
+  and verified 404 live by 2026-09-21, but GSC's drilldown export still listed 34 of them
+  under "Alternative page with proper canonical tag" with "last crawled 2026-08-12" (i.e.
+  stale, pre-fix data). Worse: because robots.txt already disallows `/api/`, Google can't
+  recrawl those URLs to confirm the fix, so Search Console's "Validate Fix" flow will likely
+  keep failing or staying pending indefinitely for reasons that are robots.txt-disallowed —
+  not because the fix didn't work. Lesson: when a Coverage/Page Indexing report flags an
+  issue, check the URL's *live* behavior directly (curl/URL Inspection) before trusting the
+  report's crawl-date-stamped status, and don't chase "Validate Fix" to a clean pass for
+  URLs that are also robots.txt-blocked — check the declining trend line instead (this one
+  went 39→35→34 over 6 weeks, which is the real signal that it's resolving on its own).
+
 - 2026-07-14 — Cloudflare Pages serves clean (extensionless) URLs by default and 308-redirects
   every `.html` request to its extensionless form. But every canonical tag, og:url tag, and
   sitemap.xml entry sitewide declared the `.html` version. Google's own URL Inspection had
