@@ -47,6 +47,24 @@ as directional, not statistically confident. Revisit statistical rigor once clic
 
 *(dated bullets added after each cycle — this is the compounding asset)*
 
+- 2026-09-22 — Content-accuracy bugs can hide behind their own plausibility, and one error
+  tends to travel with a second one. "Four performance bands: Exceeding, Meeting,
+  Approaching, Below" read as entirely credible generic-exam-board language and had been
+  live on the site's #1 highest-impression page for weeks — but it isn't real Cambridge
+  terminology (verified via WebSearch against Cambridge's own help-center docs; the actual
+  system is six bands: Unclassified/Basic/Aspiring/Good/High/Outstanding with fixed
+  0/1-10/11-20/21-30/31-40/41-50 thresholds). It came bundled with a second, related
+  fabrication — "cut-scores are set fresh each series by a chief examiner and
+  standardisation panel" — which sounded like a natural elaboration but was equally
+  unverified and false (the six thresholds are fixed and published; only the raw-to-scaled
+  statistical moderation varies by series). Once Google indexed and started surfacing
+  CoreMark's own wrong content as an "alternative" system in its own AI search summaries,
+  the error was actively self-reinforcing. Lesson: when auditing a factual claim, check
+  every claim in its immediate vicinity too, not just the one that triggered the audit —
+  and prefer WebSearch/WebFetch verification against the primary source over trusting
+  internal site consistency, since multiple pages agreeing with each other is not evidence
+  they're correct if they were all written from the same wrong assumption.
+
 - 2026-09-21 — GSC's "Page Indexing" (Coverage) report can lag a live fix by weeks, and
   robots.txt can make it lag indefinitely for a specific reason. The crawl-loop bug fixed in
   commit 792090c (2026-09-04) generated garbage URLs under `/api/legal/legal/...` — all fixed

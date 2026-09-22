@@ -112,6 +112,13 @@
       "review_date": "2026-10-05",
       "note": "Title/meta rewrite on best-cambridge-lower-secondary-resources-india.html (0 clicks/36 impr/pos10.6, meta was 173 chars). Also fixed title/og/twitter/JSON-LD drift and differentiated from sibling '...Practice Resources in India' page per verifier flag."
     },
+    "EXP-BAND-TERMINOLOGY": {
+      "name": "2026-09-band-terminology-fix",
+      "attempt": 1,
+      "status": "OPEN",
+      "review_date": "2026-10-13",
+      "note": "BL-043, human-approved. Replaced fabricated 'four performance bands: Exceeding/Meeting/Approaching/Below' (verified via WebSearch not to be real Cambridge terminology) with the actual six-band system (Unclassified/Basic/Aspiring/Good/High/Outstanding, fixed thresholds 0/1-10/11-20/21-30/31-40/41-50) on cambridge-checkpoint-grading-system.html and cambridge-checkpoint-marking-explained.html, plus 1 line on vs-igcse.html. Also removed a fabricated 'chief examiner sets cut-scores fresh each series' claim. Correctness fix, not a CTR test - see experiments/2026-09-band-terminology-fix.md for scoring criteria."
+    },
     "EXP-GRADING-KEYWORDS": {
       "name": "2026-09-grading-system-keyword-gaps",
       "attempt": 1,
