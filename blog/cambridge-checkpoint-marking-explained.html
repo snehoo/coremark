@@ -20,7 +20,7 @@
 <meta property="og:image" content="https://coremark.study/assets/og-image.jpg">
 <meta property="og:site_name" content="CoreMark">
 <meta property="article:published_time" content="2026-08-11">
-<meta property="article:modified_time" content="2026-08-11">
+<meta property="article:modified_time" content="2026-09-22">
 <meta property="article:section" content="Study Skills">
 
 <meta name="twitter:card" content="summary_large_image">
@@ -41,7 +41,7 @@
   "description": "The Cambridge Checkpoint score is on a 0 to 50 scale, not a percentage. Here is how raw marks translate to your child's strand-level result, what the performance bands mean, and what a good Checkpoint score actually looks like.",
   "image": "https://coremark.study/assets/og-image.jpg",
   "datePublished": "2026-08-11",
-  "dateModified": "2026-08-15",
+  "dateModified": "2026-09-22",
   "author": {
     "@type": "Person",
     "@id": "https://coremark.study/#snehal-patel",
@@ -293,17 +293,21 @@ table.data-table tr:last-child td{border-bottom:0;}
 /* Score band visual */
 .band-visual{display:flex;flex-direction:column;gap:10px;margin:0 0 28px;}
 .band-row{display:flex;align-items:center;gap:14px;}
-.band-bar{height:36px;border-radius:var(--radius-sm);display:flex;align-items:center;padding:0 14px;font-weight:700;font-size:14px;color:#fff;flex-shrink:0;}
-.band-bar.exceeding{background:var(--blue-deep);width:260px;}
-.band-bar.meeting{background:var(--blue);width:200px;}
-.band-bar.approaching{background:var(--ink-muted);width:140px;}
-.band-bar.below{background:var(--border);color:var(--ink-soft);width:80px;}
+.band-bar{height:34px;border-radius:var(--radius-sm);display:flex;align-items:center;padding:0 12px;font-weight:700;font-size:13px;color:#fff;flex-shrink:0;}
+.band-bar.outstanding{background:var(--blue-deep);width:260px;}
+.band-bar.high{background:var(--blue);width:220px;}
+.band-bar.good{background:var(--coral);color:var(--ink);width:180px;}
+.band-bar.aspiring{background:var(--ink-muted);width:140px;}
+.band-bar.basic{background:var(--border);color:var(--ink-soft);width:100px;}
+.band-bar.unclassified{background:var(--mist);color:var(--ink-soft);width:64px;border:1px solid var(--border);}
 .band-label{font-size:14px;color:var(--ink-soft);line-height:1.4;}
 @media(max-width:600px){
-  .band-bar.exceeding{width:180px;}
-  .band-bar.meeting{width:140px;}
-  .band-bar.approaching{width:100px;}
-  .band-bar.below{width:60px;}
+  .band-bar.outstanding{width:180px;}
+  .band-bar.high{width:155px;}
+  .band-bar.good{width:130px;}
+  .band-bar.aspiring{width:105px;}
+  .band-bar.basic{width:80px;}
+  .band-bar.unclassified{width:55px;}
 }
 
 </style>
@@ -352,7 +356,7 @@ src="https://www.facebook.com/tr?id=1921557135206596&ev=PageView&noscript=1"/></
       "name": "What percentage do you need to pass Cambridge Checkpoint?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "There is no single pass percentage for Cambridge Checkpoint. The assessment is diagnostic rather than pass/fail. Scores are described using performance bands — Exceeding, Meeting, Approaching, or Below the standard — and Cambridge does not publish a fixed cut-score for these bands in advance. The grade boundaries are set after each exam series based on that year's papers. Parents should read the Statement of Results to see which band their child achieved and the strand-level subscores that show where specific gaps lie."
+        "text": "There is no single pass percentage for Cambridge Checkpoint. The assessment is diagnostic rather than pass/fail. Scores are described using six performance bands with fixed thresholds on the 0–50 scale — Unclassified (0), Basic (1–10), Aspiring (11–20), Good (21–30), High (31–40) and Outstanding (41–50) — not a percentage. Parents should read the Statement of Results to see which band their child achieved and the strand-level subscores that show where specific gaps lie."
       }
     },
     {
@@ -360,7 +364,7 @@ src="https://www.facebook.com/tr?id=1921557135206596&ev=PageView&noscript=1"/></
       "name": "What is a good Cambridge Checkpoint score?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "There is no universally agreed target since Checkpoint is diagnostic, not competitive. A score that places a student in the Meeting or Exceeding band shows they are on track for Cambridge Upper Secondary. The more useful measure for a parent is the strand-level subscores, which pinpoint the specific curriculum areas where revision would make the biggest difference."
+        "text": "There is no universally agreed target since Checkpoint is diagnostic, not competitive. A score that places a student in the High or Outstanding band shows they are on track for Cambridge Upper Secondary. The more useful measure for a parent is the strand-level subscores, which pinpoint the specific curriculum areas where revision would make the biggest difference."
       }
     },
     {
@@ -455,7 +459,7 @@ src="https://www.facebook.com/tr?id=1921557135206596&ev=PageView&noscript=1"/></
 <nav class="toc" aria-label="Table of contents"><p class="toc-title">In this article</p><ol>
 <li><a href="#section-1">What the Checkpoint score is out of</a></li>
 <li><a href="#section-2">How raw marks become a scaled 0&ndash;50 score</a></li>
-<li><a href="#section-3">The four performance bands</a></li>
+<li><a href="#section-3">The six performance bands</a></li>
 <li><a href="#section-4">What percentage do I need? (the real question)</a></li>
 <li><a href="#section-5">Strand-level scores and why they matter more</a></li>
 <li><a href="#section-6">How individual marks are awarded on paper</a></li>
@@ -464,7 +468,7 @@ src="https://www.facebook.com/tr?id=1921557135206596&ev=PageView&noscript=1"/></
 
   <div class="tldr-box">
     <span class="tldr-label">Quick answer</span>
-    <p class="tldr-text">Cambridge Lower Secondary Checkpoint scores are reported on a <strong>0 to 50 scale</strong> since May 2023. The score is not a raw percentage &mdash; Cambridge converts raw paper marks to a scaled score and reports it alongside strand-level subscores. There is no single pass mark; performance is described in bands (Exceeding, Meeting, Approaching, Below). The most useful number on your child's result sheet is not the total score but the <strong>strand subscores</strong>, which show exactly which topics need work before Upper Secondary.</p>
+    <p class="tldr-text">Cambridge Lower Secondary Checkpoint scores are reported on a <strong>0 to 50 scale</strong> since May 2023. The score is not a raw percentage &mdash; Cambridge converts raw paper marks to a scaled score and reports it alongside strand-level subscores. There is no single pass mark; performance is described in six bands (Unclassified, Basic, Aspiring, Good, High, Outstanding). The most useful number on your child's result sheet is not the total score but the <strong>strand subscores</strong>, which show exactly which topics need work before Upper Secondary.</p>
   </div>
 
 <p>Every parent of a Cambridge Lower Secondary student hits the same wall when their child's Checkpoint result arrives. The score is out of 50. There are numbers for each strand. It does not look like a percentage. The school may or may not explain it well. So the searches start: "cambridge checkpoint grading percentage", "what is a good checkpoint score", "cambridge checkpoint score range".</p>
@@ -477,9 +481,9 @@ src="https://www.facebook.com/tr?id=1921557135206596&ev=PageView&noscript=1"/></
     <li><span class="num">01</span><span>Checkpoint scores are on a 0&ndash;50 scale since May 2023. The old 0&ndash;6 scale is no longer used.</span></li>
     <li><span class="num">02</span><span>The scaled score is not the same as the percentage of raw marks a student scored. Cambridge adjusts for paper difficulty each series.</span></li>
     <li><span class="num">03</span><span>There is no pass or fail mark. Checkpoint is a diagnostic, not a qualification exam.</span></li>
-    <li><span class="num">04</span><span>Four performance bands describe each subject result: Exceeding, Meeting, Approaching, Below the standard.</span></li>
+    <li><span class="num">04</span><span>Six performance bands describe each subject result: Unclassified, Basic, Aspiring, Good, High, Outstanding.</span></li>
     <li><span class="num">05</span><span>Strand-level subscores are published alongside the total and tell you more about where the gaps actually are.</span></li>
-    <li><span class="num">06</span><span>Cambridge sets the band boundaries fresh each series after the exam, so there is no fixed cut-score to memorise.</span></li>
+    <li><span class="num">06</span><span>Band boundaries are fixed and published (0, 1&ndash;10, 11&ndash;20, 21&ndash;30, 31&ndash;40, 41&ndash;50) &mdash; there is no percentage cut-score to memorise instead.</span></li>
   </ul>
 </div>
 
@@ -501,7 +505,7 @@ src="https://www.facebook.com/tr?id=1921557135206596&ev=PageView&noscript=1"/></
     <div class="stat-label">Subjects: Maths (0862), Science (0893), Computing (0860)</div>
   </div>
   <div class="stat-card">
-    <div class="stat-num">4</div>
+    <div class="stat-num">6</div>
     <div class="stat-label">Performance bands describing the result</div>
   </div>
 </div>
@@ -518,36 +522,44 @@ src="https://www.facebook.com/tr?id=1921557135206596&ev=PageView&noscript=1"/></
 
 <div class="tip-box">
   <span class="tip-icon">&#9432;</span>
-  <div class="tip-text"><strong>What is published</strong>Cambridge publishes grade boundaries for each series in the School Support Hub (accessible to registered Cambridge schools). The boundaries show the minimum scaled score required for each performance band in that specific series. They are not available in advance.</div>
+  <div class="tip-text"><strong>What the scaled score is for</strong>Statistical moderation happens before the band is assigned &mdash; it adjusts that series' raw marks so the resulting 0&ndash;50 score means the same level of achievement regardless of paper difficulty. Once a student has their scaled score, the band it falls into is fixed and published, not series-specific.</div>
 </div>
 
-<h2 id="section-3">The four performance bands</h2>
-<p>Every Cambridge Lower Secondary Checkpoint result includes a performance band descriptor alongside the 0&ndash;50 score. The four bands are:</p>
+<h2 id="section-3">The six performance bands</h2>
+<p>Every Cambridge Lower Secondary Checkpoint result includes a performance band descriptor alongside the 0&ndash;50 score. The six bands, with their fixed score thresholds, are:</p>
 
 <div class="band-visual" aria-label="Cambridge Checkpoint performance band visual">
   <div class="band-row">
-    <div class="band-bar exceeding">Exceeding</div>
-    <div class="band-label"><strong>Exceeding the standard</strong> &mdash; working well above expectations for the stage</div>
+    <div class="band-bar outstanding">41&ndash;50</div>
+    <div class="band-label"><strong>Outstanding</strong> &mdash; working well above expectations for the stage</div>
   </div>
   <div class="band-row">
-    <div class="band-bar meeting">Meeting</div>
-    <div class="band-label"><strong>Meeting the standard</strong> &mdash; performing as expected for Stage 7, 8 or 9</div>
+    <div class="band-bar high">31&ndash;40</div>
+    <div class="band-label"><strong>High</strong> &mdash; a secure, solid foundation for Stage 7, 8 or 9</div>
   </div>
   <div class="band-row">
-    <div class="band-bar approaching">Approaching</div>
-    <div class="band-label"><strong>Approaching the standard</strong> &mdash; some gaps, closer to expected than not</div>
+    <div class="band-bar good">21&ndash;30</div>
+    <div class="band-label"><strong>Good</strong> &mdash; core understanding present, several strands need consolidation</div>
   </div>
   <div class="band-row">
-    <div class="band-bar below">Below</div>
-    <div class="band-label"><strong>Below the standard</strong> &mdash; significant gaps relative to stage expectations</div>
+    <div class="band-bar aspiring">11&ndash;20</div>
+    <div class="band-label"><strong>Aspiring</strong> &mdash; gaps across multiple strands, closer to expected than not</div>
+  </div>
+  <div class="band-row">
+    <div class="band-bar basic">1&ndash;10</div>
+    <div class="band-label"><strong>Basic</strong> &mdash; significant gaps relative to stage expectations</div>
+  </div>
+  <div class="band-row">
+    <div class="band-bar unclassified">0</div>
+    <div class="band-label"><strong>Unclassified</strong> &mdash; no result was reportable for this strand or subject</div>
   </div>
 </div>
 
-<p>Cambridge does not publish fixed score ranges for each band. The cut-scores are determined by the chief examiner and standardisation panel after each exam series, taking into account the specific difficulty of that year's papers. A school can access the series-specific boundaries through the School Support Hub.</p>
+<p>These six thresholds are fixed on the 0&ndash;50 scale and published &mdash; they are not reset or hidden per series. What does vary by series is the statistical moderation applied to raw marks before the scaled score is calculated (see above), not the band boundaries themselves.</p>
 
 <div class="warn-box">
   <p class="warn-label">What this means for revision planning</p>
-  <p>Because band boundaries shift each series, chasing a specific raw target score is not as useful as closing the strand-level gaps that the result sheet identifies. A student who improves on their weakest strands will improve their scaled score regardless of where the bands fall.</p>
+  <p>Because the bands are wide score ranges rather than a single pass mark, chasing a specific raw target score is not as useful as closing the strand-level gaps that the result sheet identifies. A student who improves on their weakest strands will improve their scaled score and move up a band regardless of where they started.</p>
 </div>
 
 <h2 id="section-4">What percentage do I need? (the real question parents are asking)</h2>
@@ -555,14 +567,14 @@ src="https://www.facebook.com/tr?id=1921557135206596&ev=PageView&noscript=1"/></
 
 <p><strong>There is no pass or fail.</strong> Cambridge Checkpoint is a diagnostic assessment, not a qualifying exam. A student cannot fail Checkpoint in the way they could fail a GCSE or A-level. The result is a snapshot of where they are in the Cambridge Lower Secondary programme, used by schools and parents to understand which areas need more work before progressing to Upper Secondary.</p>
 
-<p><strong>There is no single percentage target.</strong> Because the score is on a 0&ndash;50 scale and the band boundaries shift each series, there is no equivalent of "you need 65% to pass". In other words, there is no fixed Cambridge Checkpoint pass mark percentage to memorise &mdash; what matters is the performance band and, more specifically, the strand subscores.</p>
+<p><strong>There is no single percentage target.</strong> Because the score is a scaled 0&ndash;50 number rather than raw marks, there is no equivalent of "you need 65% to pass" &mdash; the bands are fixed score ranges (0, 1&ndash;10, 11&ndash;20, 21&ndash;30, 31&ndash;40, 41&ndash;50), not percentage thresholds. In other words, there is no Cambridge Checkpoint pass mark percentage to memorise &mdash; what matters is the performance band and, more specifically, the strand subscores.</p>
 
 <div class="pull-quote">
   "Checkpoint is not the thing your child passes or fails. It is the report that tells you what to work on before Upper Secondary."
   <cite>Snehal Patel, CoreMark</cite>
 </div>
 
-<p>That said, schools and parents often use Checkpoint scores to make practical decisions about readiness for Cambridge IGCSE. A student Meeting or Exceeding the standard consistently across strands is generally considered well-prepared. A student Approaching or Below should use the result to identify which specific strand to target, not to convert it to a percentage and compare it to an arbitrary threshold.</p>
+<p>That said, schools and parents often use Checkpoint scores to make practical decisions about readiness for Cambridge IGCSE. A student in the High or Outstanding band consistently across strands is generally considered well-prepared. A student in the Good, Aspiring or Basic band should use the result to identify which specific strand to target, not to convert it to a percentage and compare it to an arbitrary threshold.</p>
 
 <div class="inline-cta">
   <div class="cta-copy">
@@ -606,7 +618,7 @@ src="https://www.facebook.com/tr?id=1921557135206596&ev=PageView&noscript=1"/></
   </table>
 </div>
 
-<p>A student who scores 36 overall in Mathematics but has a low Algebra subscore should spend revision time on Algebra specifically, not on general maths practice. The overall score gets them into the Meeting band. The strand score tells them what is holding them back within that band.</p>
+<p>A student who scores 36 overall in Mathematics but has a low Algebra subscore should spend revision time on Algebra specifically, not on general maths practice. The overall score gets them into the High band. The strand score tells them what is holding them back within that band.</p>
 
 <div class="tip-box">
   <span class="tip-icon">&#9989;</span>
@@ -665,11 +677,11 @@ src="https://www.facebook.com/tr?id=1921557135206596&ev=PageView&noscript=1"/></
 </div>
 <div class="faq-item">
 <button class="faq-q"><span>What percentage do you need to pass Cambridge Checkpoint?</span><span class="plus">+</span></button>
-<div class="faq-a"><p>There is no single pass percentage for Cambridge Checkpoint. The assessment is diagnostic rather than pass/fail. Scores are described using performance bands &mdash; Exceeding, Meeting, Approaching, or Below the standard &mdash; and Cambridge does not publish a fixed cut-score for these bands in advance. The grade boundaries are set after each exam series based on that year's papers. Parents should read the Statement of Results to see which band their child achieved and the strand-level subscores that show where specific gaps lie.</p></div>
+<div class="faq-a"><p>There is no single pass percentage for Cambridge Checkpoint. The assessment is diagnostic rather than pass/fail. Scores are described using six performance bands with fixed thresholds on the 0&ndash;50 scale &mdash; Unclassified (0), Basic (1&ndash;10), Aspiring (11&ndash;20), Good (21&ndash;30), High (31&ndash;40) and Outstanding (41&ndash;50) &mdash; not a percentage. Parents should read the Statement of Results to see which band their child achieved and the strand-level subscores that show where specific gaps lie.</p></div>
 </div>
 <div class="faq-item">
 <button class="faq-q"><span>What is a good Cambridge Checkpoint score?</span><span class="plus">+</span></button>
-<div class="faq-a"><p>There is no universally agreed target since Checkpoint is diagnostic, not competitive. A score that places a student in the Meeting or Exceeding band shows they are on track for Cambridge Upper Secondary. The more useful measure for a parent is the strand-level subscores, which pinpoint the specific curriculum areas where revision would make the biggest difference.</p></div>
+<div class="faq-a"><p>There is no universally agreed target since Checkpoint is diagnostic, not competitive. A score that places a student in the High or Outstanding band shows they are on track for Cambridge Upper Secondary. The more useful measure for a parent is the strand-level subscores, which pinpoint the specific curriculum areas where revision would make the biggest difference.</p></div>
 </div>
 <div class="faq-item">
 <button class="faq-q"><span>What did the old Cambridge Checkpoint grading scale look like?</span><span class="plus">+</span></button>
