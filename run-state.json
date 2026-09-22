@@ -111,6 +111,13 @@
       "status": "OPEN",
       "review_date": "2026-10-05",
       "note": "Title/meta rewrite on best-cambridge-lower-secondary-resources-india.html (0 clicks/36 impr/pos10.6, meta was 173 chars). Also fixed title/og/twitter/JSON-LD drift and differentiated from sibling '...Practice Resources in India' page per verifier flag."
+    },
+    "EXP-GRADING-KEYWORDS": {
+      "name": "2026-09-grading-system-keyword-gaps",
+      "attempt": 1,
+      "status": "OPEN",
+      "review_date": "2026-10-13",
+      "note": "Human-run striking-distance pass (2026-09-22) on the Performance-on-Search 3mo export. Added 4 missing-but-well-ranking phrases to cambridge-checkpoint-grading-system.html body/FAQ (grading scale, checkpoint scores, checkpoint grades, full grading-system longtail). Body-only change, deliberately kept separate from EXP-GRADING-2026's title-only test on the same page. See experiments/2026-09-grading-system-keyword-gaps.md."
     }
   },
   "baseline_pending_remeasure": null,
