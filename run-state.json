@@ -117,7 +117,7 @@
       "attempt": 1,
       "status": "OPEN",
       "review_date": "2026-10-13",
-      "note": "BL-043, human-approved. Replaced fabricated 'four performance bands: Exceeding/Meeting/Approaching/Below' (verified via WebSearch not to be real Cambridge terminology) with the actual six-band system (Unclassified/Basic/Aspiring/Good/High/Outstanding, fixed thresholds 0/1-10/11-20/21-30/31-40/41-50) on cambridge-checkpoint-grading-system.html and cambridge-checkpoint-marking-explained.html, plus 1 line on vs-igcse.html. Also removed a fabricated 'chief examiner sets cut-scores fresh each series' claim. Correctness fix, not a CTR test - see experiments/2026-09-band-terminology-fix.md for scoring criteria."
+      "note": "BL-043, human-approved. Replaced fabricated 'four performance bands: Exceeding/Meeting/Approaching/Below' (verified via WebSearch not to be real Cambridge terminology) with the actual six-band system (Unclassified/Basic/Aspiring/Good/High/Outstanding, fixed thresholds 0/1-10/11-20/21-30/31-40/41-50) on cambridge-checkpoint-grading-system.html and cambridge-checkpoint-marking-explained.html, plus 1 line on vs-igcse.html. Also removed a fabricated 'chief examiner sets cut-scores fresh each series' claim. Correctness fix, not a CTR test - see experiments/2026-09-band-terminology-fix.md for scoring criteria. UPDATE 2026-09-24: marking-explained.html is being merged/redirected into grading-system.html as part of BL-045 (Cluster A consolidation, PR #6). Only grading-system.html's portion of this experiment remains independently scoreable at review; marking-explained's fix is preserved in spirit (its content, band-corrected, now lives inside grading-system.html) but its own URL/ranking data will show a redirect, not organic performance, from PR #6's merge onward."
     },
     "EXP-GRADING-KEYWORDS": {
       "name": "2026-09-grading-system-keyword-gaps",
@@ -125,6 +125,13 @@
       "status": "OPEN",
       "review_date": "2026-10-13",
       "note": "Human-run striking-distance pass (2026-09-22) on the Performance-on-Search 3mo export. Added 4 missing-but-well-ranking phrases to cambridge-checkpoint-grading-system.html body/FAQ (grading scale, checkpoint scores, checkpoint grades, full grading-system longtail). Body-only change, deliberately kept separate from EXP-GRADING-2026's title-only test on the same page. See experiments/2026-09-grading-system-keyword-gaps.md."
+    },
+    "EXP-CLUSTER-A-CONSOLIDATION": {
+      "name": "2026-09-cluster-a-consolidation",
+      "attempt": 1,
+      "status": "OPEN",
+      "review_date": "2026-10-15",
+      "note": "BL-045, human-approved. Merged cambridge-checkpoint-score-explained.html and cambridge-checkpoint-marking-explained.html into cambridge-checkpoint-grading-system.html (canonical, chosen by 3mo GSC traffic: 87/4105 vs 8/826 vs 14/1149 clicks/impr - corrected from the source audit's proposed canonical, score-explained, which the traffic data contradicted). Content commit af3023f (merged sections + internal link updates) already on main; redirect/sitemap/file-deletion PR #6 awaiting merge. Success metric: combined clicks/impressions on the canonical URL should hold or exceed the sum of what the 3 URLs got independently, once Google reprocesses the redirects (allow the standard 2-3 week settle window before judging - per-page GSC data will be noisy immediately after the merge as Google re-crawls and consolidates ranking signal). Also watch for any signal loss during the transition (a dip is expected short-term, per standard redirect consolidation risk)."
     }
   },
   "baseline_pending_remeasure": null,

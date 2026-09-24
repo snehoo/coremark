@@ -47,6 +47,31 @@ as directional, not statistically confident. Revisit statistical rigor once clic
 
 *(dated bullets added after each cycle — this is the compounding asset)*
 
+- 2026-09-24 — An external plan's recommendation is only as good as the data it was built
+  on, and a plan that names its own blind spot should be taken at its word. An independently-
+  produced consolidation plan (no GSC access) proposed merging 3 near-duplicate Checkpoint-
+  scoring pages onto `score-explained` as canonical — but explicitly flagged "verify traffic
+  first... if one page gets meaningfully more traffic, that page should become canonical
+  instead" as a precondition before executing. Checking that precondition against real 3mo
+  GSC data reversed the recommendation entirely: `grading-system` had 87 clicks/4105
+  impressions vs `score-explained`'s 8/826 — 11x the clicks. Executing the plan as literally
+  written (redirecting the site's #1 page away) would have been a serious self-inflicted
+  loss. Lesson: when acting on an externally-produced audit or plan, look for the caveats
+  the author already flagged as unverified, and verify those specifically before execution —
+  they've already told you where the plan is weakest.
+- 2026-09-24 — Bug sweeps that grep for a specific known pattern can still miss instances of
+  the same underlying bug in a different phrasing. The band-terminology fix (BL-043,
+  2026-09-22) grepped for "Exceeding/Meeting/Approaching/Below" and "fresh each series" and
+  believed it was clean — but a "key facts" bullet and a stat-card on the same page still
+  had the same fabricated claim in slightly different wording, only caught two days later
+  while re-reading the page for an unrelated merge. Separately, a fourth page
+  (how-to-improve-cambridge-checkpoint-score.html) had an entirely different instance of the
+  retired-0.0-6.0-scale bug that no prior sweep had ever targeted, because no prior sweep's
+  grep pattern happened to include that page. Lesson: after a "fix this bug sitewide" pass,
+  don't treat a clean grep as proof of completeness — the absence of your search pattern
+  isn't the same as the absence of the bug, especially for content bugs where the same
+  underlying error can be phrased many different ways across many pages.
+
 - 2026-09-22 — Content-accuracy bugs can hide behind their own plausibility, and one error
   tends to travel with a second one. "Four performance bands: Exceeding, Meeting,
   Approaching, Below" read as entirely credible generic-exam-board language and had been
