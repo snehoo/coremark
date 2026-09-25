@@ -64,6 +64,9 @@ A free Stage 8 Algebra booster is available at https://coremark.study/free — n
 - [Cambridge Checkpoint Grading 2026: Score Range, Bands & Good Score](https://coremark.study/blog/cambridge-checkpoint-grading-system): How the scoring scale works and what the bands mean
 - [Cambridge Lower Secondary vs IGCSE](https://coremark.study/blog/cambridge-lower-secondary-vs-igcse): How CLS fits into the broader Cambridge pathway
 - [Stage 7: What to Expect](https://coremark.study/blog/cambridge-lower-secondary-stage-7-what-to-expect): Entry-point guide for parents new to CLS
+- [Cambridge Checkpoint Results 2026](https://coremark.study/blog/cambridge-checkpoint-results-2026): Official 2026 test series dates and when results are released to schools
+- [Cambridge Primary Checkpoint Grading System Explained](https://coremark.study/blog/cambridge-primary-checkpoint-grading-system): How Primary Checkpoint grading compares to Lower Secondary Checkpoint
+- [What Is a Cambridge-Endorsed Resource?](https://coremark.study/blog/what-is-a-cambridge-endorsed-resource): What Cambridge endorsement means, and why it isn't required to succeed
 
 ### Revision Strategy
 - [Past Papers vs Topic Boosters](https://coremark.study/blog/cambridge-checkpoint-past-papers-vs-topic-boosters): How to choose the right revision approach
@@ -84,6 +87,7 @@ A free Stage 8 Algebra booster is available at https://coremark.study/free — n
 - [Why Chemical Reactions and Rates Don't Make Sense](https://coremark.study/blog/why-chemical-reactions-rates-dont-make-sense): Breaking down the hardest Chemistry topics
 - [Why Forces and Energy Physics Calculations Trip Kids Up](https://coremark.study/blog/why-forces-energy-physics-calculations-trip-kids-up): Common errors and how to prevent them
 - [How to Revise Science Definitions So They Stick](https://coremark.study/blog/how-to-revise-science-definitions-so-they-stick): Memory strategies for Biology, Chemistry, Physics
+- [Cambridge Science 0893 Syllabus by Strand](https://coremark.study/blog/cambridge-science-0893-syllabus-by-strand): How Biology, Chemistry and Physics each progress from Stage 7 to 9
 
 ### Computing Help
 - [Child Understands Logic But Can't Write Python Code](https://coremark.study/blog/child-understands-logic-cant-write-python-code): Bridging the gap between thinking and coding
