@@ -5,20 +5,101 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
 <title>Page not found — CoreMark</title>
+<link rel="icon" href="/assets/favicon.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap">
 <style>
-  body { font-family: system-ui, sans-serif; background: #fafaf9; color: #1a1a1a; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
-  .wrap { text-align: center; padding: 2rem; }
-  h1 { font-size: 1.5rem; margin-bottom: 0.5rem; }
-  p { color: #666; margin-bottom: 1.5rem; }
-  a { color: #2563eb; text-decoration: none; }
-  a:hover { text-decoration: underline; }
+  :root{
+    --ink:#2A1B3D; --ink-soft:#4A3760; --ink-muted:#B9A9D6;
+    --blue:#6E47C9; --blue-deep:#5234A4; --blue-tint:rgba(110,71,201,0.18);
+    --coral:#F4C73E; --coral-soft:#FAE588;
+    --card:#3A2856; --card-border:#4E3A70;
+    --cream:#FBF8F2;
+    --font-sans:'Plus Jakarta Sans',system-ui,sans-serif;
+    --font-mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:var(--font-sans); background:var(--ink); color:var(--cream);
+    min-height:100vh; display:flex; align-items:center; justify-content:center;
+    padding:32px 20px; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{ max-width:460px; width:100%; text-align:center; }
+
+  .logo{ display:inline-flex; align-items:center; gap:10px; text-decoration:none; margin-bottom:36px; }
+  .logo .mark{ width:34px; height:34px; background:var(--cream); color:var(--ink); border-radius:8px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:13px; font-family:var(--font-mono); position:relative; }
+  .logo .mark .dot{ position:absolute; bottom:4px; right:4px; width:7px; height:7px; border-radius:50%; background:var(--coral); }
+  .logo .word{ font-size:18px; font-weight:800; letter-spacing:-0.02em; color:var(--cream); }
+  .logo .word span{ color:var(--coral-soft); }
+
+  .card{
+    background:var(--card); border:1px solid var(--card-border); border-radius:20px;
+    padding:32px 28px 26px; text-align:left; box-shadow:0 20px 50px rgba(0,0,0,0.35);
+  }
+  .eyebrow{ font-family:var(--font-mono); font-size:11px; font-weight:700; letter-spacing:0.16em; text-transform:uppercase; color:var(--ink-muted); margin:0 0 18px; }
+
+  .stat{ font-size:64px; font-weight:800; letter-spacing:-0.03em; line-height:1; color:var(--coral); margin:0 0 14px; }
+  .stat sup{ font-size:26px; font-weight:700; color:var(--ink-muted); top:-0.6em; }
+
+  .headline{ font-size:19px; font-weight:700; line-height:1.4; color:var(--cream); margin:0 0 20px; }
+
+  .band-bar{ height:10px; border-radius:999px; background:rgba(255,255,255,0.08); overflow:hidden; margin-bottom:10px; }
+  .band-bar span{ display:block; height:100%; width:2%; background:var(--coral); border-radius:999px; }
+
+  .compare{ display:flex; justify-content:space-between; font-family:var(--font-mono); font-size:11px; letter-spacing:0.04em; color:var(--ink-muted); margin-bottom:4px; }
+  .compare strong{ color:var(--coral-soft); font-weight:700; }
+
+  .body-copy{ margin:28px 0 0; font-size:15px; line-height:1.65; color:var(--ink-muted); }
+  .body-copy strong{ color:var(--cream); }
+
+  .actions{ display:flex; flex-direction:column; gap:10px; margin-top:26px; }
+  .btn{ display:block; padding:13px 20px; border-radius:12px; font-weight:700; font-size:14.5px; text-decoration:none; text-align:center; transition:opacity .15s; }
+  .btn:hover{ opacity:0.88; }
+  .btn-primary{ background:var(--coral); color:var(--ink); }
+  .btn-secondary{ background:transparent; border:1px solid var(--card-border); color:var(--cream); }
+
+  .fine-print{ margin-top:24px; font-size:12.5px; color:var(--ink-muted); }
+  .fine-print a{ color:var(--ink-muted); text-decoration:underline; text-decoration-color:var(--card-border); }
+  .fine-print a:hover{ color:var(--cream); }
+
+  @media(max-width:420px){
+    .stat{ font-size:52px; }
+    .card{ padding:26px 20px 22px; }
+  }
 </style>
 </head>
 <body>
 <div class="wrap">
-  <h1>Page not found</h1>
-  <p>The page you were looking for does not exist.</p>
-  <a href="/">Go to CoreMark homepage</a>
+
+  <a class="logo" href="/">
+    <div class="mark">CM<div class="dot"></div></div>
+    <div class="word">Core<span>Mark</span></div>
+  </a>
+
+  <div class="card">
+    <p class="eyebrow">Error 404 &middot; Result</p>
+
+    <p class="stat">0<sup>/50</sup></p>
+    <p class="headline">This page scored a 0 &mdash; Unclassified. No result was reportable, because it doesn't exist (or it moved).</p>
+
+    <div class="band-bar"><span></span></div>
+    <div class="compare">
+      <span>This URL: <strong>Unclassified</strong></span>
+      <span>Every other page: Outstanding</span>
+    </div>
+
+    <p class="body-copy">Unlike a Checkpoint strand score, there's no partial credit here to dig into &mdash; just a broken or outdated link. Here's where to go instead:</p>
+
+    <div class="actions">
+      <a class="btn btn-primary" href="/">Back to the homepage</a>
+      <a class="btn btn-secondary" href="/#subjects">Browse Maths, Science &amp; Computing boosters</a>
+    </div>
+  </div>
+
+  <p class="fine-print">Still stuck? <a href="mailto:info@coremark.study">Tell us what you were looking for</a>.</p>
+
 </div>
 </body>
 </html>
