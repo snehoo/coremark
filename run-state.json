@@ -80,16 +80,20 @@
     "EXP-GRADING-2026": {
       "name": "2026-09-grading-system-title-year",
       "attempt": 1,
-      "status": "OPEN",
+      "status": "LOSS",
       "review_date": "2026-10-03",
-      "note": "Added '2026' to title: 'Cambridge Checkpoint Grading System 2026: Scores & Bands'. Hypothesis: query 'grading system 2026' shows 13.33% CTR at pos 3.7 — year signal should lift CTR on the site's highest-impression page (1,464 impr, pos 5.0, 2.39% CTR)."
+      "note": "Added '2026' to title: 'Cambridge Checkpoint Grading System 2026: Scores & Bands'. Hypothesis: query 'grading system 2026' shows 13.33% CTR at pos 3.7 — year signal should lift CTR on the site's highest-impression page (1,464 impr, pos 5.0, 2.39% CTR).",
+      "scored_date": "2026-10-12",
+      "score_note": "Pre (6 Aug-2 Sep) 41 clicks/1785 impr/2.30% CTR/pos 4.8 -> post (7-23 Sep, cut before Cluster-A merge) 45/2226/2.02%/pos 4.0. Position improved but CTR fell: adding \"2026\" did not lift CTR. Title free for a new test after EXP-GRADING-KEYWORDS (10-13) and EXP-CLUSTER-A (10-15) are scored."
     },
     "EXP-KA-TITLE-V2": {
       "name": "2026-09-khan-academy-title-direct",
       "attempt": 1,
-      "status": "OPEN",
+      "status": "LOSS",
       "review_date": "2026-10-03",
-      "note": "Rewrote from 'What It Gets Right and What It Misses' to '(The Honest Answer)'. Hypothesis: 94 impressions, 0 clicks at pos 7.8 — searcher wants a direct yes/no framing, not a feature-comparison frame."
+      "note": "Rewrote from 'What It Gets Right and What It Misses' to '(The Honest Answer)'. Hypothesis: 94 impressions, 0 clicks at pos 7.8 — searcher wants a direct yes/no framing, not a feature-comparison frame.",
+      "scored_date": "2026-10-12",
+      "score_note": "Pre (6 Aug-2 Sep) 0/56/pos 7.7 -> post (7 Sep-4 Oct) 0/17/pos 4.6. Metric was clicks>0: still 0, impressions down 70%. Do not retry title; the query volume itself is collapsing."
     },
     "EXP-HTML-REDIRECTS": {
       "name": "2026-09-html-duplicate-301",
@@ -101,16 +105,20 @@
     "EXP-VS-IGCSE": {
       "name": "2026-09-vs-igcse-direct-answer",
       "attempt": 1,
-      "status": "OPEN",
+      "status": "INCONCLUSIVE",
       "review_date": "2026-10-05",
-      "note": "Title/meta rewrite to direct yes/no question framing on cambridge-lower-secondary-vs-igcse.html. Biggest single opportunity found this cycle: page absorbs 3 largest impression-cluster queries site-wide (igcse lower secondary/cambridge international lower secondary/cambridge lower secondary, 214 combined impressions) all at 0% CTR."
+      "note": "Title/meta rewrite to direct yes/no question framing on cambridge-lower-secondary-vs-igcse.html. Biggest single opportunity found this cycle: page absorbs 3 largest impression-cluster queries site-wide (igcse lower secondary/cambridge international lower secondary/cambridge lower secondary, 214 combined impressions) all at 0% CTR.",
+      "scored_date": "2026-10-12",
+      "score_note": "Pre (17 Aug-13 Sep) 3/753/0.40%/pos 7.1 -> post (18 Sep-9 Oct) 7/645/1.09%/pos 10.8. CTR nearly tripled but position slid 3.7 places, so the CTR gain may be a query-mix effect. Keep current title; re-read at 2026-11-02."
     },
     "EXP-INDIA-RESOURCES": {
       "name": "2026-09-india-resources-ctr",
       "attempt": 1,
-      "status": "OPEN",
+      "status": "LOSS",
       "review_date": "2026-10-05",
-      "note": "Title/meta rewrite on best-cambridge-lower-secondary-resources-india.html (0 clicks/36 impr/pos10.6, meta was 173 chars). Also fixed title/og/twitter/JSON-LD drift and differentiated from sibling '...Practice Resources in India' page per verifier flag."
+      "note": "Title/meta rewrite on best-cambridge-lower-secondary-resources-india.html (0 clicks/36 impr/pos10.6, meta was 173 chars). Also fixed title/og/twitter/JSON-LD drift and differentiated from sibling '...Practice Resources in India' page per verifier flag.",
+      "scored_date": "2026-10-12",
+      "score_note": "Pre 0/39/pos 10.2 -> post 0/19/pos 11.3. No clicks, impressions halved. Page is in the \"Crawled - currently not indexed\" group flagged by the weekly engine (index audit 2026-10-12); a title change cannot fix an indexing/quality problem."
     },
     "EXP-BAND-TERMINOLOGY": {
       "name": "2026-09-band-terminology-fix",
@@ -132,6 +140,30 @@
       "status": "OPEN",
       "review_date": "2026-10-15",
       "note": "BL-045, human-approved. Merged cambridge-checkpoint-score-explained.html and cambridge-checkpoint-marking-explained.html into cambridge-checkpoint-grading-system.html (canonical, chosen by 3mo GSC traffic: 87/4105 vs 8/826 vs 14/1149 clicks/impr - corrected from the source audit's proposed canonical, score-explained, which the traffic data contradicted). Content commit af3023f (merged sections + internal link updates) already on main; redirect/sitemap/file-deletion PR #6 awaiting merge. Success metric: combined clicks/impressions on the canonical URL should hold or exceed the sum of what the 3 URLs got independently, once Google reprocesses the redirects (allow the standard 2-3 week settle window before judging - per-page GSC data will be noisy immediately after the merge as Google re-crawls and consolidates ranking signal). Also watch for any signal loss during the transition (a dip is expected short-term, per standard redirect consolidation risk)."
+    },
+    "EXP-SUBJECTS-LIST": {
+      "name": "2026-10-subjects-list-codes",
+      "attempt": 1,
+      "status": "OPEN",
+      "shipped": "2026-10-12",
+      "review_date": "2026-11-02",
+      "note": "what-is-cambridge-lower-secondary.html: replaced wrong \"three subjects\" section with all 13 subjects + official codes table + which 5 have Checkpoint (verified against cambridgeinternational.org curriculum page). Title -> \"Cambridge Lower Secondary Subjects: All 13 with Codes\". Baseline 12 Sep-9 Oct: page 1,277 impr / 0 clicks; \"subjects list complete codes\" 407 impr pos 3.9, \"programme subjects offered\" 394 impr pos 8.5. Stages-explained (cannibal, 139 impr on same query) de-optimised to link here, its \"Digital Literacy (Computing)\" error fixed. Source: seo-weekly engine EXP-38536b + CAN task."
+    },
+    "EXP-RESULTS-OCT": {
+      "name": "2026-10-results-october-series",
+      "attempt": 1,
+      "status": "OPEN",
+      "shipped": "2026-10-12",
+      "review_date": "2026-11-02",
+      "note": "cambridge-checkpoint-results-2026.html: added missing October 2026 series row (mid-Oct tests, late-Dec results per Cambridge Checkpoint changes page), title -> \"Checkpoint Results 2026: March, May & October Dates\". Baseline 12 Sep-9 Oct: 272 impr, CTR 1.8%, pos 5.1; \"checkpoint results 2026\" 30 impr pos 6.6. Source: engine CTR-27e271."
+    },
+    "EXP-PRIMARY-GRADING-TITLE": {
+      "name": "2026-10-primary-grading-title",
+      "attempt": 1,
+      "status": "OPEN",
+      "shipped": "2026-10-12",
+      "review_date": "2026-11-02",
+      "note": "cambridge-primary-checkpoint-grading-system.html: title -> \"Cambridge Primary Checkpoint Grading: 0-50 Scale & 6 Bands\", meta leads with band ranges. Baseline 12 Sep-9 Oct: 701 impr, CTR 1.6%, pos 4.4 (94% anonymised queries). Source: engine CTR-ced9f8."
     }
   },
   "baseline_pending_remeasure": null,

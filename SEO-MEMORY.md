@@ -273,6 +273,12 @@ Never use these words/phrases in any content:
   (caught by the verifier sub-agent before shipping).
   See experiments/2026-09-india-resources-ctr.md.
 
+- **Scored 2026-10-12 (out-of-band, seo-weekly engine session):** EXP-GRADING-2026 **LOSS** (CTR 2.30%→2.02% despite pos 4.8→4.0; the year in the title didn't help). EXP-VS-IGCSE **INCONCLUSIVE** (CTR 0.40%→1.09% but pos 7.1→10.8; re-read 2026-11-02). EXP-INDIA-RESOURCES **LOSS** (0 clicks, impr halved; page is "Crawled – not indexed", so a title can't fix it). EXP-KA-TITLE-V2 **LOSS** (still 0 clicks, impr −70%). Detail in run-state.json score_note.
+- **EXP-SUBJECTS-LIST (2026-10-12)** — review 2026-11-02. what-is-cambridge-lower-secondary claimed "three subjects"; there are 13 (codes verified on cambridgeinternational.org). Added the full table, fixed the title. Baseline 1,277 impr / **0 clicks**; "subjects list complete codes" at pos 3.9. stages-explained had the same error ("Digital Literacy (Computing)") and competed for the same query; fixed and linked to the canonical. Checkpoint page now lists Global Perspectives (1129) as tested in the May/Oct series. See experiments/2026-10-weekly-engine-batch.md.
+- **EXP-RESULTS-OCT (2026-10-12)** — review 2026-11-02. The results-2026 page was missing the October series (mid-Oct tests, late-Dec results). Added it and retitled the page.
+- **EXP-PRIMARY-GRADING-TITLE (2026-10-12)** — review 2026-11-02. Title/meta rewrite (701 impr, CTR 1.6%, pos 4.4).
+- **Not touched, on purpose:** the grading-system title (EXP-GRADING-KEYWORDS reviews 10-13, EXP-CLUSTER-A 10-15). The marking-explained/score-explained "decay" is the Cluster-A 301 working, not real decay.
+
 ### Process note — 2026-09-03 out-of-band session bookkeeping gap
 
 The 2026-09-03 session (outside the formal loop) shipped and registered EXP-GRADING-2026,
