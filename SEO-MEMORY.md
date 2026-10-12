@@ -279,6 +279,8 @@ Never use these words/phrases in any content:
 - **EXP-PRIMARY-GRADING-TITLE (2026-10-12)** — review 2026-11-02. Title/meta rewrite (701 impr, CTR 1.6%, pos 4.4).
 - **Not touched, on purpose:** the grading-system title (EXP-GRADING-KEYWORDS reviews 10-13, EXP-CLUSTER-A 10-15). The marking-explained/score-explained "decay" is the Cluster-A 301 working, not real decay.
 
+- **EXP-INDEX-INFOGAIN (2026-10-12)** — review 2026-11-09. **Why 23/54 URLs are "Crawled – currently not indexed":** not length (1,500–2,300 words) and not boilerplate (the same author box and CTA sit on indexed pages). Two causes. (1) The 19 Jun batch of "why your child struggles with X" posts all share one H2 skeleton, and 9 have the identical heading "Where this trips students up by stage". (2) They carry half the Cambridge-specific content of indexed pages (17.8 vs 35.4 refs per 1k words). Generic parenting topics with nothing only CoreMark could say. **Pilot on 6 posts:** topic-specific H2s, plus a section built from the matching booster's worked solutions (real question, M1/A1 marks, error flags). 6 untreated posts from the same batch are the control. If ≥3/6 treated posts get indexed and the control doesn't, roll out to the remaining 11 (the "best … resources" roundups need a different fix: an ownership disclosure and real comparisons). See experiments/2026-10-index-infogain-pilot.md.
+
 ### Process note — 2026-09-03 out-of-band session bookkeeping gap
 
 The 2026-09-03 session (outside the formal loop) shipped and registered EXP-GRADING-2026,

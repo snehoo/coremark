@@ -164,6 +164,14 @@
       "shipped": "2026-10-12",
       "review_date": "2026-11-02",
       "note": "cambridge-primary-checkpoint-grading-system.html: title -> \"Cambridge Primary Checkpoint Grading: 0-50 Scale & 6 Bands\", meta leads with band ranges. Baseline 12 Sep-9 Oct: 701 impr, CTR 1.6%, pos 4.4 (94% anonymised queries). Source: engine CTR-ced9f8."
+    },
+    "EXP-INDEX-INFOGAIN": {
+      "name": "2026-10-index-infogain-pilot",
+      "attempt": 1,
+      "status": "OPEN",
+      "shipped": "2026-10-12",
+      "review_date": "2026-11-09",
+      "note": "Index-quality pilot. 23/54 sitemap URLs were \"Crawled - currently not indexed\" (URL Inspection, 2026-10-12). Cause found: the 19 Jun 2026 batch of \"why your child struggles with X\" posts share one H2 skeleton (9 posts with identical section-3 heading \"Where this trips students up by stage\") and carry half the Cambridge-specific content of indexed posts (17.8 vs 35.4 Cambridge refs per 1k words). Treatment on 6 posts: renamed templated H2 to topic-specific, added a \"Checkpoint-style question, marked line by line\" section built from CoreMark booster worked solutions (real question, M1/A1 marks, booster error flags, labelled CoreMark-written not past paper). Treated: why-geometry-angle-problems-get-harder, child-cant-understand-algebra, pseudocode-flowcharts-harder-than-they-look, why-child-freezes-on-networks-computer-systems, databases-spreadsheets-modelling-overlooked-topics, why-chemical-reactions-rates-dont-make-sense. Untreated control (same template, same state): percentages-ratio-word-problems-at-home, why-forces-energy-physics-calculations-trip-kids-up, child-mixes-up-photosynthesis-respiration-breathing, child-understands-logic-cant-write-python-code, why-child-keeps-getting-fractions-wrong, cambridge-maths-topics-that-cost-marks. Metric: treated posts indexed (URL Inspection) by review date vs control. If >=3/6 treated indexed and control flat, roll out to the remaining 11."
     }
   },
   "baseline_pending_remeasure": null,
