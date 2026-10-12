@@ -283,6 +283,8 @@ Never use these words/phrases in any content:
 
 - **EXP-ROUNDUPS-TRUST (2026-10-12)** — review 2026-11-09. All resource roundups now carry an ownership disclosure. **Factual errors fixed (keep these fixed):** the Science roundup's stage lists were invented (Stage 9 Physics "Newton's laws, radioactivity"). The Stage 9 Maths roundup listed IGCSE topics (trigonometry, quadratics, cumulative frequency, histograms) and **booster names that don't exist**. The Computing roundup claimed a "Computing Checkpoint written exam" 29 times; Computing has no Checkpoint. **No Stage 9 booster covers trigonometry, so "Trigonometry" was removed from the /maths-boost paid LP.** The two India roundups are merged; resources-india 301s to practice-resources-india. Source of truth for stage topics: Boosters/Stage{7,8,9} filenames + Tutor/memory/curriculum-map.md, never generic "secondary maths" knowledge.
 
+- **Checkpoint scale cleanup, part 2 (2026-10-12):** the August note said "booster PDF parent guides still reference 4.0". A text scan of all 89 booster PDFs plus Booster-Skill found **no** old-scale references (the PDFs' "score bands" are each booster's own marks). The old 0–6 / 4.0-threshold content was on **/for-parents** (strand table 0–6, "CAIE sets the 4.0 threshold") and **/results** ("0–6" and "4.0" fact cards), plus a few "4.2 in Algebra" examples. All of it is rewritten to the 0–50 scale and the six bands. Not a tracked experiment (an accuracy fix). PDFs untouched.
+
 ### Process note — 2026-09-03 out-of-band session bookkeeping gap
 
 The 2026-09-03 session (outside the formal loop) shipped and registered EXP-GRADING-2026,
