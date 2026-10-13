@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cambridge Checkpoint Score Calculator: What Your 0–50 Score Means</title>
+<meta name="description" content="Enter your child's Cambridge Checkpoint score (0–50) for each subject and see the band, what it means, what to do next, and how far it is to the next band.">
+<link rel="canonical" href="https://coremark.study/checkpoint-score-calculator">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#2A1B3D">
+<link rel="icon" type="image/jpeg" href="https://coremark.study/assets/favicon.jpg">
+<link rel="apple-touch-icon" href="https://coremark.study/assets/favicon.jpg">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="CoreMark">
+<meta property="og:title" content="Cambridge Checkpoint Score Calculator: What Your 0–50 Score Means">
+<meta property="og:description" content="Enter your child's Cambridge Checkpoint score (0–50) for each subject and see the band, what it means, what to do next, and how far it is to the next band.">
+<meta property="og:url" content="https://coremark.study/checkpoint-score-calculator">
+<meta property="og:image" content="https://assets.coremark.study/logo.jpg">
+<meta property="og:locale" content="en_IN">
+<meta name="twitter:card" content="summary">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Cambridge Checkpoint Score Calculator", "url": "https://coremark.study/checkpoint-score-calculator", "applicationCategory": "EducationalApplication", "operatingSystem": "Any", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "INR"}, "description": "Enter your child's Cambridge Checkpoint score (0–50) for each subject and see the band, what it means, what to do next, and how far it is to the next band.", "publisher": {"@id": "https://coremark.study/#organization"}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What is a good Cambridge Checkpoint score?", "acceptedAnswer": {"@type": "Answer", "text": "Cambridge reports each subject on a 0–50 scale in six bands. A score of 21–30 (Good) or above means your child is working at the expected standard for the end of Lower Secondary; 31–40 is High and 41–50 is Outstanding."}}, {"@type": "Question", "name": "Is Cambridge Checkpoint pass or fail?", "acceptedAnswer": {"@type": "Answer", "text": "No. Checkpoint is diagnostic. There is no pass mark, and a Basic or Unclassified result cannot be used to hold a student back. Schools use the strand feedback to plan teaching."}}, {"@type": "Question", "name": "What does Unclassified mean on a Checkpoint result?", "acceptedAnswer": {"@type": "Answer", "text": "Unclassified (a score of 0) means no result could be reported for that subject or strand. It is not the same as a Basic result; ask the school for the specific reason."}}, {"@type": "Question", "name": "Which subjects have a Checkpoint test?", "acceptedAnswer": {"@type": "Answer", "text": "English (or English as a Second Language), Mathematics and Science, plus Global Perspectives in the May and October series. Computing has no Checkpoint test."}}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "CoreMark", "item": "https://coremark.study"}, {"@type": "ListItem", "position": 2, "name": "Checkpoint score calculator", "item": "https://coremark.study/checkpoint-score-calculator"}]}</script>
+<style>
+:root{
+  --ink:#2A1B3D;--ink-soft:#4A3A5E;--ink-muted:#8A7A9E;
+  --paper:#FBF8F2;--cream:#FBF8F2;--mist:#F0EBF8;
+  --blue:#6E47C9;--blue-deep:#5235A0;--blue-tint:#EDE8FA;
+  --coral:#F4C73E;--coral-soft:#F7D872;
+  --border:#E2DBEF;--border-soft:#EDE8FA;
+  --font-sans:'Plus Jakarta Sans',sans-serif;
+  --font-serif:'Instrument Serif',serif;
+  --font-mono:'JetBrains Mono',monospace;
+  --radius-lg:16px;--radius-md:12px;--radius-sm:8px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--font-sans);background:var(--cream);color:var(--ink);-webkit-font-smoothing:antialiased;}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:50;background:rgba(251,248,242,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border-soft);}
+.nav-inner{max-width:1280px;margin:0 auto;padding:0 40px;height:65px;display:flex;align-items:center;justify-content:space-between;gap:24px;}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.mark-sq{background:var(--ink);color:white;font-weight:800;font-size:13px;letter-spacing:0.04em;border-radius:8px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;position:relative;font-family:var(--font-mono);}
+.dot{position:absolute;bottom:5px;right:5px;width:7px;height:7px;border-radius:50%;background:var(--coral);}
+.word{font-size:18px;font-weight:800;letter-spacing:-0.025em;color:var(--ink);}
+.word .acc{color:var(--blue);}
+.nav-links{display:flex;align-items:center;gap:28px;}
+.nav-links a{text-decoration:none;font-size:15px;font-weight:500;color:var(--ink-soft);}
+.nav-links a:hover{color:var(--ink);}
+.nav-cta{background:var(--ink);color:white;padding:10px 20px;border-radius:999px;font-size:14px;font-weight:700;text-decoration:none;}
+.nav-cta:hover{background:var(--blue);}
+
+/* HERO */
+.results-hero{background:var(--ink);padding:80px 40px 72px;}
+.results-hero-inner{max-width:800px;margin:0 auto;}
+.results-hero .eyebrow{font-family:var(--font-mono);font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:var(--coral);margin-bottom:20px;}
+.results-hero h1{font-size:52px;font-weight:800;letter-spacing:-0.04em;line-height:1.05;color:white;margin-bottom:24px;}
+.results-hero h1 em{font-family:var(--font-serif);font-style:italic;font-weight:400;color:var(--coral-soft);}
+.results-hero .lead{font-size:19px;color:rgba(255,255,255,0.65);line-height:1.65;max-width:620px;}
+
+/* BODY */
+.results-body{max-width:800px;margin:0 auto;padding:72px 40px;}
+.results-body section{margin-bottom:60px;}
+.results-body h2{font-size:28px;font-weight:800;letter-spacing:-0.03em;margin-bottom:16px;color:var(--ink);}
+.results-body p{font-size:17px;color:var(--ink-soft);line-height:1.75;margin-bottom:16px;}
+.results-body p:last-child{margin-bottom:0;}
+.results-body a{color:var(--blue-deep);font-weight:600;text-decoration:underline;text-decoration-color:var(--border);}
+.results-body a:hover{text-decoration-color:var(--blue);}
+
+/* TLDR */
+.tldr-box{background:var(--mist);border-left:4px solid var(--blue);border-radius:0 var(--radius-md) var(--radius-md) 0;padding:18px 22px;margin:0 0 48px;}
+.tldr-label{display:block;font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--blue-deep);margin-bottom:8px;font-family:var(--font-mono);}
+.tldr-text{margin:0;font-size:16px;color:var(--ink-soft);line-height:1.65;}
+
+/* FACT GRID */
+.fact-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:32px 0;}
+.fact-card{background:var(--mist);border-radius:var(--radius-lg);padding:24px;}
+.fact-card .num{font-size:36px;font-weight:800;letter-spacing:-0.03em;color:var(--blue);margin-bottom:6px;}
+.fact-card .lbl{font-size:14px;color:var(--ink-muted);line-height:1.45;}
+
+/* FOUNDING STORY CARD */
+.story-card{background:var(--mist);border:1.5px solid var(--border);border-radius:var(--radius-lg);padding:28px 32px;margin:28px 0;}
+.story-label{font-family:var(--font-mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--blue-deep);margin-bottom:14px;}
+.story-card p{font-size:16px;color:var(--ink-soft);line-height:1.7;margin-bottom:14px;}
+.story-card p:last-child{margin-bottom:0;}
+.story-attribution{font-size:13px;color:var(--ink-muted);border-top:1px solid var(--border);margin-top:18px;padding-top:14px;}
+.story-attribution a{color:var(--blue-deep);font-weight:600;text-decoration:none;}
+
+/* MECHANISM LIST */
+.mech-list{list-style:none;margin:24px 0;display:flex;flex-direction:column;gap:16px;}
+.mech-list li{display:flex;gap:16px;align-items:flex-start;}
+.mech-num{flex-shrink:0;width:32px;height:32px;background:var(--blue);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:14px;margin-top:2px;}
+.mech-text{font-size:16px;color:var(--ink-soft);line-height:1.65;}
+.mech-text strong{color:var(--ink);}
+
+/* STRAND TABLE */
+.strand-table{width:100%;border-collapse:collapse;margin:24px 0;font-size:15px;}
+.strand-table th{text-align:left;padding:10px 14px;background:var(--ink);color:white;font-size:12px;letter-spacing:0.06em;text-transform:uppercase;font-family:var(--font-mono);}
+.strand-table td{padding:12px 14px;border-bottom:1px solid var(--border);color:var(--ink-soft);line-height:1.5;}
+.strand-table tr:last-child td{border-bottom:none;}
+.strand-table td:first-child{font-weight:700;color:var(--ink);}
+.strand-table tr:nth-child(even) td{background:var(--mist);}
+
+/* SUBMIT CTA */
+.submit-box{background:var(--ink);border-radius:var(--radius-lg);padding:40px;text-align:center;margin-top:32px;}
+.submit-box h3{font-size:24px;font-weight:800;color:white;margin-bottom:12px;letter-spacing:-0.02em;}
+.submit-box p{font-size:16px;color:rgba(255,255,255,0.6);line-height:1.6;max-width:460px;margin:0 auto 24px;}
+.submit-box a{display:inline-block;background:var(--coral);color:var(--ink);font-weight:700;font-size:15px;padding:13px 28px;border-radius:999px;text-decoration:none;}
+.submit-box a:hover{background:var(--coral-soft);}
+
+/* FAQ */
+.faq-list{display:flex;flex-direction:column;gap:0;}
+.faq-item{border-bottom:1px solid var(--border);}
+.faq-q{width:100%;background:none;border:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;padding:20px 0;font-family:var(--font-sans);font-size:17px;font-weight:700;color:var(--ink);text-align:left;gap:16px;}
+.faq-icon{flex-shrink:0;font-size:20px;color:var(--blue);transition:transform 0.2s;}
+.faq-item.open .faq-icon{transform:rotate(45deg);}
+.faq-a{display:none;padding:0 0 20px;font-size:16px;color:var(--ink-soft);line-height:1.7;}
+.faq-item.open .faq-a{display:block;}
+
+/* DISCLAIMER */
+.disclaimer-box{background:var(--mist);border:1.5px solid var(--border);border-radius:var(--radius-lg);padding:24px 28px;font-size:15px;color:var(--ink-muted);line-height:1.65;}
+.disclaimer-box strong{color:var(--ink-soft);}
+
+/* FOOTER */
+.footer-min{background:var(--paper);border-top:1px solid var(--border);padding:28px 40px;}
+.footer-min-inner{max-width:1280px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;}
+.footer-min .fl{font-size:14px;color:var(--ink-muted);}
+.footer-min .fr{display:flex;gap:20px;font-size:14px;}
+.footer-min .fr a{color:var(--ink-muted);text-decoration:none;}
+.footer-min .fr a:hover{color:var(--ink);}
+
+/* MOBILE MENU */
+.hamburger{display:none;background:none;border:none;cursor:pointer;padding:6px;color:var(--ink);flex-shrink:0;}
+.hamburger svg{display:block;}
+.mobile-menu{display:none;position:fixed;top:65px;left:0;right:0;background:var(--cream);border-bottom:1px solid var(--border);z-index:49;padding:8px 0 16px;box-shadow:0 8px 24px rgba(0,0,0,0.08);}
+.mobile-menu a{display:block;padding:14px 24px;font-size:16px;font-weight:600;color:var(--ink-soft);text-decoration:none;border-bottom:1px solid var(--border-soft);}
+.mobile-menu a:last-child{border-bottom:none;}
+.mobile-menu a:hover{color:var(--ink);background:var(--mist);}
+.mobile-menu.open{display:block;}
+
+@media(max-width:768px){
+  .results-hero{padding:56px 24px 52px;}
+  .results-hero h1{font-size:36px;}
+  .results-body{padding:48px 24px;}
+  .fact-grid{grid-template-columns:1fr 1fr;}
+  .nav-inner{padding:0 20px;}
+  .nav-links{display:none;} .hamburger{display:flex;}
+  .story-card{padding:22px 20px;}
+  .submit-box{padding:28px 20px;}
+  .footer-min{padding:24px;}
+  .footer-min-inner{flex-direction:column;align-items:flex-start;gap:12px;}
+}
+
+</style>
+<!-- COREMARK-TRACKING-START -->
+<link rel="preconnect" href="https://www.googletagmanager.com">
+<link rel="preconnect" href="https://connect.facebook.net">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-B8K210VPRV"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-B8K210VPRV');
+  gtag('config', 'AW-17160905849');
+</script>
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window,document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1921557135206596');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1921557135206596&ev=PageView&noscript=1"/></noscript>
+<!-- COREMARK-TRACKING-END -->
+<style>
+.calc-wrap{max-width:760px;margin:0 auto;padding:40px 20px 24px}
+.calc-wrap h1{font-size:clamp(28px,4.5vw,40px);line-height:1.15;margin:0 0 12px}
+.calc-lead{font-size:17px;margin:0 0 24px}
+.calc-card{border:1px solid #e3e3ea;border-radius:14px;padding:20px;background:#fff}
+.calc-row{display:grid;grid-template-columns:1fr 110px;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid #eee}
+.calc-row:last-of-type{border-bottom:0}
+.calc-row label{font-weight:600}
+.calc-row input{width:100%;font-size:17px;padding:10px 12px;border:1px solid #ccc;border-radius:10px;box-sizing:border-box}
+.calc-note{font-size:13px;color:#666;margin-top:10px}
+.calc-out{margin-top:20px;display:flex;flex-direction:column;gap:12px}
+.band-card{border-radius:12px;padding:16px 18px;border:1px solid #e3e3ea;background:#fff}
+.band-card h3{margin:0 0 6px;font-size:18px}
+.band-card p{margin:6px 0 0;font-size:15px}
+.band-chip{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:3px 9px;border-radius:999px;margin-left:8px;vertical-align:2px;background:#eef2ff;color:#2a3a8f}
+.band-card a.btn-boost{display:inline-block;margin-top:10px;font-weight:700;color:var(--blue,#2a4bd7)}
+.calc-sec{max-width:760px;margin:0 auto;padding:12px 20px 32px}
+.calc-sec h2{font-size:24px;margin:28px 0 12px}
+.calc-sec .tbl{overflow-x:auto}
+.calc-sec table{width:100%;border-collapse:collapse;font-size:15px}
+.calc-sec th,.calc-sec td{text-align:left;padding:10px;border-bottom:1px solid #eee;vertical-align:top}
+.calc-sec .faq-q{font-weight:700;margin:18px 0 4px}
+@media(max-width:560px){.calc-row{grid-template-columns:1fr 90px}}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="/" aria-label="CoreMark home">
+      <div class="mark-sq">CM<div class="dot"></div></div>
+      <div class="word">Core<span class="acc">Mark</span></div>
+    </a>
+    <div class="nav-links">
+      <a href="math.html">Maths</a>
+      <a href="science.html">Science</a>
+      <a href="computing.html">Computing</a>
+      <a href="/blog/">Blog</a>
+      <a href="about.html">About</a>
+    </div>
+    <a href="/#pricing" class="nav-cta">See packs</a>
+    <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect y="4" width="22" height="2" rx="1" fill="currentColor"/>
+        <rect y="10" width="22" height="2" rx="1" fill="currentColor"/>
+        <rect y="16" width="22" height="2" rx="1" fill="currentColor"/>
+      </svg>
+    </button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobile-menu">
+  <a href="/math">Maths</a>
+  <a href="/science">Science</a>
+  <a href="/computing">Computing</a>
+  <a href="/blog/">Blog</a>
+  <a href="/about">About</a>
+  <a href="/#pricing" style="color:var(--blue);font-weight:700;">See Packs →</a>
+</div>
+<script>
+(function(){
+  var btn = document.getElementById('hamburger');
+  var menu = document.getElementById('mobile-menu');
+  if(!btn||!menu) return;
+  btn.addEventListener('click', function(){
+    var open = menu.classList.toggle('open');
+    btn.setAttribute('aria-expanded', open);
+  });
+  menu.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click', function(){ menu.classList.remove('open'); btn.setAttribute('aria-expanded','false'); });
+  });
+})();
+</script>
+
+<main class="calc-wrap">
+  <h1>Cambridge Checkpoint score calculator</h1>
+  <p class="calc-lead">Enter the score your child got in each subject (0 to 50). You'll see the band, what it means, what to do next, and how far it is to the next band. Leave any subject blank.</p>
+  <div class="calc-card">
+    <div class="calc-row"><label for="s-english">English or English as a Second Language</label><input id="s-english" type="number" inputmode="numeric" min="0" max="50" placeholder="0–50" data-subject="English or English as a Second Language" data-key="english"></div><div class="calc-row"><label for="s-maths">Mathematics</label><input id="s-maths" type="number" inputmode="numeric" min="0" max="50" placeholder="0–50" data-subject="Mathematics" data-key="maths"></div><div class="calc-row"><label for="s-science">Science</label><input id="s-science" type="number" inputmode="numeric" min="0" max="50" placeholder="0–50" data-subject="Science" data-key="science"></div><div class="calc-row"><label for="s-gp">Global Perspectives</label><input id="s-gp" type="number" inputmode="numeric" min="0" max="50" placeholder="0–50" data-subject="Global Perspectives" data-key="gp"></div>
+    <p class="calc-note">Use the 0–50 scaled scores from the Checkpoint statement of results. If your report shows a decimal like 4.2, it's from the old 0–6 scale Cambridge retired in 2023; see the <a href="/blog/cambridge-checkpoint-grading-system">grading guide</a>.</p>
+  </div>
+  <div class="calc-out" id="calc-out" aria-live="polite"></div>
+</main>
+
+<section class="calc-sec">
+  <h2>The six Checkpoint bands</h2>
+  <p>Every Checkpoint subject is reported on the same 0–50 scale, in six bands. A score of 21 or above (Good) means your child is working at the expected standard for the end of Lower Secondary.</p>
+  <div class="tbl"><table><thead><tr><th>Band</th><th>What it signals</th><th>What to do next</th></tr></thead><tbody><tr><td><strong>Outstanding</strong><br>41–50</td><td>Student is comfortably ahead of stage expectations. Strong readiness for the next stage or IGCSE.</td><td>Stretch with extension material; consider IGCSE extended tier. Review subscores for any hidden weaker strands.</td></tr><tr><td><strong>High</strong><br>31–40</td><td>Student is on track with a secure foundation for the next stage. Close to the strongest expected outcome.</td><td>Use subscores to identify which specific strands are still Good rather than High. Close those gaps before moving up.</td></tr><tr><td><strong>Good</strong><br>21–30</td><td>Core understanding is present but several strands need consolidation.</td><td>Prioritise the weakest strand subscores. Targeted topic revision moves the student into the High band faster than general revision.</td></tr><tr><td><strong>Aspiring</strong><br>11–20</td><td>Significant gaps across multiple strands, though the student is not at the earliest stage of content.</td><td>Structured, topic-by-topic revision rather than broad practice. Use subscores to sequence which strand comes first.</td></tr><tr><td><strong>Basic</strong><br>1–10</td><td>Student has significant gaps relative to stage expectations. Needs structured catch-up.</td><td>Start with the lowest strand subscores. Build from foundational concepts. Address before IGCSE begins, not during it.</td></tr><tr><td><strong>Unclassified</strong><br>0</td><td>No result was reportable for this strand or subject.</td><td>Ask the school for the specific reason — this is not the same as a Basic result.</td></tr></tbody></table></div>
+  <p>Band thresholds are the same for every stage and subject, but the content behind them gets harder each stage. For how the 0–50 score is built from raw marks, see the <a href="/blog/cambridge-checkpoint-grading-system">full grading guide</a>.</p>
+
+  <h2>The subject score is only half the story</h2>
+  <p>The Checkpoint report also breaks each subject into strands. A child in the Good band overall can still be weak in one strand. In Maths the content strands are Number, Algebra, Geometry and Measure, and Statistics and Probability. In Science, look at Biology, Chemistry and Physics separately. Fixing the weakest strand is usually the fastest way up a band.</p>
+
+  <h2>Questions parents ask</h2>
+  <p class="faq-q">What is a good Cambridge Checkpoint score?</p><p>Cambridge reports each subject on a 0–50 scale in six bands. A score of 21–30 (Good) or above means your child is working at the expected standard for the end of Lower Secondary; 31–40 is High and 41–50 is Outstanding.</p><p class="faq-q">Is Cambridge Checkpoint pass or fail?</p><p>No. Checkpoint is diagnostic. There is no pass mark, and a Basic or Unclassified result cannot be used to hold a student back. Schools use the strand feedback to plan teaching.</p><p class="faq-q">What does Unclassified mean on a Checkpoint result?</p><p>Unclassified (a score of 0) means no result could be reported for that subject or strand. It is not the same as a Basic result; ask the school for the specific reason.</p><p class="faq-q">Which subjects have a Checkpoint test?</p><p>English (or English as a Second Language), Mathematics and Science, plus Global Perspectives in the May and October series. Computing has no Checkpoint test.</p>
+
+  <div class="disclaimer-box" style="margin-top:28px"><strong>Note:</strong> This calculator uses Cambridge's published 0–50 band ranges. CoreMark is not affiliated with or endorsed by Cambridge Assessment International Education.</div>
+</section>
+
+<div class="footer-min">
+  <div class="footer-min-inner">
+    <span class="fl">© 2025 CoreMark · coremark.study · <a href="mailto:info@coremark.study" style="color:var(--blue);">info@coremark.study</a></span>
+    <div class="fr">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="index.html#faq">FAQ</a>
+      <a href="https://instagram.com/coremark.study" target="_blank" rel="me noopener">Instagram</a>
+      <a href="https://www.youtube.com/@coremarkstudy" target="_blank" rel="me noopener">YouTube</a>
+      <a href="legal/privacy.html">Privacy</a>
+    </div>
+  </div>
+</div>
+
+<script>
+document.querySelectorAll('.faq-q').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item = btn.parentElement;
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  });
+});
+</script>
+
+<script>
+(function(){
+  var BANDS=[["Outstanding", "41–50", "Student is comfortably ahead of stage expectations. Strong readiness for the next stage or IGCSE.", "Stretch with extension material; consider IGCSE extended tier. Review subscores for any hidden weaker strands."], ["High", "31–40", "Student is on track with a secure foundation for the next stage. Close to the strongest expected outcome.", "Use subscores to identify which specific strands are still Good rather than High. Close those gaps before moving up."], ["Good", "21–30", "Core understanding is present but several strands need consolidation.", "Prioritise the weakest strand subscores. Targeted topic revision moves the student into the High band faster than general revision."], ["Aspiring", "11–20", "Significant gaps across multiple strands, though the student is not at the earliest stage of content.", "Structured, topic-by-topic revision rather than broad practice. Use subscores to sequence which strand comes first."], ["Basic", "1–10", "Student has significant gaps relative to stage expectations. Needs structured catch-up.", "Start with the lowest strand subscores. Build from foundational concepts. Address before IGCSE begins, not during it."], ["Unclassified", "0", "No result was reportable for this strand or subject.", "Ask the school for the specific reason — this is not the same as a Basic result."]];
+  var MIN={"Outstanding":41,"High":31,"Good":21,"Aspiring":11,"Basic":1,"Unclassified":0};
+  var STRANDS={maths:"Number, Algebra, Geometry and Measure, or Statistics and Probability",science:"Biology, Chemistry or Physics"};
+  var LINKS={maths:"/math",science:"/science"};
+  function band(n){return n>=41?0:n>=31?1:n>=21?2:n>=11?3:n>=1?4:5;}
+  function esc(t){return String(t).replace(/[&<>]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;"}[c];});}
+  var out=document.getElementById('calc-out'), timer=null;
+  function render(){
+    var html='';
+    document.querySelectorAll('.calc-card input').forEach(function(inp){
+      var v=inp.value.trim(); if(v==='') return;
+      var n=Math.round(Number(v));
+      if(isNaN(n)||n<0||n>50){html+='<div class="band-card"><h3>'+esc(inp.dataset.subject)+'</h3><p>Enter a whole number from 0 to 50.</p></div>';return;}
+      var i=band(n), b=BANDS[i], k=inp.dataset.key;
+      var next=(i>0&&i<5)?BANDS[i-1][0]:null, gap=next?(MIN[next]-n):0;
+      var card='<div class="band-card"><h3>'+esc(inp.dataset.subject)+': '+n+'/50<span class="band-chip">'+b[0]+'</span></h3>'+
+        '<p><strong>What it signals:</strong> '+esc(b[2])+'</p><p><strong>What to do next:</strong> '+esc(b[3])+'</p>'+
+        (next?'<p><strong>'+gap+' point'+(gap===1?'':'s')+'</strong> to reach '+next+' ('+BANDS[i-1][1]+').</p>':'');
+      if(STRANDS[k]&&i>=2&&i<5){
+        card+='<p>Check the strand breakdown on the report: the gap is usually in one of '+STRANDS[k]+'. CoreMark has a practice booster for each topic.</p>'+
+          '<a class="btn-boost" href="'+LINKS[k]+'" data-subject="'+k+'" data-band="'+b[0]+'">See '+(k==='maths'?'Maths':'Science')+' boosters &rarr;</a>';
+      }
+      html+=card+'</div>';
+    });
+    out.innerHTML=html;
+  }
+  function track(){
+    clearTimeout(timer);
+    timer=setTimeout(function(){
+      document.querySelectorAll('.calc-card input').forEach(function(inp){
+        var v=inp.value.trim(); if(v===''||isNaN(Number(v))) return;
+        var n=Math.round(Number(v)); if(n<0||n>50) return;
+        if(window.gtag) gtag('event','checkpoint_score_calc',{subject:inp.dataset.key,band:BANDS[band(n)][0]});
+      });
+    },1500);
+  }
+  document.querySelectorAll('.calc-card input').forEach(function(inp){inp.addEventListener('input',function(){render();track();});});
+  out.addEventListener('click',function(e){
+    var a=e.target.closest('a.btn-boost'); if(!a) return;
+    if(window.gtag) gtag('event','checkpoint_calc_booster_click',{subject:a.dataset.subject,band:a.dataset.band});
+  });
+})();
+</script>
+</body>
+</html>

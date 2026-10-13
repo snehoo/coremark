@@ -180,6 +180,14 @@
       "shipped": "2026-10-12",
       "review_date": "2026-11-09",
       "note": "Resource roundups. (1) Ownership disclosure added to all 6 remaining roundups. (2) Factual fixes: Science roundup stage lists were wrong (e.g. Stage 9 Physics listed Newton's laws/radioactivity) -> replaced with booster/curriculum-map units; Stage 9 Maths roundup listed IGCSE topics (trigonometry, quadratics, cumulative frequency, histograms) and booster names that do not exist (M.G6 Trigonometric Ratios) -> corrected to curriculum map + real 15 S9 boosters; Computing roundup claimed a \"Computing Checkpoint written exam\" (does not exist) in 29 places -> reframed, title now \"Best Cambridge Lower Secondary Computing (0860) Resources\"; same false claim fixed on 8 other pages incl. computing.html and SME page. (3) Generic 4-row \"resource types\" table on Stage 7/8/9 Maths roundups replaced with named-resource tables (CUP, Hodder/Collins, specimen/past papers, Khan Academy, Save My Exams, tutoring, CoreMark-ours) with stage-specific advice. (4) Merged best-cambridge-lower-secondary-resources-india (73 impr/1 click) into best-cambridge-lower-secondary-practice-resources-india (142/6), 301 both variants, ported ed-tech/tutoring + India cost table (CoreMark prices corrected: Rs249/topic, 5 for Rs799, bundles Rs1,299; old page said \"bundles from Rs999\"). ALSO: removed \"Trigonometry\" topic chip from /maths-boost paid LP (no Stage 9 booster covers trigonometry) - ad-LP accuracy fix. Metric: stage-8/9 maths + computing roundups indexed by review; science roundup clicks held (baseline 803 impr/47 clicks/pos 7.2 over 12 Jul-9 Oct)."
+    },
+    "EXP-SCORE-CALC": {
+      "name": "2026-10-checkpoint-score-calculator",
+      "attempt": 1,
+      "status": "OPEN",
+      "shipped": "2026-10-14",
+      "review_date": "2026-11-11",
+      "note": "New tool page /checkpoint-score-calculator: 0-50 score per subject (English/ESL, Maths, Science, Global Perspectives) -> band, meaning, next step (wording = grading-system band table), points to next band; Maths/Science in Good/Aspiring/Basic get strand hint + booster link. GA4 events: checkpoint_score_calc (subject, band), checkpoint_calc_booster_click (subject, band). Linked from /for-parents, /results, blog/cambridge-checkpoint-results-2026. NOT yet linked from blog/cambridge-checkpoint-grading-system (EXP-CLUSTER-A review 2026-10-15); add that link right after scoring CLUSTER-A. Also fixed /results Maths strand list (removed \"Problem Solving\", JSON-LD + table). Metric at review: page indexed; impressions for score/band queries; GA4 calc events and booster clicks > 0."
     }
   },
   "baseline_pending_remeasure": null,

@@ -285,6 +285,8 @@ Never use these words/phrases in any content:
 
 - **Checkpoint scale cleanup, part 2 (2026-10-12):** the August note said "booster PDF parent guides still reference 4.0". A text scan of all 89 booster PDFs plus Booster-Skill found **no** old-scale references (the PDFs' "score bands" are each booster's own marks). The old 0–6 / 4.0-threshold content was on **/for-parents** (strand table 0–6, "CAIE sets the 4.0 threshold") and **/results** ("0–6" and "4.0" fact cards), plus a few "4.2 in Algebra" examples. All of it is rewritten to the 0–50 scale and the six bands. Not a tracked experiment (an accuracy fix). PDFs untouched.
 
+- **EXP-SCORE-CALC (2026-10-14)** — review 2026-11-11. New free tool at /checkpoint-score-calculator. It turns a 0–50 score per subject into the band, its meaning and next step (same wording as the grading guide's table), and the points to the next band. Maths/Science results below High get a strand hint and a booster link. GA4 events `checkpoint_score_calc` and `checkpoint_calc_booster_click` measure the step after the visit, not just traffic. Linked from /for-parents, /results and the results-2026 post. **TODO right after EXP-CLUSTER-A is scored (15 Oct): link it from the grading-system page** (the 3.5k-impression page whose searchers this tool serves). Idea came from a tools-over-volume review (calculators for narrow questions beat bulk posts). Also fixed /results' Maths strand list (no "Problem Solving" strand).
+
 ### Process note — 2026-09-03 out-of-band session bookkeeping gap
 
 The 2026-09-03 session (outside the formal loop) shipped and registered EXP-GRADING-2026,
