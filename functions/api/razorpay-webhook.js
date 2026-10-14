@@ -121,7 +121,13 @@ export async function onRequestPost(context){
       waitUntil(Promise.all(sends));
     }
   }
-  if(name==='payment.failed'){const p=payload.payment.entity;await dbQuery(env,`UPDATE orders SET status='failed' WHERE razorpay_order_id=$1 AND status='pending'`,[p.order_id]);}
+  if(name==='payment.failed'){
+    const p=payload.payment.entity;
+    await dbQuery(env,`UPDATE orders SET status='failed' WHERE razorpay_order_id=$1 AND status='pending'`,[p.order_id]);
+    // Separate statement so a missing failure_reason column can never block the status update above.
+    try{await dbQuery(env,`UPDATE orders SET failure_reason=$2 WHERE razorpay_order_id=$1 AND status='failed'`,[p.order_id,[p.error_code,p.error_reason,p.error_description].filter(Boolean).join(' | ').slice(0,300)||null]);}
+    catch(e){console.error('[webhook failure_reason]',e.message);}
+  }
   if(name==='refund.created'){const r=payload.refund.entity;await dbQuery(env,`UPDATE orders SET status='refunded' WHERE razorpay_payment_id=$1`,[r.payment_id]);}
   return new Response(JSON.stringify({ok:true}),{status:200,headers:{'Content-Type':'application/json'}});
 }

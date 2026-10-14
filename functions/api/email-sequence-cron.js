@@ -93,11 +93,42 @@ async function processBatch(env, { selectSql, sendPath, nextStep, label }) {
   return { sent, failed };
 }
 
-async function sendAbandonedCheckoutEmail(env, order) {
+function retryUrl(order) {
+  const base = 'https://coremark.study/checkout.html';
+  const slug = encodeURIComponent(order.primary_slug || '');
+  if (order.order_type === 'fivepack') {
+    const items = Array.isArray(order.item_slugs) ? order.item_slugs : JSON.parse(order.item_slugs || '[]');
+    return `${base}?type=fivepack&slug=${slug}&items=${encodeURIComponent(items.join(','))}`;
+  }
+  if (order.order_type === 'single' || order.order_type === 'subject' || order.order_type === 'stage') {
+    return `${base}?type=${order.order_type}&slug=${slug}`;
+  }
+  return 'https://coremark.study';
+}
+
+// Maps Razorpay error codes/text to a plain, non-alarming explanation.
+function friendlyFailure(reason) {
+  const r = (reason || '').toLowerCase();
+  if (r.includes('insufficient')) return 'it looks like the account or card did not have enough balance available for this payment';
+  if (r.includes('timeout') || r.includes('expired') || r.includes('pending')) return 'the UPI or bank confirmation timed out before it completed';
+  if (r.includes('otp') || r.includes('authentication') || r.includes('3d')) return 'the extra bank verification step (OTP) did not complete';
+  if (r.includes('limit')) return 'the payment went over a transaction limit set by your bank or card';
+  return 'your bank or UPI app declined or timed out the payment, which is quite common and usually not a problem on your side';
+}
+
+async function sendAbandonedCheckoutEmail(env, order, failed = false) {
   const typeMap = { single:'Single Booster', fivepack:'5-Pack Bundle', subject:'Subject Bundle', stage:'Stage Bundle' };
   const typeLabel = typeMap[order.order_type] || order.order_type || 'order';
   const firstName = order.buyer_name ? order.buyer_name.split(' ')[0] : null;
   const greeting = firstName ? `Hi ${firstName}` : 'Hi';
+  const url = retryUrl(order);
+
+  const lead = failed
+    ? `Thanks for trying to get the <strong>${typeLabel}</strong> on CoreMark. Your payment did not go through: ${friendlyFailure(order.failure_reason)}.`
+    : `You started a checkout for a <strong>${typeLabel}</strong> on CoreMark but the payment didn't go through.`;
+  const retry = failed
+    ? `Nothing was charged. You can try again in a minute here (a different method like UPI or another card often helps):`
+    : `If a UPI app timed out or something went wrong, you can try again here:`;
 
   const res = await fetch('https://api.resend.com/emails', {
     method: 'POST',
@@ -105,13 +136,13 @@ async function sendAbandonedCheckoutEmail(env, order) {
     body: JSON.stringify({
       from: 'CoreMark <info@coremark.study>',
       to:   [order.buyer_email],
-      subject: 'Did something go wrong at checkout?',
+      subject: failed ? 'Your CoreMark payment did not go through, quick retry link' : 'Did something go wrong at checkout?',
       html: `<div style="font-family:Arial,sans-serif;max-width:480px;margin:20px auto;font-size:15px;color:#2A1B3D;line-height:1.7;">
 <p>${greeting},</p>
-<p>You started a checkout for a <strong>${typeLabel}</strong> on CoreMark but the payment didn't go through.</p>
-<p>If a UPI app timed out or something went wrong, you can try again here:<br>
-<a href="https://coremark.study" style="color:#6E47C9;font-weight:600;">coremark.study</a></p>
-<p>If you have any questions before purchasing, just reply to this email.</p>
+<p>${lead}</p>
+<p>${retry}<br>
+<a href="${url}" style="color:#6E47C9;font-weight:600;">Try again</a></p>
+<p>If you get stuck or have questions, just reply to this email and we will sort it out.</p>
 <p>Snehal<br>CoreMark</p>
 </div>`,
     }),
@@ -122,7 +153,7 @@ async function sendAbandonedCheckoutEmail(env, order) {
 async function run(env) {
   // Abandoned checkout: pending orders > 1h old, recovery email not yet sent
   const abandoned = await dbQuery(env,
-    `SELECT id,buyer_email,buyer_name,order_type,primary_slug,razorpay_order_id
+    `SELECT id,buyer_email,buyer_name,order_type,primary_slug,item_slugs,razorpay_order_id
      FROM orders
      WHERE status='pending'
        AND created_at < NOW() - INTERVAL '1 hour'
@@ -144,6 +175,37 @@ async function run(env) {
       console.error('[cron abandoned]', o.id, e.message);
     }
     await new Promise(r => setTimeout(r, SEND_DELAY_MS));
+  }
+
+  // Failed payments: Razorpay reported payment.failed. Wait 30 min so the buyer can
+  // retry on their own (a successful retry flips status to paid and drops out here).
+  let failedSent = 0;
+  try {
+    const failedOrders = await dbQuery(env,
+      `SELECT o.id,o.buyer_email,o.buyer_name,o.order_type,o.primary_slug,o.item_slugs,o.failure_reason
+       FROM orders o
+       WHERE o.status='failed'
+         AND o.created_at < NOW() - INTERVAL '30 minutes'
+         AND o.created_at > NOW() - INTERVAL '3 days'
+         AND o.buyer_email IS NOT NULL
+         AND o.abandoned_email_sent IS NOT TRUE
+         AND NOT EXISTS (SELECT 1 FROM orders p WHERE p.buyer_email=o.buyer_email AND p.primary_slug=o.primary_slug AND p.status='paid')
+       LIMIT 20`
+    );
+    for (const o of failedOrders.rows) {
+      try {
+        if (await sendAbandonedCheckoutEmail(env, o, true)) {
+          await dbQuery(env, `UPDATE orders SET abandoned_email_sent=TRUE WHERE id=$1::uuid`, [o.id]);
+          failedSent++;
+          console.log('[cron failed-payment] sent to', o.buyer_email);
+        }
+      } catch (e) {
+        console.error('[cron failed-payment]', o.id, e.message);
+      }
+      await new Promise(r => setTimeout(r, SEND_DELAY_MS));
+    }
+  } catch (e) {
+    console.error('[cron failed-payment] query failed (is orders.failure_reason added?)', e.message);
   }
 
   // Delivery retry: paid orders where delivery email never sent (> 15 min old)
@@ -208,8 +270,8 @@ async function run(env) {
   });
 
   // Counts land in the Cloudflare Functions log so you can confirm runs.
-  console.log('[cron] done', JSON.stringify({ abandonedSent, day2, day7 }));
-  return { abandonedSent, day2, day7 };
+  console.log('[cron] done', JSON.stringify({ abandonedSent, failedSent, day2, day7 }));
+  return { abandonedSent, failedSent, day2, day7 };
 }
 
 // ── HTTP handler — what cron-job.org actually calls ──────────────────────────
