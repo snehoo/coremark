@@ -1,14 +1,14 @@
 {
   "sop_version": "v3",
-  "run_number": 3,
-  "run_date": "2026-09-14",
+  "run_number": 4,
+  "run_date": "2026-10-14",
   "current_phase": null,
   "last_completed_phase": 9,
   "last_completed_step": "report",
   "run_in_progress": false,
-  "spend_this_run_usd": 0,
-  "report_sent": "2026-09-14",
-  "reconciliation_note": "2026-09-14 (run 3): a 2026-09-03 out-of-band session shipped EXP-GRADING-2026, EXP-KA-TITLE-V2, EXP-HTML-REDIRECTS and registered them here, but never created experiments/*.md files for them nor logged a Human Feedback Log entry in SEO-MEMORY.md. Backfilling experiment files and the log entry this run (Phase 1). Prior reconciliation note (covering 2026-07-14 to 2026-08-15 out-of-band work) is folded into SEO-MEMORY.md and removed from here.",
+  "spend_this_run_usd": 0.15,
+  "report_sent": "2026-10-14",
+  "reconciliation_note": "Closed out 2026-09-14 (run 3): the 2026-09-03 backfill is folded into SEO-MEMORY.md. No new reconciliation gaps found this run (run 4, 2026-10-14) — the 2026-10-12/14 out-of-band seo-weekly-engine sessions registered their 6 experiments with full experiments/*.md files and SEO-MEMORY.md entries at ship time, unlike the 2026-09-03 gap this note used to describe.",
   "open_experiments": {
     "EXP-1": {
       "name": "2026-07-canonical-sitemap-fix",
@@ -98,9 +98,10 @@
     "EXP-HTML-REDIRECTS": {
       "name": "2026-09-html-duplicate-301",
       "attempt": 1,
-      "status": "OPEN",
+      "status": "WIN",
       "review_date": "2026-10-03",
-      "note": "_redirects: 301 from /blog/cambridge-checkpoint-score-explained.html and /blog/cambridge-lower-secondary-stages-explained.html → clean URLs. Both .html versions were indexed with 40 and 35 impressions respectively, splitting link equity. Progress check 2026-09-14: score-explained.html down to 8 impr (from 40), stages-explained.html down to 2 impr (from 35) — decaying as expected, not yet due for a clean score."
+      "scored_date": "2026-10-14",
+      "note": "Both .html duplicate URLs now show 0 impressions in the current 28d GSC window (2026-09-14 to 2026-10-11), down from the original 35/40 baseline and 1/8 at the 2026-09-14 progress check. Success metric (\".html variant drops out of GSC\") met cleanly."
     },
     "EXP-VS-IGCSE": {
       "name": "2026-09-vs-igcse-direct-answer",
@@ -123,16 +124,18 @@
     "EXP-BAND-TERMINOLOGY": {
       "name": "2026-09-band-terminology-fix",
       "attempt": 1,
-      "status": "OPEN",
+      "status": "WIN",
       "review_date": "2026-10-13",
-      "note": "BL-043, human-approved. Replaced fabricated 'four performance bands: Exceeding/Meeting/Approaching/Below' (verified via WebSearch not to be real Cambridge terminology) with the actual six-band system (Unclassified/Basic/Aspiring/Good/High/Outstanding, fixed thresholds 0/1-10/11-20/21-30/31-40/41-50) on cambridge-checkpoint-grading-system.html and cambridge-checkpoint-marking-explained.html, plus 1 line on vs-igcse.html. Also removed a fabricated 'chief examiner sets cut-scores fresh each series' claim. Correctness fix, not a CTR test - see experiments/2026-09-band-terminology-fix.md for scoring criteria. UPDATE 2026-09-24: marking-explained.html is being merged/redirected into grading-system.html as part of BL-045 (Cluster A consolidation, PR #6). Only grading-system.html's portion of this experiment remains independently scoreable at review; marking-explained's fix is preserved in spirit (its content, band-corrected, now lives inside grading-system.html) but its own URL/ranking data will show a redirect, not organic performance, from PR #6's merge onward."
+      "scored_date": "2026-10-14",
+      "note": "Page-level grading-system.html, pre (19d, 09-03..09-21) vs post (19d, 09-23..10-11): clicks 46->76 (+65%), CTR 1.97%->2.63%, position 3.97->3.40 (better) -- all three moved favorably AGAINST the site-wide trend over the same window (site-wide clicks +31%, CTR actually fell 2.64%->1.67%, position worsened 4.93->5.90). Confounded with EXP-GRADING-KEYWORDS (same page, same ship date, both body-only changes) -- cannot separate the two treatments, but the correctness fix itself clears its PASS/WIN bar per its own success metric (no regression, positive movement coincided)."
     },
     "EXP-GRADING-KEYWORDS": {
       "name": "2026-09-grading-system-keyword-gaps",
       "attempt": 1,
-      "status": "OPEN",
+      "status": "WIN",
       "review_date": "2026-10-13",
-      "note": "Human-run striking-distance pass (2026-09-22) on the Performance-on-Search 3mo export. Added 4 missing-but-well-ranking phrases to cambridge-checkpoint-grading-system.html body/FAQ (grading scale, checkpoint scores, checkpoint grades, full grading-system longtail). Body-only change, deliberately kept separate from EXP-GRADING-2026's title-only test on the same page. See experiments/2026-09-grading-system-keyword-gaps.md."
+      "scored_date": "2026-10-14",
+      "note": "Query-level (pre 09-03..09-21 vs post 09-23..10-11, 19d each): \"grading scale\" pos 6.6->3.8 + first click appeared (0->1); \"checkpoint grades\" pos 6.7->4.3 (still 0 clicks, thin volume); \"checkpoint scores\" pos 3.7->2.4 (already strong, stayed strong); \"...checkpoint grading system\" roughly flat on 1-2 impressions (too thin to read). 3 of 4 target queries improved position; page-level metrics also moved favorably against the site-wide trend (see EXP-BAND-TERMINOLOGY note) -- same confound, same page, same ship date. Calling WIN on the page-level signal; query-level samples individually too thin for a standalone read."
     },
     "EXP-CLUSTER-A-CONSOLIDATION": {
       "name": "2026-09-cluster-a-consolidation",
@@ -147,7 +150,7 @@
       "status": "OPEN",
       "shipped": "2026-10-12",
       "review_date": "2026-11-02",
-      "note": "what-is-cambridge-lower-secondary.html: replaced wrong \"three subjects\" section with all 13 subjects + official codes table + which 5 have Checkpoint (verified against cambridgeinternational.org curriculum page). Title -> \"Cambridge Lower Secondary Subjects: All 13 with Codes\". Baseline 12 Sep-9 Oct: page 1,277 impr / 0 clicks; \"subjects list complete codes\" 407 impr pos 3.9, \"programme subjects offered\" 394 impr pos 8.5. Stages-explained (cannibal, 139 impr on same query) de-optimised to link here, its \"Digital Literacy (Computing)\" error fixed. Source: seo-weekly engine EXP-38536b + CAN task."
+      "note": "what-is-cambridge-lower-secondary.html: replaced wrong \"three subjects\" section with all 13 subjects + official codes table + which 5 have Checkpoint (verified against cambridgeinternational.org curriculum page). Title -> \"Cambridge Lower Secondary Subjects: All 13 with Codes\". Baseline 12 Sep-9 Oct: page 1,277 impr / 0 clicks; \"subjects list complete codes\" 407 impr pos 3.9, \"programme subjects offered\" 394 impr pos 8.5. Stages-explained (cannibal, 139 impr on same query) de-optimised to link here, its \"Digital Literacy (Computing)\" error fixed. Source: seo-weekly engine EXP-38536b + CAN task. | 2026-10-14 CONFOUND: page impressions collapsed on 2026-10-04 (160-236/day -> 0-11/day) at unchanged position 6-8, i.e. 8 days BEFORE this change shipped; the 407-impression \"subjects list complete codes\" demand vanished (likely a short-lived/tracker spike). Recrawled 2026-10-13 with the new table. At review, judge on clicks/CTR and position for the remaining subjects queries, not on impressions vs the inflated baseline."
     },
     "EXP-RESULTS-OCT": {
       "name": "2026-10-results-october-series",
@@ -192,11 +195,11 @@
   },
   "baseline_pending_remeasure": null,
   "baseline_remeasure_2026-09-14": "SEO-BASELINE-2026-08-10.md remeasured this run (11 days late; no run happened between 2026-08-15 and 2026-09-14 except the out-of-band 2026-09-03 session). All 4 'what to look for' targets checked: (1) CTR on retitled pages — met/exceeded on science-resources (1.6%->5.50%) and save-my-exams (1.6%->4.55%); computing/math/science subject pages also improved. (2) Position on /math and /science — both moved from poor (20.4/11.5) to good (6.7/13.9-ish, though /science still highish); math especially improved. (3) Duplicate URL consolidation — in progress, not yet zero (score-explained.html 13->8 impr, stages-explained.html 17->2 impr); a 3rd previously-unknown dupe found (best-cambridge-checkpoint-computing-resources.html) and redirect PR opened. (4) Total indexed pages — not re-checked via GSC Pages report this run (out of scope for budget); flag for next cycle. Site-wide clicks 170 vs prior-28d 34 (up, healthy) vs the original 3mo baseline of 26 clicks (different window length, not directly comparable, but directionally strong). Closing this baseline file's tracking — folded into SEO-MEMORY.md.",
-  "experiments_shipped_this_run": 2,
+  "experiments_shipped_this_run": 0,
   "token_budget_usd": 10,
-  "completed_cycles": 3,
+  "completed_cycles": 4,
   "meta_loop_due_at_cycle": 6,
-  "meta_loop_ran_this_cycle": true,
+  "meta_loop_ran_this_cycle": false,
   "trust_ladder_rung": 1,
   "kill_switch_warnings": 0
 }

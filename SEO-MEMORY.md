@@ -40,6 +40,8 @@ as directional, not statistically confident. Revisit statistical rigor once clic
 | 2026-08-15 | 2 (formal loop counter) | 2 (EXP-CKPT-MARKING, EXP-CKPT-SCORE) | 1 (EXP-1) | 0 | 4 (EXP-2, EXP-3, EXP-4, EXP-KA-CURRICULUM — all superseded by later out-of-band rewrites before a clean read) | 27 | ramping (see note) | OK |
 | 2026-09-03 | out-of-band | 3 (EXP-GRADING-2026, EXP-KA-TITLE-V2, EXP-HTML-REDIRECTS) | 0 | 0 | 0 | — | — | OK |
 | 2026-09-14 | 3 (formal loop counter; meta-loop due, ran) | 2 (EXP-VS-IGCSE, EXP-INDIA-RESOURCES) + 1 hygiene fix (PR #4, 3rd .html redirect) | 3 (EXP-CKPT-SCORE, EXP-SME-TABLE, EXP-SCI-NAMED) | 0 | 1 (EXP-CKPT-MARKING) | 170 | up sharply (34 prior 28d) | OK |
+| 2026-10-12/14 | out-of-band (seo-weekly engine) | 6 (EXP-SUBJECTS-LIST, EXP-RESULTS-OCT, EXP-PRIMARY-GRADING-TITLE, EXP-INDEX-INFOGAIN, EXP-ROUNDUPS-TRUST, EXP-SCORE-CALC) | — | — | — | — | — | OK |
+| 2026-10-14 | 4 (formal loop counter; meta-loop not due until cycle 6) | 0 (scoring + audit cycle only — see note) | 3 (EXP-HTML-REDIRECTS, EXP-BAND-TERMINOLOGY, EXP-GRADING-KEYWORDS) | 0 | 0 | 217 | up (184 prior 28d; no kill-switch) | OK |
 
 ---
 
@@ -47,6 +49,28 @@ as directional, not statistically confident. Revisit statistical rigor once clic
 
 *(dated bullets added after each cycle — this is the compounding asset)*
 
+- 2026-10-14 — When site-wide impressions are growing fast enough to mask a page-level
+  effect (the recurring confound since 2026-09-14), check the *direction* of the
+  site-wide trend over the exact same window, not just its magnitude. This cycle,
+  site-wide CTR and position both got *worse* over the comparison window (CTR
+  2.64%→1.67%, position 4.93→5.90) while grading-system.html's CTR and position both got
+  *better* (1.97%→2.63%, 3.97→3.40). A page moving opposite to its own site's base rate
+  is a stronger signal than a page moving in the same direction by a larger margin, even
+  at identical sample sizes — it rules out "the whole site just got more visible" as the
+  explanation. Used this to score EXP-BAND-TERMINOLOGY and EXP-GRADING-KEYWORDS as WIN
+  despite both being confounded with each other (same page, same ship date).
+- 2026-10-14 — A technical fix confirmed working can silently regress months later, and
+  nothing in the loop's own cadence will notice unless the exact same PSI check is
+  re-run on the exact same pages. BL-001 (homepage LCP) and the font-swap fix that
+  resolved /math and /computing's LCP in July (7.1s→1.5s, 6.9s→2.9s, confirmed
+  2026-07-17) were never re-measured since — this cycle's re-PSI found all three back in
+  "poor" territory (home 7.7s, math 7.3s, computing 6.8s) despite the original fix's
+  markup still being intact in the page source. The regression's cause isn't the
+  original fix failing — it's something added since (PSI's insights point at image/cache
+  bloat and 203 KiB of unused JS, consistent with 3 months of new pages and features
+  shipping). Lesson: "fixed and confirmed" isn't a permanent state for a metric driven by
+  total page weight — a CWV finding that was closed out needs an occasional re-check even
+  when nothing prompted it, not just a one-time confirmation.
 - 2026-09-24 — An external plan's recommendation is only as good as the data it was built
   on, and a plan that names its own blind spot should be taken at its word. An independently-
   produced consolidation plan (no GSC access) proposed merging 3 near-duplicate Checkpoint-
@@ -279,6 +303,8 @@ Never use these words/phrases in any content:
 - **EXP-PRIMARY-GRADING-TITLE (2026-10-12)** — review 2026-11-02. Title/meta rewrite (701 impr, CTR 1.6%, pos 4.4).
 - **Not touched, on purpose:** the grading-system title (EXP-GRADING-KEYWORDS reviews 10-13, EXP-CLUSTER-A 10-15). The marking-explained/score-explained "decay" is the Cluster-A 301 working, not real decay.
 
+- **Scored 2026-10-14 (formal loop, cycle 4):** EXP-HTML-REDIRECTS **WIN** (both .html duplicates now 0 impressions, fully dropped out of GSC). EXP-BAND-TERMINOLOGY **WIN** (grading-system.html clicks +65%, CTR+position both improved, against a worsening site-wide trend over the same window). EXP-GRADING-KEYWORDS **WIN** (3/4 target queries improved position, one got its first click; confounded with EXP-BAND-TERMINOLOGY — same page, same ship date, scored together). EXP-CLUSTER-A-CONSOLIDATION reviews 2026-10-15 (tomorrow) — one day too early, left for next touch; live redirects verified working via curl (marking-explained.html/score-explained.html/clean all 301 to grading-system.html). No new experiments shipped this cycle — focus was scoring + audit, see Human Feedback Log for reasoning. PSI re-check found homepage/math/computing LCP regressed back to "poor" 3 months after the original font fix (still intact in source) — see BL-001/BL-052 and the Lessons Learned entry above; flagged as next cycle's leading experiment candidate.
+
 - **EXP-INDEX-INFOGAIN (2026-10-12)** — review 2026-11-09. **Why 23/54 URLs are "Crawled – currently not indexed":** not length (1,500–2,300 words) and not boilerplate (the same author box and CTA sit on indexed pages). Two causes. (1) The 19 Jun batch of "why your child struggles with X" posts all share one H2 skeleton, and 9 have the identical heading "Where this trips students up by stage". (2) They carry half the Cambridge-specific content of indexed pages (17.8 vs 35.4 refs per 1k words). Generic parenting topics with nothing only CoreMark could say. **Pilot on 6 posts:** topic-specific H2s, plus a section built from the matching booster's worked solutions (real question, M1/A1 marks, error flags). 6 untreated posts from the same batch are the control. If ≥3/6 treated posts get indexed and the control doesn't, roll out to the remaining 11 (the "best … resources" roundups need a different fix: an ownership disclosure and real comparisons). See experiments/2026-10-index-infogain-pilot.md.
 
 - **EXP-ROUNDUPS-TRUST (2026-10-12)** — review 2026-11-09. All resource roundups now carry an ownership disclosure. **Factual errors fixed (keep these fixed):** the Science roundup's stage lists were invented (Stage 9 Physics "Newton's laws, radioactivity"). The Stage 9 Maths roundup listed IGCSE topics (trigonometry, quadratics, cumulative frequency, histograms) and **booster names that don't exist**. The Computing roundup claimed a "Computing Checkpoint written exam" 29 times; Computing has no Checkpoint. **No Stage 9 booster covers trigonometry, so "Trigonometry" was removed from the /maths-boost paid LP.** The two India roundups are merged; resources-india 301s to practice-resources-india. Source of truth for stage topics: Boosters/Stage{7,8,9} filenames + Tutor/memory/curriculum-map.md, never generic "secondary maths" knowledge.
@@ -378,8 +404,10 @@ candidate SOP addition: a pre-edit check step, or a lighter-weight "experiment l
 | Canonical/URL fix (§3 audit) | 1 | 1 | 0 | 0 | — | WIN — technical fix held, reinforced by later dupe-URL cleanup |
 | CTR fix — title/meta rewrite (competitor-piggyback / named-comparison pattern) | 6 (EXP-2/3/4/KA-CURRICULUM/SME-TABLE/SCI-NAMED) | 2 (SME-TABLE, SCI-NAMED) | 0 | 4 (superseded before read) | SME-TABLE +2 clicks/28d, SCI-NAMED +14 clicks/28d | now has 2 clean WINs — named-comparison-table pattern looks genuinely effective when it survives to a clean read. Overwrite risk remains the main failure mode (4/6 lost to it), not the tactic itself. |
 | CTR fix — title/meta length limit | 2 (EXP-CKPT-MARKING/SCORE, 2026-08-15) | 1 (SCORE) | 0 | 1 (MARKING) | SCORE: CTR +0.18pp with position also improving; MARKING: CTR +0.15pp but position worsened | mixed — length fix alone (MARKING) gives a weaker, more confounded signal than length fix + content-accuracy fix together (SCORE). Small sample. |
-| Content accuracy fix (retired scale, self-contradiction) | 1 (EXP-CKPT-SCORE) | 1 | 0 | 0 | CTR+position both improved | first WIN for this tactic — content correctness may itself be a ranking/CTR factor when it contradicts top-ranked competitors, not just a compliance nicety. |
-| CTR fix — title/meta direct-answer/question framing | 1 (EXP-VS-IGCSE, plus EXP-KA-TITLE-V2 pending) | 0 | 0 | 0 | — | pending (review 2026-10-05) — new framing hypothesis, distinct from length/accuracy fixes above |
+| Content accuracy fix (retired scale, self-contradiction, fabricated terminology) | 2 (EXP-CKPT-SCORE, EXP-BAND-TERMINOLOGY) | 2 | 0 | 0 | CKPT-SCORE: CTR+position both improved; BAND-TERMINOLOGY: clicks +65%, CTR+position both improved against the site-wide trend | 2/2 WIN — content correctness keeps correlating with CTR/position gains, not just compliance. Confidence rising on this tactic. |
+| CTR fix — title/meta direct-answer/question framing | 2 (EXP-VS-IGCSE, EXP-KA-TITLE-V2) | 0 | 2 | 0 | VS-IGCSE: CTR 0.40%→1.09% but position worsened 7.1→10.8 (net INCONCLUSIVE, scored 2026-10-12); KA-TITLE-V2: still 0 clicks, impressions -70% (LOSS, scored 2026-10-12) | 0 wins so far on 2 tries — the "direct question" framing that worked for EXP-SME-TABLE/SCI-NAMED's *comparison-table* pattern hasn't replicated for pure title-framing changes. Don't treat these as the same tactic going forward. |
+| Body-content keyword-gap fill (add missing ranking phrases, no title/meta touch) | 1 (EXP-GRADING-KEYWORDS) | 1 | 0 | 0 | 3/4 target queries improved position, 1 picked up a first click; page-level CTR/position also moved against the site-wide trend | first WIN for this tactic — a lower-risk lever than title rewrites since it can't collide with an open title experiment on the same page. Query-level samples are individually thin (single-digit impressions); trust the page-level read over any one query. |
+| Title-year-signal fix (adding the current year to a title) | 1 (EXP-GRADING-2026) | 0 | 1 | 0 | CTR 2.30%→2.02% despite position improving 4.8→4.0 | LOSS, scored 2026-10-12 — a year in the title did not help CTR on this site's pattern. Do not retry on grading-system.html; untested elsewhere. |
 
 ---
 
@@ -394,6 +422,37 @@ candidate SOP addition: a pre-edit check step, or a lighter-weight "experiment l
 ## Human Feedback Log
 
 *(agent appends here after each report; human can annotate)*
+
+2026-10-14 — Cycle 4 (formal loop counter; meta-loop not due until cycle 6). GSC 28d
+window: 2026-09-14 to 2026-10-11 vs prior 2026-08-17 to 2026-09-13. Clicks 217 vs 184
+(+18%, no kill-switch concern — only drops trigger it). Impressions 11,715 vs 7,289
+(+61%). Scored 3 overdue experiments, all WIN: EXP-HTML-REDIRECTS (both .html duplicates
+now 0 impressions, confirming the consolidation worked), EXP-BAND-TERMINOLOGY and
+EXP-GRADING-KEYWORDS (same page — grading-system.html — same 2026-09-22 ship date, both
+body-only changes, scored together since they can't be separated; page-level clicks +65%
+while the site-wide trend over the identical window went the other way on CTR and
+position, which is the cleanest confound-control read this loop has had yet — see new
+Lessons Learned entry). EXP-CLUSTER-A-CONSOLIDATION reviews tomorrow (2026-10-15) — left
+untouched, one day early; spot-checked its live redirects via curl and confirmed working.
+Shipped **0 new experiments** this cycle, a deliberate choice: the out-of-band
+"seo-weekly engine" shipped 6 experiments across 2026-10-12 and 2026-10-14 (hours before
+this run started) across most of the highest-impact backlog items, and several more
+pages already carry open experiments with future review dates — stacking a 7th change
+in the same window would make every one of them harder to attribute. Spent the cycle on
+scoring + a technical audit instead. Biggest audit finding: PageSpeed re-check on the
+top 5 clicked pages found homepage/math/computing LCP regressed back to "poor" (7.7s/
+7.3s/6.8s) three months after the 2026-07-17 font-swap fix resolved them (down to 1.5s/
+2.9s at the time) — the original fix's markup is still intact in source, so something
+added since (new pages, tracking tags, image/JS weight — PSI's insights flag 127-203 KiB
+of image/cache/JS savings on the homepage) is the likely cause, not a reversion. Not
+blind-fixed; raised BL-001's priority and filed BL-052, flagging as the leading candidate
+for next cycle's experiment slot. CLS regression from the 2026-09-14 cycle (BL-035) was
+re-measured and found unchanged (not worsening, not self-resolving) — still needs a
+trace, not a guess. Backlog hygiene: closed BL-012/BL-013 (both listicles exist and are
+live; stage-7 performing, stage-9 barely visible — opened BL-051 for the latter) and
+BL-006 (/math CLS now under threshold). robots.txt AI-crawler access confirmed still
+allowed (GPTBot/ClaudeBot/PerplexityBot/Google-Extended). No GitHub PRs opened this
+cycle (no title/meta/.html/robots/sitemap changes shipped).
 
 2026-07-14 — Site config and memory file initialised. GSC API connection pending (see §1 of SOP).
 2026-07-14 — Cycle 1 run complete. GSC connected via service account (webmasters v3 API — note:
@@ -488,3 +547,5 @@ and /for-parents.html (parent guide, FAQPage schema) created and submitted to si
 science.html, computing.html, does-khan-academy post, save-my-exams post, science-resources post.
 3 new experiments registered: EXP-KA-CURRICULUM, EXP-SME-TABLE, EXP-SCI-NAMED.
 Review date for all three: 2026-08-17.
+
+- **2026-10-14, EXP-SUBJECTS-LIST baseline confounded:** GSC flagged what-is-cambridge-lower-secondary for −97% impressions. The drop is on **4 Oct**, 8 days before the 12 Oct change; position held at 6–8, so search demand vanished (the 407-impression "complete codes" query looks like a short-lived spike). Judge the 2 Nov review on CTR and position, not impressions. Also on 14 Oct: requested indexing for /checkpoint-score-calculator (it was "Discovered – not indexed").
