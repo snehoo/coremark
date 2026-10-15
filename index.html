@@ -154,28 +154,28 @@ a{color:inherit;}
 .float-tag.blue .icon{background:var(--blue);}
 
 /* COACH CHAT TEASER */
-.coach-card{position:absolute;top:30px;left:0;width:236px;background:white;border-radius:18px;padding:14px;box-shadow:0 30px 70px -24px rgba(42,27,61,0.38),0 2px 6px rgba(42,27,61,0.05);z-index:6;text-decoration:none;color:var(--ink);display:block;transition:transform 0.2s,box-shadow 0.2s;}
+.coach-card{position:absolute;top:30px;left:0;width:189px;background:white;border-radius:16px;padding:8px 9px 9px;box-shadow:0 30px 70px -24px rgba(42,27,61,0.38),0 2px 6px rgba(42,27,61,0.05);z-index:6;text-decoration:none;color:var(--ink);display:block;transition:transform 0.2s,box-shadow 0.2s;}
 .coach-card:hover{transform:translateY(-3px);box-shadow:0 36px 80px -24px rgba(42,27,61,0.45),0 2px 6px rgba(42,27,61,0.05);}
 .coach-head{display:flex;align-items:center;gap:8px;}
 .coach-bot{width:36px;height:31px;flex-shrink:0;display:block;}
 .coach-name{font-weight:800;font-size:14px;letter-spacing:-0.01em;line-height:1.2;}
 .coach-sub{font-size:10.5px;color:var(--ink-muted);font-weight:500;margin-top:1px;}
 .coach-sub strong{color:var(--ink-soft);font-weight:700;}
-.coach-modes{display:inline-flex;background:var(--mist);border-radius:999px;padding:3px;margin:10px 0 9px;font-size:10px;font-weight:700;}
+.coach-modes{display:inline-flex;background:var(--mist);border-radius:999px;padding:3px;margin:6px 0 5px;font-size:10px;font-weight:700;}
 .coach-modes span{padding:4px 9px;border-radius:999px;color:var(--ink-muted);}
 .coach-modes span.on{background:var(--ink);color:white;}
-.coach-msg{max-width:90%;padding:7px 10px;border-radius:13px;font-size:11.5px;line-height:1.4;margin-bottom:6px;}
+.coach-msg{max-width:95%;padding:4px 8px;border-radius:12px;font-size:11.5px;line-height:1.28;margin-bottom:4px;}
 .coach-msg.bot{background:var(--ink);color:white;border-bottom-left-radius:5px;}
 .coach-msg.me{background:#EEEAF8;color:var(--ink);margin-left:auto;width:fit-content;border-bottom-right-radius:5px;}
 .coach-q{display:block;font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:0.08em;text-transform:uppercase;color:var(--coral);margin-bottom:3px;}
 .coach-ok{color:var(--coral);font-weight:800;}
-.coach-typing{display:inline-flex;align-items:center;gap:4px;background:var(--ink);padding:9px 11px;border-radius:13px;border-bottom-left-radius:5px;margin-bottom:10px;}
+.coach-typing{display:inline-flex;align-items:center;gap:4px;background:var(--ink);padding:6px 9px;border-radius:12px;border-bottom-left-radius:5px;margin-bottom:6px;}
 .coach-typing i{width:6px;height:6px;border-radius:50%;background:#C9B8F5;opacity:0.55;animation:coachDot 1.2s infinite ease-in-out;}
 .coach-typing i:nth-child(2){animation-delay:0.15s;}
 .coach-typing i:nth-child(3){animation-delay:0.3s;}
 @keyframes coachDot{0%,60%,100%{transform:translateY(0);background:#C9B8F5;opacity:0.55;}30%{transform:translateY(-4px);background:#fff;opacity:1;}}
 @media (prefers-reduced-motion:reduce){.coach-typing i{animation:none;opacity:0.8;}}
-.coach-cta{display:flex;align-items:center;justify-content:space-between;background:var(--coral);color:var(--ink);font-weight:800;font-size:12.5px;padding:10px 12px;border-radius:11px;}
+.coach-cta{display:flex;align-items:center;justify-content:space-between;background:var(--coral);color:var(--ink);font-weight:800;font-size:12.5px;padding:8px 10px;border-radius:11px;}
 @media (min-width:981px){.hero-visual{align-self:start;margin-top:52px;height:574px;} .card-fan{top:150px;}}
 @media (max-width:1279px) and (min-width:1181px){.hero-visual{zoom:0.9;margin-top:61px;height:609px;} .card-fan{top:185px;}}
 @media (max-width:1180px) and (min-width:981px){.hero-visual{zoom:0.76;margin-top:78px;height:807px;} .card-fan{top:383px;}}
@@ -380,7 +380,7 @@ a{color:inherit;}
   .pill-coach{font-size:13px;padding-left:14px;gap:10px;}
   .pill-coach .pc-long{display:none;} .pill-coach .pc-short{display:inline;}
   .hero{overflow-x:clip;}
-  .hero-visual{width:100%;height:520px;}
+  .hero-visual{width:100%;height:462px;}
   .coach-card{top:150px;}
   .pdf-card{width:180px;padding:16px 16px 18px;}
   .card-fan{left:auto;right:6px;top:14px;width:250px;}
@@ -614,14 +614,14 @@ src="https://www.facebook.com/tr?id=1921557135206596&ev=PageView&noscript=1"/></
           <circle cx="38" cy="21" r="3.7" fill="#fff"/>
         </svg>
         <div>
-          <div class="coach-name">Coach</div>
-          <div class="coach-sub">AI study coach · <strong>Runs in Claude</strong></div>
+          <div class="coach-name">AI Coach</div>
+          <div class="coach-sub"><strong>Runs in Claude</strong></div>
         </div>
       </div>
       <div class="coach-modes"><span class="on">Exam mode</span><span>Teach mode</span></div>
       <div class="coach-msg bot"><span class="coach-q">Q7 · 1 mark</span>Calculate 0.47 × 10.</div>
       <div class="coach-msg me">4.7</div>
-      <div class="coach-msg bot"><span class="coach-ok">Correct · 1/1.</span> ×10 moves every digit one place left: 0.47 → 4.7.</div>
+      <div class="coach-msg bot"><span class="coach-ok">Correct · 1/1.</span> ×10 shifts every digit one place left.</div>
       <div class="coach-typing" aria-hidden="true"><i></i><i></i><i></i></div>
       <div class="coach-cta"><span>Ask Coach a question</span><span aria-hidden="true">→</span></div>
     </a>
