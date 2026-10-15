@@ -117,16 +117,16 @@ a{color:inherit;}
 .guarantee-strip .g-icon{font-size:16px;}
 
 /* HERO VISUAL */
-.hero-visual{position:relative;height:540px;}
-.card-fan{position:absolute;top:70px;right:-6px;width:340px;height:360px;}
+.hero-visual{position:relative;height:460px;}
+.card-fan{position:absolute;top:36px;left:205px;width:340px;height:360px;}
 .pdf-card{position:absolute;background:white;border-radius:16px;border:1px solid var(--border);box-shadow:0 24px 60px -20px rgba(42,27,61,0.22);padding:20px 20px 22px;width:218px;aspect-ratio:1/1.414;display:flex;flex-direction:column;gap:8px;overflow:hidden;}
 .pdf-tag{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:0.2em;text-transform:uppercase;color:var(--ink-muted);}
 .pdf-title{font-weight:800;font-size:15px;letter-spacing:-0.015em;line-height:1.15;}
 .pdf-line{height:5px;background:var(--mist);border-radius:3px;}
 .pdf-line.short{width:55%;} .pdf-line.mid{width:78%;}
-.hero-card-1{transform:rotate(-7deg) translate(-25px,28px);background:var(--mist);z-index:1;}
-.hero-card-2{transform:rotate(1deg) translate(34px,0);z-index:2;}
-.hero-card-3{transform:rotate(8deg) translate(96px,-26px);z-index:3;background:var(--ink);color:white;}
+.hero-card-1{transform:rotate(-7deg) translate(0,34px);background:var(--mist);z-index:1;}
+.hero-card-2{transform:rotate(1deg) translate(56px,12px);z-index:2;}
+.hero-card-3{transform:rotate(8deg) translate(112px,-10px);z-index:3;background:var(--ink);color:white;}
 .hero-card-3 .pdf-line{background:rgba(255,255,255,0.12);}
 .hero-card-3 .pdf-tag{color:var(--coral);}
 .hero-card-3 .stamp{position:absolute;top:12px;right:12px;font-family:'JetBrains Mono',monospace;font-size:8px;background:var(--coral);color:var(--ink);padding:3px 7px;border-radius:999px;letter-spacing:0.1em;font-weight:700;}
@@ -154,29 +154,30 @@ a{color:inherit;}
 .float-tag.blue .icon{background:var(--blue);}
 
 /* COACH CHAT TEASER */
-.coach-card{position:absolute;top:0;left:0;width:300px;background:white;border-radius:22px;padding:18px 18px 16px;box-shadow:0 30px 70px -24px rgba(42,27,61,0.38),0 2px 6px rgba(42,27,61,0.05);z-index:6;text-decoration:none;color:var(--ink);display:block;transition:transform 0.2s,box-shadow 0.2s;}
+.coach-card{position:absolute;top:30px;left:0;width:236px;background:white;border-radius:18px;padding:14px;box-shadow:0 30px 70px -24px rgba(42,27,61,0.38),0 2px 6px rgba(42,27,61,0.05);z-index:6;text-decoration:none;color:var(--ink);display:block;transition:transform 0.2s,box-shadow 0.2s;}
 .coach-card:hover{transform:translateY(-3px);box-shadow:0 36px 80px -24px rgba(42,27,61,0.45),0 2px 6px rgba(42,27,61,0.05);}
-.coach-head{display:flex;align-items:center;gap:10px;}
-.coach-bot{width:46px;height:40px;flex-shrink:0;display:block;}
-.coach-name{font-weight:800;font-size:16px;letter-spacing:-0.01em;line-height:1.2;}
-.coach-sub{font-size:12px;color:var(--ink-muted);font-weight:500;margin-top:2px;}
+.coach-head{display:flex;align-items:center;gap:8px;}
+.coach-bot{width:36px;height:31px;flex-shrink:0;display:block;}
+.coach-name{font-weight:800;font-size:14px;letter-spacing:-0.01em;line-height:1.2;}
+.coach-sub{font-size:10.5px;color:var(--ink-muted);font-weight:500;margin-top:1px;}
 .coach-sub strong{color:var(--ink-soft);font-weight:700;}
-.coach-modes{display:inline-flex;background:var(--mist);border-radius:999px;padding:3px;margin:14px 0 12px;font-size:11.5px;font-weight:700;}
-.coach-modes span{padding:5px 12px;border-radius:999px;color:var(--ink-muted);}
+.coach-modes{display:inline-flex;background:var(--mist);border-radius:999px;padding:3px;margin:10px 0 9px;font-size:10px;font-weight:700;}
+.coach-modes span{padding:4px 9px;border-radius:999px;color:var(--ink-muted);}
 .coach-modes span.on{background:var(--ink);color:white;}
-.coach-msg{max-width:88%;padding:10px 13px;border-radius:16px;font-size:13.5px;line-height:1.45;margin-bottom:8px;}
-.coach-msg.bot{background:var(--ink);color:white;border-bottom-left-radius:6px;}
-.coach-msg.me{background:#EEEAF8;color:var(--ink);margin-left:auto;width:fit-content;border-bottom-right-radius:6px;}
-.coach-q{display:block;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--coral);margin-bottom:4px;}
+.coach-msg{max-width:90%;padding:7px 10px;border-radius:13px;font-size:11.5px;line-height:1.4;margin-bottom:6px;}
+.coach-msg.bot{background:var(--ink);color:white;border-bottom-left-radius:5px;}
+.coach-msg.me{background:#EEEAF8;color:var(--ink);margin-left:auto;width:fit-content;border-bottom-right-radius:5px;}
+.coach-q{display:block;font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:0.08em;text-transform:uppercase;color:var(--coral);margin-bottom:3px;}
 .coach-ok{color:var(--coral);font-weight:800;}
-.coach-typing{display:inline-flex;align-items:center;gap:5px;background:var(--ink);padding:12px 14px;border-radius:16px;border-bottom-left-radius:6px;margin-bottom:14px;}
-.coach-typing i{width:7px;height:7px;border-radius:50%;background:#C9B8F5;opacity:0.55;animation:coachDot 1.2s infinite ease-in-out;}
+.coach-typing{display:inline-flex;align-items:center;gap:4px;background:var(--ink);padding:9px 11px;border-radius:13px;border-bottom-left-radius:5px;margin-bottom:10px;}
+.coach-typing i{width:6px;height:6px;border-radius:50%;background:#C9B8F5;opacity:0.55;animation:coachDot 1.2s infinite ease-in-out;}
 .coach-typing i:nth-child(2){animation-delay:0.15s;}
 .coach-typing i:nth-child(3){animation-delay:0.3s;}
 @keyframes coachDot{0%,60%,100%{transform:translateY(0);background:#C9B8F5;opacity:0.55;}30%{transform:translateY(-4px);background:#fff;opacity:1;}}
 @media (prefers-reduced-motion:reduce){.coach-typing i{animation:none;opacity:0.8;}}
-.coach-cta{display:flex;align-items:center;justify-content:space-between;background:var(--coral);color:var(--ink);font-weight:800;font-size:14.5px;padding:13px 16px;border-radius:14px;}
-@media (max-width:1180px) and (min-width:981px){.coach-card{width:272px;} .card-fan{right:-34px;}}
+.coach-cta{display:flex;align-items:center;justify-content:space-between;background:var(--coral);color:var(--ink);font-weight:800;font-size:12.5px;padding:10px 12px;border-radius:11px;}
+@media (max-width:1279px) and (min-width:1181px){.hero-visual{zoom:0.9;}}
+@media (max-width:1180px) and (min-width:981px){.hero-visual{zoom:0.76;}}
 
 /* MARQUEE */
 .trust{background:var(--ink);color:rgba(255,255,255,0.65);padding:22px 0;overflow:hidden;}
@@ -359,8 +360,7 @@ a{color:inherit;}
   .nav{padding:16px 20px;} .nav-links{display:none;} .hamburger{display:flex;}
   .nav-cta{margin-left:auto;margin-right:10px;}
   .hero{grid-template-columns:1fr;padding:40px 20px 60px;gap:40px;}
-  .hero h1{font-size:46px;} .hero-visual{height:590px;max-width:520px;width:100%;margin:0 auto;}
-  .card-fan{top:190px;right:-10px;}
+  .hero h1{font-size:46px;} .hero-visual{width:560px;max-width:100%;margin:0 auto;}
   .section{padding:64px 20px;}
   .section h2{font-size:36px;}
   .anatomy{grid-template-columns:1fr 1fr;}
@@ -378,7 +378,14 @@ a{color:inherit;}
   .announce-close{right:8px;}
   .pill-coach{font-size:13px;padding-left:14px;gap:10px;}
   .pill-coach .pc-long{display:none;} .pill-coach .pc-short{display:inline;}
-  .coach-card{width:min(292px,88%);}
+  .hero{overflow-x:clip;}
+  .hero-visual{width:100%;height:520px;}
+  .coach-card{top:150px;}
+  .pdf-card{width:180px;padding:16px 16px 18px;}
+  .card-fan{left:auto;right:6px;top:14px;width:250px;}
+  .hero-card-1{transform:rotate(-7deg) translate(-6px,30px);}
+  .hero-card-2{transform:rotate(1deg) translate(30px,10px);}
+  .hero-card-3{transform:rotate(8deg) translate(66px,-10px);}
   .float-row{gap:8px;flex-wrap:nowrap;}
   .float-tag{padding:8px 12px 8px 8px;font-size:12px;gap:6px;}
   .float-tag .icon{width:20px;height:20px;font-size:10px;}
@@ -613,7 +620,7 @@ src="https://www.facebook.com/tr?id=1921557135206596&ev=PageView&noscript=1"/></
       <div class="coach-modes"><span class="on">Exam mode</span><span>Teach mode</span></div>
       <div class="coach-msg bot"><span class="coach-q">Q7 · 1 mark</span>Calculate 0.47 × 10.</div>
       <div class="coach-msg me">4.7</div>
-      <div class="coach-msg bot"><span class="coach-ok">Correct · 1/1.</span> Multiplying by 10 moves every digit one place left, so 0.47 becomes 4.7.</div>
+      <div class="coach-msg bot"><span class="coach-ok">Correct · 1/1.</span> ×10 moves every digit one place left: 0.47 → 4.7.</div>
       <div class="coach-typing" aria-hidden="true"><i></i><i></i><i></i></div>
       <div class="coach-cta"><span>Ask Coach a question</span><span aria-hidden="true">→</span></div>
     </a>
