@@ -79,6 +79,26 @@ a{color:inherit;}
 .nav-links a:hover{color:var(--ink);}
 .nav-cta{background:var(--ink);color:white;padding:11px 22px;border-radius:999px;font-size:15px;font-weight:700;text-decoration:none;}
 .nav-cta:hover{background:var(--blue);}
+.nav-links a.nav-coach{color:var(--blue);font-weight:700;display:inline-flex;align-items:center;gap:7px;}
+.nav-new{background:var(--coral);color:var(--ink);font-size:10.5px;font-weight:800;letter-spacing:0.06em;padding:3px 8px;border-radius:999px;line-height:1.3;}
+
+/* ANNOUNCEMENT BANNER */
+.announce{background:var(--ink);color:white;font-size:14.5px;font-weight:500;}
+.announce[hidden]{display:none;}
+.announce-inner{max-width:1280px;margin:0 auto;padding:11px 56px;display:flex;align-items:center;justify-content:center;gap:12px;position:relative;text-align:center;}
+.announce .nav-new{font-size:11px;}
+.announce a{color:var(--coral);font-weight:700;text-decoration:none;white-space:nowrap;}
+.announce a:hover{text-decoration:underline;}
+.announce .a-short{display:none;}
+.announce-close{position:absolute;right:16px;top:50%;transform:translateY(-50%);background:none;border:0;color:rgba(255,255,255,0.55);font-size:20px;line-height:1;cursor:pointer;padding:6px 8px;font-family:inherit;}
+.announce-close:hover{color:white;}
+
+/* HERO COACH PILL */
+.pill-coach{text-decoration:none;color:var(--blue);padding:6px 6px 6px 16px;gap:12px;}
+.pill-coach .spark{color:var(--blue);}
+.pill-coach .pill-btn{background:white;color:var(--ink);padding:8px 14px;border-radius:999px;font-weight:700;white-space:nowrap;box-shadow:0 1px 3px rgba(42,27,61,0.08);}
+.pill-coach:hover .pill-btn{background:var(--ink);color:white;}
+.pill-coach .pc-short{display:none;}
 
 /* HERO */
 .hero{max-width:1280px;margin:0 auto;padding:64px 40px 88px;display:grid;grid-template-columns:1.1fr 1fr;gap:72px;align-items:center;}
@@ -97,15 +117,16 @@ a{color:inherit;}
 .guarantee-strip .g-icon{font-size:16px;}
 
 /* HERO VISUAL */
-.hero-visual{position:relative;height:740px;}
+.hero-visual{position:relative;height:540px;}
+.card-fan{position:absolute;top:70px;right:-6px;width:340px;height:360px;}
 .pdf-card{position:absolute;background:white;border-radius:16px;border:1px solid var(--border);box-shadow:0 24px 60px -20px rgba(42,27,61,0.22);padding:20px 20px 22px;width:218px;aspect-ratio:1/1.414;display:flex;flex-direction:column;gap:8px;overflow:hidden;}
 .pdf-tag{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:0.2em;text-transform:uppercase;color:var(--ink-muted);}
 .pdf-title{font-weight:800;font-size:15px;letter-spacing:-0.015em;line-height:1.15;}
 .pdf-line{height:5px;background:var(--mist);border-radius:3px;}
 .pdf-line.short{width:55%;} .pdf-line.mid{width:78%;}
-.hero-card-1{transform:rotate(-7deg) translate(-25px,259px);background:var(--mist);z-index:1;}
-.hero-card-2{transform:rotate(1deg) translate(34px,231px);z-index:2;}
-.hero-card-3{transform:rotate(8deg) translate(96px,205px);z-index:3;background:var(--ink);color:white;}
+.hero-card-1{transform:rotate(-7deg) translate(-25px,28px);background:var(--mist);z-index:1;}
+.hero-card-2{transform:rotate(1deg) translate(34px,0);z-index:2;}
+.hero-card-3{transform:rotate(8deg) translate(96px,-26px);z-index:3;background:var(--ink);color:white;}
 .hero-card-3 .pdf-line{background:rgba(255,255,255,0.12);}
 .hero-card-3 .pdf-tag{color:var(--coral);}
 .hero-card-3 .stamp{position:absolute;top:12px;right:12px;font-family:'JetBrains Mono',monospace;font-size:8px;background:var(--coral);color:var(--ink);padding:3px 7px;border-radius:999px;letter-spacing:0.1em;font-weight:700;}
@@ -126,13 +147,36 @@ a{color:inherit;}
 .sol-step{font-size:5.5px;color:rgba(255,255,255,0.85);line-height:1.5;}
 .sol-tip{font-size:5px;color:var(--coral);font-style:italic;margin-top:1px;}
 .sol-err{background:rgba(244,199,62,0.18);border-radius:3px;padding:3px 5px;font-size:5px;color:var(--coral-soft);margin-top:3px;}
-.float-tag{position:absolute;background:white;border:1px solid var(--border);border-radius:999px;padding:10px 16px;display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;box-shadow:0 8px 28px -12px rgba(42,27,61,0.2);z-index:5;white-space:nowrap;}
+.float-row{position:absolute;left:0;bottom:0;display:flex;gap:10px;flex-wrap:wrap;z-index:7;}
+.float-tag{background:white;border:1px solid var(--border);border-radius:999px;padding:10px 16px;display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;box-shadow:0 8px 28px -12px rgba(42,27,61,0.2);white-space:nowrap;}
 .float-tag .icon{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:12px;font-weight:700;}
-.float-tag.coral{top:247px;right:-12px;} .float-tag.coral .icon{background:var(--coral);color:var(--ink);}
-.float-tag.blue{bottom:60px;left:-18px;} .float-tag.blue .icon{background:var(--blue);}
-.float-tutor{position:absolute;top:16px;left:40px;z-index:6;display:block;filter:drop-shadow(0 10px 20px rgba(42,27,61,0.18));transition:transform 0.2s;}
-.float-tutor:hover{transform:translateY(-3px);}
-.float-tutor img{width:194px;height:auto;display:block;}
+.float-tag.coral .icon{background:var(--coral);color:var(--ink);}
+.float-tag.blue .icon{background:var(--blue);}
+
+/* COACH CHAT TEASER */
+.coach-card{position:absolute;top:0;left:0;width:300px;background:white;border-radius:22px;padding:18px 18px 16px;box-shadow:0 30px 70px -24px rgba(42,27,61,0.38),0 2px 6px rgba(42,27,61,0.05);z-index:6;text-decoration:none;color:var(--ink);display:block;transition:transform 0.2s,box-shadow 0.2s;}
+.coach-card:hover{transform:translateY(-3px);box-shadow:0 36px 80px -24px rgba(42,27,61,0.45),0 2px 6px rgba(42,27,61,0.05);}
+.coach-head{display:flex;align-items:center;gap:10px;}
+.coach-bot{width:46px;height:40px;flex-shrink:0;display:block;}
+.coach-name{font-weight:800;font-size:16px;letter-spacing:-0.01em;line-height:1.2;}
+.coach-sub{font-size:12px;color:var(--ink-muted);font-weight:500;margin-top:2px;}
+.coach-sub strong{color:var(--ink-soft);font-weight:700;}
+.coach-modes{display:inline-flex;background:var(--mist);border-radius:999px;padding:3px;margin:14px 0 12px;font-size:11.5px;font-weight:700;}
+.coach-modes span{padding:5px 12px;border-radius:999px;color:var(--ink-muted);}
+.coach-modes span.on{background:var(--ink);color:white;}
+.coach-msg{max-width:88%;padding:10px 13px;border-radius:16px;font-size:13.5px;line-height:1.45;margin-bottom:8px;}
+.coach-msg.bot{background:var(--ink);color:white;border-bottom-left-radius:6px;}
+.coach-msg.me{background:#EEEAF8;color:var(--ink);margin-left:auto;width:fit-content;border-bottom-right-radius:6px;}
+.coach-q{display:block;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--coral);margin-bottom:4px;}
+.coach-ok{color:var(--coral);font-weight:800;}
+.coach-typing{display:inline-flex;align-items:center;gap:5px;background:var(--ink);padding:12px 14px;border-radius:16px;border-bottom-left-radius:6px;margin-bottom:14px;}
+.coach-typing i{width:7px;height:7px;border-radius:50%;background:#C9B8F5;opacity:0.55;animation:coachDot 1.2s infinite ease-in-out;}
+.coach-typing i:nth-child(2){animation-delay:0.15s;}
+.coach-typing i:nth-child(3){animation-delay:0.3s;}
+@keyframes coachDot{0%,60%,100%{transform:translateY(0);background:#C9B8F5;opacity:0.55;}30%{transform:translateY(-4px);background:#fff;opacity:1;}}
+@media (prefers-reduced-motion:reduce){.coach-typing i{animation:none;opacity:0.8;}}
+.coach-cta{display:flex;align-items:center;justify-content:space-between;background:var(--coral);color:var(--ink);font-weight:800;font-size:14.5px;padding:13px 16px;border-radius:14px;}
+@media (max-width:1180px) and (min-width:981px){.coach-card{width:272px;} .card-fan{right:-34px;}}
 
 /* MARQUEE */
 .trust{background:var(--ink);color:rgba(255,255,255,0.65);padding:22px 0;overflow:hidden;}
@@ -313,13 +357,10 @@ a{color:inherit;}
 /* RESPONSIVE */
 @media(max-width:980px){
   .nav{padding:16px 20px;} .nav-links{display:none;} .hamburger{display:flex;}
+  .nav-cta{margin-left:auto;margin-right:10px;}
   .hero{grid-template-columns:1fr;padding:40px 20px 60px;gap:40px;}
-  .hero h1{font-size:46px;} .hero-visual{height:640px;}
-  .hero-card-1{transform:rotate(-7deg) translate(-25px,165px);}
-  .hero-card-2{transform:rotate(1deg) translate(34px,137px);}
-  .hero-card-3{transform:rotate(8deg) translate(96px,111px);}
-  .float-tutor{top:8px;left:15px;} .float-tutor img{width:122px;}
-  .float-tag.coral{top:153px;}
+  .hero h1{font-size:46px;} .hero-visual{height:590px;max-width:520px;width:100%;margin:0 auto;}
+  .card-fan{top:190px;right:-10px;}
   .section{padding:64px 20px;}
   .section h2{font-size:36px;}
   .anatomy{grid-template-columns:1fr 1fr;}
@@ -331,6 +372,16 @@ a{color:inherit;}
   .footer-top{grid-template-columns:1fr 1fr;}
 }
 @media(max-width:600px){
+  .announce{font-size:13.5px;}
+  .announce-inner{padding:10px 44px 10px 16px;justify-content:flex-start;text-align:left;gap:10px;}
+  .announce .a-long{display:none;} .announce .a-short{display:inline;}
+  .announce-close{right:8px;}
+  .pill-coach{font-size:13px;padding-left:14px;gap:10px;}
+  .pill-coach .pc-long{display:none;} .pill-coach .pc-short{display:inline;}
+  .coach-card{width:min(292px,88%);}
+  .float-row{gap:8px;flex-wrap:nowrap;}
+  .float-tag{padding:8px 12px 8px 8px;font-size:12px;gap:6px;}
+  .float-tag .icon{width:20px;height:20px;font-size:10px;}
   .anatomy{grid-template-columns:1fr;}
   .topic-grid{grid-template-columns:1fr;}
   .footer-top{grid-template-columns:1fr;}
@@ -452,6 +503,26 @@ src="https://www.facebook.com/tr?id=1921557135206596&ev=PageView&noscript=1"/></
 </head>
 <body>
 
+<!-- ANNOUNCEMENT -->
+<div class="announce" id="announce">
+  <div class="announce-inner">
+    <span class="nav-new">NEW</span>
+    <span><span class="a-long">Meet Coach — an AI tutor that knows every CoreMark question.</span><span class="a-short">Meet Coach, our AI tutor.</span></span>
+    <a href="/coach">Try it →</a>
+    <button class="announce-close" id="announce-close" aria-label="Dismiss announcement">×</button>
+  </div>
+</div>
+<script>
+(function(){
+  var bar = document.getElementById('announce');
+  try { if (localStorage.getItem('cm_coach_banner') === 'off') bar.hidden = true; } catch (e) {}
+  document.getElementById('announce-close').addEventListener('click', function(){
+    bar.hidden = true;
+    try { localStorage.setItem('cm_coach_banner', 'off'); } catch (e) {}
+  });
+})();
+</script>
+
 <!-- NAV -->
 <div class="nav-outer">
   <nav class="nav">
@@ -463,9 +534,8 @@ src="https://www.facebook.com/tr?id=1921557135206596&ev=PageView&noscript=1"/></
       <a href="/math">Maths</a>
       <a href="/science">Science</a>
       <a href="/computing">Computing</a>
-      <a href="#why">Why CoreMark</a>
+      <a href="/coach" class="nav-coach">Coach <span class="nav-new">NEW</span></a>
       <a href="#pricing">Pricing</a>
-      <a href="/blog/">Blog</a>
     </div>
     <a href="#pricing" class="nav-cta">See Packs</a>
     <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
@@ -478,6 +548,7 @@ src="https://www.facebook.com/tr?id=1921557135206596&ev=PageView&noscript=1"/></
   </nav>
 </div>
 <div class="mobile-menu" id="mobile-menu">
+  <a href="/coach" style="color:var(--blue);font-weight:700;">Coach <span class="nav-new">NEW</span></a>
   <a href="/math">Maths</a>
   <a href="/science">Science</a>
   <a href="/computing">Computing</a>
@@ -490,7 +561,9 @@ src="https://www.facebook.com/tr?id=1921557135206596&ev=PageView&noscript=1"/></
 (function(){
   var btn = document.getElementById('hamburger');
   var menu = document.getElementById('mobile-menu');
+  var nav = document.querySelector('.nav-outer');
   btn.addEventListener('click', function(){
+    menu.style.top = nav.getBoundingClientRect().bottom + 'px';
     var open = menu.classList.toggle('open');
     btn.setAttribute('aria-expanded', open);
   });
@@ -503,10 +576,10 @@ src="https://www.facebook.com/tr?id=1921557135206596&ev=PageView&noscript=1"/></
 <!-- HERO -->
 <section class="hero">
   <div>
-    <div class="pill">
-      <span class="blip"></span>
-      <span>Cambridge Lower Secondary · Stage 7, 8 and 9</span>
-    </div>
+    <a class="pill pill-coach" href="/coach">
+      <span><span class="spark" aria-hidden="true">✦</span> <span class="pc-long">New: Coach, your AI study tutor</span><span class="pc-short">New: AI study tutor</span></span>
+      <span class="pill-btn">Meet Coach →</span>
+    </a>
     <h1>Cambridge Lower Secondary Stage 7, 8 &amp; 9 — Maths, Science &amp; Computing <em>practice</em> <span class="hl">boosters</span></h1>
     <p class="sub"><strong>CoreMark is a topic-focused practice system</strong> that pairs a cheat sheet, 20 leveled questions, and step-by-step solutions for Cambridge Lower Secondary maths, science and computing. Download, print, start today.</p>
     <div class="hero-ctas">
@@ -519,13 +592,40 @@ src="https://www.facebook.com/tr?id=1921557135206596&ev=PageView&noscript=1"/></
     </div>
   </div>
   <div class="hero-visual">
-    <a href="/tutor" class="float-tutor"><img src="/assets/try-tutor-badge.webp" alt="Try Our New Tutor"></a>
-    <div class="float-tag coral">
-      <div class="icon">20</div><span>Questions per pack</span>
+    <a href="/coach" class="coach-card" aria-label="Ask Coach, CoreMark's AI study coach">
+      <div class="coach-head">
+        <svg class="coach-bot" viewBox="0 0 64 56" aria-hidden="true" focusable="false">
+          <rect x="3" y="22" width="11" height="3.6" rx="1.8" fill="#3B2A5C"/>
+          <circle cx="5.5" cy="23.8" r="4.6" fill="#3B2A5C"/>
+          <rect x="50" y="22" width="11" height="3.6" rx="1.8" fill="#3B2A5C"/>
+          <circle cx="58.5" cy="23.8" r="4.6" fill="#3B2A5C"/>
+          <path d="M24 38 L21.5 51 L36 39 Z" fill="#E6DFFB"/>
+          <rect x="12" y="4" width="40" height="36" rx="10" fill="#E6DFFB"/>
+          <rect x="17" y="12" width="30" height="18" rx="6" fill="#2E1F45"/>
+          <circle cx="26" cy="21" r="3.7" fill="#fff"/>
+          <circle cx="38" cy="21" r="3.7" fill="#fff"/>
+        </svg>
+        <div>
+          <div class="coach-name">Coach</div>
+          <div class="coach-sub">AI study coach · <strong>Runs in Claude</strong></div>
+        </div>
+      </div>
+      <div class="coach-modes"><span class="on">Exam mode</span><span>Teach mode</span></div>
+      <div class="coach-msg bot"><span class="coach-q">Q7 · 1 mark</span>Calculate 0.47 × 10.</div>
+      <div class="coach-msg me">4.7</div>
+      <div class="coach-msg bot"><span class="coach-ok">Correct · 1/1.</span> Multiplying by 10 moves every digit one place left, so 0.47 becomes 4.7.</div>
+      <div class="coach-typing" aria-hidden="true"><i></i><i></i><i></i></div>
+      <div class="coach-cta"><span>Ask Coach a question</span><span aria-hidden="true">→</span></div>
+    </a>
+    <div class="float-row">
+      <div class="float-tag blue">
+        <div class="icon">A4</div><span>Print at home</span>
+      </div>
+      <div class="float-tag coral">
+        <div class="icon">20</div><span>Questions per pack</span>
+      </div>
     </div>
-    <div class="float-tag blue">
-      <div class="icon">A4</div><span>Print at home</span>
-    </div>
+    <div class="card-fan">
     <div class="pdf-card hero-card-1">
       <div class="pdf-tag">Cheat Sheet</div>
       <div class="pdf-title">Place Value &amp; Rounding</div>
@@ -559,6 +659,7 @@ src="https://www.facebook.com/tr?id=1921557135206596&ev=PageView&noscript=1"/></
       </div>
       <div class="sol-err">⚠ Common error: writing 0.047</div>
       <div class="pdf-line mid"></div>
+    </div>
     </div>
   </div>
 </section>
