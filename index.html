@@ -118,7 +118,7 @@ a{color:inherit;}
 
 /* HERO VISUAL */
 .hero-visual{position:relative;height:460px;}
-.card-fan{position:absolute;top:36px;left:205px;width:340px;height:360px;}
+.card-fan{position:absolute;top:36px;left:40px;width:340px;height:360px;zoom:1.3;}
 .pdf-card{position:absolute;background:white;border-radius:16px;border:1px solid var(--border);box-shadow:0 24px 60px -20px rgba(42,27,61,0.22);padding:20px 20px 22px;width:218px;aspect-ratio:1/1.414;display:flex;flex-direction:column;gap:8px;overflow:hidden;}
 .pdf-tag{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:0.2em;text-transform:uppercase;color:var(--ink-muted);}
 .pdf-title{font-weight:800;font-size:15px;letter-spacing:-0.015em;line-height:1.15;}
@@ -153,7 +153,8 @@ a{color:inherit;}
 .float-tag.coral .icon{background:var(--coral);color:var(--ink);}
 .float-tag.blue .icon{background:var(--blue);}
 
-/* COACH CHAT TEASER */
+/* COACH CHAT TEASER (hidden for now; remove this rule to bring back) */
+.coach-card{display:none !important;}
 .coach-card{position:absolute;top:30px;left:0;width:189px;background:white;border-radius:16px;padding:8px 9px 9px;box-shadow:0 30px 70px -24px rgba(42,27,61,0.38),0 2px 6px rgba(42,27,61,0.05);z-index:6;text-decoration:none;color:var(--ink);display:block;transition:transform 0.2s,box-shadow 0.2s;}
 .coach-card:hover{transform:translateY(-3px);box-shadow:0 36px 80px -24px rgba(42,27,61,0.45),0 2px 6px rgba(42,27,61,0.05);}
 .coach-head{display:flex;align-items:center;gap:8px;}
@@ -176,9 +177,9 @@ a{color:inherit;}
 @keyframes coachDot{0%,60%,100%{transform:translateY(0);background:#C9B8F5;opacity:0.55;}30%{transform:translateY(-4px);background:#fff;opacity:1;}}
 @media (prefers-reduced-motion:reduce){.coach-typing i{animation:none;opacity:0.8;}}
 .coach-cta{display:flex;align-items:center;justify-content:space-between;background:var(--coral);color:var(--ink);font-weight:800;font-size:12.5px;padding:8px 10px;border-radius:11px;}
-@media (min-width:981px){.hero-visual{align-self:start;margin-top:52px;height:574px;} .card-fan{top:150px;}}
-@media (max-width:1279px) and (min-width:1181px){.hero-visual{zoom:0.9;margin-top:61px;height:609px;} .card-fan{top:185px;}}
-@media (max-width:1180px) and (min-width:981px){.hero-visual{zoom:0.76;margin-top:78px;height:807px;} .card-fan{top:383px;}}
+@media (min-width:981px){.hero-visual{align-self:start;margin-top:30px;height:560px;} .card-fan{top:20px;}}
+@media (max-width:1279px) and (min-width:1181px){.hero-visual{zoom:0.9;margin-top:30px;height:560px;} .card-fan{top:20px;}}
+@media (max-width:1180px) and (min-width:981px){.hero-visual{zoom:0.76;margin-top:30px;height:560px;} .card-fan{top:20px;}}
 
 /* MARQUEE */
 .trust{background:var(--ink);color:rgba(255,255,255,0.65);padding:22px 0;overflow:hidden;}
@@ -589,7 +590,6 @@ src="https://www.facebook.com/tr?id=1921557135206596&ev=PageView&noscript=1"/></
       <span class="pill-btn">Meet Coach →</span>
     </a>
     <h1>Cambridge Lower Secondary Stage 7, 8 &amp; 9 — Maths, Science &amp; Computing <em>practice</em> <span class="hl">boosters</span></h1>
-    <p class="sub"><strong>CoreMark is a topic-focused practice system</strong> that pairs a cheat sheet, 20 leveled questions, and step-by-step solutions for Cambridge Lower Secondary maths, science and computing. Download, print, start today.</p>
     <div class="hero-ctas">
       <a href="#subjects" class="btn-primary">Browse Topics</a>
       <a href="#booklet" class="btn-secondary">See what's inside</a>
@@ -694,6 +694,7 @@ src="https://www.facebook.com/tr?id=1921557135206596&ev=PageView&noscript=1"/></
 <section class="section" id="what-is-coremark" style="padding:64px 40px;background:var(--mist);border-top:2px solid var(--border);border-bottom:2px solid var(--border);">
   <div class="section-head">
     <h2>What is coremark.study?</h2>
+    <p style="font-size:17px;color:var(--ink-soft);line-height:1.7;margin:0 0 18px;max-width:760px;"><strong>CoreMark is a topic-focused practice system</strong> that pairs a cheat sheet, 20 leveled questions, and step-by-step solutions for Cambridge Lower Secondary maths, science and computing. Download, print, start today.</p>
     <p style="font-size:17px;color:var(--ink-soft);line-height:1.7;margin:0 0 18px;max-width:760px;">coremark.study is a library of downloadable PDF booster packs for Cambridge Lower Secondary students in Stages 7, 8, and 9.</p>
     <p style="font-size:17px;color:var(--ink-soft);line-height:1.7;margin:0 0 18px;max-width:760px;">The site covers three subjects: Maths (Cambridge syllabus 0862), Science (0893), and Computing (0860). Each booster pack covers one topic within one subject at one stage. Inside every pack: 20 practice questions at Foundation, Standard, and Stretch difficulty; full worked solutions with step-by-step methods; a one-page cheat sheet with the key rules for that topic; and a parent and tutor guide. A booster pack is designed for focused topic practice, not full-paper simulation — it complements Cambridge past papers and official textbooks rather than replacing them.</p>
     <p style="font-size:17px;color:var(--ink-soft);line-height:1.7;margin:0;max-width:760px;">CoreMark is used by Cambridge Lower Secondary families in India and internationally. Students use it for Cambridge Checkpoint preparation, targeted revision before school tests, and to practise specific topics identified as weak by their school or tutor. All packs are available for immediate PDF download and are designed to be printed at home on standard A4 paper.</p>
