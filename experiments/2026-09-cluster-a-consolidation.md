@@ -3,7 +3,7 @@
 - **Shipped:** 2026-09-24 (content: commit af3023f; redirects/sitemap: PR #6, awaiting merge)
 - **Review date:** 2026-10-15 (~3 weeks after PR #6 merges, allowing settle time)
 - **Attempt:** 1
-- **Status:** OPEN
+- **Status:** WIN (scored 2026-10-17)
 - **Source:** independently-produced audit files (coremark-study-seo-audit.md,
   coremark-study-consolidation-plan.md, cambridge-checkpoint-score-explained-DRAFT.md),
   human-approved for execution 2026-09-24
@@ -82,3 +82,7 @@ from the same audit. Logged as BL-046 through BL-049 for future cycles.
 ## Review date
 
 2026-10-15.
+
+
+## Result (scored 2026-10-17)
+WIN on the pre-registered metric. Per 28 days, PRE (3 URLs combined, 24 Aug–23 Sep) vs POST (canonical, 24 Sep–14 Oct): clicks 80.4 → 128.0 (+59%), impressions 4,467 → 7,508 (+68%), position 4.6 → 3.7. Residual impressions on the retired URLs: 2 and 74. Caveat: site-wide impressions grew faster over the same window (7,814 → 19,291 per 28d), so some of the lift is general growth; the cluster's share of site impressions dipped then recovered to 55% in the latest week.

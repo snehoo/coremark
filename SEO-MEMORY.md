@@ -549,3 +549,5 @@ science.html, computing.html, does-khan-academy post, save-my-exams post, scienc
 Review date for all three: 2026-08-17.
 
 - **2026-10-14, EXP-SUBJECTS-LIST baseline confounded:** GSC flagged what-is-cambridge-lower-secondary for −97% impressions. The drop is on **4 Oct**, 8 days before the 12 Oct change; position held at 6–8, so search demand vanished (the 407-impression "complete codes" query looks like a short-lived spike). Judge the 2 Nov review on CTR and position, not impressions. Also on 14 Oct: requested indexing for /checkpoint-score-calculator (it was "Discovered – not indexed").
+
+- **EXP-CLUSTER-A scored WIN (2026-10-17):** after the merge the grading page out-earns the three pages combined, per 28 days: clicks 80 -> 128 (+59%), impressions 4,467 -> 7,508 (+68%), position 4.6 -> 3.7. Old URLs near zero, so the redirects are processed. Caveat: impressions across the whole site grew faster in the same window. The grading page has no open experiments now; the score-calculator link was added after the six-bands list. The CTR/title task on this page (engine CTR-e15670) is now unblocked for a future cycle.
