@@ -63,7 +63,7 @@ body{font-family:var(--font-sans);background:var(--cream);color:var(--ink);-webk
 .soon .eyebrow{font-family:var(--font-mono);font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:var(--blue);margin-bottom:24px;}
 .soon h1{font-size:96px;font-weight:800;letter-spacing:-0.04em;line-height:1.0;margin:0 0 24px;text-wrap:balance;}
 .soon h1 em{font-family:var(--font-serif);font-style:italic;font-weight:400;color:var(--ink-soft);}
-.soon .lead{font-size:19px;color:var(--ink-soft);line-height:1.6;max-width:520px;margin-bottom:36px;}
+.soon .lead{font-size:19px;color:var(--ink-soft);line-height:1.6;max-width:520px;margin-bottom:0;}
 .soon .back{background:var(--ink);color:white;padding:16px 28px;border-radius:999px;font-size:16px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:8px;}
 .soon .back:hover{background:var(--blue);}
 
@@ -82,7 +82,7 @@ body{font-family:var(--font-sans);background:var(--cream);color:var(--ink);-webk
 .soon{min-height:0;padding:72px 40px 40px;}
 .demo-wrap{padding:0 24px 88px;display:flex;flex-direction:column;align-items:center;}
 .demo-label{font-family:var(--font-mono);font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:14px;}
-.cc{width:100%;max-width:720px;background:#FAF9F5;border:1px solid var(--border);border-radius:20px;box-shadow:0 30px 70px -30px rgba(42,27,61,0.28);overflow:hidden;display:flex;flex-direction:column;text-align:left;}
+.cc{width:100%;max-width:760px;background:#FAF9F5;border:1px solid var(--border);border-radius:20px;box-shadow:0 30px 70px -30px rgba(42,27,61,0.28);overflow:hidden;display:flex;flex-direction:column;text-align:left;}
 .cc-head{display:flex;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px solid #ECE8DF;background:#FAF9F5;}
 .cc-bot{width:32px;height:32px;border-radius:10px;background:var(--ink);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .cc-title{font-weight:700;font-size:15px;line-height:1.2;}
@@ -92,7 +92,7 @@ body{font-family:var(--font-sans);background:var(--cream);color:var(--ink);-webk
 .cc-mode:hover{color:var(--ink);}
 .cc-mode.on{background:white;color:var(--ink);box-shadow:0 1px 3px rgba(42,27,61,0.14);}
 .cc-mode:focus-visible,.cc-replay:focus-visible{outline:2px solid var(--blue);outline-offset:2px;}
-.cc-body{padding:26px 22px 14px;min-height:330px;display:flex;flex-direction:column;gap:22px;}
+.cc-body{padding:26px 22px 14px;height:600px;overflow-y:auto;display:flex;flex-direction:column;gap:20px;scroll-behavior:smooth;}
 .cc-ctx{align-self:center;font-family:var(--font-mono);font-size:11px;letter-spacing:0.08em;color:var(--ink-muted);background:#F1EDE3;padding:5px 12px;border-radius:999px;}
 .msg{opacity:0;transform:translateY(6px);transition:opacity .35s ease,transform .35s ease;}
 .msg.show{opacity:1;transform:none;}
@@ -101,6 +101,12 @@ body{font-family:var(--font-sans);background:var(--cream);color:var(--ink);-webk
 .msg.ai .av{width:26px;height:26px;border-radius:50%;background:var(--ink);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
 .msg.ai .tx{font-family:var(--font-serif);font-size:19px;line-height:1.5;color:var(--ink);}
 .msg.ai .tx p+p{margin-top:10px;}
+.msg.ai .tx{font-size:17.5px;}
+.msg.ai .tx b{font-weight:700;}
+.msg.ai .tx hr{border:0;border-top:1px solid #E3DED2;margin:14px 0;}
+.msg.ai .tx blockquote{border-left:3px solid #D9D3C5;padding:2px 0 2px 14px;margin:10px 0;color:var(--ink-soft);font-size:17px;}
+.msg.ai .tx mark{background:var(--coral);color:var(--ink);padding:0 3px;}
+.msg.ai .tx .ok{margin-bottom:10px;}
 .chip{display:inline-block;font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:0.04em;background:#E5F3E6;color:#1F6B33;padding:3px 9px;border-radius:999px;margin-right:6px;vertical-align:2px;}
 .chip.tip{background:var(--blue-tint);color:var(--blue-deep);}
 .hint-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;font-family:var(--font-sans);}
@@ -116,7 +122,9 @@ body{font-family:var(--font-sans);background:var(--cream);color:var(--ink);-webk
 .cc-row{display:flex;align-items:center;gap:8px;}
 .cc-pill{font-size:12px;font-weight:600;color:var(--ink-muted);border:1px solid var(--border);border-radius:999px;padding:4px 11px;}
 .cc-send{margin-left:auto;width:32px;height:32px;border-radius:10px;background:var(--blue);opacity:.45;display:flex;align-items:center;justify-content:center;}
-.cc-foot{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:18px;flex-wrap:wrap;}
+.cc-foot{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:22px;flex-wrap:wrap;}
+.cc-back{background:var(--ink);color:white;padding:12px 22px;border-radius:999px;font-size:14px;font-weight:700;text-decoration:none;}
+.cc-back:hover{background:var(--blue);}
 .cc-replay{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--ink);background:white;color:var(--ink);font:inherit;font-size:14px;font-weight:700;padding:11px 20px;border-radius:999px;cursor:pointer;}
 .cc-replay:hover{background:var(--ink);color:white;}
 .cc-note{font-size:13px;color:var(--ink-muted);}
@@ -125,9 +133,9 @@ body{font-family:var(--font-sans);background:var(--cream);color:var(--ink);-webk
   .demo-wrap{padding:0 12px 64px;}
   .cc-head{padding:12px 12px;gap:8px;flex-wrap:wrap;}
   .cc-modes{margin-left:0;width:100%;} .cc-mode{flex:1;}
-  .cc-body{padding:20px 14px 8px;min-height:380px;}
-  .msg.ai .tx{font-size:17.5px;}
-  .msg.me{max-width:90%;font-size:15px;}
+  .cc-body{padding:20px 14px 8px;height:540px;}
+  .msg.ai .tx{font-size:16.5px;}
+  .msg.me{max-width:92%;font-size:14.5px;}
 }
 @media(prefers-reduced-motion:reduce){.msg{transition:none}.typing.run i.in{animation:none}}
 </style>
@@ -209,70 +217,74 @@ src="https://www.facebook.com/tr?id=1921557135206596&ev=PageView&noscript=1"/></
 </script>
 
 <div class="soon">
-  <p class="eyebrow">CoreMark Coach</p>
   <h1>Coming <em>soon</em></h1>
-  <p class="lead">Coach is an AI study coach with an exam mode and a teach mode, built around every CoreMark question. It runs in Claude. Check back soon.</p>
-  <a href="/" class="back">← Back to CoreMark</a>
+  <p class="lead">Coach is an AI study coach with an exam mode and a learn mode, built around every CoreMark question. It runs in Claude. Check back soon.</p>
 </div>
 
 
 <section class="demo-wrap" aria-label="Coach demo">
-  <p class="demo-label">A peek at Coach · demo</p>
   <div class="cc" id="cc">
     <div class="cc-head">
       <div class="cc-bot"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="7" width="16" height="11" rx="4"/><path d="M12 7V4"/><circle cx="12" cy="3.5" r="1" fill="#fff" stroke="none"/><circle cx="9" cy="12.5" r="1.1" fill="#fff" stroke="none"/><circle cx="15" cy="12.5" r="1.1" fill="#fff" stroke="none"/></svg></div>
       <div><div class="cc-title">Coach</div><div class="cc-sub">Runs in Claude</div></div>
       <div class="cc-modes" role="tablist" aria-label="Coach mode">
         <button class="cc-mode on" role="tab" aria-selected="true" data-mode="exam" type="button">Exam mode</button>
-        <button class="cc-mode" role="tab" aria-selected="false" data-mode="teach" type="button">Teach mode</button>
+        <button class="cc-mode" role="tab" aria-selected="false" data-mode="learn" type="button">Learn mode</button>
       </div>
     </div>
     <div class="cc-body" id="cc-body" aria-live="polite"></div>
     <div class="cc-compose" aria-hidden="true">
       <div class="cc-input">Reply to Coach…</div>
-      <div class="cc-row"><span class="cc-pill" id="cc-pill">Exam mode</span><span class="cc-send"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></span></div>
+      <div class="cc-row"><span class="cc-send"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></span></div>
     </div>
   </div>
   <div class="cc-foot">
     <button class="cc-replay" id="cc-replay" type="button"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>Replay demo</button>
-    <span class="cc-note">Pick a mode to see how Coach replies. Demo only.</span>
+    <a href="/" class="cc-back">&larr; Back to CoreMark</a>
   </div>
 </section>
 <script>
 (function(){
-  var body=document.getElementById('cc-body'),pill=document.getElementById('cc-pill');
+  var body=document.getElementById('cc-body');
   var BOT='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="7" width="16" height="11" rx="4"/><path d="M12 7V4"/><circle cx="12" cy="3.5" r="1" fill="#fff" stroke="none"/><circle cx="9" cy="12.5" r="1.1" fill="#fff" stroke="none"/><circle cx="15" cy="12.5" r="1.1" fill="#fff" stroke="none"/></svg>';
   var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
   var DEMOS={
-    exam:{ctx:'Exam mode · Q7: Calculate 0.47 × 10',
-      me:'4.7',
-      ai:['<p><span class="chip">Correct · 1/1</span>×10 shifts every digit one place to the left, so 0.47 becomes 4.7.</p>','<p>Next up, Q8: round 3.456 to 2 decimal places.</p>'],
-      hints:['Answer Q8','Skip','End test']},
-    teach:{ctx:'Teach mode · Stage 7 Number',
-      me:"I don't get why 0.47 × 10 is 4.7. Where does the point go?",
-      ai:['<p>Good question. The point doesn\'t really move. Every digit becomes 10 times bigger, so each one slides one place to the left.</p>','<p>The 4 was tenths and is now ones, and the 7 was hundredths and is now tenths. That gives 4.7.</p><p>Your turn: what is 0.47 × 100?</p>'],
-      hints:['Show a hint','Try it','Explain differently']}
+    exam:[
+      {r:'ai',h:'<p>Exam starts now. Use your own timer: aim for <b>40 minutes</b>.</p><p>Show your working on all questions worth 2+ marks. Good luck GOAT! \uD83D\uDC10</p><hr><p><b>Question 1 [2 marks]</b><br>Iron is added to copper sulfate solution.</p><p>a) Will a reaction take place? Give a reason for your answer. [1 mark]<br>b) Write the word equation for this reaction. [1 mark]</p>'},
+      {r:'me',h:'A)Yes, the reaction will happen because iron is more reactive than copper<br>B) iron plus copper sulfate - iron sulfate plus copper'},
+      {r:'ai',h:'<p class="ok">Logged \u2705</p><p><b>Question 2 [2 marks]</b><br>A student tests a gas using a lit splint and hears a squeaky pop.</p><p>a) What gas is this? [1 mark]<br>b) Name ONE metal that would produce this gas when added to hydrochloric acid. [1 mark]</p>'},
+      {r:'me',h:'A) hydrogen<br>B) magnesium chloride'},
+      {r:'ai',h:'<p class="ok">Logged \u2705</p><p><b>Question 3 [3 marks]</b><br>A block of wood has a mass of <b>75g</b> and a volume of <b>25cm\u00B3</b>.</p><p>a) Write the formula for density. [1 mark]<br>b) Calculate the density of the wood. Show your working. [2 marks]</p>'}
+    ],
+    learn:[
+      {r:'ai',h:'<p><b>Your turn \u2014 teach it back to me:</b></p><p>What is the difference between the <b>natural</b> greenhouse effect and the <b>enhanced</b> greenhouse effect? \uD83D\uDE0A</p>'},
+      {r:'me',h:'Greenhouse effect is like when if you burn fossil fuel oxygen releases, so the Earth gets more heated, and the temperature rises and effect automatically will happen like it will get a lot of flood. It will affect the marine life. The ice will melt.'},
+      {r:'ai',h:'<p>Really good \u2014 you\u2019ve nailed the <b>effects</b> of climate change perfectly! \uD83C\uDFAF</p><p>But there\u2019s one thing to fix:</p><blockquote>Burning fossil fuels releases <b>CO\u2082</b> \u2014 not oxygen!</blockquote><p>Oxygen is what we breathe \u2014 CO\u2082 is the greenhouse gas that traps heat.</p><hr><p>And you didn\u2019t quite answer the difference between <b>natural</b> vs <b>enhanced</b> greenhouse effect. Here it is:</p><blockquote><b>Natural greenhouse effect</b> = CO\u2082 and other gases naturally trap some heat \u2192 keeps Earth warm enough for life \u2705 \u2014 this is GOOD<br><br><b>Enhanced greenhouse effect</b> = humans add EXTRA CO\u2082 (burning fossil fuels, deforestation) \u2192 too much heat trapped \u2192 Earth gets too warm \u2192 climate change \u274C \u2014 this is BAD</blockquote><hr><p><b>Key sentence to remember for your <mark>exam</mark>:</b></p><blockquote>\u201CHuman activities increase CO\u2082 levels, enhancing the greenhouse effect and causing global temperatures to rise.\u201D</blockquote>'}
+    ]
   };
   var mode='exam',tok=0,timers=[];
   function wait(ms,t){return new Promise(function(r){timers.push(setTimeout(function(){r(t===tok);},ms));});}
   function el(c,h){var d=document.createElement('div');d.className=c;if(h!=null)d.innerHTML=h;return d;}
-  function show(n){body.appendChild(n);void n.offsetWidth;n.classList.add('show');body.parentNode.scrollTop=0;}
+  function show(n){body.appendChild(n);void n.offsetWidth;n.classList.add('show');body.scrollTop=body.scrollHeight;}
+  function ai(h){return el('msg ai','<div class="av">'+BOT+'</div><div class="tx">'+h+'</div>');}
   async function play(){
-    var t=++tok;timers.forEach(clearTimeout);timers=[];body.innerHTML='';
-    var d=DEMOS[mode];pill.textContent=mode==='exam'?'Exam mode':'Teach mode';
-    show(el('cc-ctx msg',d.ctx));
-    var aiHTML=d.ai.join('')+'<div class="hint-row">'+d.hints.map(function(h){return '<span>'+h+'</span>';}).join('')+'</div>';
-    if(reduce){var m=el('msg me',d.me);show(m);var a=el('msg ai','<div class="av">'+BOT+'</div><div class="tx">'+aiHTML+'</div>');show(a);return;}
-    if(!await wait(500,t))return;
-    show(el('msg me',d.me));
-    if(!await wait(700,t))return;
-    var ty=el('typing msg','<i></i><i></i><i></i>');show(ty);
-    var dots=ty.querySelectorAll('i');
-    for(var i=0;i<3;i++){if(!await wait(380,t))return;dots[i].classList.add('in');}
-    ty.classList.add('run');
-    if(!await wait(2200,t))return;
-    ty.remove();
-    var a=el('msg ai','<div class="av">'+BOT+'</div><div class="tx">'+aiHTML+'</div>');show(a);
+    var t=++tok;timers.forEach(clearTimeout);timers=[];body.innerHTML='';body.style.scrollBehavior='auto';body.scrollTop=0;body.style.scrollBehavior='';
+    var steps=DEMOS[mode];
+    if(reduce){steps.forEach(function(x){show(x.r==='ai'?ai(x.h):el('msg me',x.h));});body.scrollTop=0;return;}
+    for(var k=0;k<steps.length;k++){
+      var x=steps[k];
+      if(x.r==='me'){if(!await wait(900,t))return;show(el('msg me',x.h));continue;}
+      if(k>0){
+        if(!await wait(600,t))return;
+        var ty=el('typing msg','<i></i><i></i><i></i>');show(ty);
+        var dots=ty.querySelectorAll('i');
+        for(var i=0;i<3;i++){if(!await wait(360,t))return;dots[i].classList.add('in');}
+        ty.classList.add('run');
+        if(!await wait(1600,t))return;
+        ty.remove();
+      } else if(!await wait(400,t))return;
+      show(ai(x.h));
+    }
   }
   document.querySelectorAll('.cc-mode').forEach(function(b){
     b.addEventListener('click',function(){
