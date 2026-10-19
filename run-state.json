@@ -192,7 +192,15 @@
       "status": "OPEN",
       "shipped": "2026-10-14",
       "review_date": "2026-11-11",
-      "note": "New tool page /checkpoint-score-calculator: 0-50 score per subject (English/ESL, Maths, Science, Global Perspectives) -> band, meaning, next step (wording = grading-system band table), points to next band; Maths/Science in Good/Aspiring/Basic get strand hint + booster link. GA4 events: checkpoint_score_calc (subject, band), checkpoint_calc_booster_click (subject, band). Linked from /for-parents, /results, blog/cambridge-checkpoint-results-2026. NOT yet linked from blog/cambridge-checkpoint-grading-system (EXP-CLUSTER-A review 2026-10-15); add that link right after scoring CLUSTER-A. Also fixed /results Maths strand list (removed \"Problem Solving\", JSON-LD + table). Metric at review: page indexed; impressions for score/band queries; GA4 calc events and booster clicks > 0. | 2026-10-17: link from blog/cambridge-checkpoint-grading-system added (after the six-bands list), once EXP-CLUSTER-A was scored."
+      "note": "New tool page /checkpoint-score-calculator: 0-50 score per subject (English/ESL, Maths, Science, Global Perspectives) -> band, meaning, next step (wording = grading-system band table), points to next band; Maths/Science in Good/Aspiring/Basic get strand hint + booster link. GA4 events: checkpoint_score_calc (subject, band), checkpoint_calc_booster_click (subject, band). Linked from /for-parents, /results, blog/cambridge-checkpoint-results-2026. NOT yet linked from blog/cambridge-checkpoint-grading-system (EXP-CLUSTER-A review 2026-10-15); add that link right after scoring CLUSTER-A. Also fixed /results Maths strand list (removed \"Problem Solving\", JSON-LD + table). Metric at review: page indexed; impressions for score/band queries; GA4 calc events and booster clicks > 0. | 2026-10-17: link from blog/cambridge-checkpoint-grading-system added (after the six-bands list), once EXP-CLUSTER-A was scored. | 2026-10-19: CONFOUND — EXP-GRADING-TITLE-SYSTEM changed the grading-system page title (this calculator's main referrer); compare calc events per grading-page session, not raw counts."
+    },
+    "EXP-GRADING-TITLE-SYSTEM": {
+      "name": "2026-10-grading-title-system",
+      "attempt": 1,
+      "status": "OPEN",
+      "shipped": "2026-10-19",
+      "review_date": "2026-11-16",
+      "note": "blog/cambridge-checkpoint-grading-system.html title/og/twitter/headline -> \"Cambridge Checkpoint Grading System & Score Range (0–50)\" (was 66-char '...Grading 2026: Score Range, Bands & Good Score'). Baseline 28d: 6,939 impr, CTR 1.77%, pos 3.6. Metric: CTR >= 2.2% at pos <= 3.8. Confounded on position by 6 internal links shipped same day (6072b77). Source: seo-weekly campaign wk1."
     }
   },
   "baseline_pending_remeasure": null,
