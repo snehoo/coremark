@@ -2,8 +2,11 @@
 // GET /api/orders?status=paid&limit=50
 // Same x-metrics-secret auth as /api/metrics
 
+import { secretOk, ADMIN_ORIGIN } from './_auth.js';
+
 const CORS = {
-  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Origin': ADMIN_ORIGIN,
+  'Vary': 'Origin',
   'Access-Control-Allow-Methods': 'GET, OPTIONS',
   'Access-Control-Allow-Headers': 'Content-Type, x-metrics-secret',
 };
@@ -34,7 +37,7 @@ async function dbQuery(env, sql, params = []) {
 }
 
 export async function onRequestGet({ request, env }) {
-  if (request.headers.get('x-metrics-secret') !== env.METRICS_SECRET) {
+  if (!(await secretOk(request, env))) {
     return new Response('Unauthorized', { status: 401, headers: CORS });
   }
 

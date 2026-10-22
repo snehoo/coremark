@@ -1,5 +1,6 @@
 // functions/api/metrics.js
-const CORS = {'Access-Control-Allow-Origin':'*','Access-Control-Allow-Methods':'GET, OPTIONS','Access-Control-Allow-Headers':'Content-Type, x-metrics-secret'};
+import { secretOk, ADMIN_ORIGIN } from './_auth.js';
+const CORS = {'Access-Control-Allow-Origin':ADMIN_ORIGIN,'Vary':'Origin','Access-Control-Allow-Methods':'GET, OPTIONS','Access-Control-Allow-Headers':'Content-Type, x-metrics-secret'};
 export async function onRequestOptions(){return new Response(null,{status:204,headers:CORS});}
 
 async function dbQuery(env, sql, params=[]) {
@@ -60,7 +61,7 @@ async function brevoFreeLeads(env) {
 }
 
 export async function onRequestGet({request,env}){
-  if(request.headers.get('x-metrics-secret')!==env.METRICS_SECRET){
+  if(!(await secretOk(request,env))){
     return new Response('Unauthorized',{status:401,headers:CORS});
   }
   try {

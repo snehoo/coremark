@@ -7,8 +7,19 @@
 //   subject — email subject
 //   text    — plain-text body (auto-wrapped in minimal HTML)
 
+import { secretOk, ADMIN_ORIGIN } from './_auth.js';
+
+function escapeHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+// Runs after escaping, so only plain https URLs become links (no raw HTML passes through).
+function linkify(escaped) {
+  return escaped.replace(/https:\/\/[^\s<]+/g, u => `<a href="${u}" style="color:#6E47C9;">${u}</a>`);
+}
+
 const CORS = {
-  'Access-Control-Allow-Origin':  '*',
+  'Access-Control-Allow-Origin':  ADMIN_ORIGIN,
+  'Vary': 'Origin',
   'Access-Control-Allow-Methods': 'POST, OPTIONS',
   'Access-Control-Allow-Headers': 'Content-Type, x-metrics-secret',
 };
@@ -18,7 +29,7 @@ export async function onRequestOptions() {
 }
 
 export async function onRequestPost({ request, env }) {
-  if (request.headers.get('x-metrics-secret') !== env.METRICS_SECRET) {
+  if (!(await secretOk(request, env))) {
     return new Response('Unauthorized', { status: 401, headers: CORS });
   }
 
@@ -36,7 +47,7 @@ export async function onRequestPost({ request, env }) {
 
   const html = `<!DOCTYPE html>
 <html><body style="font-family:'Plus Jakarta Sans',Arial,sans-serif;max-width:520px;margin:32px auto;color:#2A1B3D;font-size:15px;line-height:1.7;">
-${text.split('\n').map(l => l.trim() ? `<p style="margin:0 0 14px;">${l}</p>` : '').join('')}
+${text.split('\n').map(l => l.trim() ? `<p style="margin:0 0 14px;">${linkify(escapeHtml(l))}</p>` : '').join('')}
 <p style="margin:32px 0 0;font-size:13px;color:#7A6A94;">
 — Team CoreMark<br>
 <a href="https://coremark.study" style="color:#6E47C9;text-decoration:none;">coremark.study</a>
