@@ -225,6 +225,14 @@
       "review_date": "2026-11-20",
       "name": "2026-10-past-papers-alt-refresh",
       "note": "blog/cambridge-checkpoint-past-papers-alternatives.html: new H2 'Year 9 (Stage 9) Checkpoint past papers' (School Support Hub is for school staff; Cambridge learner report gives strand/sub-strand marks, quoted from cambridgeinternational.org Checkpoint page; link to /checkpoint-score-calculator), official strand names, dateModified 2026-10-23. Baseline 28d: 6 clicks, 145 impr, pos 6.1. Metric: clicks back to >= 9 and 'year 9 checkpoint past papers' pos < 9.5. Source: seo-weekly REF-4e8d13."
+    },
+    "EXP-WHATIS-CHECKPOINT-FACTS": {
+      "name": "2026-10-whatis-checkpoint-facts",
+      "attempt": 1,
+      "status": "OPEN",
+      "shipped": "2026-10-23",
+      "review_date": "2026-11-20",
+      "note": "blog/what-is-cambridge-lower-secondary-checkpoint.html: corrected paper lengths (was 'two papers ~60 min each'; now March 2026 timetable: Maths 2x1h, Science 2x45m, English 2x1h10, ESL 3 papers), series (was 'April-May'; now March/May/October 2026), added Cambridge scale figures (2,300+ schools/103 countries, 160,000+ entries/yr, 800+ India schools). Baseline 28d from GSC question pull: 'what is cambridge checkpoint' cluster ~200 impr/90d, 0-1 clicks, pos 5-14. Same day: vs-igcse (Computing claim removed, IGCSE scale + Cambridge predictor quote) and stage-9-maths-resources (series fix). Source: numbers bank CoreMark/numbers-bank.md."
     }
   },
   "baseline_pending_remeasure": null,
