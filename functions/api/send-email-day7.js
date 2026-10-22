@@ -1,3 +1,4 @@
+import { isInternal } from './_internal.js';
 // functions/api/send-email-day7.js
 // POST /api/send-email-day7  (called by email-sequence-cron.js)
 //
@@ -226,6 +227,9 @@ function buildDay7Html({ to, buyerName, orderTitle, orderType, subject, stage, u
 }
 
 export async function onRequestPost({ request, env }) {
+  if (!(await isInternal(request, env))) {
+    return new Response('Unauthorized', { status: 401, headers: CORS });
+  }
   let body;
   try {
     body = await request.json();

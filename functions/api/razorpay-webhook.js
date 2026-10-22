@@ -1,5 +1,6 @@
 // functions/api/razorpay-webhook.js
 import { BOOSTER_MAP } from './_booster-map.js';
+import { internalHeaders } from './_internal.js';
 
 // ── Inline DB helper (no imports needed) ─────────────────
 async function dbQuery(env, sql, params = []) {
@@ -56,6 +57,7 @@ function formatMoney(amountMinor, currency) {
   return '₹' + Math.round(amountMinor / 100).toLocaleString('en-IN');
 }
 async function verifySig(rawBody,sig,secret){
+  if(!secret||!/^[0-9a-f]{64}$/i.test(sig))return false;
   const key=await crypto.subtle.importKey('raw',new TextEncoder().encode(secret),{name:'HMAC',hash:'SHA-256'},false,['verify']);
   const bytes=new Uint8Array(sig.match(/.{2}/g).map(b=>parseInt(b,16)));
   return crypto.subtle.verify('HMAC',key,bytes,new TextEncoder().encode(rawBody));
@@ -64,7 +66,7 @@ export async function onRequestGet(){return new Response('OK',{status:200});}
 export async function onRequestPost(context){
   const {request,env,waitUntil}=context;
   const raw=await request.text();const sig=request.headers.get('x-razorpay-signature')||'';
-  if(env.RAZORPAY_WEBHOOK_SECRET){const v=await verifySig(raw,sig,env.RAZORPAY_WEBHOOK_SECRET);if(!v)return new Response('Unauthorized',{status:401});}
+  if(!(await verifySig(raw,sig,env.RAZORPAY_WEBHOOK_SECRET)))return new Response('Unauthorized',{status:401});
   let event;try{event=JSON.parse(raw);}catch{return new Response('Bad JSON',{status:400});}
   const{event:name,payload}=event;
   if(name==='payment.captured'){
@@ -93,7 +95,7 @@ export async function onRequestPost(context){
         sends.push(
           fetch(`${origin}/api/send-email`,{
             method:'POST',
-            headers:{'Content-Type':'application/json'},
+            headers:await internalHeaders(env),
             body:JSON.stringify({to:email,orderTitle:n.primary_slug||'Your Booster',orderType:n.order_type??'single',fileUrls,orderId:p.order_id}),
           }).then(async res=>{
             if(res.ok){

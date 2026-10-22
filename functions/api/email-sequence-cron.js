@@ -39,6 +39,8 @@ async function dbQuery(env, sql, params = []) {
   return { rows, rowCount: data.rowCount ?? rows.length };
 }
 
+import { internalHeaders } from './_internal.js';
+
 const BASE = 'https://coremark.study';
 const SEND_DELAY_MS = 120; // ~8/sec, stays under Resend's default rate limit
 
@@ -62,7 +64,7 @@ async function processBatch(env, { selectSql, sendPath, nextStep, label }) {
 
       const r = await fetch(`${BASE}${sendPath}`, {
         method:  'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: await internalHeaders(env),
         body:    JSON.stringify({
           to:        o.buyer_email,
           buyerName: o.buyer_name || null,
@@ -223,7 +225,7 @@ async function run(env) {
       const title = await resolveTitle(env, o.primary_slug, items);
       const r = await fetch(`${BASE}/api/send-email`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: await internalHeaders(env),
         body: JSON.stringify({
           to: o.buyer_email, buyerName: o.buyer_name || null,
           orderTitle: title, orderType: o.order_type,

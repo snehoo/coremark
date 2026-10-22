@@ -1,4 +1,5 @@
 // functions/api/verify-payment.js
+import { internalHeaders } from './_internal.js';
 // NOTE: Never return 5xx — Cloudflare intercepts them with HTML error pages.
 // Use 200 with ok:false, or 4xx only.
 import { BOOSTER_MAP } from './_booster-map.js';
@@ -93,16 +94,15 @@ export async function onRequestPost({ request, env }) {
     try { body = await request.json(); }
     catch { return json({ ok: false, error: 'Bad JSON' }, 400); }
 
-    const { paymentId, razorpayOrderId, signature, orderType, primarySlug, itemSlugs = [], buyerEmail } = body;
+    const { paymentId, razorpayOrderId, signature } = body;
 
     if (!paymentId || !razorpayOrderId) {
       return json({ ok: false, error: 'Missing paymentId or razorpayOrderId' }, 400);
     }
 
-    // 1. Verify signature (non-fatal if missing)
-    if (signature) {
-      const valid = await verifySignature(env, razorpayOrderId, paymentId, signature);
-      if (!valid) return json({ ok: false, error: 'Invalid signature' }, 403);
+    // 1. Signature is mandatory: it proves this payment belongs to this order.
+    if (!signature || !(await verifySignature(env, razorpayOrderId, paymentId, signature))) {
+      return json({ ok: false, error: 'Invalid signature' }, 403);
     }
 
     // 2. Fetch payment from Razorpay
@@ -123,17 +123,37 @@ export async function onRequestPost({ request, env }) {
     if (payment.status !== 'captured') {
       return json({ ok: false, error: 'Payment not captured', status: payment.status }, 402);
     }
+    if (payment.order_id !== razorpayOrderId) {
+      return json({ ok: false, error: 'Payment does not match order' }, 403);
+    }
+
+    // 2b. What was bought comes from the server-created Razorpay order (written
+    // by create-order after validateOrder/calculatePrice), never from the client.
+    let rzpOrder;
+    try {
+      const r = await fetch(`https://api.razorpay.com/v1/orders/${razorpayOrderId}`, {
+        headers: { 'Authorization': razorpayAuth(env) },
+      });
+      if (!r.ok) return json({ ok: false, error: 'Order lookup failed' }, 422);
+      rzpOrder = await r.json();
+    } catch (e) {
+      return json({ ok: false, error: 'Order lookup failed' }, 422);
+    }
+    if (rzpOrder.amount !== payment.amount || rzpOrder.currency !== payment.currency) {
+      return json({ ok: false, error: 'Amount mismatch' }, 403);
+    }
+    const notes = rzpOrder.notes || {};
 
     // 3. Resolve order details
-    const email    = payment.email || payment.notes?.buyer_email || buyerEmail || '';
+    const email    = notes.buyer_email || payment.email || '';
     const hash     = email ? await sha256(email) : null;
     const country  = payment.international ? 'International' : 'IN';
-    const items    = itemSlugs.length > 0 ? itemSlugs : (payment.notes?.item_slugs || '').split(',').filter(Boolean);
-    const rType    = orderType || payment.notes?.order_type || 'single';
-    const rSlug    = primarySlug || payment.notes?.primary_slug || '';
-    const rSubj    = payment.notes?.subject || null;
-    const rStage   = payment.notes?.stage ? parseInt(payment.notes.stage) : null;
-    const rName    = payment.notes?.buyer_name || null;
+    const items    = (notes.item_slugs || '').split(',').filter(Boolean);
+    const rType    = notes.order_type || 'single';
+    const rSlug    = notes.primary_slug || '';
+    const rSubj    = notes.subject || null;
+    const rStage   = notes.stage ? parseInt(notes.stage) : null;
+    const rName    = notes.buyer_name || null;
     const rCurrency = payment.currency || 'INR';
 
     // 4. DB operations — all in one try/catch, non-fatal
@@ -233,7 +253,7 @@ export async function onRequestPost({ request, env }) {
         try {
           const emailRes = await fetch(`${origin}/api/send-email`, {
             method:  'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: await internalHeaders(env),
             body:    JSON.stringify({ to: email, orderTitle: title, orderType: rType, fileUrls, orderId: internalId }),
           });
           emailSent = emailRes.ok;

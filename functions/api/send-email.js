@@ -1,4 +1,6 @@
 // functions/api/send-email.js
+import { isInternal } from './_internal.js';
+import { BOOSTER_MAP } from './_booster-map.js';
 // POST /api/send-email
 //
 // Called fire-and-forget by delivery.html after verify-payment succeeds.
@@ -270,6 +272,47 @@ function buildEmailHtml({ to, orderTitle, orderType, fileUrls, orderId }) {
 </html>`;
 }
 
+// Public callers (delivery.html fallback) must prove the order is paid and that
+// `to` is the buyer's address; file links are then rebuilt server-side so the
+// endpoint cannot be used to mail arbitrary links from our domain.
+async function dbQuery(env, sql, params = []) {
+  const connStr = env.DATABASE_URL;
+  if (!connStr) throw new Error('DATABASE_URL not set');
+  const url = new URL(connStr.replace(/^postgres(ql)?:\/\//, 'https://'));
+  const res = await fetch(`https://${url.hostname}/sql`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Neon-Connection-String': connStr },
+    body: JSON.stringify({ query: sql, params }),
+  });
+  if (!res.ok) throw new Error(`DB ${res.status}`);
+  const data = await res.json();
+  const fields = data.fields || [];
+  return (data.rows || []).map(row => {
+    if (!Array.isArray(row)) return row;
+    const obj = {};
+    fields.forEach((f, i) => { obj[f.name] = row[i]; });
+    return obj;
+  });
+}
+
+async function paidOrderFiles(env, orderId, to) {
+  if (!orderId || typeof orderId !== 'string' || typeof to !== 'string') return null;
+  const rows = await dbQuery(env,
+    `SELECT buyer_email,order_type,primary_slug,item_slugs FROM orders
+     WHERE status='paid' AND (id::text=$1 OR razorpay_order_id=$1 OR razorpay_payment_id=$1) LIMIT 1`, [orderId]);
+  const o = rows[0];
+  if (!o || !o.buyer_email || o.buyer_email.toLowerCase().trim() !== to.toLowerCase().trim()) return null;
+  const items = Array.isArray(o.item_slugs) ? o.item_slugs : JSON.parse(o.item_slugs || '[]');
+  if ((o.order_type === 'subject' || o.order_type === 'stage') && o.primary_slug) {
+    try {
+      const l = await env.R2_BUCKET.list({ prefix: `bundle/cm-${o.primary_slug}` });
+      const z = (l.objects || [])[0];
+      if (z) return [`https://assets.coremark.study/${z.key}`];
+    } catch (e) { /* fall through */ }
+  }
+  return items.map(slug => `https://assets.coremark.study/${BOOSTER_MAP[slug] || `booster/cm-${slug}.pdf`}`);
+}
+
 export async function onRequestPost({ request, env }) {
   let body;
   try {
@@ -278,7 +321,17 @@ export async function onRequestPost({ request, env }) {
     return new Response('Bad JSON', { status: 400, headers: CORS });
   }
 
-  const { to, orderTitle, orderType, fileUrls, orderId } = body;
+  const { to, orderTitle, orderType, orderId } = body;
+  let fileUrls = body.fileUrls;
+
+  if (await isInternal(request, env)) {
+    if (!Array.isArray(fileUrls) || !fileUrls.length) {
+      try { fileUrls = await paidOrderFiles(env, orderId, to); } catch { fileUrls = null; }
+    }
+  } else {
+    try { fileUrls = await paidOrderFiles(env, orderId, to); } catch { fileUrls = null; }
+    if (!fileUrls) return new Response('Unauthorized', { status: 401, headers: CORS });
+  }
 
   if (!to || !fileUrls || fileUrls.length === 0) {
     return new Response(
