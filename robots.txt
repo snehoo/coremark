@@ -1,4 +1,22 @@
+# One group for every crawler: a bot that has its own group ignores the * rules,
+# so all named bots share these Disallow lines. AI search bots (OAI-SearchBot,
+# Claude-SearchBot, PerplexityBot, *-User) decide whether answer engines can cite us.
+# AI map: https://coremark.study/llms.txt
+
 User-agent: *
+User-agent: Googlebot
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: GPTBot
+User-agent: Claude-SearchBot
+User-agent: Claude-User
+User-agent: ClaudeBot
+User-agent: anthropic-ai
+User-agent: PerplexityBot
+User-agent: Perplexity-User
+User-agent: Google-Extended
+User-agent: CCBot
+User-agent: Bytespider
 Allow: /
 Disallow: /checkout.html
 Disallow: /blog/legal/
@@ -12,35 +30,5 @@ Disallow: /blog/coremark-blog-template
 Disallow: /blog/coremark-blog-template.html
 Disallow: /index-old
 Disallow: /index-old.html
-
-User-agent: GPTBot
-Allow: /
-
-User-agent: OAI-SearchBot
-Allow: /
-
-User-agent: ChatGPT-User
-Allow: /
-
-User-agent: ClaudeBot
-Allow: /
-
-User-agent: Anthropic-AI
-Allow: /
-
-User-agent: PerplexityBot
-Allow: /
-
-User-agent: Google-Extended
-Allow: /
-
-User-agent: Googlebot
-Allow: /
-
-User-agent: CCBot
-Allow: /
-
-User-agent: Bytespider
-Allow: /
 
 Sitemap: https://coremark.study/sitemap.xml
