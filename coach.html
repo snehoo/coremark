@@ -92,11 +92,13 @@ h2 em,h1 em{font-family:var(--font-serif);font-style:italic;font-weight:400;colo
 .price-note{font-size:14px;color:var(--ink-muted);}
 .price-note b{color:var(--ink);}
 .hero-video{max-width:1040px;margin:48px auto 0;padding:0 40px;}
-.hero-video .frame{background:var(--ink);border:1px solid var(--border);border-radius:22px;overflow:hidden;box-shadow:0 40px 80px -40px rgba(42,27,61,0.45);}
-.hero-video video{width:100%;height:auto;}
-.video-actions{display:flex;justify-content:center;margin-top:16px;}
-.sound-btn{display:inline-flex;align-items:center;gap:8px;background:white;border:1px solid var(--border);color:var(--ink);font:inherit;font-size:14px;font-weight:700;padding:10px 18px;border-radius:999px;cursor:pointer;}
-.sound-btn:hover{border-color:var(--ink);}
+.hero-video .frame{position:relative;background:var(--ink);border:1px solid var(--border);border-radius:22px;overflow:hidden;aspect-ratio:16/9;box-shadow:0 40px 80px -40px rgba(42,27,61,0.45);}
+.hero-video .frame.is-portrait{aspect-ratio:9/16;max-width:380px;margin:0 auto;}
+.hero-video video{display:block;width:100%;height:100%;object-fit:cover;}
+.reel-sound{position:absolute;right:12px;bottom:12px;width:48px;height:48px;display:flex;align-items:center;justify-content:center;border-radius:50%;border:0;background:rgba(42,27,61,.72);color:#fff;cursor:pointer;transition:background .15s;}
+.reel-sound:hover{background:rgba(42,27,61,.92);}
+.is-portrait .reel-sound{bottom:auto;top:12px;}
+.reel-sound[hidden]{display:none;}
 .trust{display:flex;justify-content:center;flex-wrap:wrap;gap:12px 36px;margin-top:40px;font-family:var(--font-mono);font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-soft);}
 .trust span{display:inline-flex;align-items:center;gap:8px;}
 .trust span::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--coral);}
@@ -451,17 +453,11 @@ src="https://www.facebook.com/tr?id=1921557135206596&ev=PageView&noscript=1"/></
     <p class="price-note" data-late="Drop your email and we’ll tell you the moment Coach opens."><b>Early-bird price for the first 100 families</b>, then ₹9,999. Drop your email to lock it.</p>
   </div>
   <div class="hero-video">
-    <div class="frame">
-      <video id="coach-video" muted playsinline loop controls preload="metadata"
-        poster="/assets/coach/coremark-coach-16x9-poster.jpg"
-        aria-label="One-minute tour of CoreMark Coach, with captions">
-        <source src="/assets/coach/coremark-coach-16x9.mp4" type="video/mp4">
-      </video>
-    </div>
-    <div class="video-actions">
-      <button class="sound-btn" id="sound-btn" type="button">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M19 5a10 10 0 0 1 0 14"/></svg>
-        Watch with sound
+    <div class="frame" id="reel">
+      <video id="coach-video" src="/assets/coach/coremark-coach-16x9.mp4" poster="/assets/coach/coremark-coach-16x9-poster.jpg" muted loop playsinline disablepictureinpicture disableremoteplayback preload="metadata"
+        aria-label="One-minute tour of CoreMark Coach, with captions"></video>
+      <button type="button" class="reel-sound" id="reel-sound" aria-pressed="false" aria-label="Turn sound on">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="m16 9 5 6m0-6-5 6"/></svg>
       </button>
     </div>
   </div>
@@ -935,30 +931,33 @@ var COACH_BUY = {
   });
 })();
 
-/* HERO VIDEO — portrait cut on phones, autoplay muted unless reduced motion */
+/* HERO VIDEO: muted looping autoplay, one sound button. Portrait cut on phones. Native controls appear only if autoplay is blocked or motion is reduced. */
 (function(){
-  var v = document.getElementById('coach-video');
-  var sb = document.getElementById('sound-btn');
-  if(!v) return;
-  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var portrait = window.matchMedia && matchMedia('(max-width: 640px) and (orientation: portrait)').matches;
-  if(portrait){
-    v.poster = '/assets/coach/coremark-coach-9x16-poster.jpg';
-    v.querySelector('source').src = '/assets/coach/coremark-coach-9x16.mp4';
-    v.load();
+  var v = document.getElementById('coach-video'), b = document.getElementById('reel-sound'), frame = document.getElementById('reel');
+  if(!v || !b || !frame) return;
+  var narrow = matchMedia('(max-width:700px)'), still = matchMedia('(prefers-reduced-motion: reduce)'), cur = '', soundLogged = false;
+  var ICON_OFF = '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="m16 9 5 6m0-6-5 6"/></svg>';
+  var ICON_ON  = '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg>';
+  function fallback(){ v.controls = true; v.setAttribute('controlslist', 'nofullscreen nodownload noremoteplayback'); b.hidden = true; }
+  function load(){
+    var k = narrow.matches ? '9x16' : '16x9';
+    if(k === cur) return; cur = k;
+    frame.classList.toggle('is-portrait', k === '9x16');
+    v.poster = '/assets/coach/coremark-coach-' + k + '-poster.jpg';
+    v.src = '/assets/coach/coremark-coach-' + k + '.mp4';
+    if(still.matches){ fallback(); return; }
+    var p = v.play(); if(p && p.catch) p.catch(fallback);
   }
-  if(!reduce){
-    v.autoplay = true;
-    var p = v.play(); if(p && p.catch) p.catch(function(){});
-  }
-  if(sb){
-    sb.addEventListener('click', function(){
-      v.muted = false; v.loop = false; v.currentTime = 0;
-      var q = v.play(); if(q && q.catch) q.catch(function(){});
-      sb.style.display = 'none';
-      try{ gtag('event','video_sound_on',{video:'coach-tour'}); }catch(e){}
-    });
-  }
+  b.addEventListener('click', function(){
+    v.muted = !v.muted;
+    b.innerHTML = v.muted ? ICON_OFF : ICON_ON;
+    b.setAttribute('aria-label', v.muted ? 'Turn sound on' : 'Turn sound off');
+    b.setAttribute('aria-pressed', String(!v.muted));
+    if(!v.muted && v.paused) v.play();
+    if(!v.muted && !soundLogged){ soundLogged = true; try{ gtag('event','video_sound_on',{video:'coach-tour'}); }catch(e){} }
+  });
+  if(narrow.addEventListener) narrow.addEventListener('change', load); else narrow.addListener(load);
+  load();
 })();
 
 /* CHAT DEMO — real chats, student answers verbatim */
