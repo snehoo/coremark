@@ -238,9 +238,10 @@
     "EXP-IGCSE-CHECKPOINT-POST": {
       "name": "2026-10-igcse-checkpoint-post",
       "attempt": 1,
-      "status": "DRAFT",
+      "status": "OPEN",
       "review_date": "2026-12-03",
-      "note": "New post blog/igcse-checkpoint.html for the topic-map gap \"igcse checkpoint\" (168 impr/90d to 2026-10-26, best page what-is-cambridge-lower-secondary-checkpoint at pos 23.6, 0 clicks). Unique asset: Checkpoint Maths strand -> IGCSE 0580 topic map + Core/Extended paper facts. Set status OPEN and shipped date when merged. Win: the new URL ranks top 10 for \"igcse checkpoint\" within 4 weeks of shipping. Watch: what-is-checkpoint losing the query is expected, not a loss, but don't score EXP-WHATIS-CHECKPOINT-FACTS on \"igcse checkpoint\"."
+      "note": "New post blog/igcse-checkpoint.html for the topic-map gap \"igcse checkpoint\" (168 impr/90d to 2026-10-26, best page what-is-cambridge-lower-secondary-checkpoint at pos 23.6, 0 clicks). Unique asset: Checkpoint Maths strand -> IGCSE 0580 topic map + Core/Extended paper facts. Win: the new URL ranks top 10 for \"igcse checkpoint\" within 4 weeks of shipping. Watch: what-is-checkpoint losing the query is expected, not a loss, but don't score EXP-WHATIS-CHECKPOINT-FACTS on \"igcse checkpoint\".",
+      "shipped": "2026-10-29"
     }
   },
   "baseline_pending_remeasure": null,
