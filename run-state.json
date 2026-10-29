@@ -234,6 +234,13 @@
       "shipped": "2026-10-23",
       "review_date": "2026-11-20",
       "note": "blog/what-is-cambridge-lower-secondary-checkpoint.html: corrected paper lengths (was 'two papers ~60 min each'; now March 2026 timetable: Maths 2x1h, Science 2x45m, English 2x1h10, ESL 3 papers), series (was 'April-May'; now March/May/October 2026), added Cambridge scale figures (2,300+ schools/103 countries, 160,000+ entries/yr, 800+ India schools). Baseline 28d from GSC question pull: 'what is cambridge checkpoint' cluster ~200 impr/90d, 0-1 clicks, pos 5-14. Same day: vs-igcse (Computing claim removed, IGCSE scale + Cambridge predictor quote) and stage-9-maths-resources (series fix). Source: numbers bank CoreMark/numbers-bank.md."
+    },
+    "EXP-IGCSE-CHECKPOINT-POST": {
+      "name": "2026-10-igcse-checkpoint-post",
+      "attempt": 1,
+      "status": "DRAFT",
+      "review_date": "2026-12-03",
+      "note": "New post blog/igcse-checkpoint.html for the topic-map gap \"igcse checkpoint\" (168 impr/90d to 2026-10-26, best page what-is-cambridge-lower-secondary-checkpoint at pos 23.6, 0 clicks). Unique asset: Checkpoint Maths strand -> IGCSE 0580 topic map + Core/Extended paper facts. Set status OPEN and shipped date when merged. Win: the new URL ranks top 10 for \"igcse checkpoint\" within 4 weeks of shipping. Watch: what-is-checkpoint losing the query is expected, not a loss, but don't score EXP-WHATIS-CHECKPOINT-FACTS on \"igcse checkpoint\"."
     }
   },
   "baseline_pending_remeasure": null,
