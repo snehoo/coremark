@@ -20,7 +20,6 @@ User-agent: Bytespider
 Allow: /
 Disallow: /checkout.html
 Disallow: /blog/legal/
-Disallow: /assets/blog/
 Disallow: /checkout
 Disallow: /delivery.html
 Disallow: /delivery
