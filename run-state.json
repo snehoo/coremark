@@ -242,6 +242,14 @@
       "review_date": "2026-12-03",
       "note": "New post blog/igcse-checkpoint.html for the topic-map gap \"igcse checkpoint\" (168 impr/90d to 2026-10-26, best page what-is-cambridge-lower-secondary-checkpoint at pos 23.6, 0 clicks). Unique asset: Checkpoint Maths strand -> IGCSE 0580 topic map + Core/Extended paper facts. Win: the new URL ranks top 10 for \"igcse checkpoint\" within 4 weeks of shipping. Watch: what-is-checkpoint losing the query is expected, not a loss, but don't score EXP-WHATIS-CHECKPOINT-FACTS on \"igcse checkpoint\".",
       "shipped": "2026-10-29"
+    },
+    "EXP-NEXT-STEP-BOXES": {
+      "name": "2026-11-next-step-boxes",
+      "attempt": 1,
+      "status": "OPEN",
+      "shipped": "2026-11-02",
+      "review_date": "2026-12-07",
+      "note": "'Your next step' box after the quick answer on 4 pages (37c204f): grading-system, what-is-cambridge-lower-secondary-checkpoint, stages-explained, vs-igcse. Links to score calculator, results-2026, how-to-improve, stage guides, Coach. Body only, titles untouched. Baseline 31 Jul to 30 Oct (GSC): grading 12,736 impr / 262 clicks / 2.1% CTR (63% of impr in AI features); what-is-checkpoint 4,148 / 22 / 0.5% (35%); stages 3,293 / 21 / 0.6% (34%); vs-igcse 2,329 / 13 / 0.6% (43%). Primary metric: clicks INTO the linked pages from these 4 (GA4 internal navigation) and calculator use (GA4 checkpoint_score_calc events per session landing on these pages). Secondary: page CTR is NOT expected to move (the box is below the fold for searchers), so don't score it on CTR. Confound: seasonal fade after the October series; compare against the same 4 pages' landing sessions, not raw totals."
     }
   },
   "baseline_pending_remeasure": null,
