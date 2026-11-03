@@ -3,6 +3,7 @@ import { internalHeaders } from './_internal.js';
 // NOTE: Never return 5xx — Cloudflare intercepts them with HTML error pages.
 // Use 200 with ok:false, or 4xx only.
 import { BOOSTER_MAP } from './_booster-map.js';
+import { coachStage, coachTitle, coachFileUrl } from './_coach.js';
 
 const CORS = {
   'Access-Control-Allow-Origin':  '*',
@@ -71,6 +72,14 @@ async function dbQuery(env, sql, params = []) {
 }
 
 async function getFileUrls(env, itemSlugs, orderType, bundleSlug) {
+  // Coach: one markdown agent file, hash-named in R2.
+  if (orderType === 'coach') {
+    try {
+      const url = await coachFileUrl(env, bundleSlug);
+      if (url) return [url];
+    } catch (e) { console.error('[verify-payment] coach R2:', e.message); }
+    return [];
+  }
   // For subject/stage bundles, serve a single pre-built zip.
   if ((orderType === 'subject' || orderType === 'stage') && bundleSlug) {
     try {
@@ -158,7 +167,7 @@ export async function onRequestPost({ request, env }) {
 
     // 4. DB operations — all in one try/catch, non-fatal
     let internalId = razorpayOrderId;
-    let title      = rSlug;
+    let title      = rType === 'coach' && coachStage(rSlug) ? coachTitle(coachStage(rSlug)) : rSlug;
     try {
       // Upsert order — works even if create-order DB insert failed
       await dbQuery(env,
@@ -212,6 +221,18 @@ export async function onRequestPost({ request, env }) {
       } else if (rType === 'stage') {
         title = `All Subjects · Stage ${rStage} Bundle`;
       }
+
+      // Coach: mark the reservation (if any) as converted, so early birds who
+      // paid can be told apart from those still waiting.
+      if (rType === 'coach' && email) {
+        try {
+          await dbQuery(env, `ALTER TABLE coach_signups ADD COLUMN IF NOT EXISTS paid_order_id TEXT, ADD COLUMN IF NOT EXISTS paid_at TIMESTAMPTZ`);
+          await dbQuery(env,
+            `UPDATE coach_signups SET paid_order_id=$1, paid_at=COALESCE(paid_at, NOW())
+             WHERE lower(email)=lower($2) AND stage=$3`,
+            [razorpayOrderId, email, coachStage(rSlug)]);
+        } catch (e) { console.error('[verify-payment] coach_signups:', e.message); }
+      }
     } catch (dbErr) {
       console.error('[verify-payment] DB error:', dbErr.message);
       // Continue — delivery still works without DB
@@ -229,7 +250,7 @@ export async function onRequestPost({ request, env }) {
           attributes: {
             SUBJECT: rSubj || '',
             STAGE:   rStage ? String(rStage) : '',
-            SOURCE:  'purchase',
+            SOURCE:  rType === 'coach' ? 'coach_purchase' : 'purchase',
             SLUG:    rSlug || '',
           },
         }),
@@ -243,8 +264,8 @@ export async function onRequestPost({ request, env }) {
     let emailSent = false;
     if (env.RESEND_API_KEY) {
       const origin      = new URL(request.url).origin;
-      const typeLabels  = { single: 'Single Booster', fivepack: '5-Pack Bundle', subject: 'Subject Bundle', stage: 'Stage Bundle' };
-      const typeLabel   = typeLabels[rType] || rType;
+      const typeLabels  = { single: 'Single Booster', fivepack: '5-Pack Bundle', subject: 'Subject Bundle', stage: 'Stage Bundle', coach: 'Coach' };
+      const typeLabel   = rType === 'coach' ? `Coach · Stage ${coachStage(rSlug)}` : (typeLabels[rType] || rType);
       const amountLabel = formatMoney(payment.amount, rCurrency);
       const subjDisplay = rSubj ? rSubj.charAt(0).toUpperCase() + rSubj.slice(1) : null;
 

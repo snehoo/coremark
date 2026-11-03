@@ -201,7 +201,7 @@ src="https://www.facebook.com/tr?id=1921557135206596&ev=PageView&noscript=1"/></
     <div class="hero">
       <div class="check-ring"><div class="check-mark">✓</div></div>
       <div class="hero-label">Payment confirmed</div>
-      <div class="hero-title">Your Booster is Ready</div>
+      <div class="hero-title" id="hero-title">Your Booster is Ready</div>
       <div class="hero-sub" id="hero-sub">Download your PDF below and start practising today.</div>
     </div>
 
@@ -216,7 +216,7 @@ src="https://www.facebook.com/tr?id=1921557135206596&ev=PageView&noscript=1"/></
     <!-- Download card -->
     <div class="download-card">
       <div class="download-card-top">
-        <div class="download-icon">📄</div>
+        <div class="download-icon" id="dl-icon">📄</div>
         <div class="download-info">
           <div class="download-type" id="dl-type">Single Booster</div>
           <div class="download-title" id="dl-title">Integers</div>
@@ -231,8 +231,8 @@ src="https://www.facebook.com/tr?id=1921557135206596&ev=PageView&noscript=1"/></
 
     <!-- How to use -->
     <div class="how-to">
-      <div class="how-to-title">How to use your booster</div>
-      <ul class="how-to-steps">
+      <div class="how-to-title" id="how-to-title">How to use your booster</div>
+      <ul class="how-to-steps" id="how-to-steps">
         <li class="how-to-step">
           <div class="step-num">1</div>
           <div class="step-content">
@@ -386,6 +386,38 @@ function renderDownloads(fileUrls, orderTitle, count) {
   });
 }
 
+// ── Coach: one .md file + setup steps ─────────────────────
+function renderCoach(fileUrls, orderTitle) {
+  const st = (slug.match(/^coach-s([789])$/) || [])[1] || '';
+  const file = 'CM_AGENT_S' + st + '.md';
+  document.getElementById('hero-title').textContent = 'Your Coach is Ready';
+  document.getElementById('hero-sub').textContent = 'Download your Coach file, then follow the four steps below. Setup takes about a minute.';
+  document.getElementById('dl-icon').textContent = '🎓';
+  document.getElementById('dl-type').textContent = 'Coach';
+  document.getElementById('dl-title').textContent = orderTitle;
+  document.getElementById('dl-count').textContent = 'One file · Maths, Science and Computing · Cambridge Lower Secondary';
+  document.getElementById('dl-label').textContent = 'Your Coach file';
+  const list = document.getElementById('downloads-list');
+  list.innerHTML = '';
+  if (fileUrls[0]) {
+    const a = document.createElement('a');
+    a.className = 'download-btn'; a.href = fileUrls[0]; a.rel = 'noopener';
+    a.innerHTML = '<div class="download-btn-left"><span>🎓</span><span class="download-btn-name">' + file + '</span></div><span class="download-btn-arrow">↓</span>';
+    list.appendChild(a);
+  } else {
+    list.textContent = 'Your file is on its way by email. If it hasn\'t arrived in 15 minutes, email info@coremark.study.';
+  }
+  const steps = [
+    ['Open Claude', 'Sign in at claude.ai with your own account (Claude accounts are for adults; the free plan works). Go to Projects, then New project.'],
+    ['Add your Coach file', 'Upload ' + file + ' to the project\'s files. That is the only file. Don\'t paste it into a chat.'],
+    ['Check two settings', 'Turn on Code execution and file creation (Settings, Capabilities) so diagrams show, and check Memory is on so Coach can pick up where your child left off.'],
+    ['Say "hi"', 'Open a new chat inside the project and type "hi". Coach introduces itself and asks what your child wants to do. Please stay nearby while your child uses it.'],
+  ];
+  document.getElementById('how-to-title').textContent = 'Set up Coach';
+  document.getElementById('how-to-steps').innerHTML = steps.map((x, i) =>
+    '<li class="how-to-step"><div class="step-num">' + (i + 1) + '</div><div class="step-content"><div class="step-title">' + x[0] + '</div><div class="step-desc">' + x[1] + '</div></div></li>').join('');
+}
+
 // ── Populate upsell ───────────────────────────────────────
 function formatMoney(amountMinor, currency) {
   if (currency === 'USD') return '$' + (amountMinor / 100).toFixed(2);
@@ -459,13 +491,18 @@ async function verifyAndDeliver() {
     // Order ID
     document.getElementById('order-id-display').textContent = data.orderId || orderId;
     document.title = 'Download Ready — ' + (data.orderTitle || title) + ' · CoreMark';
-    const isZip = data.fileUrls.length === 1 && data.fileUrls[0].endsWith('.zip');
-    document.getElementById('hero-sub').textContent = isZip
-      ? 'Download your bundle below and start practising today.'
-      : 'Download your PDF' + (data.fileUrls.length > 1 ? 's' : '') + ' below and start practising today.';
+    data.fileUrls = data.fileUrls || [];
+    if (orderType === 'coach') {
+      renderCoach(data.fileUrls, data.orderTitle || title);
+    } else {
+      const isZip = data.fileUrls.length === 1 && data.fileUrls[0].endsWith('.zip');
+      document.getElementById('hero-sub').textContent = isZip
+        ? 'Download your bundle below and start practising today.'
+        : 'Download your PDF' + (data.fileUrls.length > 1 ? 's' : '') + ' below and start practising today.';
 
-    // Render downloads
-    renderDownloads(data.fileUrls, data.orderTitle || title, data.fileUrls.length);
+      // Render downloads
+      renderDownloads(data.fileUrls, data.orderTitle || title, data.fileUrls.length);
+    }
 
     // Upsell (single booster only)
     if (data.subject && data.stage) {
@@ -487,7 +524,7 @@ async function verifyAndDeliver() {
           value:          orderValue,
           currency:       orderCurrency,
           items: [{
-            item_id:   data.orderType === 'single' ? (slug || data.orderType) : data.orderType,
+            item_id:   (data.orderType === 'single' || data.orderType === 'coach') ? (slug || data.orderType) : data.orderType,
             item_name: data.orderTitle || title,
             price:     orderValue,
             quantity:  1,
@@ -514,7 +551,7 @@ async function verifyAndDeliver() {
         fbq('track', 'Purchase', {
           value:        orderValue,
           currency:     orderCurrency,
-          content_ids:  [data.orderType === 'single' ? (slug || data.orderType) : data.orderType],
+          content_ids:  [(data.orderType === 'single' || data.orderType === 'coach') ? (slug || data.orderType) : data.orderType],
           content_type: 'product',
           content_name: data.orderTitle || title,
           order_id:     data.orderId || orderId,

@@ -1,5 +1,6 @@
 // functions/api/create-order.js
 import { BOOSTER_MAP } from './_booster-map.js';
+import { coachStage, coachFileKey, COACH_PRICE_PAISE } from './_coach.js';
 
 const CORS = {
   'Access-Control-Allow-Origin':  '*',
@@ -66,6 +67,11 @@ function sameSet(a, b) {
 // The client already enforces basket shape in CM_PRODUCTS, but that's
 // trivially bypassable by calling this endpoint directly.
 function validateOrder(orderType, itemSlugs, primarySlug) {
+  if (orderType === 'coach') {
+    if (!coachStage(primarySlug)) return `Unknown Coach: ${primarySlug}`;
+    if (itemSlugs.length !== 1 || itemSlugs[0] !== primarySlug) return 'A Coach order must contain exactly its own stage.';
+    return null;
+  }
   const parsed = [];
   for (const slug of itemSlugs) {
     if (!BOOSTER_MAP[slug]) return `Unknown booster: ${slug}`;
@@ -143,10 +149,23 @@ export async function onRequestPost({ request, env }) {
   if (orderError)
     return new Response(JSON.stringify({ error: orderError }), { status: 400, headers: { 'Content-Type': 'application/json', ...CORS } });
 
-  const currency    = currencyForRequest(request);
-  const amountPaise = calculatePrice(orderType, currency);
-  const subject     = deriveSubject(orderType, primarySlug, itemSlugs);
-  const stage       = deriveStage(itemSlugs, primarySlug);
+  // Coach: on sale only once its file is in R2. One flat price, always INR.
+  let currency, amountPaise, subject, stage;
+  if (orderType === 'coach') {
+    let fileKey = null;
+    try { fileKey = await coachFileKey(env, primarySlug); } catch (e) { console.error('[create-order] coach R2:', e.message); }
+    if (!fileKey)
+      return new Response(JSON.stringify({ error: `Coach for Stage ${coachStage(primarySlug)} is not open yet. Please check back soon.` }), { status: 400, headers: { 'Content-Type': 'application/json', ...CORS } });
+    currency    = 'INR';
+    amountPaise = COACH_PRICE_PAISE;
+    subject     = null;
+    stage       = coachStage(primarySlug);
+  } else {
+    currency    = currencyForRequest(request);
+    amountPaise = calculatePrice(orderType, currency);
+    subject     = deriveSubject(orderType, primarySlug, itemSlugs);
+    stage       = deriveStage(itemSlugs, primarySlug);
+  }
 
   // Create Razorpay order
   let rzpOrder;

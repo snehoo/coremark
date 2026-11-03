@@ -1,6 +1,7 @@
 // functions/api/send-email.js
 import { isInternal } from './_internal.js';
 import { BOOSTER_MAP } from './_booster-map.js';
+import { coachFileUrl } from './_coach.js';
 // POST /api/send-email
 //
 // Called fire-and-forget by delivery.html after verify-payment succeeds.
@@ -9,7 +10,7 @@ import { BOOSTER_MAP } from './_booster-map.js';
 // Body: {
 //   to,           // buyer email
 //   orderTitle,   // e.g. 'Integers' or 'Complete Mathematics Stage 8'
-//   orderType,    // 'single' | 'fivepack' | 'subject' | 'stage'
+//   orderType,    // 'single' | 'fivepack' | 'subject' | 'stage' | 'coach'
 //   fileUrls,     // array of R2 PDF URLs
 //   orderId,      // internal UUID
 // }
@@ -114,7 +115,7 @@ function buildEmailHtml({ to, orderTitle, orderType, fileUrls, orderId }) {
       <table width="100%" cellpadding="0" cellspacing="0">
         <tr>
           <td>
-            <img src="https://assets.coremark.study/logo.jpg" alt="CoreMark" height="28"
+            <img src="https://coremark.study/assets/logo.jpg" alt="CoreMark" height="28"
                  style="display:block;border:0;outline:none;text-decoration:none;">
           </td>
           <td align="right">
@@ -272,6 +273,120 @@ function buildEmailHtml({ to, orderTitle, orderType, fileUrls, orderId }) {
 </html>`;
 }
 
+// ── Coach delivery email: one .md file + the 4-step setup guide ──────────────
+function coachStageFromUrl(url) {
+  const m = (url || '').match(/cm-coach-s(\d)-/);
+  return m ? m[1] : '';
+}
+
+function coachStep(n, title, body) {
+  return `
+        <tr>
+          <td style="padding:12px 0;border-bottom:1px solid #F0EBF8;vertical-align:top;width:28px;">
+            <span style="display:inline-block;width:24px;height:24px;border-radius:50%;background:#F0EBF8;border:1px solid rgba(110,71,201,0.2);font-size:11px;font-weight:800;color:#6E47C9;text-align:center;line-height:22px;">${n}</span>
+          </td>
+          <td style="padding:12px 0 12px 12px;border-bottom:1px solid #F0EBF8;">
+            <strong style="color:#2A1B3D;font-size:14px;">${title}</strong><br>
+            <span style="color:#5B4C73;font-size:13px;line-height:1.6;">${body}</span>
+          </td>
+        </tr>`;
+}
+
+function buildCoachEmailHtml({ orderTitle, fileUrls, orderId }) {
+  const url   = fileUrls[0];
+  const stage = coachStageFromUrl(url);
+  const file  = stage ? `CM_AGENT_S${stage}.md` : 'your Coach file';
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Your Coach is ready — CoreMark</title>
+</head>
+<body style="margin:0;padding:0;background:#FBF8F2;font-family:'Plus Jakarta Sans',Arial,sans-serif;">
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#FBF8F2;padding:40px 20px;">
+<tr><td align="center">
+<table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;">
+
+  <tr>
+    <td style="background:#2A1B3D;border-radius:16px 16px 0 0;padding:32px 40px;">
+      <table width="100%" cellpadding="0" cellspacing="0"><tr>
+        <td><img src="https://coremark.study/assets/logo.jpg" alt="CoreMark" height="28" style="display:block;border:0;outline:none;text-decoration:none;"></td>
+        <td align="right"><span style="font-family:monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.4);">Coach</span></td>
+      </tr></table>
+    </td>
+  </tr>
+
+  <tr>
+    <td style="background:#2A1B3D;padding:0 40px 36px;">
+      <p style="font-family:Georgia,serif;font-size:34px;font-style:italic;color:#FAE588;margin:0 0 10px;line-height:1.2;letter-spacing:-0.02em;">Your Coach is ready</p>
+      <p style="color:rgba(255,255,255,0.6);font-size:15px;margin:0;line-height:1.6;">${orderTitle} · Cambridge Lower Secondary</p>
+    </td>
+  </tr>
+
+  <tr>
+    <td style="background:#ffffff;border-left:1px solid #EAE3F5;border-right:1px solid #EAE3F5;padding:36px 40px;">
+
+      <p style="color:#2A1B3D;font-size:16px;margin:0 0 24px;line-height:1.6;">
+        Thank you for getting Coach. Download your Coach file below, then follow the four steps. Setup takes about a minute.
+      </p>
+
+      <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:12px;"><tr><td style="padding:8px 0;">
+        <a href="${url}" style="display:inline-block;background:#6E47C9;color:#ffffff;padding:13px 22px;border-radius:10px;font-family:'Plus Jakarta Sans',Arial,sans-serif;font-size:15px;font-weight:700;text-decoration:none;letter-spacing:-0.01em;">
+          Download ${file}
+        </a>
+      </td></tr></table>
+      <p style="color:#7A6A94;font-size:13px;margin:0 0 28px;line-height:1.6;">
+        On a phone? It is easier to set up on a laptop or desktop. Keep this email so you can download the file again.
+      </p>
+
+      <p style="font-family:monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#7A6A94;margin:0 0 8px;">Set up Coach</p>
+      <table width="100%" cellpadding="0" cellspacing="0">
+        ${coachStep(1, 'Open Claude', 'Sign in at <a href="https://claude.ai" style="color:#6E47C9;">claude.ai</a> with <b>your own account</b> (Claude accounts are for adults, and the free plan works). Go to Projects, then New project, and name it something like "Coach Stage ' + (stage || '') + '".')}
+        ${coachStep(2, 'Add your Coach file', 'Upload <b>' + file + '</b> to the project\'s files. That is the only file. Do not paste it into a chat.')}
+        ${coachStep(3, 'Check two settings', 'Turn on <b>Code execution and file creation</b> (Settings, Capabilities) so diagrams show, and check <b>Memory</b> is on so Coach can pick up where your child left off.')}
+        ${coachStep(4, 'Say "hi"', 'Open a new chat inside the project and type "hi". Coach introduces itself and asks whether your child wants to learn a topic or try a test.')}
+      </table>
+
+      <p style="font-family:monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#7A6A94;margin:28px 0 8px;">Good to know</p>
+      <p style="color:#5B4C73;font-size:13px;margin:0 0 10px;line-height:1.6;"><b>Stay nearby.</b> Coach has guardrails for young learners, but it runs in your Claude account, so please supervise how your child uses it.</p>
+      <p style="color:#5B4C73;font-size:13px;margin:0 0 10px;line-height:1.6;"><b>AI can get things wrong.</b> Coach checks its own working, but if an answer looks off, ask it to recheck, or check with a teacher.</p>
+      <p style="color:#5B4C73;font-size:13px;margin:0 0 10px;line-height:1.6;"><b>One family, one file.</b> Your Coach file is licensed for your family's use for this school year. Please don't share it.</p>
+      <p style="color:#5B4C73;font-size:13px;margin:0;line-height:1.6;"><b>Stuck?</b> Reply to this email and we'll help you set it up.</p>
+
+      <table width="100%" cellpadding="0" cellspacing="0" style="margin-top:28px;"><tr>
+        <td style="background:rgba(5,150,105,0.08);border:1px solid rgba(5,150,105,0.2);border-radius:10px;padding:14px 18px;">
+          <span style="color:#065f46;font-size:13px;font-weight:600;">🛡️ 7-day money-back guarantee.</span>
+          <span style="color:#065f46;font-size:13px;">Not happy? Email <a href="mailto:info@coremark.study" style="color:#065f46;">info@coremark.study</a> and we'll refund you in full.</span>
+        </td>
+      </tr></table>
+
+    </td>
+  </tr>
+
+  <tr>
+    <td style="background:#F0EBF8;border-radius:0 0 16px 16px;border:1px solid #EAE3F5;border-top:none;padding:24px 40px;">
+      <p style="color:#7A6A94;font-size:12px;margin:0 0 6px;line-height:1.6;">
+        © 2026 CoreMark · Not affiliated with Cambridge University Press &amp; Assessment or Anthropic<br>
+        Order ID: <span style="font-family:monospace;">${orderId}</span>
+      </p>
+      <p style="color:#7A6A94;font-size:12px;margin:0;">
+        <a href="https://coremark.study/coach" style="color:#6E47C9;text-decoration:none;">coremark.study/coach</a>
+        &nbsp;·&nbsp;
+        <a href="mailto:info@coremark.study" style="color:#6E47C9;text-decoration:none;">info@coremark.study</a>
+        &nbsp;·&nbsp;
+        <a href="https://coremark.study/legal/terms" style="color:#7A6A94;text-decoration:none;">Terms</a>
+      </p>
+    </td>
+  </tr>
+
+</table>
+</td></tr>
+</table>
+</body>
+</html>`;
+}
+
 // Public callers (delivery.html fallback) must prove the order is paid and that
 // `to` is the buyer's address; file links are then rebuilt server-side so the
 // endpoint cannot be used to mail arbitrary links from our domain.
@@ -302,6 +417,10 @@ async function paidOrderFiles(env, orderId, to) {
      WHERE status='paid' AND (id::text=$1 OR razorpay_order_id=$1 OR razorpay_payment_id=$1) LIMIT 1`, [orderId]);
   const o = rows[0];
   if (!o || !o.buyer_email || o.buyer_email.toLowerCase().trim() !== to.toLowerCase().trim()) return null;
+  if (o.order_type === 'coach') {
+    const u = await coachFileUrl(env, o.primary_slug);
+    return u ? [u] : null;
+  }
   const items = Array.isArray(o.item_slugs) ? o.item_slugs : JSON.parse(o.item_slugs || '[]');
   if ((o.order_type === 'subject' || o.order_type === 'stage') && o.primary_slug) {
     try {
@@ -321,7 +440,8 @@ export async function onRequestPost({ request, env }) {
     return new Response('Bad JSON', { status: 400, headers: CORS });
   }
 
-  const { to, orderTitle, orderType, orderId } = body;
+  const { to, orderType, orderId } = body;
+  let { orderTitle } = body;
   let fileUrls = body.fileUrls;
 
   if (await isInternal(request, env)) {
@@ -340,11 +460,17 @@ export async function onRequestPost({ request, env }) {
     );
   }
 
-  const emailSubject = (fileUrls.length === 1 && fileUrls[0].endsWith('.zip'))
+  const isCoach = orderType === 'coach' || /\/coach\/cm-coach-s\d-/.test(fileUrls[0] || '');
+  if (isCoach) orderTitle = `CoreMark Coach · Stage ${coachStageFromUrl(fileUrls[0])}`;
+  const emailSubject = isCoach
+    ? `Your ${orderTitle} is ready: setup takes a minute`
+    : (fileUrls.length === 1 && fileUrls[0].endsWith('.zip'))
     ? `📦 Your CoreMark ${orderType === 'stage' ? 'Stage' : 'Subject'} Bundle is Ready — ${orderTitle}`
     : `📄 Your CoreMark Booster${fileUrls.length > 1 ? 's are' : ' is'} Ready — ${orderTitle}`;
 
-  const html = buildEmailHtml({ to, orderTitle, orderType, fileUrls, orderId });
+  const html = isCoach
+    ? buildCoachEmailHtml({ orderTitle, fileUrls, orderId })
+    : buildEmailHtml({ to, orderTitle, orderType, fileUrls, orderId });
 
   try {
     const res = await fetch('https://api.resend.com/emails', {
@@ -356,6 +482,7 @@ export async function onRequestPost({ request, env }) {
       body: JSON.stringify({
         from:    'CoreMark <info@coremark.study>',
         to:      [to],
+        reply_to: 'info@coremark.study',
         subject: emailSubject,
         html,
       }),

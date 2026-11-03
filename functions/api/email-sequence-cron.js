@@ -102,7 +102,7 @@ function retryUrl(order) {
     const items = Array.isArray(order.item_slugs) ? order.item_slugs : JSON.parse(order.item_slugs || '[]');
     return `${base}?type=fivepack&slug=${slug}&items=${encodeURIComponent(items.join(','))}`;
   }
-  if (order.order_type === 'single' || order.order_type === 'subject' || order.order_type === 'stage') {
+  if (['single', 'subject', 'stage', 'coach'].includes(order.order_type)) {
     return `${base}?type=${order.order_type}&slug=${slug}`;
   }
   return 'https://coremark.study';
@@ -119,7 +119,7 @@ function friendlyFailure(reason) {
 }
 
 async function sendAbandonedCheckoutEmail(env, order, failed = false) {
-  const typeMap = { single:'Single Booster', fivepack:'5-Pack Bundle', subject:'Subject Bundle', stage:'Stage Bundle' };
+  const typeMap = { single:'Single Booster', fivepack:'5-Pack Bundle', subject:'Subject Bundle', stage:'Stage Bundle', coach:'CoreMark Coach' };
   const typeLabel = typeMap[order.order_type] || order.order_type || 'order';
   const firstName = order.buyer_name ? order.buyer_name.split(' ')[0] : null;
   const greeting = firstName ? `Hi ${firstName}` : 'Hi';
@@ -252,7 +252,7 @@ async function run(env) {
     nextStep: 1,
     selectSql: `SELECT id,buyer_email,buyer_name,order_type,primary_slug,item_slugs,subject,stage,currency
                 FROM orders
-                WHERE status='paid' AND sequence_step=0
+                WHERE status='paid' AND sequence_step=0 AND order_type<>'coach'
                   AND paid_at < NOW() - INTERVAL '48 hours'
                   AND buyer_email IS NOT NULL
                 LIMIT 50`,
@@ -265,15 +265,25 @@ async function run(env) {
     nextStep: 2,
     selectSql: `SELECT id,buyer_email,buyer_name,order_type,primary_slug,item_slugs,subject,stage,currency
                 FROM orders
-                WHERE status='paid' AND sequence_step=1
+                WHERE status='paid' AND sequence_step=1 AND order_type<>'coach'
                   AND paid_at < NOW() - INTERVAL '7 days'
                   AND buyer_email IS NOT NULL
                 LIMIT 50`,
   });
 
+  // Coach buyers get Coach tips instead of the booster drip (same steps and timing).
+  const coachSql = (step, interval) => `SELECT id,buyer_email,buyer_name,order_type,primary_slug,item_slugs,subject,stage,currency
+                FROM orders
+                WHERE status='paid' AND order_type='coach' AND sequence_step=${step}
+                  AND paid_at < NOW() - INTERVAL '${interval}'
+                  AND buyer_email IS NOT NULL
+                LIMIT 50`;
+  const coach2 = await processBatch(env, { label: 'coach2', sendPath: '/api/send-email-coach-tips?step=2', nextStep: 1, selectSql: coachSql(0, '48 hours') });
+  const coach7 = await processBatch(env, { label: 'coach7', sendPath: '/api/send-email-coach-tips?step=7', nextStep: 2, selectSql: coachSql(1, '7 days') });
+
   // Counts land in the Cloudflare Functions log so you can confirm runs.
-  console.log('[cron] done', JSON.stringify({ abandonedSent, failedSent, day2, day7 }));
-  return { abandonedSent, failedSent, day2, day7 };
+  console.log('[cron] done', JSON.stringify({ abandonedSent, failedSent, day2, day7, coach2, coach7 }));
+  return { abandonedSent, failedSent, day2, day7, coach2, coach7 };
 }
 
 // ── HTTP handler — what cron-job.org actually calls ──────────────────────────

@@ -246,7 +246,7 @@ src="https://www.facebook.com/tr?id=1921557135206596&ev=PageView&noscript=1"/></
         <button class="oc-fn-back" onclick="goBack()">← Go back and change selection</button>
       </div>
 
-      <div class="oc-includes">
+      <div class="oc-includes" id="oc-includes">
         <div class="oc-includes-label">What's included</div>
         <div class="oc-include"><span class="oc-include-check">✓</span>20 exam-style questions (Foundation · Standard · Stretch)</div>
         <div class="oc-include"><span class="oc-include-check">✓</span>Full worked solutions with error flags</div>
@@ -272,14 +272,14 @@ src="https://www.facebook.com/tr?id=1921557135206596&ev=PageView&noscript=1"/></
     <div class="form-sub" id="form-sub">Enter your email and we'll send your PDF booster there instantly after payment.</div>
 
     <div class="field-group">
-      <label class="field-label" for="email-input">Email address <span>(PDF sent here)</span></label>
+      <label class="field-label" for="email-input">Email address <span id="email-hint">(PDF sent here)</span></label>
       <input class="field-input" type="email" id="email-input" placeholder="your@email.com" autocomplete="email">
       <div class="error-msg" id="email-error">Please enter a valid email address.</div>
     </div>
 
     <div class="consent-row" onclick="toggleConsent()">
       <div class="consent-box" id="consent-box"></div>
-      <div class="consent-text">
+      <div class="consent-text" id="consent-text">
         I agree to the <a href="/legal/terms" target="_blank">Terms of Service</a> and
         <a href="/legal/privacy" target="_blank">Privacy Policy</a>.
         I understand this is a digital product and I'll receive the PDF by email immediately after payment.
@@ -346,6 +346,16 @@ function formatPrice(p) {
 }
 
 function resolveOrder() {
+  if (orderType === 'coach' && /^coach-s[789]$/.test(slug)) {
+    const st = slug.slice(-1);
+    return {
+      type:'coach', title:'CoreMark Coach · Stage ' + st, stage:+st, subject:'coach',
+      stageLabel:'AI tutor · Stage ' + st,
+      sub:'Maths, Science and Computing · Coach file and setup guide by email',
+      pricePaise: 499900, wasLabel:null, saveLabel:null,
+      items:[], primarySlug:slug, itemSlugs:[slug], bundleSlug:null,
+    };
+  }
   if (orderType === 'single' && slug) {
     const b = P.getBooster(slug);
     if (!b) return null;
@@ -451,7 +461,7 @@ function populateUI() {
   orderData = resolveOrder();
 
   // Back link
-  const backMap = { math:'math.html', science:'science.html', computing:'computing.html', all:'index.html' };
+  const backMap = { math:'math.html', science:'science.html', computing:'computing.html', all:'index.html', coach:'coach.html' };
   const subj = orderData?.subject || (itemSlugs[0] || '').split('-')[0];
   document.getElementById('back-link').href = backMap[subj] || 'index.html';
 
@@ -548,6 +558,28 @@ function populateUI() {
     document.getElementById('oc-fn').style.display = 'block';
     document.getElementById('form-sub').textContent =
       'Enter your email and we\'ll send all 5 PDF boosters there instantly after payment.';
+  }
+
+  // ── Coach: its own includes, delivery copy and consent ──
+  if (orderData.type === 'coach') {
+    const inc = [
+      'Every topic for Stage ' + orderData.stage + ' in Maths, Science and Computing',
+      'Learn mode and Exam mode, with marking and progress tracking',
+      'Diagrams for geometry, graphs and science',
+      'Your Coach file and a one-minute setup guide',
+      'Runs in your own Claude account (free plan works)',
+    ];
+    document.getElementById('oc-includes').innerHTML = '<div class="oc-includes-label">What\'s included</div>' +
+      inc.map(t => '<div class="oc-include"><span class="oc-include-check">✓</span>' + t + '</div>').join('');
+    document.querySelector('.oc-per').textContent = 'one payment for the school year';
+    document.getElementById('form-sub').textContent =
+      'Enter your email and we\'ll send your Coach file and setup guide there right after payment.';
+    document.getElementById('email-hint').textContent = '(Coach file sent here)';
+    document.getElementById('consent-text').innerHTML =
+      'I agree to the <a href="/legal/terms" target="_blank">Terms of Service</a> and ' +
+      '<a href="/legal/privacy" target="_blank">Privacy Policy</a>. ' +
+      'I understand Coach is a digital file sent by email after payment, that it runs in my own Claude account (Claude accounts are for adults), and that I will supervise my child\'s use.';
+    document.getElementById('success-overlay').querySelector('.success-sub').textContent = 'Taking you to your Coach…';
   }
 
   // ── Multi-booster form sub ──
@@ -687,7 +719,8 @@ async function handlePay() {
 }
 window.handlePay = handlePay;
 
-detectCurrency().then(populateUI);
+// Coach is priced in rupees only; create-order.js charges INR for it.
+detectCurrency().then(() => { if (orderType === 'coach') currency = 'INR'; populateUI(); });
 </script>
 </body>
 </html>

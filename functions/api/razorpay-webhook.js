@@ -1,6 +1,7 @@
 // functions/api/razorpay-webhook.js
 import { BOOSTER_MAP } from './_booster-map.js';
 import { internalHeaders } from './_internal.js';
+import { coachStage, coachTitle, coachFileUrl } from './_coach.js';
 
 // ── Inline DB helper (no imports needed) ─────────────────
 async function dbQuery(env, sql, params = []) {
@@ -25,6 +26,10 @@ async function dbQuery(env, sql, params = []) {
 }
 
 async function getFileUrls(env, items, orderType, bundleSlug) {
+  if (orderType === 'coach') {
+    try { const u = await coachFileUrl(env, bundleSlug); if (u) return [u]; } catch (e) { /* send-email rebuilds it */ }
+    return [];
+  }
   if ((orderType === 'subject' || orderType === 'stage') && bundleSlug) {
     try {
       const l = await env.R2_BUCKET.list({ prefix: `bundle/cm-${bundleSlug}` });
@@ -84,7 +89,8 @@ export async function onRequestPost(context){
     if(r.rowCount&&env.RESEND_API_KEY){
       const amountLabel=formatMoney(p.amount,pCurrency);
       const typeMap={single:'Single Booster',fivepack:'5-Pack Bundle',subject:'Subject Bundle',stage:'Stage Bundle'};
-      const typeLabel=typeMap[n.order_type??'single']||n.order_type||'Single Booster';
+      const isCoach=n.order_type==='coach'&&coachStage(n.primary_slug);
+      const typeLabel=isCoach?`Coach · Stage ${coachStage(n.primary_slug)}`:(typeMap[n.order_type??'single']||n.order_type||'Single Booster');
       const origin=new URL(request.url).origin;
 
       // Buyer email — webhook fallback (verify-payment never completed)
@@ -96,7 +102,7 @@ export async function onRequestPost(context){
           fetch(`${origin}/api/send-email`,{
             method:'POST',
             headers:await internalHeaders(env),
-            body:JSON.stringify({to:email,orderTitle:n.primary_slug||'Your Booster',orderType:n.order_type??'single',fileUrls,orderId:p.order_id}),
+            body:JSON.stringify({to:email,orderTitle:isCoach?coachTitle(coachStage(n.primary_slug)):(n.primary_slug||'Your Booster'),orderType:n.order_type??'single',fileUrls,orderId:p.order_id}),
           }).then(async res=>{
             if(res.ok){
               await dbQuery(env,`UPDATE orders SET delivery_email_sent=TRUE WHERE razorpay_order_id=$1`,[p.order_id]);
