@@ -337,6 +337,13 @@ before overwriting. Flagging for the next meta-loop review (due at completed_cyc
 candidate SOP addition: a pre-edit check step, or a lighter-weight "experiment lock" convention.
 
 ---
+- **EXP-INDEX-INFOGAIN scored INCONCLUSIVE (2026-11-09):** treated 2/6 indexed vs control 1/6 (bar was 3/6, control flat). 3 of 6 treated posts have not been recrawled since the treatment, so untested. No rollout. Request indexing for pseudocode, networks, databases posts; re-inspect ~2026-11-23.
+- **EXP-ROUNDUPS-TRUST scored INCONCLUSIVE (2026-11-09):** stage-7 and stage-9 maths indexed; stage-8 maths not recrawled since change; computing recrawled and still not indexed. Science roundup 0.39 clicks/day vs 0.53 baseline (CTR 5.85%->3.2%), likely seasonal. Factual fixes stand.
+- **EXP-SUBJECTS-LIST scored INCONCLUSIVE (2026-11-09):** 'subjects list complete codes' pos 3.2 (was 3.9) but 0 clicks on 34 impr; 'programme subjects offered' pos 9.4, 0 clicks on 65. Page 2 clicks/649 impr. No lift visible. Computing-implies-Checkpoint error still to fix on this page.
+- **EXP-RESULTS-OCT scored LOSS (2026-11-09):** CTR 1.58% at pos 5.2 (baseline 1.8%, pos 5.1), target 3%. Page edited 27 Oct and the December results spike hasn't arrived; re-read after 17 Dec before any retry. Fix the 'two series' vs three-row table mismatch.
+- **EXP-PRIMARY-GRADING-TITLE scored INCONCLUSIVE (2026-11-09):** CTR 2.86% (baseline 1.6%) but pos 6.0 vs 4.4 and only 6 clicks; target 3% at held position not met. Keep title; re-read in 4 weeks.
+- **EXP-VS-IGCSE re-read (2026-11-09), stays INCONCLUSIVE:** longer window 13 Oct-6 Nov 0.38% CTR/pos 7.6 vs 0.40%/7.1 pre; the earlier 1.09% was query mix. Confounded by 23 Oct and 2 Nov edits. Leaning no-effect.
+- **EXP-SCORE-CALC scored INCONCLUSIVE (2026-11-09):** indexed (crawled 28 Oct), 270 impr/3 clicks/pos 8.1 but near-zero impressions on named score/band queries. GA4 events (checkpoint_score_calc, checkpoint_calc_booster_click) pending Snehal; grading-page title churn 19-26 Oct confounds.
 
 ## Rolled-Back Changes & Reasons
 
