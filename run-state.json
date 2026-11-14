@@ -1,14 +1,14 @@
 {
   "sop_version": "v3",
-  "run_number": 4,
-  "run_date": "2026-10-14",
+  "run_number": 5,
+  "run_date": "2026-11-14",
   "current_phase": null,
   "last_completed_phase": 9,
   "last_completed_step": "report",
   "run_in_progress": false,
-  "spend_this_run_usd": 0.15,
-  "report_sent": "2026-10-14",
-  "reconciliation_note": "Closed out 2026-09-14 (run 3): the 2026-09-03 backfill is folded into SEO-MEMORY.md. No new reconciliation gaps found this run (run 4, 2026-10-14) — the 2026-10-12/14 out-of-band seo-weekly-engine sessions registered their 6 experiments with full experiments/*.md files and SEO-MEMORY.md entries at ship time, unlike the 2026-09-03 gap this note used to describe.",
+  "spend_this_run_usd": 0.6,
+  "report_sent": "2026-11-14",
+  "reconciliation_note": "MAJOR GAP found and resolved this run (run 5, 2026-11-14): the local clone was 20 commits behind origin/main (stale since 2026-09-24), discovered only at the pre-push git status/fetch check after Phases 1-6 had already re-run on stale data, including re-scoring the same 7 experiments Snehal's 2026-11-09 session (f994cbf) had already scored with better information. That duplicate/conflicting work was discarded (preserved on local branch backup-cycle5-2026-11-14, never pushed) rather than merged over the newer scoring. This run's real contribution (one accuracy fix on blog/what-is-cambridge-lower-secondary-checkpoint.html, a fresh GSC pull showing a 14.5% site-wide click decline, and 2 new backlog items) was re-applied cleanly on top of the correct, current origin/main. See SEO-MEMORY.md Lessons Learned for the proposed Phase-0 SOP fix (mandatory git fetch + behind-check before reading any memory file).",
   "open_experiments": {
     "EXP-1": {
       "name": "2026-07-canonical-sitemap-fix",
@@ -268,9 +268,9 @@
   "baseline_remeasure_2026-09-14": "SEO-BASELINE-2026-08-10.md remeasured this run (11 days late; no run happened between 2026-08-15 and 2026-09-14 except the out-of-band 2026-09-03 session). All 4 'what to look for' targets checked: (1) CTR on retitled pages — met/exceeded on science-resources (1.6%->5.50%) and save-my-exams (1.6%->4.55%); computing/math/science subject pages also improved. (2) Position on /math and /science — both moved from poor (20.4/11.5) to good (6.7/13.9-ish, though /science still highish); math especially improved. (3) Duplicate URL consolidation — in progress, not yet zero (score-explained.html 13->8 impr, stages-explained.html 17->2 impr); a 3rd previously-unknown dupe found (best-cambridge-checkpoint-computing-resources.html) and redirect PR opened. (4) Total indexed pages — not re-checked via GSC Pages report this run (out of scope for budget); flag for next cycle. Site-wide clicks 170 vs prior-28d 34 (up, healthy) vs the original 3mo baseline of 26 clicks (different window length, not directly comparable, but directionally strong). Closing this baseline file's tracking — folded into SEO-MEMORY.md.",
   "experiments_shipped_this_run": 0,
   "token_budget_usd": 10,
-  "completed_cycles": 4,
+  "completed_cycles": 5,
   "meta_loop_due_at_cycle": 6,
   "meta_loop_ran_this_cycle": false,
   "trust_ladder_rung": 1,
-  "kill_switch_warnings": 0
+  "kill_switch_warnings": 1
 }

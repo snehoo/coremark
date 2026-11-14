@@ -42,6 +42,7 @@ as directional, not statistically confident. Revisit statistical rigor once clic
 | 2026-09-14 | 3 (formal loop counter; meta-loop due, ran) | 2 (EXP-VS-IGCSE, EXP-INDIA-RESOURCES) + 1 hygiene fix (PR #4, 3rd .html redirect) | 3 (EXP-CKPT-SCORE, EXP-SME-TABLE, EXP-SCI-NAMED) | 0 | 1 (EXP-CKPT-MARKING) | 170 | up sharply (34 prior 28d) | OK |
 | 2026-10-12/14 | out-of-band (seo-weekly engine) | 6 (EXP-SUBJECTS-LIST, EXP-RESULTS-OCT, EXP-PRIMARY-GRADING-TITLE, EXP-INDEX-INFOGAIN, EXP-ROUNDUPS-TRUST, EXP-SCORE-CALC) | — | — | — | — | — | OK |
 | 2026-10-14 | 4 (formal loop counter; meta-loop not due until cycle 6) | 0 (scoring + audit cycle only — see note) | 3 (EXP-HTML-REDIRECTS, EXP-BAND-TERMINOLOGY, EXP-GRADING-KEYWORDS) | 0 | 0 | 217 | up (184 prior 28d; no kill-switch) | OK |
+| 2026-11-14 | 5 (formal loop counter; see Human Feedback Log for a repo-sync process finding that dominated this cycle) | 0 tracked (1 standalone accuracy fix, not experiment-tracked) | — | — | — | 225 | **down 14.5%** (263 prior 28d) | WARNING |
 
 ---
 
@@ -49,6 +50,25 @@ as directional, not statistically confident. Revisit statistical rigor once clic
 
 *(dated bullets added after each cycle — this is the compounding asset)*
 
+- 2026-11-14 — This formal-loop run started from a local clone that was 20 commits behind
+  origin/main (last synced 2026-09-24), and didn't discover this until *after* fully
+  re-running Phase 1-6 on stale data — including re-scoring the same 7 experiments Snehal's
+  own interactive session had already scored, better, on 2026-11-09 (it had access to
+  intervening edits — e.g. the grading-system page's title was changed then reverted between
+  the experiment's ship date and review date — that a stale clone has no way to know about).
+  Caught it only at the `git push` step, via a routine `git status`/`fetch` check, before
+  any damage was done — the conflicting scoring work was discarded (see backup branch
+  `backup-cycle5-2026-11-14`, never pushed) rather than merged over the newer, better-informed
+  version. Separately, BACKLOG.md itself turned out to be stale since 2026-09-24 even on
+  origin/main — several out-of-band sessions update SEO-MEMORY.md/run-state.json but not the
+  backlog, so "pull the top item from BACKLOG.md" (SOP §2 step 5) has been working off an
+  incomplete picture for two months (see BL-051). Lesson: **Phase 0 (Resume check) must
+  include `git fetch` + checking the local branch isn't behind origin before reading any
+  memory file** — the current Phase 0 only checks `run-state.json`'s own `run_in_progress`
+  flag, which says nothing about whether the clone itself is current. This is the single
+  highest-value process fix this loop has surfaced; flagging for the cycle-6 meta-loop review
+  as a mandatory (not just recommended) SOP addition to Phase 0, not something to leave to
+  the agent's judgment.
 - 2026-10-14 — When site-wide impressions are growing fast enough to mask a page-level
   effect (the recurring confound since 2026-09-14), check the *direction* of the
   site-wide trend over the exact same window, not just its magnitude. This cycle,
@@ -429,6 +449,33 @@ candidate SOP addition: a pre-edit check step, or a lighter-weight "experiment l
 ## Human Feedback Log
 
 *(agent appends here after each report; human can annotate)*
+
+2026-11-14 — Cycle 5 (formal loop counter; meta-loop not due until cycle 6). **Process
+finding first, since it matters more than this cycle's content:** the local clone was 20
+commits behind origin/main (last pulled 2026-09-24), so this run's first pass re-scored the
+same 7 experiments Snehal's own 2026-11-09 session had already scored with better
+information. Caught before pushing, via `git fetch`/`status`; discarded the stale duplicate
+work (preserved on branch `backup-cycle5-2026-11-14`, never merged) rather than overwrite
+the newer scoring. See the new Lessons Learned entry — recommending Phase 0 gain a mandatory
+`git fetch` + behind-check, for the cycle-6 meta-loop review. Also found BACKLOG.md itself
+stale since 2026-09-24 even on origin/main (BL-051) — the self-feeding backlog has not
+actually been fed since then, across several real shipped cycles.
+**This cycle's own contribution, once re-based on current origin/main:** fresh GSC pull
+(28d 2026-10-17 to 2026-11-13 vs prior 2026-09-19 to 2026-10-16) shows clicks 225 vs 263,
+**-14.5%** — the first site-wide decline this loop has recorded (below the 20% kill-switch
+threshold, flagged WARNING since it reverses several straight cycles of growth). Decomposed
+it: what-is-cambridge-lower-secondary-checkpoint.html (now the site's #2 page by
+impressions, 2,370/28d) accounts for roughly a quarter of the drop on its own (15→5 clicks),
+and already has an open experiment (EXP-WHATIS-CHECKPOINT-FACTS, review 2026-11-20) — so no
+title/meta/body-section changes were made to it. Did find and fix one standalone,
+non-competing bug on that same page: 6 spots still said Checkpoint has "three subjects"
+after an unrelated earlier fix had already corrected the page's own body text to "four" —
+a page-internal self-contradiction, fixed as a plain accuracy edit (not a new experiment,
+same precedent as past "scale cleanup" fixes). Filed BL-052 to flag the page's decline for
+whoever scores EXP-WHATIS-CHECKPOINT-FACTS on 2026-11-20. No PRs opened (one blog/ content
+fix, committed direct to main per SOP §7). Spend this run: token-heavy (multiple GSC/PSI API
+retries, one verifier sub-agent call, the sync-gap investigation) — estimate given in
+run-state.json, over a typical cycle's budget given the unplanned reconciliation work.
 
 2026-10-14 — Cycle 4 (formal loop counter; meta-loop not due until cycle 6). GSC 28d
 window: 2026-09-14 to 2026-10-11 vs prior 2026-08-17 to 2026-09-13. Clicks 217 vs 184
