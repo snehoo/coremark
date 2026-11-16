@@ -352,7 +352,7 @@ function resolveOrder() {
       type:'coach', title:'CoreMark Coach · Stage ' + st, stage:+st, subject:'coach',
       stageLabel:'AI tutor · Stage ' + st,
       sub:'Maths, Science and Computing · Coach file and setup guide by email',
-      pricePaise: 499900, wasLabel:null, saveLabel:null,
+      pricePaise: currency === 'USD' ? 6999 : 499900, wasLabel:null, saveLabel:null,
       items:[], primarySlug:slug, itemSlugs:[slug], bundleSlug:null,
     };
   }
@@ -719,8 +719,7 @@ async function handlePay() {
 }
 window.handlePay = handlePay;
 
-// Coach is priced in rupees only; create-order.js charges INR for it.
-detectCurrency().then(() => { if (orderType === 'coach') currency = 'INR'; populateUI(); });
+detectCurrency().then(populateUI);
 </script>
 </body>
 </html>

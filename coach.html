@@ -220,6 +220,7 @@ h2 em,h1 em{font-family:var(--font-serif);font-style:italic;font-weight:400;colo
 .reserve .copy{font-size:15.5px;color:var(--ink-soft);}
 .reserve .copy b{color:var(--ink);}
 .reserve .notify{margin-top:0;}
+.intl-note-strip{display:none;text-align:center;font-size:14px;color:var(--ink-soft);font-weight:600;margin-top:18px;}
 .plan .btn.is-soon{background:var(--border-soft);color:var(--ink-soft);border-color:transparent;cursor:default;box-shadow:none;}
 [id]{scroll-margin-top:84px;}
 
@@ -638,6 +639,7 @@ src="https://www.facebook.com/tr?id=1921557135206596&ev=PageView&noscript=1"/></
         <p class="fine">Secure payment through Razorpay. Coach file sent by email.</p>
       </article>
     </div>
+    <p class="intl-note-strip">🌍 Shopping from outside India? Coach is US$69.99 per stage, and your total will be shown in USD at checkout.</p>
   </div>
 </section>
 
@@ -821,6 +823,13 @@ src="https://www.facebook.com/tr?id=1921557135206596&ev=PageView&noscript=1"/></
 </script>
 
 <script>
+/* CURRENCY NOTE: same as the PDF pages. Display only; create-order.js decides the real currency from the visitor's country. */
+(function(){
+  fetch('/api/geo').then(function(r){ return r.json(); }).then(function(d){
+    if(d && d.currency === 'USD') document.querySelectorAll('.intl-note-strip').forEach(function(el){ el.style.display = 'block'; });
+  }).catch(function(){});
+})();
+
 /* BUY BUTTONS: each stage goes to the normal CoreMark checkout. /api/coach-status says which
    stages have their Coach file uploaded; a stage without one shows "Opening soon" instead. */
 (function(){

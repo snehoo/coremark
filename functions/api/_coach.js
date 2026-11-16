@@ -9,7 +9,8 @@
 
 export const COACH_SLUGS = { 'coach-s7': 7, 'coach-s8': 8, 'coach-s9': 9 };
 
-export const COACH_PRICE_PAISE = 499900;  // ₹4,999, every stage, INR only
+export const COACH_PRICE_PAISE = 499900;     // ₹4,999, every stage (India)
+export const COACH_PRICE_USD_CENTS = 6999;   // $69.99 outside India (same ratio as the stage bundle)
 
 export function coachStage(slug) {
   return COACH_SLUGS[slug] || null;

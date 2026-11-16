@@ -1,6 +1,6 @@
 // functions/api/create-order.js
 import { BOOSTER_SLUGS, isBooster } from './_booster-map.js';
-import { coachStage, coachFileKey, COACH_PRICE_PAISE } from './_coach.js';
+import { coachStage, coachFileKey, COACH_PRICE_PAISE, COACH_PRICE_USD_CENTS } from './_coach.js';
 
 const CORS = {
   'Access-Control-Allow-Origin':  '*',
@@ -149,15 +149,15 @@ export async function onRequestPost({ request, env }) {
   if (orderError)
     return new Response(JSON.stringify({ error: orderError }), { status: 400, headers: { 'Content-Type': 'application/json', ...CORS } });
 
-  // Coach: on sale only once its file is in R2. One flat price, always INR.
+  // Coach: on sale only once its file is in R2. Flat price; INR in India, USD elsewhere (same rule as the PDFs).
   let currency, amountPaise, subject, stage;
   if (orderType === 'coach') {
     let fileKey = null;
     try { fileKey = await coachFileKey(env, primarySlug); } catch (e) { console.error('[create-order] coach R2:', e.message); }
     if (!fileKey)
       return new Response(JSON.stringify({ error: `Coach for Stage ${coachStage(primarySlug)} is not open yet. Please check back soon.` }), { status: 400, headers: { 'Content-Type': 'application/json', ...CORS } });
-    currency    = 'INR';
-    amountPaise = COACH_PRICE_PAISE;
+    currency    = currencyForRequest(request);
+    amountPaise = currency === 'USD' ? COACH_PRICE_USD_CENTS : COACH_PRICE_PAISE;
     subject     = null;
     stage       = coachStage(primarySlug);
   } else {
