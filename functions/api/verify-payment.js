@@ -2,7 +2,7 @@
 import { internalHeaders } from './_internal.js';
 // NOTE: Never return 5xx — Cloudflare intercepts them with HTML error pages.
 // Use 200 with ok:false, or 4xx only.
-import { BOOSTER_MAP } from './_booster-map.js';
+import { boosterUrls } from './_booster-map.js';
 import { coachStage, coachTitle, coachFileUrl } from './_coach.js';
 
 const CORS = {
@@ -89,11 +89,8 @@ async function getFileUrls(env, itemSlugs, orderType, bundleSlug) {
     } catch (e) { /* fall through */ }
   }
 
-  // Individual boosters — explicit map preserves hash-protected filenames.
-  return itemSlugs.map(slug => {
-    const key = BOOSTER_MAP[slug];
-    return `https://assets.coremark.study/${key || `booster/cm-${slug}.pdf`}`;
-  });
+  // Individual boosters — secret-derived R2 names (see _booster-map.js).
+  return boosterUrls(env, itemSlugs);
 }
 
 export async function onRequestPost({ request, env }) {

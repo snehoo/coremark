@@ -1,6 +1,6 @@
 // functions/api/send-email.js
 import { isInternal } from './_internal.js';
-import { BOOSTER_MAP } from './_booster-map.js';
+import { boosterUrls } from './_booster-map.js';
 import { coachFileUrl } from './_coach.js';
 // POST /api/send-email
 //
@@ -429,7 +429,7 @@ async function paidOrderFiles(env, orderId, to) {
       if (z) return [`https://assets.coremark.study/${z.key}`];
     } catch (e) { /* fall through */ }
   }
-  return items.map(slug => `https://assets.coremark.study/${BOOSTER_MAP[slug] || `booster/cm-${slug}.pdf`}`);
+  return boosterUrls(env, items);
 }
 
 export async function onRequestPost({ request, env }) {

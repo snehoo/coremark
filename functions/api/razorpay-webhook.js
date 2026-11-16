@@ -1,5 +1,5 @@
 // functions/api/razorpay-webhook.js
-import { BOOSTER_MAP } from './_booster-map.js';
+import { boosterUrls } from './_booster-map.js';
 import { internalHeaders } from './_internal.js';
 import { coachStage, coachTitle, coachFileUrl } from './_coach.js';
 
@@ -37,10 +37,7 @@ async function getFileUrls(env, items, orderType, bundleSlug) {
       if (z) return [`https://assets.coremark.study/${z.key}`];
     } catch (e) { /* fall through */ }
   }
-  return items.map(slug => {
-    const key = BOOSTER_MAP[slug];
-    return `https://assets.coremark.study/${key || `booster/cm-${slug}.pdf`}`;
-  });
+  return boosterUrls(env, items);
 }
 
 async function sha256(text) {
