@@ -1,5 +1,5 @@
 // functions/api/create-order.js
-import { BOOSTER_MAP } from './_booster-map.js';
+import { BOOSTER_SLUGS, isBooster } from './_booster-map.js';
 import { coachStage, coachFileKey, COACH_PRICE_PAISE } from './_coach.js';
 
 const CORS = {
@@ -49,7 +49,7 @@ function deriveStage(itemSlugs, primarySlug) {
 const SUBJECT_PREFIXES = ['math', 'sci', 'comp'];
 
 function slugsFor(prefix, stage) {
-  return Object.keys(BOOSTER_MAP).filter(k => k.startsWith(`${prefix}-`) && k.endsWith(`-s${stage}`));
+  return BOOSTER_SLUGS.filter(k => k.startsWith(`${prefix}-`) && k.endsWith(`-s${stage}`));
 }
 
 function sameSet(a, b) {
@@ -74,7 +74,7 @@ function validateOrder(orderType, itemSlugs, primarySlug) {
   }
   const parsed = [];
   for (const slug of itemSlugs) {
-    if (!BOOSTER_MAP[slug]) return `Unknown booster: ${slug}`;
+    if (!isBooster(slug)) return `Unknown booster: ${slug}`;
     const m = slug.match(/^(math|sci|comp)-.+-s(\d)$/);
     if (!m) return `Invalid booster slug: ${slug}`;
     parsed.push({ slug, prefix: m[1], stage: m[2] });
@@ -158,6 +158,8 @@ export async function onRequestPost({ request, env }) {
       return new Response(JSON.stringify({ error: `Coach for Stage ${coachStage(primarySlug)} is not open yet. Please check back soon.` }), { status: 400, headers: { 'Content-Type': 'application/json', ...CORS } });
     currency    = 'INR';
     amountPaise = COACH_PRICE_PAISE;
+    // TEMPORARY end-to-end test (2026-11-16): ₹100 only for a +coachtest@ address. Remove after the test.
+    if (/\+coachtest@/i.test(buyerEmail)) amountPaise = 10000;
     subject     = null;
     stage       = coachStage(primarySlug);
   } else {
