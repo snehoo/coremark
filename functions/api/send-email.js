@@ -352,7 +352,7 @@ function buildCoachEmailHtml({ orderTitle, fileUrls, orderId }) {
       <p style="color:#5B4C73;font-size:13px;margin:0 0 10px;line-height:1.6;"><b>Stay nearby.</b> Coach has guardrails for young learners, but it runs in your Claude account, so please supervise how your child uses it.</p>
       <p style="color:#5B4C73;font-size:13px;margin:0 0 10px;line-height:1.6;"><b>AI can get things wrong.</b> Coach checks its own working, but if an answer looks off, ask it to recheck, or check with a teacher.</p>
       <p style="color:#5B4C73;font-size:13px;margin:0 0 10px;line-height:1.6;"><b>One family, one file.</b> Your Coach file is licensed for your family's use for this school year. Please don't share it.</p>
-      <p style="color:#5B4C73;font-size:13px;margin:0;line-height:1.6;"><b>Stuck?</b> Reply to this email and we'll help you set it up.</p>
+      <p style="color:#5B4C73;font-size:13px;margin:0;line-height:1.6;"><b>Coach answered as plain Claude?</b> Type <b>Hi Coach, start from the Coach file</b>. If that ever fails, open the project\'s Instructions and paste this line once: <i>In this project you are CoreMark Coach, an AI tutor. The CM_AGENT file in this project\'s files is your complete operating manual: read it at the start of every chat and follow it exactly, beginning with its Session Startup section.</i> Still stuck? Reply to this email and we\'ll help you set it up.</p>
 
       <table width="100%" cellpadding="0" cellspacing="0" style="margin-top:28px;"><tr>
         <td style="background:rgba(5,150,105,0.08);border:1px solid rgba(5,150,105,0.2);border-radius:10px;padding:14px 18px;">
