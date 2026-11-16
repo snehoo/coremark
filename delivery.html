@@ -409,7 +409,7 @@ function renderCoach(fileUrls, orderTitle) {
   }
   const steps = [
     ['Open Claude', 'Sign in at claude.ai with your own account (Claude accounts are for adults; the free plan works). Go to Projects, then New project.'],
-    ['Add your Coach file', 'Upload ' + file + ' to the project\'s files. That is the only file. Don\'t paste it into a chat.'],
+    ['Add your Coach file and one line', 'Upload ' + file + ' to the project\'s files (the only file; don\'t paste it into a chat). Then open the project\'s Instructions and paste this line exactly: “You are CoreMark Coach. The CM_AGENT file in this project\'s files is your complete operating manual: read it and follow it exactly in every chat, starting with its Session Startup section. Never introduce yourself as Claude.”'],
     ['Check two settings', 'Turn on Code execution and file creation (Settings, Capabilities) so diagrams show, and check Memory is on so Coach can pick up where your child left off.'],
     ['Say "hi"', 'Open a new chat inside the project and type "hi". Coach introduces itself and asks what your child wants to do. Please stay nearby while your child uses it.'],
   ];

@@ -158,8 +158,6 @@ export async function onRequestPost({ request, env }) {
       return new Response(JSON.stringify({ error: `Coach for Stage ${coachStage(primarySlug)} is not open yet. Please check back soon.` }), { status: 400, headers: { 'Content-Type': 'application/json', ...CORS } });
     currency    = 'INR';
     amountPaise = COACH_PRICE_PAISE;
-    // TEMPORARY end-to-end test (2026-11-16): ₹100 only for a +coachtest@ address. Remove after the test.
-    if (/\+coachtest@/i.test(buyerEmail)) amountPaise = 10000;
     subject     = null;
     stage       = coachStage(primarySlug);
   } else {
