@@ -428,6 +428,25 @@ fetch('/api/geo').then(function(r){ return r.json(); }).then(function(d){
 
 </div>
 
+<style>
+.hub-blog{padding:60px 20px;max-width:900px;margin:0 auto;}
+.hub-blog h2{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-muted);margin:0 0 28px;}
+.hub-blog-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px;}
+.hub-blog-card{background:var(--paper);border:1px solid var(--border-soft);border-radius:12px;padding:22px 24px;text-decoration:none;display:block;transition:border-color .2s;}
+.hub-blog-card:hover{border-color:var(--blue);}
+.hub-blog-card .hbc-cat{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--blue-deep);margin:0 0 8px;}
+.hub-blog-card h3{font-size:15px;font-weight:700;color:var(--ink);margin:0;line-height:1.4;}
+</style>
+
+<section class="hub-blog">
+  <h2>Related reading</h2>
+  <div class="hub-blog-grid">
+    <a class="hub-blog-card" href="/blog/what-is-cambridge-lower-secondary">
+      <p class="hbc-cat">Programme</p>
+      <h3>What is Cambridge Lower Secondary? The full picture, in one place.</h3>
+    </a>
+  </div>
+</section>
 <div class="footer-min">
   <div class="footer-min-inner">
     <span class="fl">© 2025 CoreMark · coremark.study · <a href="mailto:info@coremark.study" style="color:var(--blue);">info@coremark.study</a></span>
